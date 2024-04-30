@@ -1,15 +1,17 @@
-// ui.js
+export function createGameWindow() {
 
+}
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
     titleScreen.classList.add('title-screen');
 
     const title = document.createElement('h1');
-    title.textContent = 'Pocket Planes Remake';
+    title.textContent = 'Counter Game';
     title.classList.add('title');
 
     const options = document.createElement('div');
     options.classList.add('options');
+    options.id = 'optionsWindow';
 
     // Define the option names and their initial colors
     const optionInfo = [
