@@ -58,16 +58,31 @@ export function writeTextInSections() {
     const topSection = document.querySelector('.top-section');
     const bottomSection = document.querySelector('.bottom-section');
 
-    const topText = document.createElement('h2');
-    topText.textContent = 'Hello World';
-    topText.classList.add('top-section-text');
+    const topDivRow1 = document.createElement('div');
+    topDivRow1.classList.add('top-div-row-1');
 
-    const bottomText = document.createElement('h2');
-    bottomText.textContent = 'Hello World';
-    bottomText.classList.add('bottom-section-text');
+    const topTextRow1 = document.createElement('h2');
+    topTextRow1.textContent = 'Chips Prepped';
+    topTextRow1.classList.add('top-section-text');
 
-    topSection.appendChild(topText);
-    bottomSection.appendChild(bottomText);
+    const topDivRow2 = document.createElement('div');
+    topDivRow2.classList.add('top-div-row-2');
+
+    const topTextRow2 = document.createElement('h2');
+    topTextRow2.textContent = '0';
+    topTextRow2.classList.add('top-section-text');
+
+    topDivRow1.appendChild(topTextRow1);
+    topDivRow2.appendChild(topTextRow2);
+
+    topSection.appendChild(topDivRow1);
+    topSection.appendChild(topDivRow2);
+
+    const bottomSectionText = document.createElement('h2');
+    bottomSectionText.textContent = 'Hello World';
+    bottomSectionText.classList.add('bottom-section-text');
+
+    bottomSection.appendChild(bottomSectionText);
 }
 
 export function toggleSound() {
