@@ -1,6 +1,22 @@
+// ui.js
 export function createGameWindow() {
+    const gameWindow = document.createElement('div');
+    gameWindow.classList.add('game-window');
+    gameWindow.id = "gameWindow";
 
+    const topSection = document.createElement('div');
+    topSection.classList.add('top-section');
+
+    const bottomSection = document.createElement('div');
+    bottomSection.classList.add('bottom-section');
+
+    gameWindow.appendChild(topSection);
+    gameWindow.appendChild(bottomSection);
+
+    document.body.appendChild(gameWindow);
+    writeTextInSections();
 }
+
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
     titleScreen.classList.add('title-screen');
@@ -36,6 +52,22 @@ export function createTitleScreen() {
 
     // Append the title screen to the body
     document.body.appendChild(titleScreen);
+}
+
+export function writeTextInSections() {
+    const topSection = document.querySelector('.top-section');
+    const bottomSection = document.querySelector('.bottom-section');
+
+    const topText = document.createElement('h2');
+    topText.textContent = 'Hello World';
+    topText.classList.add('top-section-text');
+
+    const bottomText = document.createElement('h2');
+    bottomText.textContent = 'Hello World';
+    bottomText.classList.add('bottom-section-text');
+
+    topSection.appendChild(topText);
+    bottomSection.appendChild(bottomText);
 }
 
 export function toggleSound() {

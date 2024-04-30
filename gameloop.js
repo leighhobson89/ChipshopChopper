@@ -1,7 +1,8 @@
-import { createTitleScreen, toggleSound } from './ui.js';
+import {createGameWindow, createTitleScreen, toggleSound} from './ui.js';
 
 let gameInProgress = false;
 createTitleScreen();
+createGameWindow();
 
 document.getElementById('option1').addEventListener('click', function() {
     gameInProgress = initialiseNewGame(gameInProgress);
@@ -36,7 +37,6 @@ function updateClock() {
 }
 
 function checkGameInProgress(gameInProgress) {
-    console.log("gameInProgress after check=" + gameInProgress);
     if(gameInProgress) {
         return true;
     }
@@ -49,6 +49,7 @@ function initialiseNewGame(gameInProgress) {
     } else {
         document.getElementById('option1').textContent = "New Game";
         document.getElementById('optionsWindow').style.display = 'none';
+        document.getElementById('gameWindow').style.display = "block";
         return true;
     }
 }
