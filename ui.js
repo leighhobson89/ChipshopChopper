@@ -68,22 +68,76 @@ export function writeTextInSections() {
     const topDivRow2 = document.createElement('div');
     topDivRow2.classList.add('top-div-row-2');
 
-    const topTextRow2 = document.createElement('h2');
-    topTextRow2.textContent = '0';
-    topTextRow2.classList.add('top-section-text');
+    const bottomButtonsContainer = document.createElement('div');
+    bottomButtonsContainer.classList.add('bottom-buttons-container');
+
+    const buttonContainerWidth = bottomButtonsContainer.offsetWidth;
+    const buttonWidth = buttonContainerWidth / 4; // Assuming 4 buttons in a row
+
+    const counterIds = ['peeledCount', 'cutCount', 'chuckedInFryerCount', 'readyToServeCount'];
+
+    for (let i = 0; i < counterIds.length; i++) {
+        let valuesCounterRow = document.createElement('div');
+        valuesCounterRow.classList.add('counter-columns');
+        valuesCounterRow.textContent = '0';
+
+        valuesCounterRow.id = counterIds[i];
+
+        topDivRow2.appendChild(valuesCounterRow);
+    }
 
     topDivRow1.appendChild(topTextRow1);
-    topDivRow2.appendChild(topTextRow2);
 
     topSection.appendChild(topDivRow1);
     topSection.appendChild(topDivRow2);
 
-    const bottomSectionText = document.createElement('h2');
-    bottomSectionText.textContent = 'Hello World';
-    bottomSectionText.classList.add('bottom-section-text');
+    const buttonNames = [
+        'Peel Potato',
+        'Cut Chips',
+        'Chuck In Fryer',
+        'Serving Storage',
+        'Action 5',
+        'Action 6',
+        'Action 7',
+        'Action 8',
+        'Action 9',
+        'Action 10',
+        'Action 11',
+        'Action 12',
+        'Action 13',
+        'Action 14',
+        'Action 15',
+        'Action 16'
+    ];
 
-    bottomSection.appendChild(bottomSectionText);
+    for (let i = 0; i < 16; i++) {
+        const button = document.createElement('button');
+
+        // Assign text content based on index
+        button.textContent = buttonNames[i];
+
+        button.classList.add('action-button');
+        bottomButtonsContainer.appendChild(button);
+    }
+
+    bottomSection.appendChild(bottomButtonsContainer);
+    hideExtraButtons(); // Hide buttons 5 to 16
 }
+
+export function hideExtraButtons() {
+    const extraButtons = document.querySelectorAll('.action-button:nth-child(n+5)');
+    extraButtons.forEach(button => {
+        button.classList.add('hidden-button');
+    });
+}
+
+export function showAllButtons() {
+    const hiddenButtons = document.querySelectorAll('.hidden-button');
+    hiddenButtons.forEach(button => {
+        button.classList.remove('hidden-button');
+    });
+}
+
 
 export function toggleSound() {
     const soundOption = document.getElementById('option4');

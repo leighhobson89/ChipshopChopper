@@ -27,9 +27,9 @@ function gameLoop() {
 
     // Check if one second has passed since the last increment
     const currentTime = new Date().getTime();
-    let amountToIncrement = 1;
+    let amountToIncrement = 0;
     if (gameInProgress && currentTime - lastIncrementTime >= 1000) { //speed to update chip count CHANGE THIS AS PLAYER GAINS MOMENTUM
-        amountToIncrement = 2; //change this to make the incrementing amount per update higher
+        amountToIncrement = 0; //change this to make the incrementing amount per update higher
         incrementChipsValue(amountToIncrement);
         lastIncrementTime = currentTime; // Update last increment time
     }
