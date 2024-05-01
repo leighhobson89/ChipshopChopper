@@ -1,6 +1,10 @@
-import {customerTime, setCustomerTime} from './gameloop.js';
+import {setCustomerTime} from './gameloop.js';
 
+let shiftTimeRemaining = 0;
+const SHIFT_LENGTH = 180;
 const PORTION_SIZE = 30;
+export const STARTING_SPUDS = 100;
+export const STARTING_CASH = 0;
 
 export function handleButtonClick(buttonId, counterId) {
     const button = document.getElementById(buttonId);
@@ -9,6 +13,7 @@ export function handleButtonClick(buttonId, counterId) {
     button.addEventListener('click', () => {
         switch (buttonId) {
             case 'peelPotatoButton':
+                decrementCounter('subInnerDiv1_2', 1);
                 incrementCounter(counter, 1);
                 break;
             case 'cutChipsButton':
@@ -36,15 +41,15 @@ export function handleButtonClick(buttonId, counterId) {
                 incrementCounter(counter, serveIncrement);
                 break;
             case 'serveCustomerButton':
-                let readyToServeCount = parseInt(document.getElementById('readyToServeCount').textContent);
-                let customersWaitingCount = parseInt(document.getElementById('customersWaitingCount').textContent);
                 decrementCounter('readyToServeCount', PORTION_SIZE);
                 decrementCounter('customersWaitingCount', 1);
-                //incrementCounter(money, price);
+                break;
+            case 'startShiftButton':
+                shiftTimeRemaining = SHIFT_LENGTH;
+                document.getElementById('subInnerDiv1_2').textContent = STARTING_SPUDS.toString();
+                disableButtons(false);
                 break;
             default:
-                // Default behavior (increment by 1)
-                // incrementCounter(counter, 1);
                 break;
         }
         disableButtons(false);
@@ -72,6 +77,7 @@ function decrementCounter(counterId, value) {
 export function disableButtons(init) {
     const buttons = document.querySelectorAll('.action-button');
     if (!init) {
+        const spudsLeft = parseInt(document.getElementById('subInnerDiv1_2').textContent);
         const peeledCount = parseInt(document.getElementById('peeledCount').textContent);
         const cutCount = parseInt(document.getElementById('cutCount').textContent);
         const chuckCount = parseInt(document.getElementById('chuckedInFryerCount').textContent);
@@ -80,7 +86,9 @@ export function disableButtons(init) {
 
         buttons.forEach(button => {
             switch (button.id) {
-                //case 'peelPotatoButton': only needed if limited potato inventory
+                case 'peelPotatoButton':
+                    button.disabled = spudsLeft <= 0;
+                    break;
                 case 'cutChipsButton':
                     button.disabled = peeledCount <= 0;
                     break;
@@ -92,6 +100,9 @@ export function disableButtons(init) {
                     break;
                 case 'serveCustomerButton':
                     button.disabled = customerCount <= 0 || serveCount < PORTION_SIZE;
+                    break;
+                case 'startShiftButton':
+                    button.disabled = shiftTimeRemaining > 0;
                     break;
                 default:
                     button.disabled = false;
@@ -106,7 +117,7 @@ export function disableButtons(init) {
         });
     } else {
         buttons.forEach(button => {
-            if (button.id !== "peelPotatoButton") {
+            if (button.id !== "startShiftButton") {
                 button.disabled = true;
                 button.classList.add('disabled');
             }

@@ -1,29 +1,4 @@
-// ui.js
-import {handleButtonClick, disableButtons} from "./actions.js";
-
-export function createGameWindow() {
-    const gameWindow = document.createElement('div');
-    gameWindow.classList.add('game-window');
-    gameWindow.id = "gameWindow";
-
-    const topSection = document.createElement('div');
-    topSection.classList.add('top-section');
-
-    const bottomSection = document.createElement('div');
-    bottomSection.classList.add('bottom-section');
-
-    gameWindow.appendChild(topSection);
-    gameWindow.appendChild(bottomSection);
-
-    document.body.appendChild(gameWindow);
-    writeTextInSections();
-
-    handleButtonClick('peelPotatoButton', 'peeledCount');
-    handleButtonClick('cutChipsButton', 'cutCount');
-    handleButtonClick('chuckInFryerButton', 'chuckedInFryerCount');
-    handleButtonClick('servingStorageButton', 'readyToServeCount');
-    handleButtonClick('serveCustomerButton', 'customersWaitingCount');
-}
+import {handleButtonClick, disableButtons, STARTING_SPUDS, STARTING_CASH} from "./actions.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -61,16 +36,36 @@ export function createTitleScreen() {
     document.body.appendChild(titleScreen);
 }
 
-export function writeTextInSections() {
-    const topSection = document.querySelector('.top-section');
-    const bottomSection = document.querySelector('.bottom-section');
+export function createGameWindow() {
+    const gameWindow = document.createElement('div');
+    gameWindow.classList.add('game-window');
+    gameWindow.id = "gameWindow";
+
+    const topSection = document.createElement('div');
+    topSection.classList.add('top-section');
 
     const topDivRow1 = document.createElement('div');
     topDivRow1.classList.add('top-div-row-1');
 
-    const topTextRow1 = document.createElement('h2');
-    topTextRow1.textContent = 'Chip Shop Chopper';
-    topTextRow1.classList.add('top-section-text');
+    for (let i = 1; i <= 3; i++) {
+        const innerDiv = document.createElement('div');
+        innerDiv.classList.add('inner-div-topDivRow1');
+        innerDiv.id = `innerDiv${i}`;
+
+        topDivRow1.appendChild(innerDiv);
+
+        if (i === 1 || i === 3) {
+            for (let j = 1; j <= 2; j++) {
+                const subInnerDiv = document.createElement('div');
+                subInnerDiv.classList.add('sub-inner-div-topDivRow1');
+                subInnerDiv.id = `subInnerDiv${i}_${j}`;
+
+                innerDiv.appendChild(subInnerDiv);
+            }
+        }
+    }
+
+    topSection.appendChild(topDivRow1);
 
     const topDivRow2 = document.createElement('div');
     topDivRow2.classList.add('top-div-row-2');
@@ -90,50 +85,70 @@ export function writeTextInSections() {
         topDivRow2.appendChild(valuesCounterRow);
     }
 
-    topDivRow1.appendChild(topTextRow1);
-
-    topSection.appendChild(topDivRow1);
     topSection.appendChild(topDivRow2);
+    gameWindow.appendChild(topSection);
 
     const buttonDetails = [
-        { name: 'Peel Potato', id: 'peelPotatoButton' },
-        { name: 'Cut Chips', id: 'cutChipsButton' },
-        { name: 'Chuck In Fryer', id: 'chuckInFryerButton' },
-        { name: 'Serving Storage', id: 'servingStorageButton' },
-        { name: 'Serve Customer', id: 'serveCustomerButton' },
-        { name: 'Action 6', id: 'action6Button' },
-        { name: 'Action 7', id: 'action7Button' },
-        { name: 'Action 8', id: 'action8Button' },
-        { name: 'Action 9', id: 'action9Button' },
-        { name: 'Action 10', id: 'action10Button' },
-        { name: 'Action 11', id: 'action11Button' },
-        { name: 'Action 12', id: 'action12Button' },
-        { name: 'Action 13', id: 'action13Button' },
-        { name: 'Action 14', id: 'action14Button' },
-        { name: 'Action 15', id: 'action15Button' },
-        { name: 'Action 16', id: 'action16Button' }
+        { id: 'peelPotatoButton', name: 'Peel Potato' },
+        { id: 'cutChipsButton', name: 'Cut Chips' },
+        { id: 'chuckInFryerButton', name: 'Chuck In Fryer' },
+        { id: 'servingStorageButton', name: 'Serving Storage' },
+        { id: 'serveCustomerButton', name: 'Serve Customer' },
+        { id: 'action6Button', name: 'Action 6' },
+        { id: 'action7Button', name: 'Action 7' },
+        { id: 'startShiftButton', name: 'Start Shift' },
+        { id: 'action9Button', name: 'Action 9' },
+        { id: 'action10Button', name: 'Action 10' },
+        { id: 'action11Button', name: 'Action 11' },
+        { id: 'action12Button', name: 'Action 12' },
+        { id: 'action13Button', name: 'Action 13' },
+        { id: 'action14Button', name: 'Action 14' },
+        { id: 'action15Button', name: 'Action 15' },
+        { id: 'action16Button', name: 'Action 16' }
     ];
 
     for (let i = 0; i < buttonDetails.length; i++) {
         const button = document.createElement('button');
-        button.textContent = buttonDetails[i].name;
         button.id = buttonDetails[i].id;
         button.classList.add('action-button');
 
         bottomButtonsContainer.appendChild(button);
     }
 
-    bottomSection.appendChild(bottomButtonsContainer);
+    gameWindow.appendChild(bottomButtonsContainer);
 
-    // Add disabled attribute to all buttons except 'peelPotatoButton' at start of game
+    document.body.appendChild(gameWindow);
+
+    hideUpgradeButtonsGameStart(bottomButtonsContainer);
     disableButtons(true);
+    writeTextInSections(buttonDetails);
 
-    hideUpgradeButtons();
+    handleButtonClick('startShiftButton', 'startShift');
+    handleButtonClick('peelPotatoButton', 'peeledCount');
+    handleButtonClick('cutChipsButton', 'cutCount');
+    handleButtonClick('chuckInFryerButton', 'chuckedInFryerCount');
+    handleButtonClick('servingStorageButton', 'readyToServeCount');
+    handleButtonClick('serveCustomerButton', 'customersWaitingCount');
 }
 
-export function hideUpgradeButtons() {
-    const extraButtons = document.querySelectorAll('.action-button:nth-child(n+6)');
-    extraButtons.forEach(button => {
+export function writeTextInSections(buttonDetails) {
+    document.getElementById('innerDiv2').textContent = 'Chip Shop Prepper';
+
+    document.getElementById('subInnerDiv1_1').textContent = 'Potatoes:';
+    document.getElementById('subInnerDiv1_2').textContent = "Start Shift";
+
+    const formattedCash = `$${STARTING_CASH.toFixed(2)}`;
+    document.getElementById('subInnerDiv3_1').textContent = 'Money:';
+    document.getElementById('subInnerDiv3_2').textContent = formattedCash;
+
+    buttonDetails.forEach(buttonInfo => {
+        const button = document.getElementById(buttonInfo.id);
+        button.textContent = buttonInfo.name;
+    });
+}
+
+export function hideUpgradeButtonsGameStart(bottomButtonsContainer) {
+    bottomButtonsContainer.querySelectorAll('.action-button:nth-child(n+6):not(:nth-child(8))').forEach(button => {
         button.classList.add('hidden-button');
     });
 }
@@ -144,7 +159,6 @@ export function showAllButtons() {
         button.classList.remove('hidden-button');
     });
 }
-
 
 export function toggleSound() {
     const soundOption = document.getElementById('option4');

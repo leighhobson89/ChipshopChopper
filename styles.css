@@ -22,55 +22,14 @@ body {
     color: #fff;
 }
 
-.game-window {
-    width: 80%;
-    height: 80%;
-    position: fixed;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: none; /* Initially hidden */
-    border: 2px white solid;
-}
-
-.top-section {
-    width: 100%;
-    height: 20%;
-    border: 1px yellow solid;
-}
-
-.bottom-section {
-    width: 100%;
-    height: 80%;
-    border: 1px yellow solid;
-}
-
-.top-section-text {
-    text-align: center;
-    font-family: Arial, sans-serif;
-    font-size: 24px;
-    margin: 0;
-    padding: 20px;
-}
-
-.top-div-row-1,
-.top-div-row-2 {
-    width: 100%;
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px blue solid;
-}
-
 .options {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Center vertically */
+    justify-content: center;
     width: 50%;
-    height: 50vh; /* 50% of the viewport height to center vertically */
-    margin: auto; /* Center horizontally */
+    height: 50vh;
+    margin: auto;
 }
 
 .option {
@@ -87,6 +46,70 @@ body {
 
 .option:hover {
     background-color: #0056b3;
+}
+
+.game-window {
+    width: 80%;
+    height: 80%;
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Initially hidden */
+    border: 2px white solid;
+}
+
+.top-section {
+    width: 100%;
+    height: 20%;
+    border-bottom: 3px white solid;
+}
+
+.bottom-section {
+    width: 100%;
+    height: 80%;
+}
+
+.top-div-row-1,
+.top-div-row-2 {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner-div-topDivRow1 {
+    width: 33%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+}
+
+div[id^="innerDiv2"] {
+    font-weight: bold;
+    color: yellow;
+}
+
+.sub-inner-div-topDivRow1 {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+}
+
+div[id^="subInnerDiv"][id$='_1'] {
+    justify-content: right;
+    padding-right: 20px;
+}
+
+div[id^="subInnerDiv"][id$='_2'] {
+    justify-content: left;
 }
 
 .bottom-buttons-container {
