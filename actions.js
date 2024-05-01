@@ -16,25 +16,32 @@ export function handleButtonClick(buttonId, counterId) {
                 }
                 break;
             case 'chuckInFryerButton':
-                if (parseInt(document.getElementById('cutCount').textContent) > 0) {
-                    decrementCounter('cutCount', 1);
-                    incrementCounter(counter, 1);
+                let cutChipsCount = parseInt(document.getElementById('cutCount').textContent);
+                let fryerIncrement = 10;
+                if (cutChipsCount < fryerIncrement) {
+                    fryerIncrement = cutChipsCount;
                 }
+                decrementCounter('cutCount', fryerIncrement);
+                incrementCounter(counter, fryerIncrement);
                 break;
             case 'servingStorageButton':
-                if (parseInt(document.getElementById('chuckedInFryerCount').textContent) > 0) {
-                    decrementCounter('chuckedInFryerCount', 1);
-                    incrementCounter(counter, 1);
+                let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').textContent);
+                let serveIncrement = 10;
+                if (chuckedInFryerCount < serveIncrement) {
+                    serveIncrement = chuckedInFryerCount;
                 }
+                decrementCounter('chuckedInFryerCount', serveIncrement);
+                incrementCounter(counter, serveIncrement);
                 break;
             default:
                 // Default behavior (increment by 1)
-                incrementCounter(counter, 1);
+                // incrementCounter(counter, 1);
                 break;
         }
         disableButtons(false);
     });
 }
+
 
 function incrementCounter(counterElement, value) {
     let count = parseInt(counterElement.textContent);
