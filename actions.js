@@ -1,4 +1,6 @@
-// actions.js
+import {customerTime, setCustomerTime} from './gameloop.js';
+
+const PORTION_SIZE = 30;
 
 export function handleButtonClick(buttonId, counterId) {
     const button = document.getElementById(buttonId);
@@ -33,6 +35,13 @@ export function handleButtonClick(buttonId, counterId) {
                 decrementCounter('chuckedInFryerCount', serveIncrement);
                 incrementCounter(counter, serveIncrement);
                 break;
+            case 'serveCustomerButton':
+                let readyToServeCount = parseInt(document.getElementById('readyToServeCount').textContent);
+                let customersWaitingCount = parseInt(document.getElementById('customersWaitingCount').textContent);
+                decrementCounter('readyToServeCount', PORTION_SIZE);
+                decrementCounter('customersWaitingCount', 1);
+                //incrementCounter(money, price);
+                break;
             default:
                 // Default behavior (increment by 1)
                 // incrementCounter(counter, 1);
@@ -66,6 +75,8 @@ export function disableButtons(init) {
         const peeledCount = parseInt(document.getElementById('peeledCount').textContent);
         const cutCount = parseInt(document.getElementById('cutCount').textContent);
         const chuckCount = parseInt(document.getElementById('chuckedInFryerCount').textContent);
+        const serveCount = parseInt(document.getElementById('readyToServeCount').textContent);
+        const customerCount = parseInt(document.getElementById('customersWaitingCount').textContent);
 
         buttons.forEach(button => {
             switch (button.id) {
@@ -78,6 +89,9 @@ export function disableButtons(init) {
                     break;
                 case 'servingStorageButton':
                     button.disabled = chuckCount <= 0;
+                    break;
+                case 'serveCustomerButton':
+                    button.disabled = customerCount <= 0 || serveCount < PORTION_SIZE;
                     break;
                 default:
                     button.disabled = false;
@@ -98,4 +112,19 @@ export function disableButtons(init) {
             }
         });
     }
+}
+
+export function createRandomCustomerTime() {
+    const timeUntilNextCustomer = Math.floor(Math.random() * 45) + 1;
+    setCustomerTimerVariable(timeUntilNextCustomer);
+}
+
+export function setCustomerTimerVariable(value) {
+    setCustomerTime(value); // Update customerTime indirectly through the setter
+}
+
+export function incrementCustomersWaiting() {
+    let customerCount = parseInt(document.getElementById('customersWaitingCount').textContent);
+    customerCount++;
+    document.getElementById('customersWaitingCount').textContent = customerCount.toString();
 }

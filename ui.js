@@ -22,6 +22,7 @@ export function createGameWindow() {
     handleButtonClick('cutChipsButton', 'cutCount');
     handleButtonClick('chuckInFryerButton', 'chuckedInFryerCount');
     handleButtonClick('servingStorageButton', 'readyToServeCount');
+    handleButtonClick('serveCustomerButton', 'customersWaitingCount');
 }
 
 export function createTitleScreen() {
@@ -77,7 +78,7 @@ export function writeTextInSections() {
     const bottomButtonsContainer = document.createElement('div');
     bottomButtonsContainer.classList.add('bottom-buttons-container');
 
-    const counterIds = ['peeledCount', 'cutCount', 'chuckedInFryerCount', 'readyToServeCount'];
+    const counterIds = ['peeledCount', 'cutCount', 'chuckedInFryerCount', 'readyToServeCount', 'customersWaitingCount'];
 
     for (let i = 0; i < counterIds.length; i++) {
         let valuesCounterRow = document.createElement('div');
@@ -99,7 +100,7 @@ export function writeTextInSections() {
         { name: 'Cut Chips', id: 'cutChipsButton' },
         { name: 'Chuck In Fryer', id: 'chuckInFryerButton' },
         { name: 'Serving Storage', id: 'servingStorageButton' },
-        { name: 'Action 5', id: 'action5Button' },
+        { name: 'Serve Customer', id: 'serveCustomerButton' },
         { name: 'Action 6', id: 'action6Button' },
         { name: 'Action 7', id: 'action7Button' },
         { name: 'Action 8', id: 'action8Button' },
@@ -131,7 +132,7 @@ export function writeTextInSections() {
 }
 
 export function hideUpgradeButtons() {
-    const extraButtons = document.querySelectorAll('.action-button:nth-child(n+5)');
+    const extraButtons = document.querySelectorAll('.action-button:nth-child(n+6)');
     extraButtons.forEach(button => {
         button.classList.add('hidden-button');
     });

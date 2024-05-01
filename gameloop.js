@@ -1,4 +1,8 @@
 import { createGameWindow, createTitleScreen, toggleSound } from './ui.js';
+import { createRandomCustomerTime, incrementCustomersWaiting } from './actions.js';
+
+export let customerTime = 0;
+let lastCustomerUpdateTime = new Date().getTime();
 
 let gameInProgress = false;
 createTitleScreen();
@@ -17,21 +21,12 @@ document.getElementById('option4').addEventListener('click', function () {
     toggleSound();
 });
 
-//let lastIncrementTime = 0; // Keep track of the last time the value was incremented
 gameLoop();
 
 function gameLoop() {
     gameInProgress = checkGameInProgress(gameInProgress);
     updateClock();
-
-    // // Check if one second has passed since the last increment
-    // const currentTime = new Date().getTime();
-    // let amountToIncrement = 0;
-    // if (gameInProgress && currentTime - lastIncrementTime >= 1000) { //speed to update chip count CHANGE THIS AS PLAYER GAINS MOMENTUM
-    //     amountToIncrement = 0; //change this to make the incrementing amount per update higher
-    //     incrementChipsValue(amountToIncrement);
-    //     lastIncrementTime = currentTime; // Update last increment time
-    // }
+    updateCustomerCountdown();
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
@@ -45,6 +40,23 @@ function updateClock() {
     const timeString = `${hours}:${minutes}:${seconds}`;
     const clockElement = document.querySelector('.clock');
     clockElement.textContent = timeString;
+}
+
+function updateCustomerCountdown() {
+    const now = new Date().getTime();
+    const timeDiffSeconds = (now - lastCustomerUpdateTime) / 1000;
+
+    if (customerTime > 0) {
+        if (timeDiffSeconds >= 1) {
+            customerTime--;
+            lastCustomerUpdateTime = now;
+            console.log(`Customer time remaining: ${customerTime} seconds`);
+            if (customerTime === 0) {
+                incrementCustomersWaiting();
+                createRandomCustomerTime();
+            }
+        }
+    }
 }
 
 function checkGameInProgress(gameInProgress) {
@@ -61,6 +73,7 @@ function initialiseNewGame(gameInProgress) {
         document.getElementById('option1').textContent = "New Game";
         document.getElementById('optionsWindow').style.display = 'none';
         createGameWindow();
+        createRandomCustomerTime(); //create timer for first new customer
         document.getElementById('gameWindow').style.display = "block";
         return true;
     }
@@ -70,14 +83,10 @@ function askUserToConfirmRestart() {
     document.getElementById('option1').textContent = "Click again to start a New Game...";
 }
 
-// function incrementChipsValue(amountToIncrement) {
-//     // Get the bottom text element in the top section
-//     const bottomTextElement = document.querySelector('.top-div-row-2 .top-section-text');
-//
-//     // Get the current value and increment by 5
-//     let currentValue = parseInt(bottomTextElement.textContent);
-//     currentValue += amountToIncrement;
-//
-//     // Update the text content with the incremented value
-//     bottomTextElement.textContent = currentValue.toString();
-// }
+export function setCustomerTime(value) {
+    customerTime = value;
+}
+
+export function getCustomerTime() {
+    return customerTime;
+}
