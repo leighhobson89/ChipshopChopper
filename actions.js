@@ -127,4 +127,5 @@ export function incrementCustomersWaiting() {
     let customerCount = parseInt(document.getElementById('customersWaitingCount').textContent);
     customerCount++;
     document.getElementById('customersWaitingCount').textContent = customerCount.toString();
+    disableButtons(false);
 }
