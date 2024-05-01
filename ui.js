@@ -1,4 +1,6 @@
 // ui.js
+import {handleButtonClick, disableButtons} from "./actions.js";
+
 export function createGameWindow() {
     const gameWindow = document.createElement('div');
     gameWindow.classList.add('game-window');
@@ -15,6 +17,11 @@ export function createGameWindow() {
 
     document.body.appendChild(gameWindow);
     writeTextInSections();
+
+    handleButtonClick('peelPotatoButton', 'peeledCount');
+    handleButtonClick('cutChipsButton', 'cutCount');
+    handleButtonClick('chuckInFryerButton', 'chuckedInFryerCount');
+    handleButtonClick('servingStorageButton', 'readyToServeCount');
 }
 
 export function createTitleScreen() {
@@ -50,7 +57,6 @@ export function createTitleScreen() {
     titleScreen.appendChild(title);
     titleScreen.appendChild(options);
 
-    // Append the title screen to the body
     document.body.appendChild(titleScreen);
 }
 
@@ -62,7 +68,7 @@ export function writeTextInSections() {
     topDivRow1.classList.add('top-div-row-1');
 
     const topTextRow1 = document.createElement('h2');
-    topTextRow1.textContent = 'Chips Prepped';
+    topTextRow1.textContent = 'Chip Shop Chopper';
     topTextRow1.classList.add('top-section-text');
 
     const topDivRow2 = document.createElement('div');
@@ -70,9 +76,6 @@ export function writeTextInSections() {
 
     const bottomButtonsContainer = document.createElement('div');
     bottomButtonsContainer.classList.add('bottom-buttons-container');
-
-    const buttonContainerWidth = bottomButtonsContainer.offsetWidth;
-    const buttonWidth = buttonContainerWidth / 4; // Assuming 4 buttons in a row
 
     const counterIds = ['peeledCount', 'cutCount', 'chuckedInFryerCount', 'readyToServeCount'];
 
@@ -91,40 +94,43 @@ export function writeTextInSections() {
     topSection.appendChild(topDivRow1);
     topSection.appendChild(topDivRow2);
 
-    const buttonNames = [
-        'Peel Potato',
-        'Cut Chips',
-        'Chuck In Fryer',
-        'Serving Storage',
-        'Action 5',
-        'Action 6',
-        'Action 7',
-        'Action 8',
-        'Action 9',
-        'Action 10',
-        'Action 11',
-        'Action 12',
-        'Action 13',
-        'Action 14',
-        'Action 15',
-        'Action 16'
+    const buttonDetails = [
+        { name: 'Peel Potato', id: 'peelPotatoButton' },
+        { name: 'Cut Chips', id: 'cutChipsButton' },
+        { name: 'Chuck In Fryer', id: 'chuckInFryerButton' },
+        { name: 'Serving Storage', id: 'servingStorageButton' },
+        { name: 'Action 5', id: 'action5Button' },
+        { name: 'Action 6', id: 'action6Button' },
+        { name: 'Action 7', id: 'action7Button' },
+        { name: 'Action 8', id: 'action8Button' },
+        { name: 'Action 9', id: 'action9Button' },
+        { name: 'Action 10', id: 'action10Button' },
+        { name: 'Action 11', id: 'action11Button' },
+        { name: 'Action 12', id: 'action12Button' },
+        { name: 'Action 13', id: 'action13Button' },
+        { name: 'Action 14', id: 'action14Button' },
+        { name: 'Action 15', id: 'action15Button' },
+        { name: 'Action 16', id: 'action16Button' }
     ];
 
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < buttonDetails.length; i++) {
         const button = document.createElement('button');
-
-        // Assign text content based on index
-        button.textContent = buttonNames[i];
-
+        button.textContent = buttonDetails[i].name;
+        button.id = buttonDetails[i].id;
         button.classList.add('action-button');
+
         bottomButtonsContainer.appendChild(button);
     }
 
     bottomSection.appendChild(bottomButtonsContainer);
-    hideExtraButtons(); // Hide buttons 5 to 16
+
+    // Add disabled attribute to all buttons except 'peelPotatoButton' at start of game
+    disableButtons(true);
+
+    hideUpgradeButtons();
 }
 
-export function hideExtraButtons() {
+export function hideUpgradeButtons() {
     const extraButtons = document.querySelectorAll('.action-button:nth-child(n+5)');
     extraButtons.forEach(button => {
         button.classList.add('hidden-button');
