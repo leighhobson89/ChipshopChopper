@@ -67,6 +67,30 @@ export function createGameWindow() {
 
     topSection.appendChild(topDivRow1);
 
+    const topDivRowMid = document.createElement('div');
+    topDivRowMid.classList.add('top-div-row-mid');
+
+    for (let i = 1; i <= 3; i++) {
+        const innerDiv = document.createElement('div');
+        innerDiv.classList.add('inner-div-topDivRowMid');
+        innerDiv.id = `innerDivRowMid${i}`;
+
+        topDivRowMid.appendChild(innerDiv);
+
+        if (i === 1 || i === 3) {
+            for (let j = 1; j <= 2; j++) {
+                const subInnerDivMid = document.createElement('div');
+                subInnerDivMid.classList.add('sub-inner-div-topDivRowMid');
+                subInnerDivMid.id = `subInnerDivMid${i}_${j}`;
+
+                innerDiv.appendChild(subInnerDivMid);
+            }
+        }
+    }
+
+    topSection.appendChild(topDivRowMid);
+
+
     const topDivRow2 = document.createElement('div');
     topDivRow2.classList.add('top-div-row-2');
 
@@ -134,12 +158,15 @@ export function createGameWindow() {
 export function writeTextInSections(buttonDetails) {
     document.getElementById('innerDiv2').textContent = 'Chip Shop Prepper';
 
-    document.getElementById('subInnerDiv1_1').textContent = 'Potatoes:';
+    document.getElementById('subInnerDiv1_1').textContent = 'Shift Left (s):';
     document.getElementById('subInnerDiv1_2').textContent = "Start Shift";
 
+    document.getElementById('subInnerDivMid1_1').textContent = 'Potatoes:';
+    document.getElementById('subInnerDivMid1_2').textContent = "0";
+
     const formattedCash = `$${STARTING_CASH.toFixed(2)}`;
-    document.getElementById('subInnerDiv3_1').textContent = 'Money:';
-    document.getElementById('subInnerDiv3_2').textContent = formattedCash;
+    document.getElementById('subInnerDivMid3_1').textContent = 'Money:';
+    document.getElementById('subInnerDivMid3_2').textContent = formattedCash;
 
     buttonDetails.forEach(buttonInfo => {
         const button = document.getElementById(buttonInfo.id);

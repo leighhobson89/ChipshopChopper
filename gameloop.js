@@ -1,7 +1,11 @@
 import { createGameWindow, createTitleScreen, toggleSound } from './ui.js';
-import { createRandomCustomerTime, incrementCustomersWaiting } from './actions.js';
+import {createRandomCustomerTime, disableButtons, incrementCustomersWaiting} from './actions.js';
 
 export let customerTime = 0;
+export let shiftTimeRemaining = 0;
+export let shiftInProgress = false;
+
+let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 
 let gameInProgress = false;
@@ -27,6 +31,7 @@ function gameLoop() {
     gameInProgress = checkGameInProgress(gameInProgress);
     updateClock();
     updateCustomerCountdown();
+    updateShiftCountDown();
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
@@ -43,19 +48,44 @@ function updateClock() {
 }
 
 function updateCustomerCountdown() {
-    const now = new Date().getTime();
-    const timeDiffSeconds = (now - lastCustomerUpdateTime) / 1000;
+    if (getShiftInProgress()) {
+        const now = new Date().getTime();
+        const timeDiffSeconds = (now - lastCustomerUpdateTime) / 1000;
 
-    if (customerTime > 0) {
-        if (timeDiffSeconds >= 1) {
-            customerTime--;
-            lastCustomerUpdateTime = now;
-            console.log(`Customer time remaining: ${customerTime} seconds`);
-            if (customerTime === 0) {
-                incrementCustomersWaiting();
-                createRandomCustomerTime();
+        if (customerTime > 0) {
+            if (timeDiffSeconds >= 1) {
+                customerTime--;
+                lastCustomerUpdateTime = now;
+                console.log(`Customer time remaining: ${customerTime} seconds`);
+                if (customerTime === 0) {
+                    incrementCustomersWaiting();
+                    createRandomCustomerTime();
+                }
             }
         }
+    }
+}
+
+function updateShiftCountDown() {
+    if (shiftInProgress) {
+        const now = new Date().getTime();
+        const timeDiffSeconds = (now - lastShiftUpdateTime) / 1000;
+
+        if (shiftTimeRemaining > 0) {
+            if (timeDiffSeconds >= 1) {
+                shiftTimeRemaining--;
+                lastShiftUpdateTime = now;
+                document.getElementById('subInnerDiv1_2').textContent = shiftTimeRemaining;
+                console.log(`Shift time remaining: ${shiftTimeRemaining} seconds`);
+                if (shiftTimeRemaining === 0) {
+                    setShiftInProgress(false);
+                    document.getElementById('subInnerDiv1_2').textContent = "Start Shift";
+                    disableButtons(false);
+                }
+            }
+        }
+    } else {
+        disableButtons(true);
     }
 }
 
@@ -89,4 +119,20 @@ export function setCustomerTime(value) {
 
 export function getCustomerTime() {
     return customerTime;
+}
+
+export function setShiftTime(value) {
+    shiftTimeRemaining = value;
+}
+
+export function getShiftTime() {
+    return shiftTimeRemaining;
+}
+
+export function setShiftInProgress(value) {
+    shiftInProgress = value;
+}
+
+export function getShiftInProgress() {
+    return shiftInProgress;
 }
