@@ -1,4 +1,4 @@
-import {handleButtonClick, disableButtons, STARTING_CASH} from "./actions.js";
+import {handleButtonClick, disableButtons, STARTING_CASH, POTATO_STORAGE} from "./actions.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -165,7 +165,7 @@ export function writeTextInSections(buttonDetails) {
     document.getElementById('subInnerDiv3_2').innerHTML = "0";
 
     document.getElementById('subInnerDivMid1_1').innerHTML = 'Potatoes:';
-    document.getElementById('subInnerDivMid1_2').innerHTML = "0";
+    document.getElementById('subInnerDivMid1_2').innerHTML = "0/" + POTATO_STORAGE.toString();
 
     const formattedCash = `$${STARTING_CASH.toFixed(2)}`;
     document.getElementById('subInnerDivMid3_1').innerHTML = 'Money:';

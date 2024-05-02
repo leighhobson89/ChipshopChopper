@@ -18,6 +18,7 @@ import {
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 25;
 const SHIFT_LENGTH = 60;
 const FRY_TIMER = 15;
+export const POTATO_STORAGE = 200;
 const FRYER_CAPACITY = 500;
 const PORTION_SIZE = 40;
 export const PRICE_OF_CHIPS = 2; //price in whole dollars
@@ -77,10 +78,10 @@ export function handleButtonClick(buttonId, counterId) {
                 document.getElementById('subInnerDiv1_2').innerHTML = getShiftTime();
                 switch (getShiftCounter()) {
                     case 1:
-                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(STARTING_SPUDS).toString();
+                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(STARTING_SPUDS).toString() + "/" + POTATO_STORAGE.toString();
                         break;
                     default:
-                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString();
+                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + POTATO_STORAGE.toString();
                         break;
                 }
 
@@ -106,7 +107,11 @@ function decrementCounter(counterId, value) {
     const counterElement = document.getElementById(counterId);
     let count = parseInt(counterElement.innerHTML);
     count = Math.max(0, count - value); // Ensure count is not negative
-    counterElement.innerHTML = count.toString();
+    if (counterId === "subInnerDivMid1_2") {
+        counterElement.innerHTML = count.toString() + "/" + POTATO_STORAGE.toString();
+    } else {
+        counterElement.innerHTML = count.toString();
+    }
     disableButtons(false);
 }
 
@@ -185,6 +190,9 @@ export function incrementCustomersWaiting() {
 
 function addShiftSpuds(quantity) {
     let currentSpuds = parseInt(document.getElementById('subInnerDivMid1_2').innerHTML);
+    if (currentSpuds + quantity > POTATO_STORAGE) {
+        return POTATO_STORAGE;
+    }
     return currentSpuds + quantity;
 }
 
