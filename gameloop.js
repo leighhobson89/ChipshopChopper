@@ -1,5 +1,11 @@
 import {createGameWindow, createTitleScreen, formatToCashNotation, toggleSound} from './ui.js';
-import {createRandomCustomerTime, disableButtons, incrementCustomersWaiting, PRICE_OF_CHIPS} from './actions.js';
+import {
+    createRandomCustomerTime,
+    disableButtons,
+    incrementCustomersWaiting,
+    PRICE_OF_CHIPS,
+    STARTING_SPUDS
+} from './actions.js';
 
 export let customerTime = 0;
 export let shiftTimeRemaining = 0;
@@ -11,6 +17,8 @@ export let currentCash = 0;
 export let chipsFrying = false;
 export let quantityFrying = 0;
 export let spudsToAddToShift = 0;
+export let actualPotatoesInStorage = 100;
+export let potatoStorage = 200;
 
 //PRICES
 export let priceToImprovePotatoStorage = 5; //50
@@ -42,7 +50,7 @@ document.getElementById('option4').addEventListener('click', function () {
 gameLoop();
 
 function gameLoop() {
-    gameInProgress = checkGameInProgress(gameInProgress);
+    gameInProgress = !!gameInProgress;
     updateClock();
     updateCustomerCountdown();
     updateShiftCountDown();
@@ -129,13 +137,6 @@ function updateChipsFryingTimer() {
     }
 }
 
-function checkGameInProgress(gameInProgress) {
-    if (gameInProgress) {
-        return true;
-    }
-    return false;
-}
-
 function initialiseNewGame(gameInProgress) {
     if (gameInProgress) {
         return askUserToConfirmRestart();
@@ -170,13 +171,15 @@ function updateVisibleButtons() {
     }
 }
 
-
-
-
-
-
-
 //GETTER SETTER METHODS
+
+export function setActualPotatoesInStorage(value) {
+    actualPotatoesInStorage = value;
+}
+
+export function getActualPotatoesInStorage() {
+    return actualPotatoesInStorage;
+}
 
 export function setCustomerTime(value) {
     customerTime = value;
@@ -262,6 +265,14 @@ export function getPriceToImprovePotatoStorage() {
 
 export function setPriceToImprovePotatoStorage(value) {
     priceToImprovePotatoStorage = value;
+}
+
+export function getPotatoStorageQuantity() {
+    return potatoStorage;
+}
+
+export function setPotatoStorageQuantity(value) {
+    potatoStorage = value;
 }
 
 export function getPriceToEnableDoubleChopping() {

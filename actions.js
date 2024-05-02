@@ -1,22 +1,25 @@
 import {
     chipsFrying,
     currentCash,
-    customersServed, getCurrentCash,
+    customersServed, getActualPotatoesInStorage,
+    getCurrentCash,
+    getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
     getPriceToEnableDoubleChopping,
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
     getShiftCounter,
     getShiftTime,
-    getSpudsToAddToShift,
+    getSpudsToAddToShift, potatoStorage,
     priceToAddStorageHeater,
     priceToEnableDoubleChopping,
     priceToImproveFryerCapacity,
-    priceToImprovePotatoStorage,
+    priceToImprovePotatoStorage, setActualPotatoesInStorage,
     setChipsFrying, setCurrentCash,
     setCustomersServed,
     setCustomerTime,
     setFryTimer,
+    setPotatoStorageQuantity,
     setQuantityFrying,
     setShiftCounter,
     setShiftInProgress,
@@ -29,7 +32,6 @@ import {formatToCashNotation} from "./ui.js";
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 25;
 const SHIFT_LENGTH = 60;
 const FRY_TIMER = 15;
-export const POTATO_STORAGE = 200;
 const FRYER_CAPACITY = 500;
 const PORTION_SIZE = 40;
 export const PRICE_OF_CHIPS = 2; //price in whole dollars
@@ -37,6 +39,7 @@ export const STARTING_SPUDS = 100;
 export const STARTING_CASH = 0;
 const MIN_SPUDS_DELIVERY = 20;
 const MAX_SPUDS_DELIVERY = 80;
+const UPGRADE_POTATO_STORAGE_QUANTITY = 50;
 
 export function handleButtonClick(buttonId, value) {
     const button = document.getElementById(buttonId);
@@ -45,6 +48,7 @@ export function handleButtonClick(buttonId, value) {
     button.addEventListener('click', () => {
         switch (buttonId) {
             case 'peelPotatoButton':
+                setActualPotatoesInStorage(getActualPotatoesInStorage() - 1);
                 decrementCounter('subInnerDivMid1_2', 1);
                 incrementCounter(element, 1);
                 break;
@@ -80,8 +84,10 @@ export function handleButtonClick(buttonId, value) {
                 console.log("Total Customers Served: " + customersServed);
                 break;
             case 'improvePotatoStorageButton':
-                setCurrentCash(currentCash - getPriceToImprovePotatoStorage());
-                document.getElementById(value).innerHTML = formatToCashNotation(getCurrentCash());
+                setCurrentCash(currentCash - value);
+                document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
+                setPotatoStorageQuantity(getPotatoStorageQuantity() + UPGRADE_POTATO_STORAGE_QUANTITY);
+                document.getElementById('subInnerDivMid1_2').innerHTML = (getActualPotatoesInStorage().toString() + '/' + potatoStorage.toString());
                 break;
             case 'twoHandedChoppingButton':
                 setCurrentCash(currentCash - getPriceToEnableDoubleChopping());
@@ -104,12 +110,15 @@ export function handleButtonClick(buttonId, value) {
                 document.getElementById('subInnerDiv1_2').innerHTML = getShiftTime();
                 switch (getShiftCounter()) {
                     case 1:
-                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(STARTING_SPUDS).toString() + "/" + POTATO_STORAGE.toString();
+                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(STARTING_SPUDS).toString() + "/" + potatoStorage.toString();
                         break;
                     default:
-                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + POTATO_STORAGE.toString();
+                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + potatoStorage.toString();
                         break;
                 }
+                console.log("Actual Potatoes in Storage before adding new ones is: " + getActualPotatoesInStorage());
+                setActualPotatoesInStorage(getActualPotatoesInStorage() + getSpudsToAddToShift());
+                console.log(getActualPotatoesInStorage());
 
                 document.getElementById('startShiftButton').innerHTML = 'Start Shift <br> (+ ' + getRandomNumberOfSpudsForNextShift() + ' Potatoes)';
 
@@ -134,7 +143,7 @@ function decrementCounter(counterId, value) {
     let count = parseInt(counterElement.innerHTML);
     count = Math.max(0, count - value); // Ensure count is not negative
     if (counterId === "subInnerDivMid1_2") {
-        counterElement.innerHTML = count.toString() + "/" + POTATO_STORAGE.toString();
+        counterElement.innerHTML = count.toString() + "/" + potatoStorage.toString();
     } else {
         counterElement.innerHTML = count.toString();
     }
@@ -216,7 +225,6 @@ export function disableButtons(init) {
         });
 
         const pricesArray = [priceToImprovePotatoStorage, priceToEnableDoubleChopping, priceToImproveFryerCapacity, priceToAddStorageHeater, 0];
-        console.log(pricesArray);
 
         for (let i = 0; i < bottomRowButtons.length; i++) {
             const button = bottomRowButtons[i];
@@ -252,8 +260,8 @@ export function incrementCustomersWaiting() {
 
 function addShiftSpuds(quantity) {
     let currentSpuds = parseInt(document.getElementById('subInnerDivMid1_2').innerHTML);
-    if (currentSpuds + quantity > POTATO_STORAGE) {
-        return POTATO_STORAGE;
+    if (currentSpuds + quantity > potatoStorage) {
+        return potatoStorage;
     }
     return currentSpuds + quantity;
 }
