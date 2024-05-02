@@ -3,12 +3,18 @@ import {createRandomCustomerTime, disableButtons, incrementCustomersWaiting, PRI
 
 export let customerTime = 0;
 export let shiftTimeRemaining = 0;
+export let fryTimeRemaining = 0;
+export let shiftCounter = 0;
 export let shiftInProgress = false;
 export let customersServed = 0;
 export let currentCash = 0;
+export let chipsFrying = false;
+export let quantityFrying = 0;
+export let spudsToAddToShift = 0;
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
+let lastFryingUpdateTime = new Date().getTime();
 
 let gameInProgress = false;
 createTitleScreen();
@@ -34,6 +40,7 @@ function gameLoop() {
     updateClock();
     updateCustomerCountdown();
     updateShiftCountDown();
+    updateChipsFryingTimer();
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
@@ -46,7 +53,7 @@ function updateClock() {
     const seconds = now.getSeconds().toString().padStart(2, '0');
     const timeString = `${hours}:${minutes}:${seconds}`;
     const clockElement = document.querySelector('.clock');
-    clockElement.textContent = timeString;
+    clockElement.innerHTML = timeString;
 }
 
 function updateCustomerCountdown() {
@@ -77,19 +84,41 @@ function updateShiftCountDown() {
             if (timeDiffSeconds >= 1) {
                 shiftTimeRemaining--;
                 lastShiftUpdateTime = now;
-                document.getElementById('subInnerDiv1_2').textContent = shiftTimeRemaining;
+                document.getElementById('subInnerDiv1_2').innerHTML = shiftTimeRemaining;
                 console.log(`Shift time remaining: ${shiftTimeRemaining} seconds`);
                 if (shiftTimeRemaining === 0) {
                     setShiftInProgress(false);
                     setCurrentCash((getCustomersServed() * PRICE_OF_CHIPS) + getCurrentCash());
                     setCustomersServed(0);
-                    document.getElementById('subInnerDiv1_2').textContent = "Start Shift";
+                    document.getElementById('subInnerDiv1_2').innerHTML = "Start Shift";
                     disableButtons(false);
                 }
             }
         }
     } else {
         disableButtons(true);
+    }
+}
+
+function updateChipsFryingTimer() {
+    if (chipsFrying) {
+        const now = new Date().getTime();
+        const timeDiffSeconds = (now - lastFryingUpdateTime) / 1000;
+
+        if (fryTimeRemaining > 0) {
+            if (timeDiffSeconds >= 1) {
+                fryTimeRemaining--;
+                lastFryingUpdateTime = now;
+                document.getElementById('fryChipsButton').innerHTML = 'Frying ' + getQuantityFrying() +' Chips <br> (' + fryTimeRemaining + 's)';
+                console.log(`Fry time remaining: ${fryTimeRemaining} seconds`);
+                if (fryTimeRemaining === 0) {
+                    setChipsFrying(false);
+                    document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityFrying()).toString();
+                    document.getElementById('fryChipsButton').innerHTML = "Fry Chips";
+                    disableButtons(false);
+                }
+            }
+        }
     }
 }
 
@@ -104,7 +133,7 @@ function initialiseNewGame(gameInProgress) {
     if (gameInProgress) {
         return askUserToConfirmRestart();
     } else {
-        document.getElementById('option1').textContent = "New Game";
+        document.getElementById('option1').innerHTML = "New Game";
         document.getElementById('optionsWindow').style.display = 'none';
         createGameWindow();
         createRandomCustomerTime(); //create timer for first new customer
@@ -114,7 +143,7 @@ function initialiseNewGame(gameInProgress) {
 }
 
 function askUserToConfirmRestart() {
-    document.getElementById('option1').textContent = "Click again to start a New Game...";
+    document.getElementById('option1').innerHTML = "Click again to start a New Game...";
 }
 
 export function setCustomerTime(value) {
@@ -123,6 +152,14 @@ export function setCustomerTime(value) {
 
 export function getCustomerTime() {
     return customerTime;
+}
+
+export function setShiftCounter(value) {
+    shiftCounter = value;
+}
+
+export function getShiftCounter() {
+    return shiftCounter;
 }
 
 export function setShiftTime(value) {
@@ -143,7 +180,7 @@ export function getShiftInProgress() {
 
 export function setCustomersServed(value) {
     customersServed = value;
-    document.getElementById('subInnerDiv3_2').textContent = value;
+    document.getElementById('subInnerDiv3_2').innerHTML = value;
 }
 
 export function getCustomersServed() {
@@ -152,9 +189,37 @@ export function getCustomersServed() {
 
 export function setCurrentCash(value) {
     currentCash = value;
-    document.getElementById('subInnerDivMid3_2').textContent = `$${currentCash.toFixed(2)}`;
+    document.getElementById('subInnerDivMid3_2').innerHTML = `$${currentCash.toFixed(2)}`;
 }
 
 export function getCurrentCash() {
     return currentCash;
+}
+
+export function setChipsFrying(value) {
+    chipsFrying = value;
+}
+
+export function getChipsFrying() {
+    return chipsFrying;
+}
+
+export function setQuantityFrying(value) {
+    quantityFrying = value;
+}
+
+export function getQuantityFrying() {
+    return quantityFrying;
+}
+
+export function setFryTimer(value) {
+    fryTimeRemaining = value;
+}
+
+export function getSpudsToAddToShift() {
+    return spudsToAddToShift;
+}
+
+export function setSpudsToAddToShift(value) {
+    spudsToAddToShift = value;
 }

@@ -1,21 +1,29 @@
 import {
-    getCustomersServed,
-    setCustomersServed,
+    chipsFrying,
+    customersServed,
+    getShiftCounter,
     getShiftTime,
+    getSpudsToAddToShift,
+    setChipsFrying,
+    setCustomersServed,
     setCustomerTime,
+    setFryTimer,
+    setQuantityFrying,
+    setShiftCounter,
     setShiftInProgress,
-    setShiftTime,
-    setCurrentCash,
-    getCurrentCash,
-    shiftTimeRemaining,
-    customersServed, currentCash
+    setShiftTime, setSpudsToAddToShift,
+    shiftTimeRemaining
 } from './gameloop.js';
 
 const SHIFT_LENGTH = 60;
+const FRY_TIMER = 15;
 const PORTION_SIZE = 30;
 export const PRICE_OF_CHIPS = 2; //price in whole dollars
 export const STARTING_SPUDS = 100;
+export const SPUDS_TO_ADD_PER_SHIFT = 30;
 export const STARTING_CASH = 0;
+const MIN_SPUDS_DELIVERY = 20;
+const MAX_SPUDS_DELIVERY = 100;
 
 export function handleButtonClick(buttonId, counterId) {
     const button = document.getElementById(buttonId);
@@ -28,22 +36,19 @@ export function handleButtonClick(buttonId, counterId) {
                 incrementCounter(counter, 1);
                 break;
             case 'cutChipsButton':
-                if (parseInt(document.getElementById('peeledCount').textContent) > 0) {
+                if (parseInt(document.getElementById('peeledCount').innerHTML) > 0) {
                     decrementCounter('peeledCount', 1);
                     incrementCounter(counter, 5);
                 }
                 break;
-            case 'chuckInFryerButton':
-                let cutChipsCount = parseInt(document.getElementById('cutCount').textContent);
-                let fryerIncrement = 10;
-                if (cutChipsCount < fryerIncrement) {
-                    fryerIncrement = cutChipsCount;
-                }
-                decrementCounter('cutCount', fryerIncrement);
-                incrementCounter(counter, fryerIncrement);
+            case 'fryChipsButton':
+                let cutChipsCount = parseInt(document.getElementById('cutCount').innerHTML);
+                decrementCounter('cutCount', cutChipsCount);
+                fryChips();
+                setQuantityFrying(cutChipsCount);
                 break;
             case 'servingStorageButton':
-                let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').textContent);
+                let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
                 let serveIncrement = 10;
                 if (chuckedInFryerCount < serveIncrement) {
                     serveIncrement = chuckedInFryerCount;
@@ -61,10 +66,20 @@ export function handleButtonClick(buttonId, counterId) {
             case 'startShiftButton':
                 setShiftLengthTimerVariable(SHIFT_LENGTH);
                 setShiftInProgress(true);
+                setShiftCounter(getShiftCounter() + 1);
 
-                document.getElementById('subInnerDiv1_1').textContent = 'Shift Left (s):';
-                document.getElementById('subInnerDiv1_2').textContent = getShiftTime();
-                document.getElementById('subInnerDivMid1_2').textContent = addShiftSpuds(STARTING_SPUDS).toString();
+                document.getElementById('subInnerDiv1_1').innerHTML = 'Shift Left (s):';
+                document.getElementById('subInnerDiv1_2').innerHTML = getShiftTime();
+                switch (getShiftCounter()) {
+                    case 1:
+                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(STARTING_SPUDS).toString();
+                        break;
+                    default:
+                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString();
+                        break;
+                }
+
+                document.getElementById('startShiftButton').innerHTML = 'Start Shift <br> (+ ' + getRandomNumberOfSpudsForNextShift() + ' Potatoes)';
 
                 disableButtons(false);
                 break;
@@ -76,17 +91,17 @@ export function handleButtonClick(buttonId, counterId) {
 }
 
 function incrementCounter(counterElement, value) {
-    let count = parseInt(counterElement.textContent);
+    let count = parseInt(counterElement.innerHTML);
     count += value;
-    counterElement.textContent = count.toString();
+    counterElement.innerHTML = count.toString();
     disableButtons(false);
 }
 
 function decrementCounter(counterId, value) {
     const counterElement = document.getElementById(counterId);
-    let count = parseInt(counterElement.textContent);
+    let count = parseInt(counterElement.innerHTML);
     count = Math.max(0, count - value); // Ensure count is not negative
-    counterElement.textContent = count.toString();
+    counterElement.innerHTML = count.toString();
     disableButtons(false);
 }
 
@@ -95,12 +110,12 @@ function decrementCounter(counterId, value) {
 export function disableButtons(init) {
     const buttons = document.querySelectorAll('.action-button');
     if (!init) {
-        const spudsLeft = parseInt(document.getElementById('subInnerDivMid1_2').textContent);
-        const peeledCount = parseInt(document.getElementById('peeledCount').textContent);
-        const cutCount = parseInt(document.getElementById('cutCount').textContent);
-        const chuckCount = parseInt(document.getElementById('chuckedInFryerCount').textContent);
-        const serveCount = parseInt(document.getElementById('readyToServeCount').textContent);
-        const customerCount = parseInt(document.getElementById('customersWaitingCount').textContent);
+        const spudsLeft = parseInt(document.getElementById('subInnerDivMid1_2').innerHTML);
+        const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
+        const cutCount = parseInt(document.getElementById('cutCount').innerHTML);
+        const chuckCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
+        const serveCount = parseInt(document.getElementById('readyToServeCount').innerHTML);
+        const customerCount = parseInt(document.getElementById('customersWaitingCount').innerHTML);
 
         buttons.forEach(button => {
             switch (button.id) {
@@ -110,8 +125,8 @@ export function disableButtons(init) {
                 case 'cutChipsButton':
                     button.disabled = peeledCount <= 0;
                     break;
-                case 'chuckInFryerButton':
-                    button.disabled = cutCount <= 0;
+                case 'fryChipsButton':
+                    button.disabled = cutCount <= 0 || chipsFrying;
                     break;
                 case 'servingStorageButton':
                     button.disabled = chuckCount <= 0;
@@ -157,13 +172,25 @@ export function setShiftLengthTimerVariable(value) {
 }
 
 export function incrementCustomersWaiting() {
-    let customerCount = parseInt(document.getElementById('customersWaitingCount').textContent);
+    let customerCount = parseInt(document.getElementById('customersWaitingCount').innerHTML);
     customerCount++;
-    document.getElementById('customersWaitingCount').textContent = customerCount.toString();
+    document.getElementById('customersWaitingCount').innerHTML = customerCount.toString();
     disableButtons(false);
 }
 
 function addShiftSpuds(quantity) {
-    let currentSpuds = parseInt(document.getElementById('subInnerDivMid1_2').textContent);
+    let currentSpuds = parseInt(document.getElementById('subInnerDivMid1_2').innerHTML);
     return currentSpuds + quantity;
 }
+
+function fryChips() {
+    setFryTimer(FRY_TIMER);
+    setChipsFrying(true);
+}
+
+function getRandomNumberOfSpudsForNextShift() {
+    let spudsToAddToNextShift = Math.floor(Math.random() * (MAX_SPUDS_DELIVERY - MIN_SPUDS_DELIVERY + 1)) + MIN_SPUDS_DELIVERY;
+    setSpudsToAddToShift(spudsToAddToNextShift);
+    return spudsToAddToNextShift;
+}
+

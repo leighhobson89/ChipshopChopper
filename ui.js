@@ -5,7 +5,7 @@ export function createTitleScreen() {
     titleScreen.classList.add('title-screen');
 
     const title = document.createElement('h1');
-    title.textContent = 'Counter Game';
+    title.innerHTML = 'Counter Game';
     title.classList.add('title');
 
     const options = document.createElement('div');
@@ -23,7 +23,7 @@ export function createTitleScreen() {
     // Create and append clickable options
     for (let i = 0; i < optionInfo.length; i++) {
         const option = document.createElement('div');
-        option.textContent = optionInfo[i].name;
+        option.innerHTML = optionInfo[i].name;
         option.classList.add('option');
         option.style.backgroundColor = optionInfo[i].color;
         option.id = `option${i + 1}`;
@@ -102,7 +102,7 @@ export function createGameWindow() {
     for (let i = 0; i < counterIds.length; i++) {
         let valuesCounterRow = document.createElement('div');
         valuesCounterRow.classList.add('counter-columns');
-        valuesCounterRow.textContent = '0';
+        valuesCounterRow.innerHTML = '0';
 
         valuesCounterRow.id = counterIds[i];
 
@@ -115,7 +115,7 @@ export function createGameWindow() {
     const buttonDetails = [
         { id: 'peelPotatoButton', name: 'Peel Potato' },
         { id: 'cutChipsButton', name: 'Cut Chips' },
-        { id: 'chuckInFryerButton', name: 'Chuck In Fryer' },
+        { id: 'fryChipsButton', name: 'Fry Chips' },
         { id: 'servingStorageButton', name: 'Serving Storage' },
         { id: 'serveCustomerButton', name: 'Serve Customer' },
         { id: 'action6Button', name: 'Action 6' },
@@ -150,30 +150,30 @@ export function createGameWindow() {
     handleButtonClick('startShiftButton', 'startShift');
     handleButtonClick('peelPotatoButton', 'peeledCount');
     handleButtonClick('cutChipsButton', 'cutCount');
-    handleButtonClick('chuckInFryerButton', 'chuckedInFryerCount');
+    handleButtonClick('fryChipsButton', 'chuckedInFryerCount');
     handleButtonClick('servingStorageButton', 'readyToServeCount');
     handleButtonClick('serveCustomerButton', 'customersWaitingCount');
 }
 
 export function writeTextInSections(buttonDetails) {
-    document.getElementById('innerDiv2').textContent = 'Chip Shop Prepper';
+    document.getElementById('innerDiv2').innerHTML = 'Chip Shop Prepper';
 
-    document.getElementById('subInnerDiv1_1').textContent = 'Shift Left (s):';
-    document.getElementById('subInnerDiv1_2').textContent = "Start Shift";
+    document.getElementById('subInnerDiv1_1').innerHTML = 'Shift Left (s):';
+    document.getElementById('subInnerDiv1_2').innerHTML = "Start Shift";
 
-    document.getElementById('subInnerDiv3_1').textContent = 'Served:';
-    document.getElementById('subInnerDiv3_2').textContent = "0";
+    document.getElementById('subInnerDiv3_1').innerHTML = 'Served:';
+    document.getElementById('subInnerDiv3_2').innerHTML = "0";
 
-    document.getElementById('subInnerDivMid1_1').textContent = 'Potatoes:';
-    document.getElementById('subInnerDivMid1_2').textContent = "0";
+    document.getElementById('subInnerDivMid1_1').innerHTML = 'Potatoes:';
+    document.getElementById('subInnerDivMid1_2').innerHTML = "0";
 
     const formattedCash = `$${STARTING_CASH.toFixed(2)}`;
-    document.getElementById('subInnerDivMid3_1').textContent = 'Money:';
-    document.getElementById('subInnerDivMid3_2').textContent = formattedCash;
+    document.getElementById('subInnerDivMid3_1').innerHTML = 'Money:';
+    document.getElementById('subInnerDivMid3_2').innerHTML = formattedCash;
 
     buttonDetails.forEach(buttonInfo => {
         const button = document.getElementById(buttonInfo.id);
-        button.textContent = buttonInfo.name;
+        button.innerHTML = buttonInfo.name;
     });
 }
 
