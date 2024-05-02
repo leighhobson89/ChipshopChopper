@@ -1,7 +1,8 @@
 import {
     chipsFrying,
     currentCash,
-    customersServed, getActualPotatoesInStorage,
+    customersServed,
+    getActualPotatoesInStorage,
     getCurrentCash,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
@@ -10,16 +11,22 @@ import {
     getPriceToImprovePotatoStorage,
     getShiftCounter,
     getShiftTime,
-    getSpudsToAddToShift, potatoStorage,
+    getSpudsToAddToShift,
+    potatoStorage,
     priceToAddStorageHeater,
     priceToEnableDoubleChopping,
     priceToImproveFryerCapacity,
-    priceToImprovePotatoStorage, setActualPotatoesInStorage,
-    setChipsFrying, setCurrentCash,
+    priceToImprovePotatoStorage,
+    setActualPotatoesInStorage,
+    setChipsFrying,
+    setCurrentCash,
     setCustomersServed,
     setCustomerTime,
     setFryTimer,
-    setPotatoStorageQuantity,
+    setPotatoStorageQuantity, setPriceToAddStorageHeater,
+    setPriceToEnableDoubleChopping,
+    setPriceToImproveFryerCapacity,
+    setPriceToImprovePotatoStorage,
     setQuantityFrying,
     setShiftCounter,
     setShiftInProgress,
@@ -40,6 +47,8 @@ export const STARTING_CASH = 0;
 const MIN_SPUDS_DELIVERY = 20;
 const MAX_SPUDS_DELIVERY = 80;
 const UPGRADE_POTATO_STORAGE_QUANTITY = 50;
+const MULTIPLE_FOR_IMPROVE_POTATO_STORAGE = 2;
+const MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY = 4;
 
 export function handleButtonClick(buttonId, value) {
     const button = document.getElementById(buttonId);
@@ -84,22 +93,23 @@ export function handleButtonClick(buttonId, value) {
                 console.log("Total Customers Served: " + customersServed);
                 break;
             case 'improvePotatoStorageButton':
-                setCurrentCash(currentCash - value);
-                document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
+                setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
+                const newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+                document.getElementById(buttonId).innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
                 setPotatoStorageQuantity(getPotatoStorageQuantity() + UPGRADE_POTATO_STORAGE_QUANTITY);
-                document.getElementById('subInnerDivMid1_2').innerHTML = 'Increase Potato Cap. ' + (getActualPotatoesInStorage().toString() + '/' + potatoStorage.toString());
+                document.getElementById('subInnerDivMid1_2').innerHTML = getActualPotatoesInStorage().toString() + '/' + potatoStorage.toString();
                 break;
             case 'twoHandedChoppingButton':
-                setCurrentCash(currentCash - getPriceToEnableDoubleChopping());
-                document.getElementById(value).innerHTML = formatToCashNotation(getCurrentCash());
+                setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChopping());
+                document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
                 break;
             case 'improveFryerCapacityButton':
-                setCurrentCash(currentCash - getPriceToImproveFryerCapacity());
-                document.getElementById(value).innerHTML = formatToCashNotation(getCurrentCash());
+                setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
+                document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
                 break;
             case 'addStorageHeaterButton':
-                setCurrentCash(currentCash - getPriceToAddStorageHeater());
-                document.getElementById(value).innerHTML = formatToCashNotation(getCurrentCash());
+                setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
+                document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
                 break;
             case 'startShiftButton':
                 setShiftLengthTimerVariable(SHIFT_LENGTH);
@@ -275,4 +285,19 @@ function getRandomNumberOfSpudsForNextShift() {
     let spudsToAddToNextShift = Math.floor(Math.random() * (MAX_SPUDS_DELIVERY - MIN_SPUDS_DELIVERY + 1)) + MIN_SPUDS_DELIVERY;
     setSpudsToAddToShift(spudsToAddToNextShift);
     return spudsToAddToNextShift;
+}
+
+function calculateAndSetNewPriceOfUpgrade(buttonId) {
+    switch (buttonId) {
+        case "improvePotatoStorageButton":
+            setPriceToImprovePotatoStorage(getPriceToImprovePotatoStorage() * MULTIPLE_FOR_IMPROVE_POTATO_STORAGE);
+            return getPriceToImprovePotatoStorage();
+        case "twoHandedChoppingButton":
+            return getPriceToEnableDoubleChopping();
+        case "improveFryerCapacityButton":
+            setPriceToImproveFryerCapacity(getPriceToImproveFryerCapacity() * MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY);
+            return getPriceToImproveFryerCapacity();
+        case "addStorageHeaterButton":
+            return getPriceToAddStorageHeater();
+    }
 }
