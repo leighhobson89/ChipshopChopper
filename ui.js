@@ -1,4 +1,10 @@
 import {handleButtonClick, disableButtons, STARTING_CASH, POTATO_STORAGE} from "./actions.js";
+import {
+    getPriceToAddStorageHeater,
+    getPriceToEnableDoubleChopping,
+    getPriceToImproveFryerCapacity,
+    getPriceToImprovePotatoStorage
+} from "./gameloop.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -112,7 +118,7 @@ export function createGameWindow() {
     topSection.appendChild(topDivRow2);
     gameWindow.appendChild(topSection);
 
-    const buttonDetails = [
+    const mainButtonDetails = [
         { id: 'peelPotatoButton', name: 'Peel Potato' },
         { id: 'cutChipsButton', name: 'Cut Chips' },
         { id: 'fryChipsButton', name: 'Fry Chips' },
@@ -120,7 +126,7 @@ export function createGameWindow() {
         { id: 'serveCustomerButton', name: 'Serve Customer' },
         { id: 'action6Button', name: 'Action 6' },
         { id: 'action7Button', name: 'Action 7' },
-        { id: 'startShiftButton', name: 'Start Shift' },
+        { id: 'action8Button', name: 'Action 8' },
         { id: 'action9Button', name: 'Action 9' },
         { id: 'action10Button', name: 'Action 10' },
         { id: 'action11Button', name: 'Action 11' },
@@ -131,13 +137,38 @@ export function createGameWindow() {
         { id: 'action16Button', name: 'Action 16' }
     ];
 
-    for (let i = 0; i < buttonDetails.length; i++) {
-        const button = document.createElement('button');
-        button.id = buttonDetails[i].id;
-        button.classList.add('action-button');
+    const bottomButtonDetails = [
+        { id: 'improvePotatoStorageButton', name: 'Increase Potato Cap. ' + formatToCashNotation(getPriceToImprovePotatoStorage()) },
+        { id: 'twoHandedChoppingButton', name: 'Double Chopping Tool ' + formatToCashNotation(getPriceToEnableDoubleChopping()) },
+        { id: 'improveFryerCapacityButton', name: 'Improve Fryer Cap. ' + formatToCashNotation(getPriceToImproveFryerCapacity()) },
+        { id: 'addStorageHeaterButton', name: 'Buy Storage Heater ' + formatToCashNotation(getPriceToAddStorageHeater()) },
+        { id: 'startShiftButton', name: 'Start Shift' }
+    ];
 
-        bottomButtonsContainer.appendChild(button);
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('button-container');
+
+    const bottomRowContainer = document.createElement('div');
+    bottomRowContainer.classList.add('bottom-row-container');
+
+    for (let i = 0; i < mainButtonDetails.length; i++) {
+        const button = document.createElement('button');
+        button.id = mainButtonDetails[i].id;
+        button.textContent = mainButtonDetails[i].name;
+        button.classList.add('action-button-main');
+        buttonContainer.appendChild(button);
     }
+
+    for (let i = 0; i < bottomButtonDetails.length; i++) {
+        const button = document.createElement('button');
+        button.id = bottomButtonDetails[i].id;
+        button.textContent = bottomButtonDetails[i].name;
+        button.classList.add('action-button-bottom-row');
+        bottomRowContainer.appendChild(button);
+    }
+
+    bottomButtonsContainer.appendChild(buttonContainer);
+    bottomButtonsContainer.appendChild(bottomRowContainer);
 
     gameWindow.appendChild(bottomButtonsContainer);
 
@@ -145,7 +176,7 @@ export function createGameWindow() {
 
     hideUpgradeButtonsGameStart(bottomButtonsContainer);
     disableButtons(true);
-    writeTextInSections(buttonDetails);
+    writeTextInSections(mainButtonDetails);
 
     handleButtonClick('startShiftButton', 'startShift');
     handleButtonClick('peelPotatoButton', 'peeledCount');
@@ -153,12 +184,16 @@ export function createGameWindow() {
     handleButtonClick('fryChipsButton', 'chuckedInFryerCount');
     handleButtonClick('servingStorageButton', 'readyToServeCount');
     handleButtonClick('serveCustomerButton', 'customersWaitingCount');
+    handleButtonClick('improvePotatoStorageButton', getPriceToImprovePotatoStorage());
+    handleButtonClick('twoHandedChoppingButton', getPriceToEnableDoubleChopping());
+    handleButtonClick('improveFryerCapacityButton', getPriceToImproveFryerCapacity());
+    handleButtonClick('addStorageHeaterButton', getPriceToAddStorageHeater());
 }
 
 export function writeTextInSections(buttonDetails) {
     document.getElementById('innerDiv2').innerHTML = 'Chip Shop Prepper';
 
-    document.getElementById('subInnerDiv1_1').innerHTML = 'Shift Left (s):';
+    document.getElementById('subInnerDiv1_1').innerHTML = 'Shift rem. (s):';
     document.getElementById('subInnerDiv1_2').innerHTML = "Start Shift";
 
     document.getElementById('subInnerDiv3_1').innerHTML = 'Served:';
@@ -167,9 +202,8 @@ export function writeTextInSections(buttonDetails) {
     document.getElementById('subInnerDivMid1_1').innerHTML = 'Potatoes:';
     document.getElementById('subInnerDivMid1_2').innerHTML = "0/" + POTATO_STORAGE.toString();
 
-    const formattedCash = `$${STARTING_CASH.toFixed(2)}`;
     document.getElementById('subInnerDivMid3_1').innerHTML = 'Money:';
-    document.getElementById('subInnerDivMid3_2').innerHTML = formattedCash;
+    document.getElementById('subInnerDivMid3_2').innerHTML = formatToCashNotation(STARTING_CASH);
 
     buttonDetails.forEach(buttonInfo => {
         const button = document.getElementById(buttonInfo.id);
@@ -178,7 +212,10 @@ export function writeTextInSections(buttonDetails) {
 }
 
 export function hideUpgradeButtonsGameStart(bottomButtonsContainer) {
-    bottomButtonsContainer.querySelectorAll('.action-button:nth-child(n+6):not(:nth-child(8))').forEach(button => {
+    bottomButtonsContainer.querySelectorAll('.action-button-main:nth-child(n+6)').forEach(button => {
+        button.classList.add('hidden-button');
+    });
+    bottomButtonsContainer.querySelectorAll('.action-button-bottom-row:not(:last-child)').forEach(button => {
         button.classList.add('hidden-button');
     });
 }
@@ -204,4 +241,9 @@ export function toggleSound() {
         // Call your "toggleSound(off)" function here
     }
 }
+
+export function formatToCashNotation(value) {
+    return `$${value.toFixed(2)}`;
+}
+
 

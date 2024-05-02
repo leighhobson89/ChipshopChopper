@@ -1,4 +1,4 @@
-import {createGameWindow, createTitleScreen, toggleSound} from './ui.js';
+import {createGameWindow, createTitleScreen, formatToCashNotation, toggleSound} from './ui.js';
 import {createRandomCustomerTime, disableButtons, incrementCustomersWaiting, PRICE_OF_CHIPS} from './actions.js';
 
 export let customerTime = 0;
@@ -11,6 +11,12 @@ export let currentCash = 0;
 export let chipsFrying = false;
 export let quantityFrying = 0;
 export let spudsToAddToShift = 0;
+
+//PRICES
+export let priceToImprovePotatoStorage = 5; //50
+export let priceToEnableDoubleChopping = 6; //60
+export let priceToImproveFryerCapacity = 7; //100
+export let priceToAddStorageHeater = 8; //200
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
@@ -41,6 +47,7 @@ function gameLoop() {
     updateCustomerCountdown();
     updateShiftCountDown();
     updateChipsFryingTimer();
+    updateVisibleButtons();
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
@@ -146,6 +153,31 @@ function askUserToConfirmRestart() {
     document.getElementById('option1').innerHTML = "Click again to start a New Game...";
 }
 
+function updateVisibleButtons() {
+    if (!shiftInProgress && shiftCounter > 0) {
+        if (getCurrentCash() >= getPriceToImprovePotatoStorage()) {
+            document.getElementById('improvePotatoStorageButton').classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToEnableDoubleChopping()) {
+            document.getElementById('twoHandedChoppingButton').classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToImproveFryerCapacity()) {
+            document.getElementById('improveFryerCapacityButton').classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToAddStorageHeater()) {
+            document.getElementById('addStorageHeaterButton').classList.remove('hidden-button');
+        }
+    }
+}
+
+
+
+
+
+
+
+//GETTER SETTER METHODS
+
 export function setCustomerTime(value) {
     customerTime = value;
 }
@@ -189,7 +221,7 @@ export function getCustomersServed() {
 
 export function setCurrentCash(value) {
     currentCash = value;
-    document.getElementById('subInnerDivMid3_2').innerHTML = `$${currentCash.toFixed(2)}`;
+    document.getElementById('subInnerDivMid3_2').innerHTML = formatToCashNotation(getCurrentCash());
 }
 
 export function getCurrentCash() {
@@ -222,4 +254,36 @@ export function getSpudsToAddToShift() {
 
 export function setSpudsToAddToShift(value) {
     spudsToAddToShift = value;
+}
+
+export function getPriceToImprovePotatoStorage() {
+    return priceToImprovePotatoStorage;
+}
+
+export function setPriceToImprovePotatoStorage(value) {
+    priceToImprovePotatoStorage = value;
+}
+
+export function getPriceToEnableDoubleChopping() {
+    return priceToEnableDoubleChopping;
+}
+
+export function setPriceToEnableDoubleChopping(value) {
+    priceToEnableDoubleChopping = value;
+}
+
+export function getPriceToImproveFryerCapacity() {
+    return priceToImproveFryerCapacity;
+}
+
+export function setPriceToImproveFryerCapacity(value) {
+    priceToImproveFryerCapacity = value;
+}
+
+export function getPriceToAddStorageHeater() {
+    return priceToAddStorageHeater;
+}
+
+export function setPriceToAddStorageHeater(value) {
+    priceToAddStorageHeater = value;
 }

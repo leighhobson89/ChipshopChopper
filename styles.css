@@ -122,15 +122,29 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .bottom-buttons-container {
+    height: 60%;
+}
+
+.button-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 7%;
     padding: 3%;
     justify-items: center;
-    height: 60%;
+    height: 70%;
 }
 
-.action-button {
+.bottom-row-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7%;
+    padding: 3%;
+    justify-items: center;
+    height: 20%;
+}
+
+.action-button-main,
+.action-button-bottom-row {
     width: 100%;
     padding: 10px;
     text-align: center;
@@ -142,12 +156,14 @@ div[id^="subInnerDivMid"][id$='_2'] {
     visibility: visible;
 }
 
-.action-button:hover {
+.action-button-main:hover,
+.action-button-bottom-row:hover {
     background-color: white;
     color: black;
 }
 
-.action-button.disabled {
+.action-button-main.disabled,
+.action-button-bottom-row.disabled {
     background-color: grey;
     color: black;
 }

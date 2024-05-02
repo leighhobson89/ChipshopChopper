@@ -1,19 +1,30 @@
 import {
     chipsFrying,
-    customersServed,
+    currentCash,
+    customersServed, getCurrentCash,
+    getPriceToAddStorageHeater,
+    getPriceToEnableDoubleChopping,
+    getPriceToImproveFryerCapacity,
+    getPriceToImprovePotatoStorage,
     getShiftCounter,
     getShiftTime,
     getSpudsToAddToShift,
-    setChipsFrying,
+    priceToAddStorageHeater,
+    priceToEnableDoubleChopping,
+    priceToImproveFryerCapacity,
+    priceToImprovePotatoStorage,
+    setChipsFrying, setCurrentCash,
     setCustomersServed,
     setCustomerTime,
     setFryTimer,
     setQuantityFrying,
     setShiftCounter,
     setShiftInProgress,
-    setShiftTime, setSpudsToAddToShift,
+    setShiftTime,
+    setSpudsToAddToShift,
     shiftTimeRemaining
 } from './gameloop.js';
+import {formatToCashNotation} from "./ui.js";
 
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 25;
 const SHIFT_LENGTH = 60;
@@ -23,25 +34,24 @@ const FRYER_CAPACITY = 500;
 const PORTION_SIZE = 40;
 export const PRICE_OF_CHIPS = 2; //price in whole dollars
 export const STARTING_SPUDS = 100;
-export const SPUDS_TO_ADD_PER_SHIFT = 30;
 export const STARTING_CASH = 0;
 const MIN_SPUDS_DELIVERY = 20;
-const MAX_SPUDS_DELIVERY = 100;
+const MAX_SPUDS_DELIVERY = 80;
 
-export function handleButtonClick(buttonId, counterId) {
+export function handleButtonClick(buttonId, value) {
     const button = document.getElementById(buttonId);
-    const counter = document.getElementById(counterId);
+    const element = document.getElementById(value);
 
     button.addEventListener('click', () => {
         switch (buttonId) {
             case 'peelPotatoButton':
                 decrementCounter('subInnerDivMid1_2', 1);
-                incrementCounter(counter, 1);
+                incrementCounter(element, 1);
                 break;
             case 'cutChipsButton':
                 if (parseInt(document.getElementById('peeledCount').innerHTML) > 0) {
                     decrementCounter('peeledCount', 1);
-                    incrementCounter(counter, 5);
+                    incrementCounter(element, 5);
                 }
                 break;
             case 'fryChipsButton':
@@ -60,7 +70,7 @@ export function handleButtonClick(buttonId, counterId) {
                     serveIncrement = chuckedInFryerCount;
                 }
                 decrementCounter('chuckedInFryerCount', serveIncrement);
-                incrementCounter(counter, serveIncrement);
+                incrementCounter(element, serveIncrement);
                 break;
             case 'serveCustomerButton':
                 decrementCounter('readyToServeCount', PORTION_SIZE);
@@ -68,6 +78,22 @@ export function handleButtonClick(buttonId, counterId) {
                 let newCustomersServedValue = customersServed + 1;
                 setCustomersServed(newCustomersServedValue);
                 console.log("Total Customers Served: " + customersServed);
+                break;
+            case 'improvePotatoStorageButton':
+                setCurrentCash(currentCash - getPriceToImprovePotatoStorage());
+                document.getElementById(value).innerHTML = formatToCashNotation(getCurrentCash());
+                break;
+            case 'twoHandedChoppingButton':
+                setCurrentCash(currentCash - getPriceToEnableDoubleChopping());
+                document.getElementById(value).innerHTML = formatToCashNotation(getCurrentCash());
+                break;
+            case 'improveFryerCapacityButton':
+                setCurrentCash(currentCash - getPriceToImproveFryerCapacity());
+                document.getElementById(value).innerHTML = formatToCashNotation(getCurrentCash());
+                break;
+            case 'addStorageHeaterButton':
+                setCurrentCash(currentCash - getPriceToAddStorageHeater());
+                document.getElementById(value).innerHTML = formatToCashNotation(getCurrentCash());
                 break;
             case 'startShiftButton':
                 setShiftLengthTimerVariable(SHIFT_LENGTH);
@@ -115,19 +141,19 @@ function decrementCounter(counterId, value) {
     disableButtons(false);
 }
 
-// actions.js
-
 export function disableButtons(init) {
-    const buttons = document.querySelectorAll('.action-button');
+    const mainButtons = document.querySelectorAll('.action-button-main');
+    const bottomRowButtons = document.querySelectorAll('.action-button-bottom-row');
+
     if (!init) {
         const spudsLeft = parseInt(document.getElementById('subInnerDivMid1_2').innerHTML);
         const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
         const cutCount = parseInt(document.getElementById('cutCount').innerHTML);
-        const chuckCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
-        const serveCount = parseInt(document.getElementById('readyToServeCount').innerHTML);
+        const inFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
+        const readyToServeCount = parseInt(document.getElementById('readyToServeCount').innerHTML);
         const customerCount = parseInt(document.getElementById('customersWaitingCount').innerHTML);
 
-        buttons.forEach(button => {
+        mainButtons.forEach(button => {
             switch (button.id) {
                 case 'peelPotatoButton':
                     button.disabled = spudsLeft <= 0;
@@ -139,10 +165,35 @@ export function disableButtons(init) {
                     button.disabled = cutCount <= 0 || chipsFrying;
                     break;
                 case 'servingStorageButton':
-                    button.disabled = chuckCount <= 0;
+                    button.disabled = inFryerCount <= 0;
                     break;
                 case 'serveCustomerButton':
-                    button.disabled = customerCount <= 0 || serveCount < PORTION_SIZE;
+                    button.disabled = customerCount <= 0 || readyToServeCount < PORTION_SIZE;
+                    break;
+                default:
+                    button.disabled = false;
+                    break;
+            }
+            if (button.disabled) {
+                button.classList.add('disabled');
+            } else {
+                button.classList.remove('disabled');
+            }
+        });
+
+        bottomRowButtons.forEach(button => {
+            switch (button.id) {
+                case 'improvePotatoStorageButton':
+                    button.disabled = getCurrentCash() < getPriceToImprovePotatoStorage();
+                    break;
+                case 'twoHandedChoppingButton':
+                    button.disabled = getCurrentCash() < getPriceToEnableDoubleChopping();
+                    break;
+                case 'improveFryerCapacityButton':
+                    button.disabled = getCurrentCash() < getPriceToImproveFryerCapacity();
+                    break;
+                case 'addStorageHeaterButton':
+                    button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
                     break;
                 case 'startShiftButton':
                     button.disabled = shiftTimeRemaining > 0;
@@ -159,12 +210,23 @@ export function disableButtons(init) {
             }
         });
     } else {
-        buttons.forEach(button => {
-            if (button.id !== "startShiftButton") {
+        mainButtons.forEach(button => {
                 button.disabled = true;
                 button.classList.add('disabled');
-            }
         });
+
+        const pricesArray = [priceToImprovePotatoStorage, priceToEnableDoubleChopping, priceToImproveFryerCapacity, priceToAddStorageHeater, 0];
+        console.log(pricesArray);
+
+        for (let i = 0; i < bottomRowButtons.length; i++) {
+            const button = bottomRowButtons[i];
+            if (button.id !== "startShiftButton") {
+                if (getCurrentCash() < pricesArray[i]) {
+                    button.disabled = true;
+                    button.classList.add('disabled');
+                }
+            }
+        }
     }
 }
 
@@ -206,4 +268,3 @@ function getRandomNumberOfSpudsForNextShift() {
     setSpudsToAddToShift(spudsToAddToNextShift);
     return spudsToAddToNextShift;
 }
-
