@@ -87,7 +87,7 @@ export function handleButtonClick(buttonId, value) {
                 setCurrentCash(currentCash - value);
                 document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
                 setPotatoStorageQuantity(getPotatoStorageQuantity() + UPGRADE_POTATO_STORAGE_QUANTITY);
-                document.getElementById('subInnerDivMid1_2').innerHTML = (getActualPotatoesInStorage().toString() + '/' + potatoStorage.toString());
+                document.getElementById('subInnerDivMid1_2').innerHTML = 'Increase Potato Cap. ' + (getActualPotatoesInStorage().toString() + '/' + potatoStorage.toString());
                 break;
             case 'twoHandedChoppingButton':
                 setCurrentCash(currentCash - getPriceToEnableDoubleChopping());
