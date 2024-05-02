@@ -15,7 +15,7 @@ import {
     shiftTimeRemaining
 } from './gameloop.js';
 
-const MAX_CUSTOMER_WAIT_TIME = 25;
+const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 25;
 const SHIFT_LENGTH = 60;
 const FRY_TIMER = 15;
 const FRYER_CAPACITY = 500;
@@ -164,7 +164,7 @@ export function disableButtons(init) {
 }
 
 export function createRandomCustomerTime() {
-    const timeUntilNextCustomer = Math.floor(Math.random() * MAX_CUSTOMER_WAIT_TIME) + 1;
+    const timeUntilNextCustomer = Math.floor(Math.random() * MAX_VALUE_WAIT_FOR_NEW_CUSTOMER) + 1;
     setCustomerTimerVariable(timeUntilNextCustomer);
 }
 
