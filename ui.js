@@ -1,4 +1,4 @@
-import {handleButtonClick, disableButtons, STARTING_SPUDS, STARTING_CASH} from "./actions.js";
+import {handleButtonClick, disableButtons, STARTING_CASH} from "./actions.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -160,6 +160,9 @@ export function writeTextInSections(buttonDetails) {
 
     document.getElementById('subInnerDiv1_1').textContent = 'Shift Left (s):';
     document.getElementById('subInnerDiv1_2').textContent = "Start Shift";
+
+    document.getElementById('subInnerDiv3_1').textContent = 'Served:';
+    document.getElementById('subInnerDiv3_2').textContent = "0";
 
     document.getElementById('subInnerDivMid1_1').textContent = 'Potatoes:';
     document.getElementById('subInnerDivMid1_2').textContent = "0";

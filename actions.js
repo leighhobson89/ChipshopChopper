@@ -1,7 +1,19 @@
-import {getShiftTime, setCustomerTime, setShiftInProgress, setShiftTime, shiftTimeRemaining} from './gameloop.js';
+import {
+    getCustomersServed,
+    setCustomersServed,
+    getShiftTime,
+    setCustomerTime,
+    setShiftInProgress,
+    setShiftTime,
+    setCurrentCash,
+    getCurrentCash,
+    shiftTimeRemaining,
+    customersServed, currentCash
+} from './gameloop.js';
 
 const SHIFT_LENGTH = 60;
 const PORTION_SIZE = 30;
+export const PRICE_OF_CHIPS = 2; //price in whole dollars
 export const STARTING_SPUDS = 100;
 export const STARTING_CASH = 0;
 
@@ -42,6 +54,9 @@ export function handleButtonClick(buttonId, counterId) {
             case 'serveCustomerButton':
                 decrementCounter('readyToServeCount', PORTION_SIZE);
                 decrementCounter('customersWaitingCount', 1);
+                let newCustomersServedValue = customersServed + 1;
+                setCustomersServed(newCustomersServedValue);
+                console.log("Total Customers Served: " + customersServed);
                 break;
             case 'startShiftButton':
                 setShiftLengthTimerVariable(SHIFT_LENGTH);

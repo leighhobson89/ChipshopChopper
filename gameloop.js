@@ -1,9 +1,11 @@
-import { createGameWindow, createTitleScreen, toggleSound } from './ui.js';
-import {createRandomCustomerTime, disableButtons, incrementCustomersWaiting} from './actions.js';
+import {createGameWindow, createTitleScreen, toggleSound} from './ui.js';
+import {createRandomCustomerTime, disableButtons, incrementCustomersWaiting, PRICE_OF_CHIPS} from './actions.js';
 
 export let customerTime = 0;
 export let shiftTimeRemaining = 0;
 export let shiftInProgress = false;
+export let customersServed = 0;
+export let currentCash = 0;
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
@@ -79,6 +81,8 @@ function updateShiftCountDown() {
                 console.log(`Shift time remaining: ${shiftTimeRemaining} seconds`);
                 if (shiftTimeRemaining === 0) {
                     setShiftInProgress(false);
+                    setCurrentCash((getCustomersServed() * PRICE_OF_CHIPS) + getCurrentCash());
+                    setCustomersServed(0);
                     document.getElementById('subInnerDiv1_2').textContent = "Start Shift";
                     disableButtons(false);
                 }
@@ -135,4 +139,22 @@ export function setShiftInProgress(value) {
 
 export function getShiftInProgress() {
     return shiftInProgress;
+}
+
+export function setCustomersServed(value) {
+    customersServed = value;
+    document.getElementById('subInnerDiv3_2').textContent = value;
+}
+
+export function getCustomersServed() {
+    return customersServed;
+}
+
+export function setCurrentCash(value) {
+    currentCash = value;
+    document.getElementById('subInnerDivMid3_2').textContent = `$${currentCash.toFixed(2)}`;
+}
+
+export function getCurrentCash() {
+    return currentCash;
 }
