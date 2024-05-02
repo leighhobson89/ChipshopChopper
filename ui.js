@@ -1,5 +1,6 @@
 import {handleButtonClick, disableButtons, STARTING_CASH} from "./actions.js";
 import {
+    getChipsFrying,
     getPriceToAddStorageHeater,
     getPriceToEnableDoubleChopping,
     getPriceToImproveFryerCapacity,
@@ -245,6 +246,24 @@ export function toggleSound() {
 
 export function formatToCashNotation(value) {
     return `$${value.toFixed(2)}`;
+}
+
+export function updateButtonStyle(buttonId) {
+    const element = document.getElementById(buttonId)
+    switch (buttonId) {
+        case "fryChipsButton":
+            if (getChipsFrying()) {
+                element.classList.add('cooking');
+                element.classList.remove('disabled');
+            } else {
+                element.classList.remove('cooking');
+                element.classList.add('disabled');
+            }
+            break;
+        default: //non repeatable upgrades
+            element.classList.add('non-repeatable-upgrade-purchased');
+            break;
+    }
 }
 
 

@@ -1,9 +1,7 @@
 import {
-    chipsFrying,
-    currentCash,
-    customersServed,
     getActualPotatoesInStorage,
-    getCurrentCash,
+    getChipsFrying,
+    getCurrentCash, getCustomersServed, getCutChipsRate,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
     getPriceToEnableDoubleChopping,
@@ -12,18 +10,14 @@ import {
     getShiftCounter,
     getShiftTime,
     getSpudsToAddToShift,
-    potatoStorage,
-    priceToAddStorageHeater,
-    priceToEnableDoubleChopping,
-    priceToImproveFryerCapacity,
-    priceToImprovePotatoStorage,
     setActualPotatoesInStorage,
     setChipsFrying,
     setCurrentCash,
     setCustomersServed,
-    setCustomerTime,
+    setCustomerTime, setCutChipsRate,
     setFryTimer,
-    setPotatoStorageQuantity, setPriceToAddStorageHeater,
+    setPotatoStorageQuantity,
+    setPriceToAddStorageHeater,
     setPriceToEnableDoubleChopping,
     setPriceToImproveFryerCapacity,
     setPriceToImprovePotatoStorage,
@@ -32,9 +26,9 @@ import {
     setShiftInProgress,
     setShiftTime,
     setSpudsToAddToShift,
-    shiftTimeRemaining
 } from './gameloop.js';
-import {formatToCashNotation} from "./ui.js";
+
+import {formatToCashNotation, updateButtonStyle} from "./ui.js";
 
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 25;
 const SHIFT_LENGTH = 60;
@@ -62,9 +56,13 @@ export function handleButtonClick(buttonId, value) {
                 incrementCounter(element, 1);
                 break;
             case 'cutChipsButton':
-                if (parseInt(document.getElementById('peeledCount').innerHTML) > 0) {
+                const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
+                if (peeledCount > 1) {
+                    decrementCounter('peeledCount', getCutChipsRate());
+                    incrementCounter(element, 5 * getCutChipsRate()); //maybe add getter for getNumberOfChipsFromPotato
+                } else if (peeledCount > 0) {
                     decrementCounter('peeledCount', 1);
-                    incrementCounter(element, 5);
+                    incrementCounter(element, 5); //maybe add getter for getNumberOfChipsFromPotato
                 }
                 break;
             case 'fryChipsButton':
@@ -75,6 +73,7 @@ export function handleButtonClick(buttonId, value) {
                 decrementCounter('cutCount', cutChipsCount);
                 fryChips();
                 setQuantityFrying(cutChipsCount);
+                updateButtonStyle(buttonId);
                 break;
             case 'servingStorageButton':
                 let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
@@ -88,20 +87,24 @@ export function handleButtonClick(buttonId, value) {
             case 'serveCustomerButton':
                 decrementCounter('readyToServeCount', PORTION_SIZE);
                 decrementCounter('customersWaitingCount', 1);
-                let newCustomersServedValue = customersServed + 1;
+                let newCustomersServedValue = getCustomersServed() + 1;
                 setCustomersServed(newCustomersServedValue);
-                console.log("Total Customers Served: " + customersServed);
+                console.log("Total Customers Served: " + getCustomersServed());
                 break;
             case 'improvePotatoStorageButton':
                 setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
                 const newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
                 document.getElementById(buttonId).innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
                 setPotatoStorageQuantity(getPotatoStorageQuantity() + UPGRADE_POTATO_STORAGE_QUANTITY);
-                document.getElementById('subInnerDivMid1_2').innerHTML = getActualPotatoesInStorage().toString() + '/' + potatoStorage.toString();
+                document.getElementById('subInnerDivMid1_2').innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
                 break;
             case 'twoHandedChoppingButton':
-                setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChopping());
-                document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
+                if (!checkIfNonRepeatableUpgradePurchased(button)) {
+                    setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChopping());
+                    document.getElementById(buttonId).innerHTML = 'Double Chopping Tool PURCHASED';
+                    updateButtonStyle(buttonId);
+                    setCutChipsRate(getCutChipsRate() * 2);
+                }
                 break;
             case 'improveFryerCapacityButton':
                 setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
@@ -120,10 +123,10 @@ export function handleButtonClick(buttonId, value) {
                 document.getElementById('subInnerDiv1_2').innerHTML = getShiftTime();
                 switch (getShiftCounter()) {
                     case 1:
-                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(STARTING_SPUDS).toString() + "/" + potatoStorage.toString();
+                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(STARTING_SPUDS).toString() + "/" + getPotatoStorageQuantity().toString();
                         break;
                     default:
-                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + potatoStorage.toString();
+                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + getPotatoStorageQuantity().toString();
                         break;
                 }
                 console.log("Actual Potatoes in Storage before adding new ones is: " + getActualPotatoesInStorage());
@@ -153,7 +156,7 @@ function decrementCounter(counterId, value) {
     let count = parseInt(counterElement.innerHTML);
     count = Math.max(0, count - value); // Ensure count is not negative
     if (counterId === "subInnerDivMid1_2") {
-        counterElement.innerHTML = count.toString() + "/" + potatoStorage.toString();
+        counterElement.innerHTML = count.toString() + "/" + getPotatoStorageQuantity().toString();
     } else {
         counterElement.innerHTML = count.toString();
     }
@@ -181,7 +184,7 @@ export function disableButtons(init) {
                     button.disabled = peeledCount <= 0;
                     break;
                 case 'fryChipsButton':
-                    button.disabled = cutCount <= 0 || chipsFrying;
+                    button.disabled = cutCount <= 0 && !getChipsFrying();
                     break;
                 case 'servingStorageButton':
                     button.disabled = inFryerCount <= 0;
@@ -206,16 +209,20 @@ export function disableButtons(init) {
                     button.disabled = getCurrentCash() < getPriceToImprovePotatoStorage();
                     break;
                 case 'twoHandedChoppingButton':
-                    button.disabled = getCurrentCash() < getPriceToEnableDoubleChopping();
+                    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+                        button.disabled = getCurrentCash() < getPriceToEnableDoubleChopping();
+                    }
                     break;
                 case 'improveFryerCapacityButton':
                     button.disabled = getCurrentCash() < getPriceToImproveFryerCapacity();
                     break;
                 case 'addStorageHeaterButton':
-                    button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+                    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+                        button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+                    }
                     break;
                 case 'startShiftButton':
-                    button.disabled = shiftTimeRemaining > 0;
+                    button.disabled = getShiftTime() > 0;
                     break;
                 default:
                     button.disabled = false;
@@ -230,15 +237,17 @@ export function disableButtons(init) {
         });
     } else {
         mainButtons.forEach(button => {
+            if (!checkIfNonRepeatableUpgradePurchased(button)) {
                 button.disabled = true;
                 button.classList.add('disabled');
+            }
         });
 
-        const pricesArray = [priceToImprovePotatoStorage, priceToEnableDoubleChopping, priceToImproveFryerCapacity, priceToAddStorageHeater, 0];
+        const pricesArray = [getPriceToImprovePotatoStorage(), getPriceToEnableDoubleChopping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
 
         for (let i = 0; i < bottomRowButtons.length; i++) {
             const button = bottomRowButtons[i];
-            if (button.id !== "startShiftButton") {
+            if (button.id !== "startShiftButton" && !checkIfNonRepeatableUpgradePurchased(button)) {
                 if (getCurrentCash() < pricesArray[i]) {
                     button.disabled = true;
                     button.classList.add('disabled');
@@ -270,8 +279,8 @@ export function incrementCustomersWaiting() {
 
 function addShiftSpuds(quantity) {
     let currentSpuds = parseInt(document.getElementById('subInnerDivMid1_2').innerHTML);
-    if (currentSpuds + quantity > potatoStorage) {
-        return potatoStorage;
+    if (currentSpuds + quantity > getPotatoStorageQuantity()) {
+        return getPotatoStorageQuantity();
     }
     return currentSpuds + quantity;
 }
@@ -300,4 +309,8 @@ function calculateAndSetNewPriceOfUpgrade(buttonId) {
         case "addStorageHeaterButton":
             return getPriceToAddStorageHeater();
     }
+}
+
+function checkIfNonRepeatableUpgradePurchased(button) {
+    return button.classList.contains('non-repeatable-upgrade-purchased');
 }

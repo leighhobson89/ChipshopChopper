@@ -1,4 +1,4 @@
-import {createGameWindow, createTitleScreen, formatToCashNotation, toggleSound} from './ui.js';
+import {createGameWindow, createTitleScreen, formatToCashNotation, toggleSound, updateButtonStyle} from './ui.js';
 import {
     createRandomCustomerTime,
     disableButtons,
@@ -19,6 +19,8 @@ export let quantityFrying = 0;
 export let spudsToAddToShift = 0;
 export let actualPotatoesInStorage = 100;
 export let potatoStorage = 200;
+
+export let cutChipsRate = 1;
 
 //PRICES
 export let priceToImprovePotatoStorage = 5; //50
@@ -116,20 +118,21 @@ function updateShiftCountDown() {
 }
 
 function updateChipsFryingTimer() {
-    if (chipsFrying) {
+    if (getChipsFrying()) {
         const now = new Date().getTime();
         const timeDiffSeconds = (now - lastFryingUpdateTime) / 1000;
 
-        if (fryTimeRemaining > 0) {
+        if (getFryTimer() > 0) {
             if (timeDiffSeconds >= 1) {
-                fryTimeRemaining--;
+                setFryTimer(getFryTimer() - 1);
                 lastFryingUpdateTime = now;
-                document.getElementById('fryChipsButton').innerHTML = 'Frying ' + getQuantityFrying() +' Chips <br> (' + fryTimeRemaining + 's)';
-                console.log(`Fry time remaining: ${fryTimeRemaining} seconds`);
-                if (fryTimeRemaining === 0) {
+                document.getElementById('fryChipsButton').innerHTML = 'Frying ' + getQuantityFrying() +' Chips <br> (' + getFryTimer() + 's)';
+                console.log(`Fry time remaining: ${getFryTimer()} seconds`);
+                if (getFryTimer() === 0) {
                     setChipsFrying(false);
                     document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityFrying()).toString();
                     document.getElementById('fryChipsButton').innerHTML = "Fry Chips";
+                    updateButtonStyle('fryChipsButton');
                     disableButtons(false);
                 }
             }
@@ -251,6 +254,10 @@ export function setFryTimer(value) {
     fryTimeRemaining = value;
 }
 
+export function getFryTimer() {
+    return fryTimeRemaining;
+}
+
 export function getSpudsToAddToShift() {
     return spudsToAddToShift;
 }
@@ -297,4 +304,12 @@ export function getPriceToAddStorageHeater() {
 
 export function setPriceToAddStorageHeater(value) {
     priceToAddStorageHeater = value;
+}
+
+export function getCutChipsRate() {
+    return cutChipsRate;
+}
+
+export function setCutChipsRate(value) {
+    cutChipsRate = value;
 }

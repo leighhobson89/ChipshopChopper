@@ -131,7 +131,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     gap: 7%;
     padding: 3%;
     justify-items: center;
-    height: 70%;
+    height: 65%;
 }
 
 .bottom-row-container {
@@ -140,7 +140,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     gap: 7%;
     padding: 3%;
     justify-items: center;
-    height: 20%;
+    height: 24%;
 }
 
 .action-button-main,
@@ -160,6 +160,19 @@ div[id^="subInnerDivMid"][id$='_2'] {
 .action-button-bottom-row:hover {
     background-color: white;
     color: black;
+}
+
+.action-button-main.cooking {
+    background-color: darkkhaki;
+    color: black;
+    font-weight: bold;
+}
+
+.action-button-main.non-repeatable-upgrade-purchased,
+.action-button-bottom-row.non-repeatable-upgrade-purchased {
+    background-color: greenyellow;
+    color: black;
+    font-weight: bold;
 }
 
 .action-button-main.disabled,
