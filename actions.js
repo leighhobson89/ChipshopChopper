@@ -15,9 +15,11 @@ import {
     shiftTimeRemaining
 } from './gameloop.js';
 
+const MAX_CUSTOMER_WAIT_TIME = 25;
 const SHIFT_LENGTH = 60;
 const FRY_TIMER = 15;
-const PORTION_SIZE = 30;
+const FRYER_CAPACITY = 500;
+const PORTION_SIZE = 40;
 export const PRICE_OF_CHIPS = 2; //price in whole dollars
 export const STARTING_SPUDS = 100;
 export const SPUDS_TO_ADD_PER_SHIFT = 30;
@@ -43,6 +45,9 @@ export function handleButtonClick(buttonId, counterId) {
                 break;
             case 'fryChipsButton':
                 let cutChipsCount = parseInt(document.getElementById('cutCount').innerHTML);
+                if (cutChipsCount >= FRYER_CAPACITY) {
+                    cutChipsCount = FRYER_CAPACITY
+                }
                 decrementCounter('cutCount', cutChipsCount);
                 fryChips();
                 setQuantityFrying(cutChipsCount);
@@ -159,7 +164,7 @@ export function disableButtons(init) {
 }
 
 export function createRandomCustomerTime() {
-    const timeUntilNextCustomer = Math.floor(Math.random() * 45) + 1;
+    const timeUntilNextCustomer = Math.floor(Math.random() * MAX_CUSTOMER_WAIT_TIME) + 1;
     setCustomerTimerVariable(timeUntilNextCustomer);
 }
 
