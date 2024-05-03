@@ -7,7 +7,7 @@ import {
     toggleEndOfShiftPopup,
     toggleOverlay,
     toggleSound,
-    updateButtonStyle
+    updateButtonStyle, writePopupText
 } from './ui.js';
 
 import {
@@ -33,7 +33,6 @@ export let quantityFrying = 0;
 export let spudsToAddToShift = 0;
 export let actualPotatoesInStorage = 100;
 export let potatoStorage = 200;
-
 export let cutChipsRate = 1;
 export let peelPotatoesRate = 1;
 
@@ -43,6 +42,14 @@ export let priceToEnableDoubleChopping = 6; //60
 export let priceToEnableDoublePeeling = 4; //40
 export let priceToImproveFryerCapacity = 7; //100
 export let priceToAddStorageHeater = 8; //200
+
+//STATS
+export let oldCash = 0;
+export let potatoesPeeledThisShift = 0;
+export let chipsCutThisShift = 0;
+export let chipsFriedThisShift = 0;
+export let chipsReadyToServeThisShift = 0;
+export let customersWaiting = 0;
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
@@ -125,10 +132,12 @@ function updateShiftCountDown() {
                 console.log(`Shift time remaining: ${shiftTimeRemaining} seconds`);
                 if (shiftTimeRemaining === 0) {
                     setShiftInProgress(false);
+                    setOldCash(getCurrentCash());
                     setCurrentCash((getCustomersServed() * PRICE_OF_CHIPS) + getCurrentCash());
                     setCustomersServed(0);
                     document.getElementById('subInnerDiv1_2').innerHTML = "Start Shift";
                     disableButtons(false);
+                    writePopupText(getShiftCounter());
                     toggleEndOfShiftPopup(endOfShiftPopup);
                     toggleOverlay(popupOverlay);
                 }
@@ -354,4 +363,12 @@ export function getPriceToEnableDoublePeeling() {
 
 export function setPriceToEnableDoublePeeling(value) {
     priceToEnableDoublePeeling = value;
+}
+
+export function getOldCash() {
+    return oldCash;
+}
+
+export function setOldCash(value) {
+    oldCash = value;
 }

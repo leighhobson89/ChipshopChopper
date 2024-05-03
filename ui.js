@@ -1,11 +1,20 @@
 import {handleButtonClick, disableButtons, STARTING_CASH} from "./actions.js";
 import {
+    chipsCutThisShift,
+    chipsFriedThisShift,
+    chipsReadyToServeThisShift,
+    customersWaiting,
+    getActualPotatoesInStorage,
     getChipsFrying,
+    getCurrentCash, getOldCash,
+    getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
-    getPriceToEnableDoubleChopping, getPriceToEnableDoublePeeling,
+    getPriceToEnableDoubleChopping,
+    getPriceToEnableDoublePeeling,
     getPriceToImproveFryerCapacity,
-    getPriceToImprovePotatoStorage, popupContinueButton,
-    potatoStorage
+    getPriceToImprovePotatoStorage,
+    getSpudsToAddToShift,
+    potatoesPeeledThisShift
 } from "./gameloop.js";
 
 export function createTitleScreen() {
@@ -207,7 +216,7 @@ export function writeTextInSections(buttonDetails) {
     document.getElementById('subInnerDiv3_2').innerHTML = "0";
 
     document.getElementById('subInnerDivMid1_1').innerHTML = 'Potatoes:';
-    document.getElementById('subInnerDivMid1_2').innerHTML = "0/" + potatoStorage.toString();
+    document.getElementById('subInnerDivMid1_2').innerHTML = "0/" + getPotatoStorageQuantity().toString();
 
     document.getElementById('subInnerDivMid3_1').innerHTML = 'Money:';
     document.getElementById('subInnerDivMid3_2').innerHTML = formatToCashNotation(STARTING_CASH);
@@ -275,15 +284,17 @@ export function createEndOfShiftPopup() {
     const popupContainer = document.createElement('div');
     popupContainer.classList.add('popup-container');
 
-    const popupContent = document.createElement('div');
-    popupContent.classList.add('popup-row');
-    popupContent.classList.add('popup-row-1');
-    popupContent.innerHTML = '<div class="popup-content">Popup Content Row 1</div>';
+    const popupTitle = document.createElement('div');
+    popupTitle.id = 'endOfShiftPopupTitle';
+    popupTitle.classList.add('popup-row');
+    popupTitle.classList.add('popup-row-1');
+    popupTitle.innerHTML = `<div class="popup-title">test</div>`;
 
-    const popupRow2 = document.createElement('div');
-    popupRow2.classList.add('popup-row');
-    popupRow2.classList.add('popup-row-2');
-    popupRow2.innerHTML = '<div class="popup-content">Popup Content Row 2</div>';
+    const popupContent = document.createElement('div');
+    popupContent.id = 'endOfShiftPopupContent';
+    popupContent.classList.add('popup-row');
+    popupContent.classList.add('popup-row-2');
+    popupContent.innerHTML = '<div class="popup-content">test</div>';
 
     const popupRow3 = document.createElement('div');
     popupRow3.classList.add('popup-row');
@@ -296,8 +307,8 @@ export function createEndOfShiftPopup() {
     popupContainer.style.display = "none";
 
 
+    popupContainer.appendChild(popupTitle);
     popupContainer.appendChild(popupContent);
-    popupContainer.appendChild(popupRow2);
     popupContainer.appendChild(popupRow3);
     document.body.appendChild(popupContainer);
 
@@ -328,4 +339,36 @@ export function toggleOverlay(popupOverlay) {
     } else {
         popupOverlay.style.display = 'none';
     }
+}
+
+export function writePopupText(shiftCounter) {
+    let currentPotatoes = getActualPotatoesInStorage();
+    let spudsToAdd = getSpudsToAddToShift();
+    let storageQuantity = getPotatoStorageQuantity();
+
+    let totalPotatoes = currentPotatoes + spudsToAdd;
+    let nextShiftPotatoes = Math.min(totalPotatoes, storageQuantity);
+    const popupTitle = document.getElementById('endOfShiftPopupTitle');
+    const popupContent = document.getElementById('endOfShiftPopupContent');
+
+    popupTitle.innerHTML = `<div class="popup-title">End Of Shift ${shiftCounter}</div>`;
+    let potatoesMessage = `Potatoes for next shift: ${currentPotatoes} + ${nextShiftPotatoes - currentPotatoes} to be delivered = ${nextShiftPotatoes}`;
+    if (nextShiftPotatoes === storageQuantity) {
+        potatoesMessage += " (due to max storage reached)";
+    }
+
+    popupContent.innerHTML = `
+    <div class="popup-content">
+        Your shift has ended!<br><br>
+        Earnings: ${formatToCashNotation(getCurrentCash() - getOldCash())} this shift + ${formatToCashNotation(getOldCash())} in bank = ${formatToCashNotation(getCurrentCash())}<br><br>
+        
+        Potatoes Peeled: ${potatoesPeeledThisShift}<br>
+        Chips cut: ${chipsCutThisShift}<br>
+        Chips Fried: ${chipsFriedThisShift}<br>
+        Chips ready to be served: ${chipsReadyToServeThisShift}<br>
+        Customers Waiting: ${customersWaiting}<br><br>
+
+        ${potatoesMessage}
+    </div>`;
+
 }

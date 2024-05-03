@@ -233,10 +233,13 @@ div[id^="subInnerDivMid"][id$='_2'] {
 
 .popup-row-1 {
     height: 30%;
+    justify-content: center;
+    align-items: center;
 }
 
 .popup-row-2 {
     height: 50%;
+    padding-left: 10%;
 }
 
 .popup-row-3 {
@@ -245,9 +248,15 @@ div[id^="subInnerDivMid"][id$='_2'] {
     align-items: center;
 }
 
+.popup-title {
+    color: white;
+    font-size: 3em;
+    font-weight: bold;
+}
+
 .popup-content {
     color: white;
-    text-align: center;
+    font-size: 1em;
 }
 
 .popup-continue-button {
