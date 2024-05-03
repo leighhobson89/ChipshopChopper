@@ -171,7 +171,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
 
 .action-button-main.non-repeatable-upgrade-purchased,
 .action-button-bottom-row.non-repeatable-upgrade-purchased {
-    background-color: greenyellow;
+    background-color: chartreuse;
     color: black;
     font-weight: bold;
 }
@@ -217,7 +217,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 50%;
-    height: 50%;
+    height: 70%;
     background-color: rgba(0, 0, 0, 0.95);
     border: 5px solid white;
     border-radius: 10px;
@@ -267,6 +267,9 @@ div[id^="subInnerDivMid"][id$='_2'] {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+.popup-continue-button:hover {
+    background-color: chartreuse;
 }
 
 

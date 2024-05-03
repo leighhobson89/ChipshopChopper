@@ -1,21 +1,38 @@
 import {
     getActualPotatoesInStorage,
+    getChipsCutThisShift,
+    getChipsFriedThisShift,
     getChipsFrying,
-    getCurrentCash, getCustomersServed, getCutChipsRate, getPeelPotatoesRate,
+    getChipsReadyToServeQuantity,
+    getCurrentCash,
+    getCustomersServed,
+    getCustomersWaiting,
+    getCutChipsRate,
+    getPeelPotatoesRate,
+    getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
-    getPriceToEnableDoubleChopping, getPriceToEnableDoublePeeling,
+    getPriceToEnableDoubleChopping,
+    getPriceToEnableDoublePeeling,
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
-    getShiftCounter, getShiftInProgress,
+    getShiftCounter,
+    getShiftInProgress,
     getShiftTime,
     getSpudsToAddToShift,
     setActualPotatoesInStorage,
+    setChipsCutThisShift,
+    setChipsFriedThisShift,
     setChipsFrying,
+    setChipsReadyToServeQuantity,
     setCurrentCash,
     setCustomersServed,
-    setCustomerTime, setCutChipsRate,
-    setFryTimer, setPeelPotatoesRate,
+    setCustomersWaiting,
+    setCustomerTime,
+    setCutChipsRate,
+    setFryTimer,
+    setPeelPotatoesRate,
+    setPotatoesPeeledThisShift,
     setPotatoStorageQuantity,
     setPriceToAddStorageHeater,
     setPriceToEnableDoubleChopping,
@@ -56,20 +73,25 @@ export function handleButtonClick(buttonId, value) {
                     setActualPotatoesInStorage(getActualPotatoesInStorage() - getPeelPotatoesRate());
                     decrementCounter('subInnerDivMid1_2', getPeelPotatoesRate());
                     incrementCounter(element, getPeelPotatoesRate());
+                    setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + getPeelPotatoesRate());
                 } else if (potatoesInStorageBeforeThisPeel > 0) {
                     setActualPotatoesInStorage(getActualPotatoesInStorage() - 1);
                     decrementCounter('subInnerDivMid1_2', 1);
                     incrementCounter(element, 1);
+                    setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + 1);
                 }
+
                 break;
             case 'cutChipsButton':
                 const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
                 if (peeledCount > 1) {
                     decrementCounter('peeledCount', getCutChipsRate());
                     incrementCounter(element, 5 * getCutChipsRate()); //maybe add getter for getNumberOfChipsFromPotato
+                    setChipsCutThisShift(getChipsCutThisShift() + (5 * getCutChipsRate()));
                 } else if (peeledCount > 0) {
                     decrementCounter('peeledCount', 1);
                     incrementCounter(element, 5); //maybe add getter for getNumberOfChipsFromPotato
+                    setChipsCutThisShift(getChipsCutThisShift() + 1);
                 }
                 break;
             case 'fryChipsButton':
@@ -80,6 +102,7 @@ export function handleButtonClick(buttonId, value) {
                 decrementCounter('cutCount', cutChipsCount);
                 fryChips();
                 setQuantityFrying(cutChipsCount);
+                setChipsFriedThisShift(getChipsFriedThisShift() + cutChipsCount);
                 updateButtonStyle(buttonId);
                 break;
             case 'servingStorageButton':
@@ -90,12 +113,15 @@ export function handleButtonClick(buttonId, value) {
                 }
                 decrementCounter('chuckedInFryerCount', serveIncrement);
                 incrementCounter(element, serveIncrement);
+                setChipsReadyToServeQuantity(getChipsReadyToServeQuantity() + serveIncrement); //remember to add code to handle wastage if adding temperature mechanic
                 break;
             case 'serveCustomerButton':
                 decrementCounter('readyToServeCount', PORTION_SIZE);
                 decrementCounter('customersWaitingCount', 1);
+                setCustomersWaiting(getCustomersWaiting() - 1);
                 let newCustomersServedValue = getCustomersServed() + 1;
                 setCustomersServed(newCustomersServedValue);
+                setChipsReadyToServeQuantity(getChipsReadyToServeQuantity() - PORTION_SIZE);
                 console.log("Total Customers Served: " + getCustomersServed());
                 break;
             case 'improvePotatoStorageButton':

@@ -35,6 +35,7 @@ export let actualPotatoesInStorage = 100;
 export let potatoStorage = 200;
 export let cutChipsRate = 1;
 export let peelPotatoesRate = 1;
+export let chipsReadyToServeQuantity = 0;
 
 //PRICES
 export let priceToImprovePotatoStorage = 5; //50
@@ -48,7 +49,7 @@ export let oldCash = 0;
 export let potatoesPeeledThisShift = 0;
 export let chipsCutThisShift = 0;
 export let chipsFriedThisShift = 0;
-export let chipsReadyToServeThisShift = 0;
+export let chipsReadyToServeNextShift = 0;
 export let customersWaiting = 0;
 
 let lastShiftUpdateTime = new Date().getTime();
@@ -112,6 +113,7 @@ function updateCustomerCountdown() {
                 console.log(`Customer time remaining: ${customerTime} seconds`);
                 if (customerTime === 0) {
                     incrementCustomersWaiting();
+                    setCustomersWaiting(getCustomersWaiting() + 1);
                     createRandomCustomerTime();
                 }
             }
@@ -137,9 +139,13 @@ function updateShiftCountDown() {
                     setCustomersServed(0);
                     document.getElementById('subInnerDiv1_2').innerHTML = "Start Shift";
                     disableButtons(false);
+                    setChipsReadyToServeNextShift(getChipsReadyToServeQuantity());
                     writePopupText(getShiftCounter());
                     toggleEndOfShiftPopup(endOfShiftPopup);
                     toggleOverlay(popupOverlay);
+                    setPotatoesPeeledThisShift(0);
+                    setChipsCutThisShift(0);
+                    setChipsFriedThisShift(0);
                 }
             }
         }
@@ -372,3 +378,52 @@ export function getOldCash() {
 export function setOldCash(value) {
     oldCash = value;
 }
+
+export function getPotatoesPeeledThisShift() {
+    return potatoesPeeledThisShift;
+}
+
+export function setPotatoesPeeledThisShift(value) {
+    potatoesPeeledThisShift = value;
+}
+
+export function getChipsCutThisShift() {
+    return chipsCutThisShift;
+}
+
+export function setChipsCutThisShift(value) {
+    chipsCutThisShift = value;
+}
+
+export function getChipsFriedThisShift() {
+    return chipsFriedThisShift;
+}
+
+export function setChipsFriedThisShift(value) {
+    chipsFriedThisShift = value;
+}
+
+export function getChipsReadyToServeNextShift() {
+    return chipsReadyToServeNextShift;
+}
+
+export function setChipsReadyToServeNextShift(value) {
+    chipsReadyToServeNextShift = value;
+}
+
+export function getCustomersWaiting() {
+    return customersWaiting;
+}
+
+export function setCustomersWaiting(value) {
+    customersWaiting = value;
+}
+
+export function getChipsReadyToServeQuantity() {
+    return chipsReadyToServeQuantity;
+}
+
+export function setChipsReadyToServeQuantity(value) {
+    chipsReadyToServeQuantity = value;
+}
+

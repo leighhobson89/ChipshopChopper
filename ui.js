@@ -1,20 +1,15 @@
 import {handleButtonClick, disableButtons, STARTING_CASH} from "./actions.js";
 import {
-    chipsCutThisShift,
-    chipsFriedThisShift,
-    chipsReadyToServeThisShift,
-    customersWaiting,
-    getActualPotatoesInStorage,
-    getChipsFrying,
-    getCurrentCash, getOldCash,
+    getActualPotatoesInStorage, getChipsCutThisShift, getChipsFriedThisShift,
+    getChipsFrying, getChipsReadyToServeNextShift,
+    getCurrentCash, getCustomersWaiting, getOldCash, getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
     getPriceToEnableDoubleChopping,
     getPriceToEnableDoublePeeling,
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
-    getSpudsToAddToShift,
-    potatoesPeeledThisShift
+    getSpudsToAddToShift
 } from "./gameloop.js";
 
 export function createTitleScreen() {
@@ -362,11 +357,11 @@ export function writePopupText(shiftCounter) {
         Your shift has ended!<br><br>
         Earnings: ${formatToCashNotation(getCurrentCash() - getOldCash())} this shift + ${formatToCashNotation(getOldCash())} in bank = ${formatToCashNotation(getCurrentCash())}<br><br>
         
-        Potatoes Peeled: ${potatoesPeeledThisShift}<br>
-        Chips cut: ${chipsCutThisShift}<br>
-        Chips Fried: ${chipsFriedThisShift}<br>
-        Chips ready to be served: ${chipsReadyToServeThisShift}<br>
-        Customers Waiting: ${customersWaiting}<br><br>
+        Potatoes Peeled: ${getPotatoesPeeledThisShift()}<br>
+        Chips Cut: ${getChipsCutThisShift()}<br>
+        Chips Fried: ${getChipsFriedThisShift()}<br>
+        Chips Ready To Be Served: ${getChipsReadyToServeNextShift()}<br>
+        Customers Still Waiting: ${getCustomersWaiting()}<br><br>
 
         ${potatoesMessage}
     </div>`;
