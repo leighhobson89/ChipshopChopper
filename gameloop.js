@@ -1,12 +1,26 @@
-import {createGameWindow, createTitleScreen, formatToCashNotation, toggleSound, updateButtonStyle} from './ui.js';
+import {
+    createEndOfShiftPopup,
+    createGameWindow,
+    createOverlay,
+    createTitleScreen,
+    formatToCashNotation,
+    toggleEndOfShiftPopup,
+    toggleOverlay,
+    toggleSound,
+    updateButtonStyle
+} from './ui.js';
+
 import {
     createRandomCustomerTime,
     disableButtons,
     incrementCustomersWaiting,
     PRICE_OF_CHIPS,
-    STARTING_SPUDS
 } from './actions.js';
 
+export const endOfShiftPopupObject = createEndOfShiftPopup();
+export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
+export const popupContinueButton = endOfShiftPopupObject.continueButton;
+export const popupOverlay = createOverlay();
 export let customerTime = 0;
 export let shiftTimeRemaining = 0;
 export let fryTimeRemaining = 0;
@@ -49,6 +63,10 @@ document.getElementById('option3').addEventListener('click', function () {
 });
 document.getElementById('option4').addEventListener('click', function () {
     toggleSound();
+});
+popupContinueButton.addEventListener('click', function() {
+    toggleEndOfShiftPopup(endOfShiftPopup);
+    toggleOverlay(popupOverlay);
 });
 
 gameLoop();
@@ -111,6 +129,8 @@ function updateShiftCountDown() {
                     setCustomersServed(0);
                     document.getElementById('subInnerDiv1_2').innerHTML = "Start Shift";
                     disableButtons(false);
+                    toggleEndOfShiftPopup(endOfShiftPopup);
+                    toggleOverlay(popupOverlay);
                 }
             }
         }

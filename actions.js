@@ -30,8 +30,8 @@ import {
 
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
 
-const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 25;
-const SHIFT_LENGTH = 30;
+const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
+const SHIFT_LENGTH = 5;
 const FRY_TIMER = 15;
 const FRYER_CAPACITY = 500;
 const PORTION_SIZE = 40;

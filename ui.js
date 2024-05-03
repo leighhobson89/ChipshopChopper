@@ -4,7 +4,7 @@ import {
     getPriceToAddStorageHeater,
     getPriceToEnableDoubleChopping, getPriceToEnableDoublePeeling,
     getPriceToImproveFryerCapacity,
-    getPriceToImprovePotatoStorage,
+    getPriceToImprovePotatoStorage, popupContinueButton,
     potatoStorage
 } from "./gameloop.js";
 
@@ -268,5 +268,64 @@ export function updateButtonStyle(buttonId) {
         default: //non repeatable upgrades
             element.classList.add('non-repeatable-upgrade-purchased');
             break;
+    }
+}
+
+export function createEndOfShiftPopup() {
+    const popupContainer = document.createElement('div');
+    popupContainer.classList.add('popup-container');
+
+    const popupContent = document.createElement('div');
+    popupContent.classList.add('popup-row');
+    popupContent.classList.add('popup-row-1');
+    popupContent.innerHTML = '<div class="popup-content">Popup Content Row 1</div>';
+
+    const popupRow2 = document.createElement('div');
+    popupRow2.classList.add('popup-row');
+    popupRow2.classList.add('popup-row-2');
+    popupRow2.innerHTML = '<div class="popup-content">Popup Content Row 2</div>';
+
+    const popupRow3 = document.createElement('div');
+    popupRow3.classList.add('popup-row');
+    popupRow3.classList.add('popup-row-3');
+
+    const continueButton = document.createElement('button');
+    continueButton.textContent = 'Continue';
+    continueButton.classList.add('popup-continue-button');
+    popupRow3.appendChild(continueButton);
+    popupContainer.style.display = "none";
+
+
+    popupContainer.appendChild(popupContent);
+    popupContainer.appendChild(popupRow2);
+    popupContainer.appendChild(popupRow3);
+    document.body.appendChild(popupContainer);
+
+    return { popupContainer, continueButton };
+}
+
+export function createOverlay() {
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+    overlay.id = 'overlay';
+    overlay.style.display = "none";
+    document.body.appendChild(overlay);
+
+    return overlay;
+}
+
+export function toggleEndOfShiftPopup(popupContainer) {
+    if (popupContainer.style.display === 'none') {
+        popupContainer.style.display = 'block';
+    } else {
+        popupContainer.style.display = 'none';
+    }
+}
+
+export function toggleOverlay(popupOverlay) {
+    if (popupOverlay.style.display === 'none') {
+        popupOverlay.style.display = 'block';
+    } else {
+        popupOverlay.style.display = 'none';
     }
 }
