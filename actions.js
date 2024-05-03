@@ -1,13 +1,13 @@
 import {
     getActualPotatoesInStorage,
     getChipsFrying,
-    getCurrentCash, getCustomersServed, getCutChipsRate,
+    getCurrentCash, getCustomersServed, getCutChipsRate, getPeelPotatoesRate,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
-    getPriceToEnableDoubleChopping,
+    getPriceToEnableDoubleChopping, getPriceToEnableDoublePeeling,
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
-    getShiftCounter,
+    getShiftCounter, getShiftInProgress,
     getShiftTime,
     getSpudsToAddToShift,
     setActualPotatoesInStorage,
@@ -15,7 +15,7 @@ import {
     setCurrentCash,
     setCustomersServed,
     setCustomerTime, setCutChipsRate,
-    setFryTimer,
+    setFryTimer, setPeelPotatoesRate,
     setPotatoStorageQuantity,
     setPriceToAddStorageHeater,
     setPriceToEnableDoubleChopping,
@@ -25,13 +25,13 @@ import {
     setShiftCounter,
     setShiftInProgress,
     setShiftTime,
-    setSpudsToAddToShift,
+    setSpudsToAddToShift, shiftInProgress,
 } from './gameloop.js';
 
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
 
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 25;
-const SHIFT_LENGTH = 60;
+const SHIFT_LENGTH = 30;
 const FRY_TIMER = 15;
 const FRYER_CAPACITY = 500;
 const PORTION_SIZE = 40;
@@ -51,9 +51,16 @@ export function handleButtonClick(buttonId, value) {
     button.addEventListener('click', () => {
         switch (buttonId) {
             case 'peelPotatoButton':
-                setActualPotatoesInStorage(getActualPotatoesInStorage() - 1);
-                decrementCounter('subInnerDivMid1_2', 1);
-                incrementCounter(element, 1);
+                const potatoesInStorageBeforeThisPeel = getActualPotatoesInStorage();
+                if (potatoesInStorageBeforeThisPeel > 1) {
+                    setActualPotatoesInStorage(getActualPotatoesInStorage() - getPeelPotatoesRate());
+                    decrementCounter('subInnerDivMid1_2', getPeelPotatoesRate());
+                    incrementCounter(element, getPeelPotatoesRate());
+                } else if (potatoesInStorageBeforeThisPeel > 0) {
+                    setActualPotatoesInStorage(getActualPotatoesInStorage() - 1);
+                    decrementCounter('subInnerDivMid1_2', 1);
+                    incrementCounter(element, 1);
+                }
                 break;
             case 'cutChipsButton':
                 const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
@@ -98,6 +105,14 @@ export function handleButtonClick(buttonId, value) {
                 setPotatoStorageQuantity(getPotatoStorageQuantity() + UPGRADE_POTATO_STORAGE_QUANTITY);
                 document.getElementById('subInnerDivMid1_2').innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
                 break;
+            case 'twoHandedPeelingButton':
+                if (!checkIfNonRepeatableUpgradePurchased(button)) {
+                    setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
+                    document.getElementById(buttonId).innerHTML = 'Double Peeling Tool PURCHASED';
+                    updateButtonStyle(buttonId);
+                    setPeelPotatoesRate(getPeelPotatoesRate() * 2);
+                }
+                break;
             case 'twoHandedChoppingButton':
                 if (!checkIfNonRepeatableUpgradePurchased(button)) {
                     setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChopping());
@@ -129,12 +144,10 @@ export function handleButtonClick(buttonId, value) {
                         document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + getPotatoStorageQuantity().toString();
                         break;
                 }
-                console.log("Actual Potatoes in Storage before adding new ones is: " + getActualPotatoesInStorage());
-                setActualPotatoesInStorage(getActualPotatoesInStorage() + getSpudsToAddToShift());
-                console.log(getActualPotatoesInStorage());
 
+                let newPotatoesToDeliverForNextShift = Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity());
+                setActualPotatoesInStorage(newPotatoesToDeliverForNextShift);
                 document.getElementById('startShiftButton').innerHTML = 'Start Shift <br> (+ ' + getRandomNumberOfSpudsForNextShift() + ' Potatoes)';
-
                 disableButtons(false);
                 break;
             default:
@@ -178,19 +191,22 @@ export function disableButtons(init) {
         mainButtons.forEach(button => {
             switch (button.id) {
                 case 'peelPotatoButton':
-                    button.disabled = spudsLeft <= 0;
+                    button.disabled = spudsLeft <= 0 || !getShiftInProgress();
                     break;
                 case 'cutChipsButton':
-                    button.disabled = peeledCount <= 0;
+                    button.disabled = peeledCount <= 0  || !getShiftInProgress();
                     break;
                 case 'fryChipsButton':
-                    button.disabled = cutCount <= 0 && !getChipsFrying();
+                    button.disabled = (cutCount <= 0 && !getChipsFrying()) || !getShiftInProgress();
                     break;
                 case 'servingStorageButton':
-                    button.disabled = inFryerCount <= 0;
+                    button.disabled = inFryerCount <= 0 || !getShiftInProgress();
                     break;
                 case 'serveCustomerButton':
-                    button.disabled = customerCount <= 0 || readyToServeCount < PORTION_SIZE;
+                    button.disabled = customerCount <= 0 || readyToServeCount < PORTION_SIZE || !getShiftInProgress();
+                    break;
+                case 'improvePotatoStorageButton':
+                    button.disabled = getCurrentCash() < getPriceToImprovePotatoStorage();
                     break;
                 default:
                     button.disabled = false;
@@ -205,8 +221,10 @@ export function disableButtons(init) {
 
         bottomRowButtons.forEach(button => {
             switch (button.id) {
-                case 'improvePotatoStorageButton':
-                    button.disabled = getCurrentCash() < getPriceToImprovePotatoStorage();
+                case 'twoHandedPeelingButton':
+                    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+                        button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
+                    }
                     break;
                 case 'twoHandedChoppingButton':
                     if (!checkIfNonRepeatableUpgradePurchased(button)) {
@@ -238,17 +256,31 @@ export function disableButtons(init) {
     } else {
         mainButtons.forEach(button => {
             if (!checkIfNonRepeatableUpgradePurchased(button)) {
-                button.disabled = true;
-                button.classList.add('disabled');
+                if (!checkIfRepeatableUpgrade(button)) {
+                    button.disabled = true;
+                    button.classList.add('disabled');
+                }
             }
         });
 
-        const pricesArray = [getPriceToImprovePotatoStorage(), getPriceToEnableDoubleChopping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
+        const pricesArrayMainButtons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, getPriceToImprovePotatoStorage(), 0, 0, 0, 0];
+
+        for (let i = 0; i < mainButtons.length; i++) {
+            const button = mainButtons[i];
+            if (button.id !== "startShiftButton" && !checkIfNonRepeatableUpgradePurchased(button)) {
+                if (getCurrentCash() < pricesArrayMainButtons[i] || pricesArrayMainButtons[i] === 0) {
+                    button.disabled = true;
+                    button.classList.add('disabled');
+                }
+            }
+        }
+
+        const pricesArrayBottomRow = [getPriceToEnableDoublePeeling(), getPriceToEnableDoubleChopping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
 
         for (let i = 0; i < bottomRowButtons.length; i++) {
             const button = bottomRowButtons[i];
             if (button.id !== "startShiftButton" && !checkIfNonRepeatableUpgradePurchased(button)) {
-                if (getCurrentCash() < pricesArray[i]) {
+                if (getCurrentCash() < pricesArrayBottomRow[i]) {
                     button.disabled = true;
                     button.classList.add('disabled');
                 }
@@ -301,6 +333,8 @@ function calculateAndSetNewPriceOfUpgrade(buttonId) {
         case "improvePotatoStorageButton":
             setPriceToImprovePotatoStorage(getPriceToImprovePotatoStorage() * MULTIPLE_FOR_IMPROVE_POTATO_STORAGE);
             return getPriceToImprovePotatoStorage();
+        case "twoHandedPeelingButton":
+            return getPriceToEnableDoublePeeling();
         case "twoHandedChoppingButton":
             return getPriceToEnableDoubleChopping();
         case "improveFryerCapacityButton":
@@ -313,4 +347,8 @@ function calculateAndSetNewPriceOfUpgrade(buttonId) {
 
 function checkIfNonRepeatableUpgradePurchased(button) {
     return button.classList.contains('non-repeatable-upgrade-purchased');
+}
+
+function checkIfRepeatableUpgrade(button) {
+    return button.upgrade === 'true' && button.repeatableUpgrade === 'true';
 }

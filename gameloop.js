@@ -21,10 +21,12 @@ export let actualPotatoesInStorage = 100;
 export let potatoStorage = 200;
 
 export let cutChipsRate = 1;
+export let peelPotatoesRate = 1;
 
 //PRICES
 export let priceToImprovePotatoStorage = 5; //50
 export let priceToEnableDoubleChopping = 6; //60
+export let priceToEnableDoublePeeling = 4; //40
 export let priceToImproveFryerCapacity = 7; //100
 export let priceToAddStorageHeater = 8; //200
 
@@ -162,6 +164,9 @@ function updateVisibleButtons() {
         if (getCurrentCash() >= getPriceToImprovePotatoStorage()) {
             document.getElementById('improvePotatoStorageButton').classList.remove('hidden-button');
         }
+        if (getCurrentCash() >= getPriceToEnableDoublePeeling()) {
+            document.getElementById('twoHandedPeelingButton').classList.remove('hidden-button');
+        }
         if (getCurrentCash() >= getPriceToEnableDoubleChopping()) {
             document.getElementById('twoHandedChoppingButton').classList.remove('hidden-button');
         }
@@ -171,6 +176,7 @@ function updateVisibleButtons() {
         if (getCurrentCash() >= getPriceToAddStorageHeater()) {
             document.getElementById('addStorageHeaterButton').classList.remove('hidden-button');
         }
+        disableButtons(false);
     }
 }
 
@@ -312,4 +318,20 @@ export function getCutChipsRate() {
 
 export function setCutChipsRate(value) {
     cutChipsRate = value;
+}
+
+export function getPeelPotatoesRate() {
+    return peelPotatoesRate;
+}
+
+export function setPeelPotatoesRate(value) {
+    peelPotatoesRate = value;
+}
+
+export function getPriceToEnableDoublePeeling() {
+    return priceToEnableDoublePeeling;
+}
+
+export function setPriceToEnableDoublePeeling(value) {
+    priceToEnableDoublePeeling = value;
 }

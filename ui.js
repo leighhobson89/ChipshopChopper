@@ -2,7 +2,7 @@ import {handleButtonClick, disableButtons, STARTING_CASH} from "./actions.js";
 import {
     getChipsFrying,
     getPriceToAddStorageHeater,
-    getPriceToEnableDoubleChopping,
+    getPriceToEnableDoubleChopping, getPriceToEnableDoublePeeling,
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
     potatoStorage
@@ -136,14 +136,18 @@ export function createGameWindow() {
         { id: 'action13Button', name: 'Action 13', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action14Button', name: 'Action 14', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action15Button', name: 'Action 15', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action16Button', name: 'Action 16', upgrade: 'false', repeatableUpgrade: 'false' }
+        { id: 'improvePotatoStorageButton', name: 'Increase Potato Cap. ' + formatToCashNotation(getPriceToImprovePotatoStorage()), upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'action17Button', name: 'Action 17', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'action18Button', name: 'Action 18', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'action19Button', name: 'Action 19', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'action20Button', name: 'Action 20', upgrade: 'false', repeatableUpgrade: 'false' }
     ];
 
     const bottomButtonDetails = [
-        { id: 'improvePotatoStorageButton', name: 'Increase Potato Cap. ' + formatToCashNotation(getPriceToImprovePotatoStorage()), upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'twoHandedChoppingButton', name: 'Double Chopping Tool ' + formatToCashNotation(getPriceToEnableDoubleChopping()), upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'improveFryerCapacityButton', name: 'Improve Fryer Cap. ' + formatToCashNotation(getPriceToImproveFryerCapacity()), upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'addStorageHeaterButton', name: 'Buy Storage Heater ' + formatToCashNotation(getPriceToAddStorageHeater()), upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'twoHandedPeelingButton', name: 'Double Peeling Tool ' + formatToCashNotation(getPriceToEnableDoublePeeling()), upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'twoHandedChoppingButton', name: 'Double Chopping Tool ' + formatToCashNotation(getPriceToEnableDoubleChopping()), upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'improveFryerCapacityButton', name: 'Improve Fryer Cap. ' + formatToCashNotation(getPriceToImproveFryerCapacity()), upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'addStorageHeaterButton', name: 'Buy Storage Heater ' + formatToCashNotation(getPriceToAddStorageHeater()), upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
     ];
 
@@ -187,6 +191,7 @@ export function createGameWindow() {
     handleButtonClick('servingStorageButton', 'readyToServeCount');
     handleButtonClick('serveCustomerButton', 'customersWaitingCount');
     handleButtonClick('improvePotatoStorageButton', getPriceToImprovePotatoStorage());
+    handleButtonClick('twoHandedPeelingButton', getPriceToEnableDoublePeeling());
     handleButtonClick('twoHandedChoppingButton', getPriceToEnableDoubleChopping());
     handleButtonClick('improveFryerCapacityButton', getPriceToImproveFryerCapacity());
     handleButtonClick('addStorageHeaterButton', getPriceToAddStorageHeater());
@@ -265,5 +270,3 @@ export function updateButtonStyle(buttonId) {
             break;
     }
 }
-
-
