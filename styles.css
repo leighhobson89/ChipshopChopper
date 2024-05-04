@@ -167,6 +167,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     background-color: darkkhaki;
     color: black;
     font-weight: bold;
+    pointer-events: none;
 }
 
 .action-button-main.non-repeatable-upgrade-purchased,
@@ -180,6 +181,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
 .action-button-bottom-row.disabled {
     background-color: grey;
     color: black;
+    pointer-events: none;
 }
 
 .hidden-button {

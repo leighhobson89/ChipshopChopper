@@ -91,8 +91,9 @@ export function handleButtonClick(buttonId, value) {
                 } else if (peeledCount > 0) {
                     decrementCounter('peeledCount', 1);
                     incrementCounter(element, 5); //maybe add getter for getNumberOfChipsFromPotato
-                    setChipsCutThisShift(getChipsCutThisShift() + 1);
+                    setChipsCutThisShift(getChipsCutThisShift() + 5);
                 }
+
                 break;
             case 'fryChipsButton':
                 let cutChipsCount = parseInt(document.getElementById('cutCount').innerHTML);
@@ -223,7 +224,7 @@ export function disableButtons(init) {
                     button.disabled = peeledCount <= 0  || !getShiftInProgress();
                     break;
                 case 'fryChipsButton':
-                    button.disabled = (cutCount <= 0 && !getChipsFrying()) || !getShiftInProgress();
+                    button.disabled = !getShiftInProgress() || cutCount <= 0 && !getChipsFrying();
                     break;
                 case 'servingStorageButton':
                     button.disabled = inFryerCount <= 0 || !getShiftInProgress();
