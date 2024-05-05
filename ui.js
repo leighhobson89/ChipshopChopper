@@ -2,7 +2,7 @@ import {handleButtonClick, disableButtons, STARTING_CASH} from './actions.js';
 import {
     getActualPotatoesInStorage, getChipsCutThisShift, getChipsFriedThisShift,
     getChipsFrying, getChipsReadyToServeNextShift,
-    getCurrentCash, getCustomersWaiting, getFryerCapacity, getOldCash, getPotatoesPeeledThisShift,
+    getCurrentCash, getCustomersServed, getCustomersWaiting, getFryerCapacity, getOldCash, getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
     getPriceToEnableDoubleChopping,
@@ -294,7 +294,6 @@ export function createEndOfShiftPopup() {
     popupRow3.appendChild(continueButton);
     popupContainer.style.display = "none";
 
-
     popupContainer.appendChild(popupTitle);
     popupContainer.appendChild(popupContent);
     popupContainer.appendChild(popupRow3);
@@ -349,6 +348,7 @@ export function writePopupText(shiftCounter) {
     <div class="popup-content">
         Your shift has ended!<br><br>
         Earnings: ${formatToCashNotation(getCurrentCash() - getOldCash())} this shift + ${formatToCashNotation(getOldCash())} in bank = ${formatToCashNotation(getCurrentCash())}<br><br>
+        Customers Served: ${getCustomersServed()}<br>
         
         Potatoes Peeled: ${getPotatoesPeeledThisShift()}<br>
         Chips Cut: ${getChipsCutThisShift()}<br>

@@ -137,11 +137,11 @@ function updateShiftCountDown() {
                     setShiftInProgress(false);
                     setOldCash(getCurrentCash());
                     setCurrentCash((getCustomersServed() * PRICE_OF_CHIPS) + getCurrentCash());
-                    setCustomersServed(0);
                     document.getElementById('subInnerDiv1_2').innerHTML = "Start Shift";
                     disableButtons(false);
                     setChipsReadyToServeNextShift(getChipsReadyToServeQuantity());
                     writePopupText(getShiftCounter());
+                    setCustomersServed(0);
                     toggleEndOfShiftPopup(endOfShiftPopup);
                     toggleOverlay(popupOverlay);
                     setPotatoesPeeledThisShift(0);
@@ -168,6 +168,7 @@ function updateChipsFryingTimer() {
                 console.log(`Fry time remaining: ${getFryTimer()} seconds`);
                 if (getFryTimer() === 0) {
                     setChipsFrying(false);
+                    setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityFrying());
                     document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityFrying()).toString();
                     document.getElementById('fryChipsButton').innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
                     updateButtonStyle('fryChipsButton');

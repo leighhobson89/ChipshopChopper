@@ -102,7 +102,6 @@ export function handleButtonClick(buttonId, value) {
                 decrementCounter('cutCount', cutChipsCount);
                 fryChips();
                 setQuantityFrying(cutChipsCount);
-                setChipsFriedThisShift(getChipsFriedThisShift() + cutChipsCount);
                 updateButtonStyle(buttonId);
                 break;
             case 'servingStorageButton':
