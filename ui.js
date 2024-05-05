@@ -1,4 +1,4 @@
-import {handleButtonClick, disableButtons, STARTING_CASH} from "./actions.js";
+import {handleButtonClick, disableButtons, STARTING_CASH} from './actions.js';
 import {
     getActualPotatoesInStorage, getChipsCutThisShift, getChipsFriedThisShift,
     getChipsFrying, getChipsReadyToServeNextShift,
@@ -10,7 +10,7 @@ import {
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
     getSpudsToAddToShift
-} from "./gameloop.js";
+} from './gameloop.js';
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -228,13 +228,6 @@ export function hideUpgradeButtonsGameStart(bottomButtonsContainer) {
     });
     bottomButtonsContainer.querySelectorAll('.action-button-bottom-row:not(:last-child)').forEach(button => {
         button.classList.add('hidden-button');
-    });
-}
-
-export function showAllButtons() {
-    const hiddenButtons = document.querySelectorAll('.hidden-button');
-    hiddenButtons.forEach(button => {
-        button.classList.remove('hidden-button');
     });
 }
 

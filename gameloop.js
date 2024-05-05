@@ -36,6 +36,7 @@ export let potatoStorage = 200;
 export let cutChipsRate = 1;
 export let peelPotatoesRate = 1;
 export let chipsReadyToServeQuantity = 0;
+export let fryerCapacity = 100;
 
 //PRICES
 export let priceToImprovePotatoStorage = 5; //50
@@ -425,5 +426,13 @@ export function getChipsReadyToServeQuantity() {
 
 export function setChipsReadyToServeQuantity(value) {
     chipsReadyToServeQuantity = value;
+}
+
+export function getFryerCapacity() {
+    return fryerCapacity;
+}
+
+export function setFryerCapacity(value) {
+    fryerCapacity = value;
 }
 

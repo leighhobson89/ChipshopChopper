@@ -8,6 +8,7 @@ import {
     getCustomersServed,
     getCustomersWaiting,
     getCutChipsRate,
+    getFryerCapacity,
     getPeelPotatoesRate,
     getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
@@ -30,19 +31,18 @@ import {
     setCustomersWaiting,
     setCustomerTime,
     setCutChipsRate,
+    setFryerCapacity,
     setFryTimer,
     setPeelPotatoesRate,
     setPotatoesPeeledThisShift,
     setPotatoStorageQuantity,
-    setPriceToAddStorageHeater,
-    setPriceToEnableDoubleChopping,
     setPriceToImproveFryerCapacity,
     setPriceToImprovePotatoStorage,
     setQuantityFrying,
     setShiftCounter,
     setShiftInProgress,
     setShiftTime,
-    setSpudsToAddToShift,
+    setSpudsToAddToShift
 } from './gameloop.js';
 
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
@@ -50,7 +50,6 @@ import {formatToCashNotation, updateButtonStyle} from "./ui.js";
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
 const SHIFT_LENGTH = 40;
 const FRY_TIMER = 15;
-const FRYER_CAPACITY = 500;
 const PORTION_SIZE = 40;
 export const PRICE_OF_CHIPS = 2; //price in whole dollars
 export const STARTING_SPUDS = 100;
@@ -58,6 +57,7 @@ export const STARTING_CASH = 0;
 const MIN_SPUDS_DELIVERY = 20;
 const MAX_SPUDS_DELIVERY = 80;
 const UPGRADE_POTATO_STORAGE_QUANTITY = 50;
+const UPGRADE_FRYER_CAPACITY_AMOUNT = 200;
 const MULTIPLE_FOR_IMPROVE_POTATO_STORAGE = 2;
 const MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY = 4;
 
@@ -66,6 +66,7 @@ export function handleButtonClick(buttonId, value) {
     const element = document.getElementById(value);
 
     button.addEventListener('click', () => {
+        let newPriceOfUpgrade;
         switch (buttonId) {
             case 'peelPotatoButton':
                 const potatoesInStorageBeforeThisPeel = getActualPotatoesInStorage();
@@ -80,7 +81,6 @@ export function handleButtonClick(buttonId, value) {
                     incrementCounter(element, 1);
                     setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + 1);
                 }
-
                 break;
             case 'cutChipsButton':
                 const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
@@ -93,12 +93,11 @@ export function handleButtonClick(buttonId, value) {
                     incrementCounter(element, 5); //maybe add getter for getNumberOfChipsFromPotato
                     setChipsCutThisShift(getChipsCutThisShift() + 5);
                 }
-
                 break;
             case 'fryChipsButton':
                 let cutChipsCount = parseInt(document.getElementById('cutCount').innerHTML);
-                if (cutChipsCount >= FRYER_CAPACITY) {
-                    cutChipsCount = FRYER_CAPACITY
+                if (cutChipsCount >= getFryerCapacity()) {
+                    cutChipsCount = getFryerCapacity();
                 }
                 decrementCounter('cutCount', cutChipsCount);
                 fryChips();
@@ -127,7 +126,7 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case 'improvePotatoStorageButton':
                 setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
-                const newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+                newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
                 document.getElementById(buttonId).innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
                 setPotatoStorageQuantity(getPotatoStorageQuantity() + UPGRADE_POTATO_STORAGE_QUANTITY);
                 document.getElementById('subInnerDivMid1_2').innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
@@ -151,6 +150,9 @@ export function handleButtonClick(buttonId, value) {
             case 'improveFryerCapacityButton':
                 setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
                 document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
+                newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+                document.getElementById(buttonId).innerHTML = 'Improve Fryer Cap. ' + formatToCashNotation(newPriceOfUpgrade);
+                setFryerCapacity(getFryerCapacity() + UPGRADE_FRYER_CAPACITY_AMOUNT);
                 break;
             case 'addStorageHeaterButton':
                 setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
@@ -221,7 +223,7 @@ export function disableButtons(init) {
                     button.disabled = spudsLeft <= 0 || !getShiftInProgress();
                     break;
                 case 'cutChipsButton':
-                    button.disabled = peeledCount <= 0  || !getShiftInProgress();
+                    button.disabled = peeledCount <= 0 || !getShiftInProgress();
                     break;
                 case 'fryChipsButton':
                     button.disabled = !getShiftInProgress() || cutCount <= 0 && !getChipsFrying();
