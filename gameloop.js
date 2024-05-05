@@ -169,7 +169,7 @@ function updateChipsFryingTimer() {
                 if (getFryTimer() === 0) {
                     setChipsFrying(false);
                     document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityFrying()).toString();
-                    document.getElementById('fryChipsButton').innerHTML = "Fry Chips";
+                    document.getElementById('fryChipsButton').innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
                     updateButtonStyle('fryChipsButton');
                     disableButtons(false);
                 }

@@ -2,7 +2,7 @@ import {handleButtonClick, disableButtons, STARTING_CASH} from './actions.js';
 import {
     getActualPotatoesInStorage, getChipsCutThisShift, getChipsFriedThisShift,
     getChipsFrying, getChipsReadyToServeNextShift,
-    getCurrentCash, getCustomersWaiting, getOldCash, getPotatoesPeeledThisShift,
+    getCurrentCash, getCustomersWaiting, getFryerCapacity, getOldCash, getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
     getPriceToEnableDoubleChopping,
@@ -127,7 +127,7 @@ export function createGameWindow() {
     const mainButtonDetails = [
         { id: 'peelPotatoButton', name: 'Peel Potato', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'cutChipsButton', name: 'Cut Chips', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'fryChipsButton', name: 'Fry Chips', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'fryChipsButton', name: `Fry Chips (Capacity: ${getFryerCapacity()})`, upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'servingStorageButton', name: 'Serving Storage', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'serveCustomerButton', name: 'Serve Customer', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action6Button', name: 'Action 6', upgrade: 'false', repeatableUpgrade: 'false' },
