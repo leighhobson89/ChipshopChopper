@@ -11,12 +11,13 @@ import {
 } from './ui.js';
 
 import {
-    createRandomCustomerTime,
+    createRandomCustomerTime, decrementCounter,
     disableButtons,
     incrementCustomersWaiting,
     PRICE_OF_CHIPS,
 } from './actions.js';
 
+export const COOL_DOWN_TIMER = 30;
 export const endOfShiftPopupObject = createEndOfShiftPopup();
 export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
 export const popupContinueButton = endOfShiftPopupObject.continueButton;
@@ -24,6 +25,8 @@ export const popupOverlay = createOverlay();
 export let customerTime = 0;
 export let shiftTimeRemaining = 0;
 export let fryTimeRemaining = 0;
+
+export let coolDownTimeRemaining = 0;
 export let shiftCounter = 0;
 export let shiftInProgress = false;
 export let customersServed = 0;
@@ -44,6 +47,7 @@ export let priceToEnableDoubleChopping = 6; //60
 export let priceToEnableDoublePeeling = 4; //40
 export let priceToImproveFryerCapacity = 7; //100
 export let priceToAddStorageHeater = 8; //200
+export let chipsToCoolDownFromThisBatch = [];
 
 //STATS
 export let oldCash = 0;
@@ -52,10 +56,12 @@ export let chipsCutThisShift = 0;
 export let chipsFriedThisShift = 0;
 export let chipsReadyToServeNextShift = 0;
 export let customersWaiting = 0;
+export let chipsWastedThisShift = 0;
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
+let lastChipsCoolDownUpdateTime = new Date().getTime();
 
 let gameInProgress = false;
 createTitleScreen();
@@ -86,6 +92,7 @@ function gameLoop() {
     updateCustomerCountdown();
     updateShiftCountDown();
     updateChipsFryingTimer();
+    updateChipsCoolDownTimer();
     updateVisibleButtons();
 
     // Request the next frame
@@ -111,7 +118,7 @@ function updateCustomerCountdown() {
             if (timeDiffSeconds >= 1) {
                 customerTime--;
                 lastCustomerUpdateTime = now;
-                console.log(`Customer time remaining: ${customerTime} seconds`);
+                //console.log(`Customer time remaining: ${customerTime} seconds`);
                 if (customerTime === 0) {
                     incrementCustomersWaiting();
                     setCustomersWaiting(getCustomersWaiting() + 1);
@@ -132,7 +139,7 @@ function updateShiftCountDown() {
                 shiftTimeRemaining--;
                 lastShiftUpdateTime = now;
                 document.getElementById('subInnerDiv1_2').innerHTML = shiftTimeRemaining;
-                console.log(`Shift time remaining: ${shiftTimeRemaining} seconds`);
+                //console.log(`Shift time remaining: ${shiftTimeRemaining} seconds`);
                 if (shiftTimeRemaining === 0) {
                     setShiftInProgress(false);
                     setOldCash(getCurrentCash());
@@ -165,10 +172,13 @@ function updateChipsFryingTimer() {
                 setFryTimer(getFryTimer() - 1);
                 lastFryingUpdateTime = now;
                 document.getElementById('fryChipsButton').innerHTML = 'Frying ' + getQuantityFrying() +' Chips <br> (' + getFryTimer() + 's)';
-                console.log(`Fry time remaining: ${getFryTimer()} seconds`);
+                //console.log(`Fry time remaining: ${getFryTimer()} seconds`);
                 if (getFryTimer() === 0) {
                     setChipsFrying(false);
                     setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityFrying());
+                    getChipsToCoolDownFromThisBatch().push(getQuantityFrying());
+                    console.log("length of cooldown array: " + getChipsToCoolDownFromThisBatch().length + " number in [0]th element: " + chipsToCoolDownFromThisBatch[0]);
+                    setCoolDownTimer(COOL_DOWN_TIMER);
                     document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityFrying()).toString();
                     document.getElementById('fryChipsButton').innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
                     updateButtonStyle('fryChipsButton');
@@ -179,6 +189,46 @@ function updateChipsFryingTimer() {
     }
 }
 
+function updateChipsCoolDownTimer() {
+    if (getChipsToCoolDownFromThisBatch().length > 0) {
+        const now = new Date().getTime();
+        const timeDiffSeconds = (now - lastChipsCoolDownUpdateTime) / 1000;
+
+        if (getCoolDownTimer() > 0) {
+            if (timeDiffSeconds >= 1) {
+                setCoolDownTimer(getCoolDownTimer() - 1);
+                lastChipsCoolDownUpdateTime = now;
+                console.log(`Cool Down time remaining: ${getCoolDownTimer()} seconds`);
+                if (getCoolDownTimer() === 0) {
+                    triggerWastingProcessForMostRecentBatch();
+                }
+            }
+        }
+    }
+}
+
+async function triggerWastingProcessForMostRecentBatch() {
+    console.log("wasting process triggered");
+    while (getChipsToCoolDownFromThisBatch()[0] > 0) {
+        console.log("wasting one chip " + getChipsToCoolDownFromThisBatch()[0] + " remaining in [0]th element");
+        if (getChipsToCoolDownFromThisBatch()[0] === 0) {
+            console.log("shifting array, element [0] has no chips left")
+            getChipsToCoolDownFromThisBatch().shift();
+        } else {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            console.log("going to waste a chip, " + getChipsToCoolDownFromThisBatch()[0] + " remaining");
+            setChipsToCoolDownFromThisBatch(0, getChipsToCoolDownFromThisBatch()[0] - 1);
+            setChipsWastedThisShift(getChipsWastedThisShift() + 1);
+            console.log("A chip is wasted, " + getChipsToCoolDownFromThisBatch()[0] + " remaining in this batch");
+            decrementCounter('readyToServeCount', 1)
+        }
+    }
+    //waste one chip per second from array until element is 0 then pop
+    //decrement by one the number of chips ready to serve
+    //add one chip per second to wasted amount
+    //update wasted amount on UI
+}
+
 function initialiseNewGame(gameInProgress) {
     if (gameInProgress) {
         return askUserToConfirmRestart();
@@ -186,7 +236,7 @@ function initialiseNewGame(gameInProgress) {
         document.getElementById('option1').innerHTML = "New Game";
         document.getElementById('optionsWindow').style.display = 'none';
         createGameWindow();
-        createRandomCustomerTime(); //create timer for first new customer
+        createRandomCustomerTime();
         document.getElementById('gameWindow').style.display = "block";
         return true;
     }
@@ -299,6 +349,14 @@ export function setFryTimer(value) {
 
 export function getFryTimer() {
     return fryTimeRemaining;
+}
+
+export function setCoolDownTimer(value) {
+    coolDownTimeRemaining = value;
+}
+
+export function getCoolDownTimer() {
+    return coolDownTimeRemaining;
 }
 
 export function getSpudsToAddToShift() {
@@ -435,5 +493,21 @@ export function getFryerCapacity() {
 
 export function setFryerCapacity(value) {
     fryerCapacity = value;
+}
+
+export function getChipsToCoolDownFromThisBatch() {
+    return chipsToCoolDownFromThisBatch;
+}
+
+export function setChipsToCoolDownFromThisBatch(index, value) {
+    chipsToCoolDownFromThisBatch[index] = value;
+}
+
+export function getChipsWastedThisShift() {
+    return chipsWastedThisShift;
+}
+
+export function setChipsWastedThisShift(value) {
+    chipsWastedThisShift = value;
 }
 

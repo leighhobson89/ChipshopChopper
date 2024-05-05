@@ -48,7 +48,7 @@ import {
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
 
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
-const SHIFT_LENGTH = 40;
+const SHIFT_LENGTH = 180;
 const FRY_TIMER = 15;
 const PORTION_SIZE = 40;
 export const PRICE_OF_CHIPS = 2; //price in whole dollars
@@ -192,7 +192,7 @@ function incrementCounter(counterElement, value) {
     disableButtons(false);
 }
 
-function decrementCounter(counterId, value) {
+export function decrementCounter(counterId, value) {
     const counterElement = document.getElementById(counterId);
     let count = parseInt(counterElement.innerHTML);
     count = Math.max(0, count - value); // Ensure count is not negative
