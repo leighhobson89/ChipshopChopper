@@ -7,11 +7,13 @@ import {
     toggleEndOfShiftPopup,
     toggleOverlay,
     toggleSound,
-    updateButtonStyle, writePopupText
+    updateButtonStyle,
+    writePopupText
 } from './ui.js';
 
 import {
-    createRandomCustomerTime, decrementCounter,
+    createRandomCustomerTime,
+    decrementCounter,
     disableButtons,
     incrementCustomersWaiting,
     PRICE_OF_CHIPS,
@@ -58,6 +60,8 @@ export let chipsReadyToServeNextShift = 0;
 export let customersWaiting = 0;
 export let chipsWastedThisShift = 0;
 
+export let batchTimers = {};
+
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
@@ -92,7 +96,6 @@ function gameLoop() {
     updateCustomerCountdown();
     updateShiftCountDown();
     updateChipsFryingTimer();
-    updateChipsCoolDownTimer();
     updateVisibleButtons();
 
     // Request the next frame
@@ -176,9 +179,6 @@ function updateChipsFryingTimer() {
                 if (getFryTimer() === 0) {
                     setChipsFrying(false);
                     setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityFrying());
-                    getChipsToCoolDownFromThisBatch().push(getQuantityFrying());
-                    console.log("length of cooldown array: " + getChipsToCoolDownFromThisBatch().length + " number in [0]th element: " + chipsToCoolDownFromThisBatch[0]);
-                    setCoolDownTimer(COOL_DOWN_TIMER);
                     document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityFrying()).toString();
                     document.getElementById('fryChipsButton').innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
                     updateButtonStyle('fryChipsButton');
@@ -189,44 +189,44 @@ function updateChipsFryingTimer() {
     }
 }
 
-function updateChipsCoolDownTimer() {
-    if (getChipsToCoolDownFromThisBatch().length > 0) {
-        const now = new Date().getTime();
-        const timeDiffSeconds = (now - lastChipsCoolDownUpdateTime) / 1000;
+export function startBatchTimer(batchId) {
+    coolDownTimeRemaining = COOL_DOWN_TIMER; // Set the initial cool down time
+    console.log("Going to start a batch timer with id:" + batchId);
+    batchTimers[batchId] = setInterval(() => {
+        updateChipsCoolDownTimer(batchId);
+    }, 1000);
+}
 
-        if (getCoolDownTimer() > 0) {
-            if (timeDiffSeconds >= 1) {
-                setCoolDownTimer(getCoolDownTimer() - 1);
-                lastChipsCoolDownUpdateTime = now;
-                console.log(`Cool Down time remaining: ${getCoolDownTimer()} seconds`);
-                if (getCoolDownTimer() === 0) {
-                    triggerWastingProcessForMostRecentBatch();
-                }
-            }
-        }
+function updateChipsCoolDownTimer(batchId) {
+    console.log("Cool down timer value: " + coolDownTimeRemaining);
+    if (coolDownTimeRemaining > 0) {
+        console.log(`Batch ${batchId} - Cool Down time remaining: ${coolDownTimeRemaining} seconds`);
+        coolDownTimeRemaining--; // Decrease the remaining time by 1 second
+    } else {
+        clearInterval(batchTimers[batchId]); // Stop the timer when cool down is finished
+        triggerWastingProcessForBatch(batchId); // Trigger wasting process for this batch
     }
 }
 
-async function triggerWastingProcessForMostRecentBatch() {
-    console.log("wasting process triggered");
-    while (getChipsToCoolDownFromThisBatch()[0] > 0) {
-        console.log("wasting one chip " + getChipsToCoolDownFromThisBatch()[0] + " remaining in [0]th element");
-        if (getChipsToCoolDownFromThisBatch()[0] === 0) {
-            console.log("shifting array, element [0] has no chips left")
-            getChipsToCoolDownFromThisBatch().shift();
+async function triggerWastingProcessForBatch(batchId) {
+    console.log(`Batch ${batchId} - wasting process triggered`);
+
+    while (getChipsToCoolDownFromThisBatch()[batchId] > 0) {
+        console.log(`Batch ${batchId} - wasting one chip ${getChipsToCoolDownFromThisBatch()[batchId]} remaining in [${batchId}]th element`);
+
+        if (getChipsToCoolDownFromThisBatch()[batchId] === 0) {
+            console.log(`Batch ${batchId} - shifting array, element [${batchId}] has no chips left`);
+            getChipsToCoolDownFromThisBatch().splice(batchId, 1); // Remove element at batchId
+            stopBatchTimer(batchId); // Stop the timer for this batch
         } else {
             await new Promise(resolve => setTimeout(resolve, 1000));
-            console.log("going to waste a chip, " + getChipsToCoolDownFromThisBatch()[0] + " remaining");
-            setChipsToCoolDownFromThisBatch(0, getChipsToCoolDownFromThisBatch()[0] - 1);
+            console.log(`Batch ${batchId} - going to waste a chip, ${getChipsToCoolDownFromThisBatch()[batchId]} remaining`);
+            setChipsToCoolDownFromThisBatch(batchId, getChipsToCoolDownFromThisBatch()[batchId] - 1);
             setChipsWastedThisShift(getChipsWastedThisShift() + 1);
-            console.log("A chip is wasted, " + getChipsToCoolDownFromThisBatch()[0] + " remaining in this batch");
-            decrementCounter('readyToServeCount', 1)
+            console.log(`Batch ${batchId} - A chip is wasted, ${getChipsToCoolDownFromThisBatch()[batchId]} remaining in this batch`);
+            decrementCounter('readyToServeCount', 1);
         }
     }
-    //waste one chip per second from array until element is 0 then pop
-    //decrement by one the number of chips ready to serve
-    //add one chip per second to wasted amount
-    //update wasted amount on UI
 }
 
 function initialiseNewGame(gameInProgress) {
@@ -351,12 +351,13 @@ export function getFryTimer() {
     return fryTimeRemaining;
 }
 
-export function setCoolDownTimer(value) {
-    coolDownTimeRemaining = value;
+export function setCoolDownTimer(batchId, value) {
+    batchTimers[batchId] = value;
 }
 
-export function getCoolDownTimer() {
-    return coolDownTimeRemaining;
+export function getCoolDownTimer(batchId) {
+    console.log(batchTimers);
+    return batchTimers[batchId];
 }
 
 export function getSpudsToAddToShift() {

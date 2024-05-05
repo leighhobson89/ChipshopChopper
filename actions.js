@@ -1,9 +1,8 @@
 import {
     getActualPotatoesInStorage,
     getChipsCutThisShift,
-    getChipsFriedThisShift,
     getChipsFrying,
-    getChipsReadyToServeQuantity,
+    getChipsReadyToServeQuantity, getChipsToCoolDownFromThisBatch,
     getCurrentCash,
     getCustomersServed,
     getCustomersWaiting,
@@ -23,7 +22,6 @@ import {
     getSpudsToAddToShift,
     setActualPotatoesInStorage,
     setChipsCutThisShift,
-    setChipsFriedThisShift,
     setChipsFrying,
     setChipsReadyToServeQuantity,
     setCurrentCash,
@@ -42,7 +40,8 @@ import {
     setShiftCounter,
     setShiftInProgress,
     setShiftTime,
-    setSpudsToAddToShift
+    setSpudsToAddToShift,
+    startBatchTimer
 } from './gameloop.js';
 
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
@@ -106,13 +105,12 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case 'servingStorageButton':
                 let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
-                let serveIncrement = 10;
-                if (chuckedInFryerCount < serveIncrement) {
-                    serveIncrement = chuckedInFryerCount;
-                }
-                decrementCounter('chuckedInFryerCount', serveIncrement);
-                incrementCounter(element, serveIncrement);
-                setChipsReadyToServeQuantity(getChipsReadyToServeQuantity() + serveIncrement); //remember to add code to handle wastage if adding temperature mechanic
+                let newBatchId = getChipsToCoolDownFromThisBatch().length;
+                getChipsToCoolDownFromThisBatch().push(chuckedInFryerCount);
+                setChipsReadyToServeQuantity(getChipsReadyToServeQuantity() + chuckedInFryerCount);
+                document.getElementById('chuckedInFryerCount').innerHTML = "0";
+                document.getElementById('readyToServeCount').innerHTML = getChipsReadyToServeQuantity();
+                startBatchTimer(newBatchId);
                 break;
             case 'serveCustomerButton':
                 decrementCounter('readyToServeCount', PORTION_SIZE);
