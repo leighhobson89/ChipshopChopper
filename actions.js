@@ -130,7 +130,6 @@ export function handleButtonClick(buttonId, value) {
                 for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
                     if (getChipsReadyToServeQuantity()[i] >= PORTION_SIZE && !portionSizeFulfilled && totalChips === 0) {
                         setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - PORTION_SIZE);
-                        totalChips += PORTION_SIZE;
                         portionSizeFulfilled = true;
                         console.log("took full portion from batch " + i);
                     } else if (!portionSizeFulfilled && ((PORTION_SIZE - totalChips) > getChipsReadyToServeQuantity()[i])) {
