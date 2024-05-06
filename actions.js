@@ -2,7 +2,7 @@ import {
     getActualPotatoesInStorage,
     getChipsCutThisShift,
     getChipsFrying,
-    getChipsReadyToServeQuantity, getChipsToCoolDownFromThisBatch,
+    getChipsReadyToServeQuantity,
     getCurrentCash,
     getCustomersServed,
     getCustomersWaiting,
@@ -47,7 +47,7 @@ import {
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
 
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
-const SHIFT_LENGTH = 180;
+const SHIFT_LENGTH = 120;
 const FRY_TIMER = 15;
 const PORTION_SIZE = 40;
 export const PRICE_OF_CHIPS = 2; //price in whole dollars
@@ -105,11 +105,15 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case 'servingStorageButton':
                 let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
-                let newBatchId = getChipsToCoolDownFromThisBatch().length;
-                getChipsToCoolDownFromThisBatch().push(chuckedInFryerCount);
-                setChipsReadyToServeQuantity(getChipsReadyToServeQuantity() + chuckedInFryerCount);
+                let newBatchId = getChipsReadyToServeQuantity().length;
+                console.log("newbatchid: " + newBatchId + "length of array: " + getChipsReadyToServeQuantity().length);
+                getChipsReadyToServeQuantity().push(chuckedInFryerCount);
                 document.getElementById('chuckedInFryerCount').innerHTML = "0";
-                document.getElementById('readyToServeCount').innerHTML = getChipsReadyToServeQuantity();
+                let total = 0;
+                for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
+                    total += getChipsReadyToServeQuantity()[i];
+                }
+                document.getElementById('readyToServeCount').innerHTML = total.toString();
                 startBatchTimer(newBatchId);
                 break;
             case 'serveCustomerButton':
@@ -118,7 +122,11 @@ export function handleButtonClick(buttonId, value) {
                 setCustomersWaiting(getCustomersWaiting() - 1);
                 let newCustomersServedValue = getCustomersServed() + 1;
                 setCustomersServed(newCustomersServedValue);
-                setChipsReadyToServeQuantity(getChipsReadyToServeQuantity() - PORTION_SIZE);
+                let totalChips = 0;
+                for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
+                    totalChips += getChipsReadyToServeQuantity()[i];
+                }
+                setChipsReadyToServeQuantity(totalChips - PORTION_SIZE);
                 console.log("Total Customers Served: " + getCustomersServed());
                 break;
             case 'improvePotatoStorageButton':

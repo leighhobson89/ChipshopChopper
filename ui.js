@@ -1,7 +1,7 @@
 import {handleButtonClick, disableButtons, STARTING_CASH} from './actions.js';
 import {
     getActualPotatoesInStorage, getChipsCutThisShift, getChipsFriedThisShift,
-    getChipsFrying, getChipsReadyToServeNextShift,
+    getChipsFrying, getChipsWastedThisShift,
     getCurrentCash, getCustomersServed, getCustomersWaiting, getFryerCapacity, getOldCash, getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
@@ -353,7 +353,7 @@ export function writePopupText(shiftCounter) {
         Potatoes Peeled: ${getPotatoesPeeledThisShift()}<br>
         Chips Cut: ${getChipsCutThisShift()}<br>
         Chips Fried: ${getChipsFriedThisShift()}<br>
-        Chips Ready To Be Served: ${getChipsReadyToServeNextShift()}<br>
+        Chips Wasted This Shift: ${getChipsWastedThisShift()}<br>
         Customers Still Waiting: ${getCustomersWaiting()}<br><br>
 
         ${potatoesMessage}
