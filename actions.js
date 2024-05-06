@@ -1,5 +1,4 @@
 import {
-    batchTimers,
     getActualPotatoesInStorage,
     getChipsCutThisShift,
     getChipsFrying,
@@ -12,8 +11,12 @@ import {
     getFryTimer,
     getMaxSpudsDelivery,
     getMaxValueWaitForNewCustomer,
-    getMinSpudsDelivery, getMultipleForImproveFryerCapacity,
-    getMultipleForImprovePotatoStorage, getNumberOfChipsFromPotato,
+    getMinSpudsDelivery,
+    getMultipleForImproveFryerCapacity,
+    getMultipleForImprovePotatoStorage,
+    getNumberOfChipsFromPotato,
+    getOddNumberLeftOverAfterDoublePeelingChopping,
+    getOnShiftOne,
     getPeelPotatoesRate,
     getPortionSize,
     getPotatoesPeeledThisShift,
@@ -28,9 +31,14 @@ import {
     getShiftLength,
     getShiftTime,
     getSpudsToAddToShift,
+    getStandardDecrementIncrementOfOne,
     getStartingSpuds,
+    getUpgradeDoubleChopperMultiple,
+    getUpgradeDoublePeelerMultiple,
     getUpgradeFryerCapacityAmount,
+    getUpgradeHeaterMultiple,
     getUpgradePotatoStorageQuantity,
+    getZero,
     setActualPotatoesInStorage,
     setChipsCutThisShift,
     setChipsFrying,
@@ -52,7 +60,8 @@ import {
     setShiftCounter,
     setShiftInProgress,
     setShiftLengthTimerVariable,
-    setSpudsToAddToShift
+    setSpudsToAddToShift,
+    batchTimers, getAddOneToRandomNumberToEnsureAboveOne
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -66,156 +75,198 @@ export function handleButtonClick(buttonId, value) {
     const element = document.getElementById(value);
 
     button.addEventListener('click', () => {
-        let newPriceOfUpgrade;
         switch (buttonId) {
             case 'peelPotatoButton':
-                const potatoesInStorageBeforeThisPeel = getActualPotatoesInStorage();
-                if (potatoesInStorageBeforeThisPeel > 1) {
-                    setActualPotatoesInStorage(getActualPotatoesInStorage() - getPeelPotatoesRate());
-                    decrementCounter('subInnerDivMid1_2', getPeelPotatoesRate());
-                    incrementCounter(element, getPeelPotatoesRate());
-                    setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + getPeelPotatoesRate());
-                } else if (potatoesInStorageBeforeThisPeel > 0) {
-                    setActualPotatoesInStorage(getActualPotatoesInStorage() - 1);
-                    decrementCounter('subInnerDivMid1_2', 1);
-                    incrementCounter(element, 1);
-                    setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + 1);
-                }
+                handlePeelPotato(element);
                 break;
             case 'cutChipsButton':
-                const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
-                if (peeledCount > 1) {
-                    decrementCounter('peeledCount', getCutChipsRate());
-                    incrementCounter(element, getNumberOfChipsFromPotato() * getCutChipsRate());
-                    setChipsCutThisShift(getChipsCutThisShift() + (getNumberOfChipsFromPotato() * getCutChipsRate()));
-                } else if (peeledCount > 0) {
-                    decrementCounter('peeledCount', 1);
-                    incrementCounter(element, 5);
-                    setChipsCutThisShift(getChipsCutThisShift() + getNumberOfChipsFromPotato());
-                }
+                handleCutChips(element);
                 break;
             case 'fryChipsButton':
-                let cutChipsCount = parseInt(document.getElementById('cutCount').innerHTML);
-                if (cutChipsCount >= getFryerCapacity()) {
-                    cutChipsCount = getFryerCapacity();
-                }
-                decrementCounter('cutCount', cutChipsCount);
-                fryChips();
-                setQuantityFrying(cutChipsCount);
-                updateButtonStyle(buttonId);
+                handleFryChips(buttonId);
                 break;
             case 'servingStorageButton':
-                let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
-                let newBatchId = getChipsReadyToServeQuantity().length;
-                // console.log("newbatchid: " + newBatchId + "length of array: " + getChipsReadyToServeQuantity().length);
-                getChipsReadyToServeQuantity().push(chuckedInFryerCount);
-                document.getElementById('chuckedInFryerCount').innerHTML = "0";
-                let total = 0;
-                for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
-                    total += getChipsReadyToServeQuantity()[i];
-                }
-                document.getElementById('readyToServeCount').innerHTML = total.toString();
-                startBatchTimer(newBatchId);
+                handleServingStorage();
                 break;
             case 'serveCustomerButton':
-                decrementCounter('readyToServeCount', getPortionSize());
-                decrementCounter('customersWaitingCount', 1);
-                setCustomersWaiting(getCustomersWaiting() - 1);
-                let newCustomersServedValue = getCustomersServed() + 1;
-                setCustomersServed(newCustomersServedValue);
-
-                let totalChips = 0;
-                let portionSizeFulfilled = false;
-
-                for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
-                    if (getChipsReadyToServeQuantity()[i] >= getPortionSize() && !portionSizeFulfilled && totalChips === 0) {
-                        setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - getPortionSize());
-                        portionSizeFulfilled = true;
-                        // console.log("took full portion from batch " + i);
-                        if (getChipsReadyToServeQuantity()[i] === 0) {
-                            clearInterval(batchTimers[i]);
-                        }
-                    } else if (!portionSizeFulfilled && ((getPortionSize() - totalChips) > getChipsReadyToServeQuantity()[i])) {
-                        totalChips += getChipsReadyToServeQuantity()[i];
-                        // console.log("not enough chips with " + getChipsReadyToServeQuantity()[i] + " in batch " + i + " - moving on to next batch, with " + totalChips + " added so far!");
-                        setChipsReadyToServeQuantity(i, 0);
-                        clearInterval(batchTimers[i]);
-                    } else {
-                        const chipsToAdd = Math.min(getChipsReadyToServeQuantity()[i], getPortionSize() - totalChips);
-                        setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - chipsToAdd);
-                        // console.log("chips to add to fulfill order: " + chipsToAdd + " because batch has:" + getChipsReadyToServeQuantity()[i] + " and totalChips value is:" + totalChips);
-                        totalChips += chipsToAdd;
-                        // console.log("fulfilled portion from multiple batches, here is the state of the array:");
-                        // console.log(getChipsReadyToServeQuantity());
-                        portionSizeFulfilled = true;
-                    }
-                }
-
-                console.log("Total Customers Served: " + getCustomersServed());
+                handleServeCustomer();
                 break;
             case 'improvePotatoStorageButton':
-                setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
-                newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
-                document.getElementById(buttonId).innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
-                setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity);
-                document.getElementById('subInnerDivMid1_2').innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
+                handleImprovePotatoStorage(buttonId);
                 break;
             case 'twoHandedPeelingButton':
-                if (!checkIfNonRepeatableUpgradePurchased(button)) {
-                    setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
-                    document.getElementById(buttonId).innerHTML = 'Double Peeling Tool PURCHASED';
-                    updateButtonStyle(buttonId);
-                    setPeelPotatoesRate(getPeelPotatoesRate() * 2);
-                }
+                handleTwoHandedPeeling(button, buttonId);
                 break;
             case 'twoHandedChoppingButton':
-                if (!checkIfNonRepeatableUpgradePurchased(button)) {
-                    setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChopping());
-                    document.getElementById(buttonId).innerHTML = 'Double Chopping Tool PURCHASED';
-                    updateButtonStyle(buttonId);
-                    setCutChipsRate(getCutChipsRate() * 2);
-                }
+                handleTwoHandedChopping(button, buttonId);
                 break;
             case 'improveFryerCapacityButton':
-                setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
-                newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
-                document.getElementById(buttonId).innerHTML = 'Improve Fryer Cap. ' + formatToCashNotation(newPriceOfUpgrade);
-                setFryerCapacity(getFryerCapacity() + getUpgradeFryerCapacityAmount());
+                handleImproveFryerCapacity(buttonId);
                 break;
             case 'addStorageHeaterButton':
-                if (!checkIfNonRepeatableUpgradePurchased(button)) {
-                    setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
-                    document.getElementById(buttonId).innerHTML = 'Storage Bin Heater PURCHASED';
-                    updateButtonStyle(buttonId);
-                    setMultipleForHeaterEffectOnCoolDown(2);
-                }
+                handleAddStorageHeater(button, buttonId);
                 break;
             case 'startShiftButton':
-                setShiftLengthTimerVariable(getShiftLength());
-                setShiftInProgress(true);
-                setShiftCounter(getShiftCounter() + 1);
-
-                document.getElementById('subInnerDiv1_1').innerHTML = 'Shift Left (s):';
-                document.getElementById('subInnerDiv1_2').innerHTML = getShiftTime();
-                switch (getShiftCounter()) {
-                    case 1:
-                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getStartingSpuds()).toString() + "/" + getPotatoStorageQuantity().toString();
-                        break;
-                    default:
-                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + getPotatoStorageQuantity().toString();
-                        break;
-                }
-
-                let newPotatoesToDeliverForNextShift = Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity());
-                setActualPotatoesInStorage(newPotatoesToDeliverForNextShift);
-                document.getElementById('startShiftButton').innerHTML = 'Start Shift <br> (+ ' + selectARandomNumberOfSpudsForNextShift() + ' Potatoes)';
-                disableButtons(false);
+                handleStartShift();
                 break;
             default:
                 break;
         }
         disableButtons(false);
     });
+}
+
+function handlePeelPotato(element) {
+    const potatoesInStorageBeforeThisPeel = getActualPotatoesInStorage();
+    if (potatoesInStorageBeforeThisPeel > getOddNumberLeftOverAfterDoublePeelingChopping()) {
+        setActualPotatoesInStorage(getActualPotatoesInStorage() - getPeelPotatoesRate());
+        decrementCounter('subInnerDivMid1_2', getPeelPotatoesRate());
+        incrementCounter(element, getPeelPotatoesRate());
+        setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + getPeelPotatoesRate());
+    } else if (potatoesInStorageBeforeThisPeel > getZero()) {
+        setActualPotatoesInStorage(getActualPotatoesInStorage() - getStandardDecrementIncrementOfOne());
+        decrementCounter('subInnerDivMid1_2', getStandardDecrementIncrementOfOne());
+        incrementCounter(element, getStandardDecrementIncrementOfOne());
+        setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + getStandardDecrementIncrementOfOne());
+    }
+}
+
+function handleCutChips(element) {
+    const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
+    if (peeledCount > getOddNumberLeftOverAfterDoublePeelingChopping()) { //normal case
+        decrementCounter('peeledCount', getCutChipsRate());
+        incrementCounter(element, getNumberOfChipsFromPotato() * getCutChipsRate());
+        setChipsCutThisShift(getChipsCutThisShift() + (getNumberOfChipsFromPotato() * getCutChipsRate()));
+    } else if (peeledCount > getZero()) { //odd number left handles case of double cutter
+        decrementCounter('peeledCount', getStandardDecrementIncrementOfOne());
+        incrementCounter(element, getNumberOfChipsFromPotato());
+        setChipsCutThisShift(getChipsCutThisShift() + getNumberOfChipsFromPotato());
+    }
+}
+
+function handleFryChips(buttonId) {
+    let cutChipsCount = parseInt(document.getElementById('cutCount').innerHTML);
+    if (cutChipsCount >= getFryerCapacity()) {
+        cutChipsCount = getFryerCapacity();
+    }
+    decrementCounter('cutCount', cutChipsCount);
+    fryChips();
+    setQuantityFrying(cutChipsCount);
+    updateButtonStyle(buttonId);
+}
+
+function handleServingStorage() {
+    let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
+    let newBatchId = getChipsReadyToServeQuantity().length;
+    // console.log("newbatchid: " + newBatchId + "length of array: " + getChipsReadyToServeQuantity().length);
+    getChipsReadyToServeQuantity().push(chuckedInFryerCount);
+    document.getElementById('chuckedInFryerCount').innerHTML = "0";
+    let total = getZero();
+    for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
+        total += getChipsReadyToServeQuantity()[i];
+    }
+    document.getElementById('readyToServeCount').innerHTML = total.toString();
+    startBatchTimer(newBatchId);
+}
+
+function handleServeCustomer() {
+    decrementCounter('readyToServeCount', getPortionSize());
+    decrementCounter('customersWaitingCount', getStandardDecrementIncrementOfOne());
+    setCustomersWaiting(getCustomersWaiting() - getStandardDecrementIncrementOfOne());
+    let newCustomersServedValue = getCustomersServed() + getStandardDecrementIncrementOfOne();
+    setCustomersServed(newCustomersServedValue);
+
+    let totalChips = getZero();
+    let portionSizeFulfilled = false;
+
+    for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
+        if (getChipsReadyToServeQuantity()[i] >= getPortionSize() && !portionSizeFulfilled && totalChips === getZero()) {
+            setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - getPortionSize());
+            portionSizeFulfilled = true;
+            // console.log("took full portion from batch " + i);
+            if (getChipsReadyToServeQuantity()[i] === getZero()) {
+                clearInterval(batchTimers[i]);
+            }
+        } else if (!portionSizeFulfilled && ((getPortionSize() - totalChips) > getChipsReadyToServeQuantity()[i])) {
+            totalChips += getChipsReadyToServeQuantity()[i];
+            // console.log("not enough chips with " + getChipsReadyToServeQuantity()[i] + " in batch " + i + " - moving on to next batch, with " + totalChips + " added so far!");
+            setChipsReadyToServeQuantity(i, getZero());
+            clearInterval(batchTimers[i]);
+        } else {
+            const chipsToAdd = Math.min(getChipsReadyToServeQuantity()[i], getPortionSize() - totalChips);
+            setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - chipsToAdd);
+            // console.log("chips to add to fulfill order: " + chipsToAdd + " because batch has:" + getChipsReadyToServeQuantity()[i] + " and totalChips value is:" + totalChips);
+            totalChips += chipsToAdd;
+            // console.log("fulfilled portion from multiple batches, here is the state of the array:");
+            // console.log(getChipsReadyToServeQuantity());
+            portionSizeFulfilled = true;
+        }
+    }
+    // console.log("Total Customers Served: " + getCustomersServed());
+}
+
+function handleImprovePotatoStorage(buttonId) {
+    setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    document.getElementById(buttonId).innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
+    setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity);
+    document.getElementById('subInnerDivMid1_2').innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
+}
+
+function handleTwoHandedPeeling(button, buttonId) {
+    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+        setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
+        document.getElementById(buttonId).innerHTML = 'Double Peeling Tool PURCHASED';
+        updateButtonStyle(buttonId);
+        setPeelPotatoesRate(getPeelPotatoesRate() * getUpgradeDoublePeelerMultiple());
+    }
+}
+
+function handleTwoHandedChopping(button, buttonId) {
+    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+        setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChopping());
+        document.getElementById(buttonId).innerHTML = 'Double Chopping Tool PURCHASED';
+        updateButtonStyle(buttonId);
+        setCutChipsRate(getCutChipsRate() * getUpgradeDoubleChopperMultiple());
+    }
+}
+
+function handleImproveFryerCapacity(buttonId) {
+    setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    document.getElementById(buttonId).innerHTML = 'Improve Fryer Cap. ' + formatToCashNotation(newPriceOfUpgrade);
+    setFryerCapacity(getFryerCapacity() + getUpgradeFryerCapacityAmount());
+}
+
+function handleAddStorageHeater(button, buttonId) {
+    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+        setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
+        document.getElementById(buttonId).innerHTML = 'Storage Bin Heater PURCHASED';
+        updateButtonStyle(buttonId);
+        setMultipleForHeaterEffectOnCoolDown(getUpgradeHeaterMultiple());
+    }
+}
+
+function handleStartShift() {
+    setShiftLengthTimerVariable(getShiftLength());
+    setShiftInProgress(true);
+    setShiftCounter(getShiftCounter() + getStandardDecrementIncrementOfOne());
+
+    document.getElementById('subInnerDiv1_1').innerHTML = 'Shift Left (s):';
+    document.getElementById('subInnerDiv1_2').innerHTML = getShiftTime();
+    switch (getShiftCounter()) {
+        case getOnShiftOne():
+            document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getStartingSpuds()).toString() + "/" + getPotatoStorageQuantity().toString();
+            break;
+        default:
+            document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + getPotatoStorageQuantity().toString();
+            break;
+    }
+
+    let newPotatoesToDeliverForNextShift = Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity());
+    setActualPotatoesInStorage(newPotatoesToDeliverForNextShift);
+    document.getElementById('startShiftButton').innerHTML = 'Start Shift <br> (+ ' + selectARandomNumberOfSpudsForNextShift() + ' Potatoes)';
+    disableButtons(false);
 }
 
 function incrementCounter(counterElement, value) {
@@ -228,7 +279,7 @@ function incrementCounter(counterElement, value) {
 export function decrementCounter(counterId, value) {
     const counterElement = document.getElementById(counterId);
     let count = parseInt(counterElement.innerHTML);
-    count = Math.max(0, count - value);
+    count = Math.max(getZero(), count - value);
     if (counterId === "subInnerDivMid1_2") {
         counterElement.innerHTML = count.toString() + "/" + getPotatoStorageQuantity().toString();
     } else {
@@ -252,19 +303,19 @@ export function disableButtons(init) {
         mainButtons.forEach(button => {
             switch (button.id) {
                 case 'peelPotatoButton':
-                    button.disabled = spudsLeft <= 0 || !getShiftInProgress();
+                    button.disabled = spudsLeft <= getZero() || !getShiftInProgress();
                     break;
                 case 'cutChipsButton':
-                    button.disabled = peeledCount <= 0 || !getShiftInProgress();
+                    button.disabled = peeledCount <= getZero() || !getShiftInProgress();
                     break;
                 case 'fryChipsButton':
-                    button.disabled = !getShiftInProgress() || cutCount <= 0 && !getChipsFrying();
+                    button.disabled = !getShiftInProgress() || cutCount <= getZero() && !getChipsFrying();
                     break;
                 case 'servingStorageButton':
-                    button.disabled = inFryerCount <= 0 || !getShiftInProgress();
+                    button.disabled = inFryerCount <= getZero() || !getShiftInProgress();
                     break;
                 case 'serveCustomerButton':
-                    button.disabled = customerCount <= 0 || readyToServeCount < getPortionSize() || !getShiftInProgress();
+                    button.disabled = customerCount <= getZero() || readyToServeCount < getPortionSize() || !getShiftInProgress();
                     break;
                 case 'improvePotatoStorageButton':
                     button.disabled = getCurrentCash() < getPriceToImprovePotatoStorage();
@@ -301,7 +352,7 @@ export function disableButtons(init) {
                     }
                     break;
                 case 'startShiftButton':
-                    button.disabled = getShiftTime() > 0;
+                    button.disabled = getShiftTime() > getZero();
                     break;
                 default:
                     button.disabled = false;
@@ -329,7 +380,7 @@ export function disableButtons(init) {
         for (let i = 0; i < mainButtons.length; i++) {
             const button = mainButtons[i];
             if (button.id !== "startShiftButton" && !checkIfNonRepeatableUpgradePurchased(button)) {
-                if (getCurrentCash() < pricesArrayMainButtons[i] || pricesArrayMainButtons[i] === 0) {
+                if (getCurrentCash() < pricesArrayMainButtons[i] || pricesArrayMainButtons[i] === getZero()) {
                     button.disabled = true;
                     button.classList.add('disabled');
                 }
@@ -357,7 +408,7 @@ export function createRandomCustomerTime() {
 
 export function incrementCustomersWaiting() {
     let customerCount = parseInt(document.getElementById('customersWaitingCount').innerHTML);
-    customerCount++;
+    customerCount += getStandardDecrementIncrementOfOne();
     document.getElementById('customersWaitingCount').innerHTML = customerCount.toString();
     disableButtons(false);
 }
@@ -376,7 +427,7 @@ function fryChips() {
 }
 
 function selectARandomNumberOfSpudsForNextShift() {
-    let spudsToAddToNextShift = Math.floor(Math.random() * (getMaxSpudsDelivery() - getMinSpudsDelivery() + 1)) + getMinSpudsDelivery();
+    let spudsToAddToNextShift = Math.floor(Math.random() * (getMaxSpudsDelivery() - getMinSpudsDelivery() + getAddOneToRandomNumberToEnsureAboveOne())) + getMinSpudsDelivery();
     setSpudsToAddToShift(spudsToAddToNextShift);
     return spudsToAddToNextShift;
 }

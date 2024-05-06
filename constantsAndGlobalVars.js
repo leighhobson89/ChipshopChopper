@@ -1,7 +1,8 @@
 import {createEndOfShiftPopup, createOverlay, formatToCashNotation} from './ui.js';
 
+const CLOCK_SPEED = 1000;
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
-const SHIFT_LENGTH = 150;
+const SHIFT_LENGTH = 30;
 const FRY_TIMER = 15;
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
@@ -15,6 +16,12 @@ const MULTIPLE_FOR_IMPROVE_POTATO_STORAGE = 2;
 const MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY = 4;
 const NUMBER_OF_CHIPS_FROM_POTATO = 5;
 const COOL_DOWN_TIMER = 20;
+const STANDARD_DECREMENT_INCREMENT = 1;
+const UPGRADE_HEATER_MULTIPLE = 2;
+const UPGRADE_DOUBLE_PEELER_MULTIPLE = 2;
+const UPGRADE_DOUBLE_CHOPPER_MULTIPLE = 2;
+const ZERO = 0;
+const ONE = 1;
 export const endOfShiftPopupObject = createEndOfShiftPopup();
 export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
 export const popupContinueButton = endOfShiftPopupObject.continueButton;
@@ -58,10 +65,6 @@ export const popupOverlay = createOverlay();
  let chipsWastedThisShift = 0;
 
  export let batchTimers = {};
-
-//GETTERS AND SETTERS
-
-//GETTER SETTER METHODS
 
 export function setActualPotatoesInStorage(value) {
     actualPotatoesInStorage = value;
@@ -373,5 +376,51 @@ export function getStartingCash() {
     return STARTING_CASH;
 }
 
+export function getStandardDecrementIncrementOfOne() {
+    return STANDARD_DECREMENT_INCREMENT;
+}
 
+export function getUpgradeHeaterMultiple() {
+    return UPGRADE_HEATER_MULTIPLE;
+}
+
+export function getUpgradeDoublePeelerMultiple() {
+    return UPGRADE_DOUBLE_PEELER_MULTIPLE;
+}
+
+export function getUpgradeDoubleChopperMultiple() {
+    return UPGRADE_DOUBLE_CHOPPER_MULTIPLE;
+}
+
+export function getZero() {
+    return ZERO;
+}
+
+export function getOddNumberLeftOverAfterDoublePeelingChopping() {
+    return ONE;
+}
+
+export function getOnShiftOne() {
+    return ONE;
+}
+
+export function getAddOneToRandomNumberToEnsureAboveOne() {
+    return ONE;
+}
+
+export function getOneForTimeDiff() {
+    return ONE;
+}
+
+export function getClockSpeed() {
+    return CLOCK_SPEED;
+}
+
+export function getJustDeleteTheOneElementFromArray() {
+    return ONE;
+}
+
+export function resetBatchTimers() {
+    batchTimers = {};
+}
 
