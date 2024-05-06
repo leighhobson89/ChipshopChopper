@@ -1,4 +1,4 @@
-import {handleButtonClick, disableButtons, STARTING_CASH} from './actions.js';
+import {handleButtonClick, disableButtons} from './actions.js';
 import {
     getActualPotatoesInStorage, getChipsCutThisShift, getChipsFriedThisShift,
     getChipsFrying, getChipsWastedThisShift,
@@ -9,8 +9,8 @@ import {
     getPriceToEnableDoublePeeling,
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
-    getSpudsToAddToShift
-} from './gameloop.js';
+    getSpudsToAddToShift, getStartingCash
+} from './constantsAndGlobalVars.js';
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -214,7 +214,7 @@ export function writeTextInSections(buttonDetails) {
     document.getElementById('subInnerDivMid1_2').innerHTML = "0/" + getPotatoStorageQuantity().toString();
 
     document.getElementById('subInnerDivMid3_1').innerHTML = 'Money:';
-    document.getElementById('subInnerDivMid3_2').innerHTML = formatToCashNotation(STARTING_CASH);
+    document.getElementById('subInnerDivMid3_2').innerHTML = formatToCashNotation(getStartingCash());
 
     buttonDetails.forEach(buttonInfo => {
         const button = document.getElementById(buttonInfo.id);
@@ -237,11 +237,11 @@ export function toggleSound() {
 
     if (isSoundOn) {
         soundOption.style.backgroundColor = '#00cc00'; // Green
-        console.log('Sound turned on');
+        // console.log('Sound turned on');
         // Call your "toggleSound(on)" function here
     } else {
         soundOption.style.backgroundColor = 'rgb(255, 0, 0)'; // Red
-        console.log('Sound turned off');
+        // console.log('Sound turned off');
         // Call your "toggleSound(off)" function here
     }
 }

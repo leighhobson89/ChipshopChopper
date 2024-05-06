@@ -8,8 +8,14 @@ import {
     getCustomersServed,
     getCustomersWaiting,
     getCutChipsRate,
-    getFryerCapacity, getMultipleForHeaterEffectOnCoolDown,
+    getFryerCapacity,
+    getFryTimer,
+    getMaxSpudsDelivery,
+    getMaxValueWaitForNewCustomer,
+    getMinSpudsDelivery, getMultipleForImproveFryerCapacity,
+    getMultipleForImprovePotatoStorage, getNumberOfChipsFromPotato,
     getPeelPotatoesRate,
+    getPortionSize,
     getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
@@ -19,8 +25,12 @@ import {
     getPriceToImprovePotatoStorage,
     getShiftCounter,
     getShiftInProgress,
+    getShiftLength,
     getShiftTime,
     getSpudsToAddToShift,
+    getStartingSpuds,
+    getUpgradeFryerCapacityAmount,
+    getUpgradePotatoStorageQuantity,
     setActualPotatoesInStorage,
     setChipsCutThisShift,
     setChipsFrying,
@@ -28,10 +38,11 @@ import {
     setCurrentCash,
     setCustomersServed,
     setCustomersWaiting,
-    setCustomerTime,
+    setCustomerTimerVariable,
     setCutChipsRate,
     setFryerCapacity,
-    setFryTimer, setMultipleForHeaterEffectOnCoolDown,
+    setFryTimer,
+    setMultipleForHeaterEffectOnCoolDown,
     setPeelPotatoesRate,
     setPotatoesPeeledThisShift,
     setPotatoStorageQuantity,
@@ -40,26 +51,15 @@ import {
     setQuantityFrying,
     setShiftCounter,
     setShiftInProgress,
-    setShiftTime,
-    setSpudsToAddToShift,
+    setShiftLengthTimerVariable,
+    setSpudsToAddToShift
+} from './constantsAndGlobalVars.js';
+
+import {
     startBatchTimer
 } from './gameloop.js';
 
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
-
-const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
-const SHIFT_LENGTH = 150;
-const FRY_TIMER = 15;
-const PORTION_SIZE = 40;
-export const PRICE_OF_CHIPS = 2; //price in whole dollars
-export const STARTING_SPUDS = 100;
-export const STARTING_CASH = 0;
-const MIN_SPUDS_DELIVERY = 20;
-const MAX_SPUDS_DELIVERY = 80;
-const UPGRADE_POTATO_STORAGE_QUANTITY = 50;
-const UPGRADE_FRYER_CAPACITY_AMOUNT = 200;
-const MULTIPLE_FOR_IMPROVE_POTATO_STORAGE = 2;
-const MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY = 4;
 
 export function handleButtonClick(buttonId, value) {
     const button = document.getElementById(buttonId);
@@ -86,12 +86,12 @@ export function handleButtonClick(buttonId, value) {
                 const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
                 if (peeledCount > 1) {
                     decrementCounter('peeledCount', getCutChipsRate());
-                    incrementCounter(element, 5 * getCutChipsRate()); //maybe add getter for getNumberOfChipsFromPotato
-                    setChipsCutThisShift(getChipsCutThisShift() + (5 * getCutChipsRate()));
+                    incrementCounter(element, getNumberOfChipsFromPotato() * getCutChipsRate());
+                    setChipsCutThisShift(getChipsCutThisShift() + (getNumberOfChipsFromPotato() * getCutChipsRate()));
                 } else if (peeledCount > 0) {
                     decrementCounter('peeledCount', 1);
-                    incrementCounter(element, 5); //maybe add getter for getNumberOfChipsFromPotato
-                    setChipsCutThisShift(getChipsCutThisShift() + 5);
+                    incrementCounter(element, 5);
+                    setChipsCutThisShift(getChipsCutThisShift() + getNumberOfChipsFromPotato());
                 }
                 break;
             case 'fryChipsButton':
@@ -107,7 +107,7 @@ export function handleButtonClick(buttonId, value) {
             case 'servingStorageButton':
                 let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
                 let newBatchId = getChipsReadyToServeQuantity().length;
-                console.log("newbatchid: " + newBatchId + "length of array: " + getChipsReadyToServeQuantity().length);
+                // console.log("newbatchid: " + newBatchId + "length of array: " + getChipsReadyToServeQuantity().length);
                 getChipsReadyToServeQuantity().push(chuckedInFryerCount);
                 document.getElementById('chuckedInFryerCount').innerHTML = "0";
                 let total = 0;
@@ -118,7 +118,7 @@ export function handleButtonClick(buttonId, value) {
                 startBatchTimer(newBatchId);
                 break;
             case 'serveCustomerButton':
-                decrementCounter('readyToServeCount', PORTION_SIZE);
+                decrementCounter('readyToServeCount', getPortionSize());
                 decrementCounter('customersWaitingCount', 1);
                 setCustomersWaiting(getCustomersWaiting() - 1);
                 let newCustomersServedValue = getCustomersServed() + 1;
@@ -128,25 +128,25 @@ export function handleButtonClick(buttonId, value) {
                 let portionSizeFulfilled = false;
 
                 for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
-                    if (getChipsReadyToServeQuantity()[i] >= PORTION_SIZE && !portionSizeFulfilled && totalChips === 0) {
-                        setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - PORTION_SIZE);
+                    if (getChipsReadyToServeQuantity()[i] >= getPortionSize() && !portionSizeFulfilled && totalChips === 0) {
+                        setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - getPortionSize());
                         portionSizeFulfilled = true;
-                        console.log("took full portion from batch " + i);
+                        // console.log("took full portion from batch " + i);
                         if (getChipsReadyToServeQuantity()[i] === 0) {
                             clearInterval(batchTimers[i]);
                         }
-                    } else if (!portionSizeFulfilled && ((PORTION_SIZE - totalChips) > getChipsReadyToServeQuantity()[i])) {
+                    } else if (!portionSizeFulfilled && ((getPortionSize() - totalChips) > getChipsReadyToServeQuantity()[i])) {
                         totalChips += getChipsReadyToServeQuantity()[i];
-                        console.log("not enough chips with " + getChipsReadyToServeQuantity()[i] + " in batch " + i + " - moving on to next batch, with " + totalChips + " added so far!");
+                        // console.log("not enough chips with " + getChipsReadyToServeQuantity()[i] + " in batch " + i + " - moving on to next batch, with " + totalChips + " added so far!");
                         setChipsReadyToServeQuantity(i, 0);
                         clearInterval(batchTimers[i]);
                     } else {
-                        const chipsToAdd = Math.min(getChipsReadyToServeQuantity()[i], PORTION_SIZE - totalChips);
+                        const chipsToAdd = Math.min(getChipsReadyToServeQuantity()[i], getPortionSize() - totalChips);
                         setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - chipsToAdd);
-                        console.log("chips to add to fulfill order: " + chipsToAdd + " because batch has:" + getChipsReadyToServeQuantity()[i] + " and totalChips value is:" + totalChips);
+                        // console.log("chips to add to fulfill order: " + chipsToAdd + " because batch has:" + getChipsReadyToServeQuantity()[i] + " and totalChips value is:" + totalChips);
                         totalChips += chipsToAdd;
-                        console.log("fulfilled portion from multiple batches, here is the state of the array:");
-                        console.log(getChipsReadyToServeQuantity());
+                        // console.log("fulfilled portion from multiple batches, here is the state of the array:");
+                        // console.log(getChipsReadyToServeQuantity());
                         portionSizeFulfilled = true;
                     }
                 }
@@ -157,7 +157,7 @@ export function handleButtonClick(buttonId, value) {
                 setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
                 newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
                 document.getElementById(buttonId).innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
-                setPotatoStorageQuantity(getPotatoStorageQuantity() + UPGRADE_POTATO_STORAGE_QUANTITY);
+                setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity);
                 document.getElementById('subInnerDivMid1_2').innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
                 break;
             case 'twoHandedPeelingButton':
@@ -180,7 +180,7 @@ export function handleButtonClick(buttonId, value) {
                 setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
                 newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
                 document.getElementById(buttonId).innerHTML = 'Improve Fryer Cap. ' + formatToCashNotation(newPriceOfUpgrade);
-                setFryerCapacity(getFryerCapacity() + UPGRADE_FRYER_CAPACITY_AMOUNT);
+                setFryerCapacity(getFryerCapacity() + getUpgradeFryerCapacityAmount());
                 break;
             case 'addStorageHeaterButton':
                 if (!checkIfNonRepeatableUpgradePurchased(button)) {
@@ -191,7 +191,7 @@ export function handleButtonClick(buttonId, value) {
                 }
                 break;
             case 'startShiftButton':
-                setShiftLengthTimerVariable(SHIFT_LENGTH);
+                setShiftLengthTimerVariable(getShiftLength());
                 setShiftInProgress(true);
                 setShiftCounter(getShiftCounter() + 1);
 
@@ -199,7 +199,7 @@ export function handleButtonClick(buttonId, value) {
                 document.getElementById('subInnerDiv1_2').innerHTML = getShiftTime();
                 switch (getShiftCounter()) {
                     case 1:
-                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(STARTING_SPUDS).toString() + "/" + getPotatoStorageQuantity().toString();
+                        document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getStartingSpuds()).toString() + "/" + getPotatoStorageQuantity().toString();
                         break;
                     default:
                         document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + getPotatoStorageQuantity().toString();
@@ -208,7 +208,7 @@ export function handleButtonClick(buttonId, value) {
 
                 let newPotatoesToDeliverForNextShift = Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity());
                 setActualPotatoesInStorage(newPotatoesToDeliverForNextShift);
-                document.getElementById('startShiftButton').innerHTML = 'Start Shift <br> (+ ' + getRandomNumberOfSpudsForNextShift() + ' Potatoes)';
+                document.getElementById('startShiftButton').innerHTML = 'Start Shift <br> (+ ' + selectARandomNumberOfSpudsForNextShift() + ' Potatoes)';
                 disableButtons(false);
                 break;
             default:
@@ -228,7 +228,7 @@ function incrementCounter(counterElement, value) {
 export function decrementCounter(counterId, value) {
     const counterElement = document.getElementById(counterId);
     let count = parseInt(counterElement.innerHTML);
-    count = Math.max(0, count - value); // Ensure count is not negative
+    count = Math.max(0, count - value);
     if (counterId === "subInnerDivMid1_2") {
         counterElement.innerHTML = count.toString() + "/" + getPotatoStorageQuantity().toString();
     } else {
@@ -264,7 +264,7 @@ export function disableButtons(init) {
                     button.disabled = inFryerCount <= 0 || !getShiftInProgress();
                     break;
                 case 'serveCustomerButton':
-                    button.disabled = customerCount <= 0 || readyToServeCount < PORTION_SIZE || !getShiftInProgress();
+                    button.disabled = customerCount <= 0 || readyToServeCount < getPortionSize() || !getShiftInProgress();
                     break;
                 case 'improvePotatoStorageButton':
                     button.disabled = getCurrentCash() < getPriceToImprovePotatoStorage();
@@ -351,16 +351,8 @@ export function disableButtons(init) {
 }
 
 export function createRandomCustomerTime() {
-    const timeUntilNextCustomer = Math.floor(Math.random() * MAX_VALUE_WAIT_FOR_NEW_CUSTOMER) + 1;
+    const timeUntilNextCustomer = Math.floor(Math.random() * getMaxValueWaitForNewCustomer()) + 1;
     setCustomerTimerVariable(timeUntilNextCustomer);
-}
-
-export function setCustomerTimerVariable(value) {
-    setCustomerTime(value);
-}
-
-export function setShiftLengthTimerVariable(value) {
-    setShiftTime(value);
 }
 
 export function incrementCustomersWaiting() {
@@ -379,12 +371,12 @@ function addShiftSpuds(quantity) {
 }
 
 function fryChips() {
-    setFryTimer(FRY_TIMER);
+    setFryTimer(getFryTimer());
     setChipsFrying(true);
 }
 
-function getRandomNumberOfSpudsForNextShift() {
-    let spudsToAddToNextShift = Math.floor(Math.random() * (MAX_SPUDS_DELIVERY - MIN_SPUDS_DELIVERY + 1)) + MIN_SPUDS_DELIVERY;
+function selectARandomNumberOfSpudsForNextShift() {
+    let spudsToAddToNextShift = Math.floor(Math.random() * (getMaxSpudsDelivery() - getMinSpudsDelivery() + 1)) + getMinSpudsDelivery();
     setSpudsToAddToShift(spudsToAddToNextShift);
     return spudsToAddToNextShift;
 }
@@ -392,14 +384,14 @@ function getRandomNumberOfSpudsForNextShift() {
 function calculateAndSetNewPriceOfUpgrade(buttonId) {
     switch (buttonId) {
         case "improvePotatoStorageButton":
-            setPriceToImprovePotatoStorage(getPriceToImprovePotatoStorage() * MULTIPLE_FOR_IMPROVE_POTATO_STORAGE);
+            setPriceToImprovePotatoStorage(getPriceToImprovePotatoStorage() * getMultipleForImprovePotatoStorage());
             return getPriceToImprovePotatoStorage();
         case "twoHandedPeelingButton":
             return getPriceToEnableDoublePeeling();
         case "twoHandedChoppingButton":
             return getPriceToEnableDoubleChopping();
         case "improveFryerCapacityButton":
-            setPriceToImproveFryerCapacity(getPriceToImproveFryerCapacity() * MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY);
+            setPriceToImproveFryerCapacity(getPriceToImproveFryerCapacity() * getMultipleForImproveFryerCapacity());
             return getPriceToImproveFryerCapacity();
         case "addStorageHeaterButton":
             return getPriceToAddStorageHeater();
