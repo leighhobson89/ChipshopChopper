@@ -8,7 +8,7 @@ import {
     getCustomersServed,
     getCustomersWaiting,
     getCutChipsRate,
-    getFryerCapacity,
+    getFryerCapacity, getMultipleForHeaterEffectOnCoolDown,
     getPeelPotatoesRate,
     getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
@@ -31,7 +31,7 @@ import {
     setCustomerTime,
     setCutChipsRate,
     setFryerCapacity,
-    setFryTimer,
+    setFryTimer, setMultipleForHeaterEffectOnCoolDown,
     setPeelPotatoesRate,
     setPotatoesPeeledThisShift,
     setPotatoStorageQuantity,
@@ -48,7 +48,7 @@ import {
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
 
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
-const SHIFT_LENGTH = 120;
+const SHIFT_LENGTH = 150;
 const FRY_TIMER = 15;
 const PORTION_SIZE = 40;
 export const PRICE_OF_CHIPS = 2; //price in whole dollars
@@ -132,6 +132,9 @@ export function handleButtonClick(buttonId, value) {
                         setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - PORTION_SIZE);
                         portionSizeFulfilled = true;
                         console.log("took full portion from batch " + i);
+                        if (getChipsReadyToServeQuantity()[i] === 0) {
+                            clearInterval(batchTimers[i]);
+                        }
                     } else if (!portionSizeFulfilled && ((PORTION_SIZE - totalChips) > getChipsReadyToServeQuantity()[i])) {
                         totalChips += getChipsReadyToServeQuantity()[i];
                         console.log("not enough chips with " + getChipsReadyToServeQuantity()[i] + " in batch " + i + " - moving on to next batch, with " + totalChips + " added so far!");
@@ -175,14 +178,17 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case 'improveFryerCapacityButton':
                 setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
-                document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
                 newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
                 document.getElementById(buttonId).innerHTML = 'Improve Fryer Cap. ' + formatToCashNotation(newPriceOfUpgrade);
                 setFryerCapacity(getFryerCapacity() + UPGRADE_FRYER_CAPACITY_AMOUNT);
                 break;
             case 'addStorageHeaterButton':
-                setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
-                document.getElementById(buttonId).innerHTML = formatToCashNotation(getCurrentCash());
+                if (!checkIfNonRepeatableUpgradePurchased(button)) {
+                    setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
+                    document.getElementById(buttonId).innerHTML = 'Storage Bin Heater PURCHASED';
+                    updateButtonStyle(buttonId);
+                    setMultipleForHeaterEffectOnCoolDown(2);
+                }
                 break;
             case 'startShiftButton':
                 setShiftLengthTimerVariable(SHIFT_LENGTH);

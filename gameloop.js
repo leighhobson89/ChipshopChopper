@@ -19,7 +19,8 @@ import {
     PRICE_OF_CHIPS,
 } from './actions.js';
 
-export const COOL_DOWN_TIMER = 30; //30
+export const COOL_DOWN_TIMER = 30;
+export let multipleForHeaterEffectOnCoolDown = 1;
 export const endOfShiftPopupObject = createEndOfShiftPopup();
 export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
 export const popupContinueButton = endOfShiftPopupObject.continueButton;
@@ -199,7 +200,7 @@ function updateChipsFryingTimer() {
 }
 
 export function startBatchTimer(batchId) {
-    coolDownTimeRemaining = COOL_DOWN_TIMER; // Set the initial cool downtime
+    setCoolDownTimeRemaining(COOL_DOWN_TIMER * getMultipleForHeaterEffectOnCoolDown());
     console.log("Going to start a batch timer with id:" + batchId);
     batchTimers[batchId] = setInterval(() => {
         updateChipsCoolDownTimer(batchId);
@@ -207,10 +208,10 @@ export function startBatchTimer(batchId) {
 }
 
 function updateChipsCoolDownTimer(batchId) {
-    console.log("Cool down timer value: " + coolDownTimeRemaining);
-    if (coolDownTimeRemaining > 0) {
-        console.log(`Batch ${batchId} - Cool Down time remaining: ${coolDownTimeRemaining} seconds`);
-        coolDownTimeRemaining--;
+    console.log("Cool down timer value: " + getCoolDownTimeRemaining());
+    if (getCoolDownTimeRemaining() > 0) {
+        console.log(`Batch ${batchId} - Cool Down time remaining: ${getCoolDownTimeRemaining()} seconds`);
+        setCoolDownTimeRemaining(getCoolDownTimeRemaining() - 1);
     } else {
         clearInterval(batchTimers[batchId]);
         triggerWastingProcessForBatch(batchId);
@@ -496,3 +497,18 @@ export function setChipsWastedThisShift(value) {
     chipsWastedThisShift = value;
 }
 
+export function getMultipleForHeaterEffectOnCoolDown() {
+    return multipleForHeaterEffectOnCoolDown;
+}
+
+export function setMultipleForHeaterEffectOnCoolDown(value) {
+    multipleForHeaterEffectOnCoolDown = value;
+}
+
+export function getCoolDownTimeRemaining() {
+    return coolDownTimeRemaining;
+}
+
+export function setCoolDownTimeRemaining(value) {
+    coolDownTimeRemaining = value;
+}
