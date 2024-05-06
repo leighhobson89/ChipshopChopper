@@ -1,4 +1,5 @@
 import {
+    batchTimers,
     getActualPotatoesInStorage,
     getChipsCutThisShift,
     getChipsFrying,
@@ -122,11 +123,32 @@ export function handleButtonClick(buttonId, value) {
                 setCustomersWaiting(getCustomersWaiting() - 1);
                 let newCustomersServedValue = getCustomersServed() + 1;
                 setCustomersServed(newCustomersServedValue);
+
                 let totalChips = 0;
+                let portionSizeFulfilled = false;
+
                 for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
-                    totalChips += getChipsReadyToServeQuantity()[i];
+                    if (getChipsReadyToServeQuantity()[i] >= PORTION_SIZE && !portionSizeFulfilled && totalChips === 0) {
+                        setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - PORTION_SIZE);
+                        totalChips += PORTION_SIZE;
+                        portionSizeFulfilled = true;
+                        console.log("took full portion from batch " + i);
+                    } else if (!portionSizeFulfilled && ((PORTION_SIZE - totalChips) > getChipsReadyToServeQuantity()[i])) {
+                        totalChips += getChipsReadyToServeQuantity()[i];
+                        console.log("not enough chips with " + getChipsReadyToServeQuantity()[i] + " in batch " + i + " - moving on to next batch, with " + totalChips + " added so far!");
+                        setChipsReadyToServeQuantity(i, 0);
+                        clearInterval(batchTimers[i]);
+                    } else {
+                        const chipsToAdd = Math.min(getChipsReadyToServeQuantity()[i], PORTION_SIZE - totalChips);
+                        setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - chipsToAdd);
+                        console.log("chips to add to fulfill order: " + chipsToAdd + " because batch has:" + getChipsReadyToServeQuantity()[i] + " and totalChips value is:" + totalChips);
+                        totalChips += chipsToAdd;
+                        console.log("fulfilled portion from multiple batches, here is the state of the array:");
+                        console.log(getChipsReadyToServeQuantity());
+                        portionSizeFulfilled = true;
+                    }
                 }
-                setChipsReadyToServeQuantity(totalChips - PORTION_SIZE);
+
                 console.log("Total Customers Served: " + getCustomersServed());
                 break;
             case 'improvePotatoStorageButton':

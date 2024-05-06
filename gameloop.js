@@ -19,7 +19,7 @@ import {
     PRICE_OF_CHIPS,
 } from './actions.js';
 
-export const COOL_DOWN_TIMER = 10; //30
+export const COOL_DOWN_TIMER = 30; //30
 export const endOfShiftPopupObject = createEndOfShiftPopup();
 export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
 export const popupContinueButton = endOfShiftPopupObject.continueButton;
