@@ -1,15 +1,26 @@
 import {handleButtonClick, disableButtons} from './actions.js';
 import {
-    getActualPotatoesInStorage, getChipsCutThisShift, getChipsFriedThisShift,
-    getChipsFrying, getChipsWastedThisShift,
-    getCurrentCash, getCustomersServed, getCustomersWaiting, getFryerCapacity, getOldCash, getPotatoesPeeledThisShift,
+    getActualPotatoesInStorage,
+    getChipsCutThisShift,
+    getChipsFriedThisShift,
+    getChipsFrying,
+    getChipsWastedThisShift,
+    getCurrentCash,
+    getCustomersServed,
+    getCustomersWaiting,
+    getCustomersWaitingBeforeEndOfShift,
+    getFryerCapacity,
+    getOldCash,
+    getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
     getPriceToEnableDoubleChopping,
     getPriceToEnableDoublePeeling,
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
-    getSpudsToAddToShift, getStartingCash
+    getShiftCounter,
+    getSpudsToAddToShift,
+    getStartingCash
 } from './constantsAndGlobalVars.js';
 
 export function createTitleScreen() {
@@ -328,7 +339,9 @@ export function toggleOverlay(popupOverlay) {
     }
 }
 
-export function writePopupText(shiftCounter) {
+export function writePopupText() {
+    let walkOuts = getCustomersWaitingBeforeEndOfShift() - getCustomersWaiting();
+    let shiftCounter = getShiftCounter();
     let currentPotatoes = getActualPotatoesInStorage();
     let spudsToAdd = getSpudsToAddToShift();
     let storageQuantity = getPotatoStorageQuantity();
@@ -354,6 +367,8 @@ export function writePopupText(shiftCounter) {
         Chips Cut: ${getChipsCutThisShift()}<br>
         Chips Fried: ${getChipsFriedThisShift()}<br>
         Chips Wasted This Shift: ${getChipsWastedThisShift()}<br>
+        
+        Customer Walkouts: ${walkOuts}<br>
         Customers Still Waiting: ${getCustomersWaiting()}<br><br>
 
         ${potatoesMessage}

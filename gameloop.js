@@ -35,7 +35,7 @@ import {
     setCoolDownTimeRemaining,
     getMultipleForHeaterEffectOnCoolDown,
     getFryerCapacity,
-    getQuantityFrying,
+    getQuantityOfChipsFrying,
     getChipsFriedThisShift,
     setChipsFriedThisShift,
     setChipsFrying,
@@ -63,7 +63,10 @@ import {
     getZero,
     getOneForTimeDiff,
     getStandardDecrementIncrementOfOne,
-    getJustDeleteTheOneElementFromArray, resetBatchTimers
+    getJustDeleteTheOneElementFromArray,
+    resetBatchTimers,
+    setQuantityOfChipsFrying,
+    getAddOneToRandomNumberToEnsureAboveOne, setCustomersWaitingBeforeEndOfShift
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
@@ -154,17 +157,24 @@ function updateShiftCountDown() {
                     document.getElementById('subInnerDiv1_2').innerHTML = "Start Shift";
                     disableButtons(false);
 
+                    wasteChipsStillInFryerOrFryingAtEndOfShift();
+
                     for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
                         clearInterval(batchTimers[i]);  //kill all timers end of shift
                         // console.log("Wasted this shift before adding chipsreadytoservequantity: " + getChipsWastedThisShift());
                         // console.log("value of chipsreadytoservequantity: " + getChipsReadyToServeQuantity()[i]);
                         setChipsWastedThisShift(getChipsWastedThisShift() + getChipsReadyToServeQuantity()[i]);
                     }
+
+                    setCustomersWaitingBeforeEndOfShift(getCustomersWaiting());
+                    setCustomersWaiting(selectHowManyCustomersLeftAfterWalkOutAtShiftEnd());
+                    document.getElementById('customersWaitingCount').innerHTML = getCustomersWaiting();
+
                     setChipsReadyToServeQuantity(null,'clear');
-                    document.getElementById('readyToServeCount').innerHTML = "0";
+                    document.getElementById('readyToServeCount').innerHTML = getZero().toString();
                     resetBatchTimers();
 
-                    writePopupText(getShiftCounter());
+                    writePopupText();
                     setCustomersServed(getZero());
                     toggleEndOfShiftPopup(endOfShiftPopup);
                     toggleOverlay(popupOverlay);
@@ -189,12 +199,12 @@ function updateChipsFryingTimer() {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setFryTimer(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
                 lastFryingUpdateTime = now;
-                document.getElementById('fryChipsButton').innerHTML = 'Frying ' + getQuantityFrying() +' Chips <br> (' + getFryTimeRemaining() + 's)';
+                document.getElementById('fryChipsButton').innerHTML = 'Frying ' + getQuantityOfChipsFrying() +' Chips <br> (' + getFryTimeRemaining() + 's)';
                 //console.log(`Fry time remaining: ${getFryTimeRemaining()} seconds`);
                 if (getFryTimeRemaining() === getZero()) {
                     setChipsFrying(false);
-                    setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityFrying());
-                    document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityFrying()).toString();
+                    setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityOfChipsFrying());
+                    document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityOfChipsFrying()).toString();
                     document.getElementById('fryChipsButton').innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
                     updateButtonStyle('fryChipsButton');
                     disableButtons(false);
@@ -280,4 +290,24 @@ function updateVisibleButtons() {
         }
         disableButtons(false);
     }
+}
+
+function wasteChipsStillInFryerOrFryingAtEndOfShift() {
+    const fryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
+
+    setChipsFrying(false);
+    setFryTimer(getZero());
+    document.getElementById('fryChipsButton').innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
+    setChipsWastedThisShift(fryerCount + getQuantityOfChipsFrying() + getChipsWastedThisShift());
+    setQuantityOfChipsFrying(getZero());
+    updateButtonStyle('fryChipsButton');
+    document.getElementById('chuckedInFryerCount').innerHTML = getZero().toString();
+}
+
+function selectHowManyCustomersLeftAfterWalkOutAtShiftEnd() {
+    let customersWaiting = getCustomersWaiting();
+    const randomWalkouts = Math.floor(Math.random() * (customersWaiting + getAddOneToRandomNumberToEnsureAboveOne())); // Random whole number between 0 and customersWaiting
+
+    customersWaiting -= randomWalkouts;
+    return customersWaiting;
 }

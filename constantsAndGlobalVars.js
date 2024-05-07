@@ -61,6 +61,7 @@ export const popupOverlay = createOverlay();
  let potatoesPeeledThisShift = 0;
  let chipsCutThisShift = 0;
  let chipsFriedThisShift = 0;
+ let customersWaitingAtEndOfShift = 0;
  let customersWaiting = 0;
  let chipsWastedThisShift = 0;
 
@@ -132,11 +133,11 @@ export function getChipsFrying() {
     return chipsFrying;
 }
 
-export function setQuantityFrying(value) {
+export function setQuantityOfChipsFrying(value) {
     quantityFrying = value;
 }
 
-export function getQuantityFrying() {
+export function getQuantityOfChipsFrying() {
     return quantityFrying;
 }
 
@@ -423,4 +424,14 @@ export function getJustDeleteTheOneElementFromArray() {
 export function resetBatchTimers() {
     batchTimers = {};
 }
+
+export function getCustomersWaitingBeforeEndOfShift() {
+    return customersWaitingAtEndOfShift;
+}
+
+export function setCustomersWaitingBeforeEndOfShift(value) {
+    customersWaitingAtEndOfShift = value;
+}
+
+
 

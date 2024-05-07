@@ -56,7 +56,7 @@ import {
     setPotatoStorageQuantity,
     setPriceToImproveFryerCapacity,
     setPriceToImprovePotatoStorage,
-    setQuantityFrying,
+    setQuantityOfChipsFrying,
     setShiftCounter,
     setShiftInProgress,
     setShiftLengthTimerVariable,
@@ -151,7 +151,7 @@ function handleFryChips(buttonId) {
     }
     decrementCounter('cutCount', cutChipsCount);
     fryChips();
-    setQuantityFrying(cutChipsCount);
+    setQuantityOfChipsFrying(cutChipsCount);
     updateButtonStyle(buttonId);
 }
 
@@ -160,7 +160,8 @@ function handleServingStorage() {
     let newBatchId = getChipsReadyToServeQuantity().length;
     // console.log("newbatchid: " + newBatchId + "length of array: " + getChipsReadyToServeQuantity().length);
     getChipsReadyToServeQuantity().push(chuckedInFryerCount);
-    document.getElementById('chuckedInFryerCount').innerHTML = "0";
+    document.getElementById('chuckedInFryerCount').innerHTML = getZero().toString();
+    document.getElementById('fryChipsButton').innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
     let total = getZero();
     for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
         total += getChipsReadyToServeQuantity()[i];
@@ -236,6 +237,7 @@ function handleImproveFryerCapacity(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     document.getElementById(buttonId).innerHTML = 'Improve Fryer Cap. ' + formatToCashNotation(newPriceOfUpgrade);
     setFryerCapacity(getFryerCapacity() + getUpgradeFryerCapacityAmount());
+    document.getElementById('fryChipsButton').innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
 }
 
 function handleAddStorageHeater(button, buttonId) {
@@ -309,7 +311,8 @@ export function disableButtons(init) {
                     button.disabled = peeledCount <= getZero() || !getShiftInProgress();
                     break;
                 case 'fryChipsButton':
-                    button.disabled = !getShiftInProgress() || cutCount <= getZero() && !getChipsFrying();
+                    let chipsStillInFryer = checkIfChipsStillInFryer();
+                    button.disabled = !getShiftInProgress() || (cutCount <= getZero() && !getChipsFrying()) || chipsStillInFryer;
                     break;
                 case 'servingStorageButton':
                     button.disabled = inFryerCount <= getZero() || !getShiftInProgress();
@@ -455,4 +458,15 @@ function checkIfNonRepeatableUpgradePurchased(button) {
 
 function checkIfRepeatableUpgrade(button) {
     return button.upgrade === 'true' && button.repeatableUpgrade === 'true';
+}
+
+function checkIfChipsStillInFryer() {
+    const fryerElementText = document.getElementById('chuckedInFryerCount').innerHTML;
+
+    let chipsStillInFryer = false;
+    if (parseInt(fryerElementText) > getZero()) {
+        chipsStillInFryer = true;
+        document.getElementById('fryChipsButton').innerHTML = 'Empty Fryer!';
+    }
+    return chipsStillInFryer;
 }
