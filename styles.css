@@ -156,12 +156,14 @@ div[id^="subInnerDivMid"][id$='_2'] {
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     visibility: visible;
+    font-weight: bold;
 }
 
 .action-button-main:hover,
 .action-button-bottom-row:hover {
     background-color: white;
     color: black;
+    font-weight: bold;
 }
 
 .action-button-main.cooking {
@@ -183,6 +185,26 @@ div[id^="subInnerDivMid"][id$='_2'] {
     background-color: grey;
     color: black;
     pointer-events: none;
+    font-weight: bold;
+}
+
+.action-button-main-flashing {
+    color: lightcoral;
+    background-color: darkred;
+    pointer-events: none;
+    font-weight: bold;
+    animation: flash 0.5s infinite alternate;
+}
+
+@keyframes flash {
+    from {
+        color: lightcoral;
+        background-color: darkred;
+    }
+    to {
+        color: darkred;
+        background-color: lightcoral;
+    }
 }
 
 .hidden-button {
@@ -220,7 +242,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 50%;
-    height: 70%;
+    height: 80%;
     background-color: rgba(0, 0, 0, 0.95);
     border: 5px solid white;
     border-radius: 10px;
@@ -246,9 +268,10 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .popup-row-3 {
-    height: 20%;
-    justify-content: center;
+    height: 18%;
+    justify-content: end;
     align-items: center;
+    padding-bottom: 2%;
 }
 
 .popup-title {
@@ -259,20 +282,26 @@ div[id^="subInnerDivMid"][id$='_2'] {
 
 .popup-content {
     color: white;
-    font-size: 1em;
+    font-size: 0.95em;
 }
 
 .popup-continue-button {
     width: 50%;
     height: 50%;
     background-color: forestgreen;
-    color: black;
+    color: chartreuse;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 2.5em;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+
 }
 .popup-continue-button:hover {
     background-color: chartreuse;
+    color: forestgreen;
 }
 
 

@@ -61,7 +61,7 @@ import {
     setShiftInProgress,
     setShiftLengthTimerVariable,
     setSpudsToAddToShift,
-    batchTimers, getAddOneToRandomNumberToEnsureAboveOne
+    batchTimers, getAddOneToRandomNumberToEnsureAboveOne, getOne, getStart, getStop
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -152,16 +152,20 @@ function handleFryChips(buttonId) {
     decrementCounter('cutCount', cutChipsCount);
     fryChips();
     setQuantityOfChipsFrying(cutChipsCount);
-    updateButtonStyle(buttonId);
+    updateButtonStyle(buttonId, null);
 }
 
 function handleServingStorage() {
+    const fryerButton = document.getElementById('fryChipsButton');
     let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
     let newBatchId = getChipsReadyToServeQuantity().length;
     // console.log("newbatchid: " + newBatchId + "length of array: " + getChipsReadyToServeQuantity().length);
     getChipsReadyToServeQuantity().push(chuckedInFryerCount);
     document.getElementById('chuckedInFryerCount').innerHTML = getZero().toString();
-    document.getElementById('fryChipsButton').innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
+    if (fryerButton.classList.contains('action-button-main-flashing')) {
+        updateButtonStyle(fryerButton.id, getStop());
+    }
+    fryerButton.innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
     let total = getZero();
     for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
         total += getChipsReadyToServeQuantity()[i];
@@ -218,7 +222,7 @@ function handleTwoHandedPeeling(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button)) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
         document.getElementById(buttonId).innerHTML = 'Double Peeling Tool PURCHASED';
-        updateButtonStyle(buttonId);
+        updateButtonStyle(buttonId, null);
         setPeelPotatoesRate(getPeelPotatoesRate() * getUpgradeDoublePeelerMultiple());
     }
 }
@@ -227,7 +231,7 @@ function handleTwoHandedChopping(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button)) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChopping());
         document.getElementById(buttonId).innerHTML = 'Double Chopping Tool PURCHASED';
-        updateButtonStyle(buttonId);
+        updateButtonStyle(buttonId, null);
         setCutChipsRate(getCutChipsRate() * getUpgradeDoubleChopperMultiple());
     }
 }
@@ -244,7 +248,7 @@ function handleAddStorageHeater(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button)) {
         setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
         document.getElementById(buttonId).innerHTML = 'Storage Bin Heater PURCHASED';
-        updateButtonStyle(buttonId);
+        updateButtonStyle(buttonId, null);
         setMultipleForHeaterEffectOnCoolDown(getUpgradeHeaterMultiple());
     }
 }
@@ -312,7 +316,7 @@ export function disableButtons(init) {
                     break;
                 case 'fryChipsButton':
                     let chipsStillInFryer = checkIfChipsStillInFryer();
-                    button.disabled = !getShiftInProgress() || (cutCount <= getZero() && !getChipsFrying()) || chipsStillInFryer;
+                    button.disabled = !getShiftInProgress() || (cutCount <= getZero() && !getChipsFrying());
                     break;
                 case 'servingStorageButton':
                     button.disabled = inFryerCount <= getZero() || !getShiftInProgress();
@@ -461,12 +465,14 @@ function checkIfRepeatableUpgrade(button) {
 }
 
 function checkIfChipsStillInFryer() {
+    const fryerButton = document.getElementById('fryChipsButton');
     const fryerElementText = document.getElementById('chuckedInFryerCount').innerHTML;
 
     let chipsStillInFryer = false;
     if (parseInt(fryerElementText) > getZero()) {
         chipsStillInFryer = true;
-        document.getElementById('fryChipsButton').innerHTML = 'Empty Fryer!';
+        updateButtonStyle(fryerButton.id, getStart());
+        fryerButton.innerHTML = 'Empty Fryer!';
     }
     return chipsStillInFryer;
 }

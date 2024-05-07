@@ -66,7 +66,7 @@ import {
     getJustDeleteTheOneElementFromArray,
     resetBatchTimers,
     setQuantityOfChipsFrying,
-    getAddOneToRandomNumberToEnsureAboveOne, setCustomersWaitingBeforeEndOfShift
+    getAddOneToRandomNumberToEnsureAboveOne, setCustomersWaitingBeforeEndOfShift, getStop
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
@@ -194,19 +194,21 @@ function updateChipsFryingTimer() {
     if (getChipsFrying()) {
         const now = new Date().getTime();
         const timeDiffSeconds = (now - lastFryingUpdateTime) / getClockSpeed();
+        const fryerButton = document.getElementById('fryChipsButton');
 
         if (getFryTimeRemaining() > getZero()) {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setFryTimer(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
                 lastFryingUpdateTime = now;
-                document.getElementById('fryChipsButton').innerHTML = 'Frying ' + getQuantityOfChipsFrying() +' Chips <br> (' + getFryTimeRemaining() + 's)';
+                fryerButton.innerHTML = 'Frying ' + getQuantityOfChipsFrying() +' Chips <br> (' + getFryTimeRemaining() + 's)';
                 //console.log(`Fry time remaining: ${getFryTimeRemaining()} seconds`);
                 if (getFryTimeRemaining() === getZero()) {
                     setChipsFrying(false);
                     setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityOfChipsFrying());
                     document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityOfChipsFrying()).toString();
-                    document.getElementById('fryChipsButton').innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
-                    updateButtonStyle('fryChipsButton');
+                    fryerButton.innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
+                    updateButtonStyle(fryerButton.id, null);
+                    setQuantityOfChipsFrying(getZero());
                     disableButtons(false);
                 }
             }
@@ -293,6 +295,7 @@ function updateVisibleButtons() {
 }
 
 function wasteChipsStillInFryerOrFryingAtEndOfShift() {
+    const fryerButton = document.getElementById('fryChipsButton');
     const fryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
 
     setChipsFrying(false);
@@ -300,7 +303,10 @@ function wasteChipsStillInFryerOrFryingAtEndOfShift() {
     document.getElementById('fryChipsButton').innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
     setChipsWastedThisShift(fryerCount + getQuantityOfChipsFrying() + getChipsWastedThisShift());
     setQuantityOfChipsFrying(getZero());
-    updateButtonStyle('fryChipsButton');
+    if (fryerButton.classList.contains('action-button-main-flashing')) {
+        updateButtonStyle(fryerButton.id, getStop());
+    }
+    updateButtonStyle(fryerButton.id, null);
     document.getElementById('chuckedInFryerCount').innerHTML = getZero().toString();
 }
 

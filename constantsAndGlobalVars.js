@@ -397,6 +397,10 @@ export function getZero() {
     return ZERO;
 }
 
+export function getOne() {
+    return ONE;
+}
+
 export function getOddNumberLeftOverAfterDoublePeelingChopping() {
     return ONE;
 }
@@ -427,6 +431,14 @@ export function resetBatchTimers() {
 
 export function getCustomersWaitingBeforeEndOfShift() {
     return customersWaitingAtEndOfShift;
+}
+
+export function getStart() {
+    return ZERO;
+}
+
+export function getStop() {
+    return ONE;
 }
 
 export function setCustomersWaitingBeforeEndOfShift(value) {

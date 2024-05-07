@@ -10,7 +10,7 @@ import {
     getCustomersWaiting,
     getCustomersWaitingBeforeEndOfShift,
     getFryerCapacity,
-    getOldCash,
+    getOldCash, getOne,
     getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
@@ -20,7 +20,7 @@ import {
     getPriceToImprovePotatoStorage,
     getShiftCounter,
     getSpudsToAddToShift,
-    getStartingCash
+    getStartingCash, getZero
 } from './constantsAndGlobalVars.js';
 
 export function createTitleScreen() {
@@ -261,21 +261,36 @@ export function formatToCashNotation(value) {
     return `$${value.toFixed(2)}`;
 }
 
-export function updateButtonStyle(buttonId) {
-    const element = document.getElementById(buttonId)
-    switch (buttonId) {
-        case "fryChipsButton":
-            if (getChipsFrying()) {
-                element.classList.add('cooking');
-                element.classList.remove('disabled');
-            } else {
-                element.classList.remove('cooking');
-                element.classList.add('disabled');
-            }
-            break;
-        default: //non repeatable upgrades
-            element.classList.add('non-repeatable-upgrade-purchased');
-            break;
+export function updateButtonStyle(buttonId, startStop) {
+    const element = document.getElementById(buttonId);
+    if (startStop === null) {
+        switch (buttonId) {
+            case "fryChipsButton":
+                if (getChipsFrying()) {
+                    element.classList.add('cooking');
+                    element.classList.remove('disabled');
+                } else {
+                    element.classList.remove('cooking');
+                    element.classList.add('disabled');
+                }
+                break;
+            default: //non repeatable upgrades
+                element.classList.add('non-repeatable-upgrade-purchased');
+                break;
+        }
+    }
+
+    if (startStop !== null) {
+        switch (startStop) {
+            case getZero():
+                element.classList.remove('action-button-main-disabled');
+                element.classList.add('action-button-main-flashing');
+                break;
+            case getOne():
+                element.classList.remove('action-button-main-flashing');
+                element.classList.add('action-button-main-disabled');
+                break;
+        }
     }
 }
 
@@ -366,7 +381,7 @@ export function writePopupText() {
         Potatoes Peeled: ${getPotatoesPeeledThisShift()}<br>
         Chips Cut: ${getChipsCutThisShift()}<br>
         Chips Fried: ${getChipsFriedThisShift()}<br>
-        Chips Wasted This Shift: ${getChipsWastedThisShift()}<br>
+        Chips Wasted This Shift: ${getChipsWastedThisShift()}<br><br>
         
         Customer Walkouts: ${walkOuts}<br>
         Customers Still Waiting: ${getCustomersWaiting()}<br><br>
