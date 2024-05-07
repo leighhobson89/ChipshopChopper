@@ -66,8 +66,10 @@ import {
     getJustDeleteTheOneElementFromArray,
     resetBatchTimers,
     setQuantityOfChipsFrying,
-    getAddOneToRandomNumberToEnsureAboveOne, setCustomersWaitingBeforeEndOfShift, getStop
+    getAddOneToRandomNumberToEnsureAboveOne, setCustomersWaitingBeforeEndOfShift, getStop, getElements
 } from './constantsAndGlobalVars.js';
+
+const elements = getElements();
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();

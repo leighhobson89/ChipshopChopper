@@ -8,7 +8,7 @@ import {
     getCurrentCash,
     getCustomersServed,
     getCustomersWaiting,
-    getCustomersWaitingBeforeEndOfShift,
+    getCustomersWaitingBeforeEndOfShift, getElements,
     getFryerCapacity,
     getOldCash, getOne,
     getPotatoesPeeledThisShift,
@@ -22,6 +22,8 @@ import {
     getSpudsToAddToShift,
     getStartingCash, getZero
 } from './constantsAndGlobalVars.js';
+
+const elements = getElements();
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');

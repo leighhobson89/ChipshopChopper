@@ -1,5 +1,32 @@
 import {createEndOfShiftPopup, createOverlay, formatToCashNotation} from './ui.js';
 
+//ELEMENTS
+
+const elementOption1 = document.getElementById('option1');
+const elementOption2 = document.getElementById('option2');
+const elementOption3 = document.getElementById('option3');
+const elementOption4 = document.getElementById('option4');
+const elementSubInnerDiv1_2 = document.getElementById('subInnerDiv1_2');
+const elementFryChipsButton = document.getElementById('fryChipsButton');
+const elementCustomersWaitingCount = document.getElementById('customersWaitingCount');
+const elementReadyToServeCount = document.getElementById('readyToServeCount');
+const elementOptionsWindow = document.getElementById('optionsWindow');
+const elementGameWindow = document.getElementById('gameWindow');
+const elementImprovePotatoStorageButton = document.getElementById('improvePotatoStorageButton');
+const elementTwoHandedPeelingButton = document.getElementById('twoHandedPeelingButton');
+const elementTwoHandedChoppingButton = document.getElementById('twoHandedChoppingButton');
+const elementImproveFryerCapacityButton = document.getElementById('improveFryerCapacityButton');
+const elementAddStorageHeaterButton = document.getElementById('addStorageHeaterButton');
+const elementChuckedInFryerCount = document.getElementById('chuckedInFryerCount');
+const elementStartShiftButton = document.getElementById('startShiftButton');
+const elementPeelPotatoButton = document.getElementById('peelPotatoButton');
+const elementCutChipsButton = document.getElementById('cutChipsButton');
+const elementServingStorageButton = document.getElementById('servingStorageButton');
+const elementServeCustomerButton = document.getElementById('serveCustomerButton');
+const elementFryCount = document.getElementById("fryCount");
+
+//CONSTANTS
+
 const CLOCK_SPEED = 1000;
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
 const SHIFT_LENGTH = 30;
@@ -27,7 +54,6 @@ export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
 export const popupContinueButton = endOfShiftPopupObject.continueButton;
 export const popupOverlay = createOverlay();
 //-----------------------------------------------------------
-
 
  let multipleForHeaterEffectOnCoolDown = 1;
  let customerTime = 0;
@@ -66,6 +92,36 @@ export const popupOverlay = createOverlay();
  let chipsWastedThisShift = 0;
 
  export let batchTimers = {};
+
+ //GETTER SETTER METHODS
+
+// Setter function for all elements
+export function getElements() {
+    return {
+        option1: document.getElementById('option1'),
+        option2: document.getElementById('option2'),
+        option3: document.getElementById('option3'),
+        option4: document.getElementById('option4'),
+        subInnerDiv1_2: document.getElementById('subInnerDiv1_2'),
+        fryChipsButton: document.getElementById('fryChipsButton'),
+        customersWaitingCount: document.getElementById('customersWaitingCount'),
+        readyToServeCount: document.getElementById('readyToServeCount'),
+        optionsWindow: document.getElementById('optionsWindow'),
+        gameWindow: document.getElementById('gameWindow'),
+        improvePotatoStorageButton: document.getElementById('improvePotatoStorageButton'),
+        twoHandedPeelingButton: document.getElementById('twoHandedPeelingButton'),
+        twoHandedChoppingButton: document.getElementById('twoHandedChoppingButton'),
+        improveFryerCapacityButton: document.getElementById('improveFryerCapacityButton'),
+        addStorageHeaterButton: document.getElementById('addStorageHeaterButton'),
+        chuckedInFryerCount: document.getElementById('chuckedInFryerCount'),
+        startShiftButton: document.getElementById('startShiftButton'),
+        peelPotatoButton: document.getElementById('peelPotatoButton'),
+        cutChipsButton: document.getElementById('cutChipsButton'),
+        servingStorageButton: document.getElementById('servingStorageButton'),
+        serveCustomerButton: document.getElementById('serveCustomerButton'),
+        fryCount: document.getElementById('fryCount')
+    };
+}
 
 export function setActualPotatoesInStorage(value) {
     actualPotatoesInStorage = value;

@@ -61,7 +61,7 @@ import {
     setShiftInProgress,
     setShiftLengthTimerVariable,
     setSpudsToAddToShift,
-    batchTimers, getAddOneToRandomNumberToEnsureAboveOne, getOne, getStart, getStop
+    batchTimers, getAddOneToRandomNumberToEnsureAboveOne, getOne, getStart, getStop, getElements
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -70,6 +70,7 @@ import {
 
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
 
+const elements = getElements();
 export function handleButtonClick(buttonId, value) {
     const button = document.getElementById(buttonId);
     const element = document.getElementById(value);
