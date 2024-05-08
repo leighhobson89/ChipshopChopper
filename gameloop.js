@@ -66,37 +66,42 @@ import {
     getJustDeleteTheOneElementFromArray,
     resetBatchTimers,
     setQuantityOfChipsFrying,
-    getAddOneToRandomNumberToEnsureAboveOne, setCustomersWaitingBeforeEndOfShift, getStop, getElements
+    getAddOneToRandomNumberToEnsureAboveOne, setCustomersWaitingBeforeEndOfShift, getStop, getElements, setElements
 } from './constantsAndGlobalVars.js';
-
-const elements = getElements();
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
 
 let gameInProgress = false;
+
+const titleScreenCreatedEvent = new Event('titleScreenCreated');
 createTitleScreen();
+createGameWindow();
+document.dispatchEvent(titleScreenCreatedEvent);
+document.addEventListener('DOMContentLoaded', function() {
 
-document.getElementById('option1').addEventListener('click', function () {
-    gameInProgress = initialiseNewGame(gameInProgress);
-    console.log("gameInProgress after clicking new game =" + gameInProgress);
-});
-document.getElementById('option2').addEventListener('click', function () {
-    // Add functionality for other options as needed
-});
-document.getElementById('option3').addEventListener('click', function () {
-    // Add functionality for other options as needed
-});
-document.getElementById('option4').addEventListener('click', function () {
-    toggleSound();
-});
-popupContinueButton.addEventListener('click', function() {
-    toggleEndOfShiftPopup(endOfShiftPopup);
-    toggleOverlay(popupOverlay);
+    getElements().option1.addEventListener('click', function () {
+        gameInProgress = initialiseNewGame(gameInProgress);
+        console.log("gameInProgress after clicking new game =" + gameInProgress);
+    });
+    getElements().option2.addEventListener('click', function () {
+        // Add functionality for other options as needed
+    });
+    getElements().option3.addEventListener('click', function () {
+        // Add functionality for other options as needed
+    });
+    getElements().option4.addEventListener('click', function () {
+        toggleSound();
+    });
+    popupContinueButton.addEventListener('click', function() {
+        toggleEndOfShiftPopup(endOfShiftPopup);
+        toggleOverlay(popupOverlay);
+    });
+
+    gameLoop();
 });
 
-gameLoop();
 
 function gameLoop() {
     gameInProgress = !!gameInProgress;
@@ -116,7 +121,7 @@ function updateClock() {
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const seconds = now.getSeconds().toString().padStart(2, '0');
     const timeString = `${hours}:${minutes}:${seconds}`;
-    const clockElement = document.querySelector('.clock');
+    const clockElement = getElements().clock;
     clockElement.innerHTML = timeString;
 }
 
@@ -149,14 +154,14 @@ function updateShiftCountDown() {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setShiftTimeRemaining(getShiftTimeRemaining() - 1);
                 lastShiftUpdateTime = now;
-                document.getElementById('subInnerDiv1_2').innerHTML = getShiftTimeRemaining().toString();
+                getElements().subInnerDiv1_2.innerHTML = getShiftTimeRemaining().toString();
                 //console.log(`Shift time remaining: ${getShiftTimeRemaining()} seconds`);
                 if (getShiftTimeRemaining() === getZero()) {
 
                     setShiftInProgress(false);
                     setOldCash(getCurrentCash());
                     setCurrentCash((getCustomersServed() * getPriceOfChips()) + getCurrentCash());
-                    document.getElementById('subInnerDiv1_2').innerHTML = "Start Shift";
+                    getElements().subInnerDiv1_2.innerHTML = "Start Shift";
                     disableButtons(false);
 
                     wasteChipsStillInFryerOrFryingAtEndOfShift();
@@ -170,10 +175,10 @@ function updateShiftCountDown() {
 
                     setCustomersWaitingBeforeEndOfShift(getCustomersWaiting());
                     setCustomersWaiting(selectHowManyCustomersLeftAfterWalkOutAtShiftEnd());
-                    document.getElementById('customersWaitingCount').innerHTML = getCustomersWaiting();
+                    getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
 
                     setChipsReadyToServeQuantity(null,'clear');
-                    document.getElementById('readyToServeCount').innerHTML = getZero().toString();
+                    getElements().readyToServeCount.innerHTML = getZero().toString();
                     resetBatchTimers();
 
                     writePopupText();
@@ -196,7 +201,7 @@ function updateChipsFryingTimer() {
     if (getChipsFrying()) {
         const now = new Date().getTime();
         const timeDiffSeconds = (now - lastFryingUpdateTime) / getClockSpeed();
-        const fryerButton = document.getElementById('fryChipsButton');
+        const fryerButton = getElements().fryChipsButton;
 
         if (getFryTimeRemaining() > getZero()) {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
@@ -207,7 +212,7 @@ function updateChipsFryingTimer() {
                 if (getFryTimeRemaining() === getZero()) {
                     setChipsFrying(false);
                     setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityOfChipsFrying());
-                    document.getElementById('chuckedInFryerCount').innerHTML = (parseInt(document.getElementById('chuckedInFryerCount').innerHTML) + getQuantityOfChipsFrying()).toString();
+                    getElements().chuckedInFryerCount.innerHTML = (parseInt(getElements().chuckedInFryerCount.innerHTML) + getQuantityOfChipsFrying()).toString();
                     fryerButton.innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
                     updateButtonStyle(fryerButton.id, null);
                     setQuantityOfChipsFrying(getZero());
@@ -262,54 +267,54 @@ function initialiseNewGame(gameInProgress) {
     if (gameInProgress) {
         return askUserToConfirmRestart();
     } else {
-        document.getElementById('option1').innerHTML = "New Game";
-        document.getElementById('optionsWindow').style.display = 'none';
+        getElements().option1.innerHTML = "New Game";
+        getElements().optionsWindow.style.display = 'none';
         createGameWindow();
         createRandomCustomerTime();
-        document.getElementById('gameWindow').style.display = "block";
+        getElements().gameWindow.style.display = "block";
         return true;
     }
 }
 
 function askUserToConfirmRestart() {
-    document.getElementById('option1').innerHTML = "Click again to start a New Game...";
+    getElements().option1.innerHTML = "Click again to start a New Game...";
 }
 
 function updateVisibleButtons() {
     if (!shiftInProgress && getShiftCounter() > getZero()) {
         if (getCurrentCash() >= getPriceToImprovePotatoStorage()) {
-            document.getElementById('improvePotatoStorageButton').classList.remove('hidden-button');
+            getElements().improvePotatoStorageButton.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getPriceToEnableDoublePeeling()) {
-            document.getElementById('twoHandedPeelingButton').classList.remove('hidden-button');
+            getElements().twoHandedPeelingButton.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getPriceToEnableDoubleChopping()) {
-            document.getElementById('twoHandedChoppingButton').classList.remove('hidden-button');
+            getElements().twoHandedChoppingButton.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getPriceToImproveFryerCapacity()) {
-            document.getElementById('improveFryerCapacityButton').classList.remove('hidden-button');
+            getElements().improveFryerCapacityButton.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getPriceToAddStorageHeater()) {
-            document.getElementById('addStorageHeaterButton').classList.remove('hidden-button');
+            getElements().addStorageHeaterButton.classList.remove('hidden-button');
         }
         disableButtons(false);
     }
 }
 
 function wasteChipsStillInFryerOrFryingAtEndOfShift() {
-    const fryerButton = document.getElementById('fryChipsButton');
-    const fryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
+    const fryerButton = getElements().fryChipsButton;
+    const fryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
 
     setChipsFrying(false);
     setFryTimer(getZero());
-    document.getElementById('fryChipsButton').innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
+    getElements().fryChipsButton.innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
     setChipsWastedThisShift(fryerCount + getQuantityOfChipsFrying() + getChipsWastedThisShift());
     setQuantityOfChipsFrying(getZero());
     if (fryerButton.classList.contains('action-button-main-flashing')) {
         updateButtonStyle(fryerButton.id, getStop());
     }
     updateButtonStyle(fryerButton.id, null);
-    document.getElementById('chuckedInFryerCount').innerHTML = getZero().toString();
+    getElements().chuckedInFryerCount.innerHTML = getZero().toString();
 }
 
 function selectHowManyCustomersLeftAfterWalkOutAtShiftEnd() {

@@ -8,7 +8,7 @@ import {
     getCurrentCash,
     getCustomersServed,
     getCustomersWaiting,
-    getCustomersWaitingBeforeEndOfShift, getElements,
+    getCustomersWaitingBeforeEndOfShift,
     getFryerCapacity,
     getOldCash, getOne,
     getPotatoesPeeledThisShift,
@@ -20,10 +20,8 @@ import {
     getPriceToImprovePotatoStorage,
     getShiftCounter,
     getSpudsToAddToShift,
-    getStartingCash, getZero
+    getStartingCash, getZero, getElements
 } from './constantsAndGlobalVars.js';
-
-const elements = getElements();
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -245,7 +243,7 @@ export function hideUpgradeButtonsGameStart(bottomButtonsContainer) {
 }
 
 export function toggleSound() {
-    const soundOption = document.getElementById('option4');
+    const soundOption = getElements().option4;
     const isSoundOn = soundOption.style.backgroundColor === 'rgb(255, 0, 0)'; // Red color
 
     if (isSoundOn) {
@@ -264,7 +262,7 @@ export function formatToCashNotation(value) {
 }
 
 export function updateButtonStyle(buttonId, startStop) {
-    const element = document.getElementById(buttonId);
+    const element = getElements()[buttonId];
     if (startStop === null) {
         switch (buttonId) {
             case "fryChipsButton":
@@ -365,8 +363,8 @@ export function writePopupText() {
 
     let totalPotatoes = currentPotatoes + spudsToAdd;
     let nextShiftPotatoes = Math.min(totalPotatoes, storageQuantity);
-    const popupTitle = document.getElementById('endOfShiftPopupTitle');
-    const popupContent = document.getElementById('endOfShiftPopupContent');
+    const popupTitle = getElements().endOfShiftPopupTitle;
+    const popupContent = getElements().endOfShiftPopupContent;
 
     popupTitle.innerHTML = `<div class="popup-title">End Of Shift ${shiftCounter}</div>`;
     let potatoesMessage = `Potatoes for next shift: ${currentPotatoes} + ${nextShiftPotatoes - currentPotatoes} to be delivered = ${nextShiftPotatoes}`;

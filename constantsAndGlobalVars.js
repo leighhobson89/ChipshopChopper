@@ -2,28 +2,6 @@ import {createEndOfShiftPopup, createOverlay, formatToCashNotation} from './ui.j
 
 //ELEMENTS
 
-const elementOption1 = document.getElementById('option1');
-const elementOption2 = document.getElementById('option2');
-const elementOption3 = document.getElementById('option3');
-const elementOption4 = document.getElementById('option4');
-const elementSubInnerDiv1_2 = document.getElementById('subInnerDiv1_2');
-const elementFryChipsButton = document.getElementById('fryChipsButton');
-const elementCustomersWaitingCount = document.getElementById('customersWaitingCount');
-const elementReadyToServeCount = document.getElementById('readyToServeCount');
-const elementOptionsWindow = document.getElementById('optionsWindow');
-const elementGameWindow = document.getElementById('gameWindow');
-const elementImprovePotatoStorageButton = document.getElementById('improvePotatoStorageButton');
-const elementTwoHandedPeelingButton = document.getElementById('twoHandedPeelingButton');
-const elementTwoHandedChoppingButton = document.getElementById('twoHandedChoppingButton');
-const elementImproveFryerCapacityButton = document.getElementById('improveFryerCapacityButton');
-const elementAddStorageHeaterButton = document.getElementById('addStorageHeaterButton');
-const elementChuckedInFryerCount = document.getElementById('chuckedInFryerCount');
-const elementStartShiftButton = document.getElementById('startShiftButton');
-const elementPeelPotatoButton = document.getElementById('peelPotatoButton');
-const elementCutChipsButton = document.getElementById('cutChipsButton');
-const elementServingStorageButton = document.getElementById('servingStorageButton');
-const elementServeCustomerButton = document.getElementById('serveCustomerButton');
-const elementFryCount = document.getElementById("fryCount");
 
 //CONSTANTS
 
@@ -96,13 +74,13 @@ export const popupOverlay = createOverlay();
  //GETTER SETTER METHODS
 
 // Setter function for all elements
-export function getElements() {
-    return {
+let elements;
+export function setElements() {
+    elements = {
         option1: document.getElementById('option1'),
         option2: document.getElementById('option2'),
         option3: document.getElementById('option3'),
         option4: document.getElementById('option4'),
-        subInnerDiv1_2: document.getElementById('subInnerDiv1_2'),
         fryChipsButton: document.getElementById('fryChipsButton'),
         customersWaitingCount: document.getElementById('customersWaitingCount'),
         readyToServeCount: document.getElementById('readyToServeCount'),
@@ -119,9 +97,26 @@ export function getElements() {
         cutChipsButton: document.getElementById('cutChipsButton'),
         servingStorageButton: document.getElementById('servingStorageButton'),
         serveCustomerButton: document.getElementById('serveCustomerButton'),
-        fryCount: document.getElementById('fryCount')
+        innerDiv2: document.getElementById('innerDiv2'),
+        subInnerDiv1_1: document.getElementById('subInnerDiv1_1'),
+        subInnerDiv1_2: document.getElementById('subInnerDiv1_2'),
+        subInnerDiv3_1: document.getElementById('subInnerDiv3_1'),
+        subInnerDiv3_2: document.getElementById('subInnerDiv3_2'),
+        subInnerDivMid1_1: document.getElementById('subInnerDivMid1_1'),
+        subInnerDivMid1_2: document.getElementById('subInnerDivMid1_2'),
+        subInnerDivMid3_1: document.getElementById('subInnerDivMid3_1'),
+        subInnerDivMid3_2: document.getElementById('subInnerDivMid3_2'),
+        endOfShiftPopupTitle: document.getElementById('endOfShiftPopupTitle'),
+        endOfShiftPopupContent: document.getElementById('endOfShiftPopupContent'),
+        clock: document.querySelector('.clock'),
     };
 }
+
+export function getElements() {
+    return elements;
+}
+
+document.addEventListener('titleScreenCreated', setElements);
 
 export function setActualPotatoesInStorage(value) {
     actualPotatoesInStorage = value;
