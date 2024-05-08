@@ -72,11 +72,10 @@ export const popupOverlay = createOverlay();
  export let batchTimers = {};
 
  //GETTER SETTER METHODS
-
-// Setter function for all elements
 let elements;
+// Setter function for all elements
 export function setElements() {
-    elements = {
+      elements = {
         option1: document.getElementById('option1'),
         option2: document.getElementById('option2'),
         option3: document.getElementById('option3'),
@@ -91,6 +90,8 @@ export function setElements() {
         twoHandedChoppingButton: document.getElementById('twoHandedChoppingButton'),
         improveFryerCapacityButton: document.getElementById('improveFryerCapacityButton'),
         addStorageHeaterButton: document.getElementById('addStorageHeaterButton'),
+        peeledCount: document.getElementById('peeledCount'),
+        cutCount: document.getElementById('cutCount'),
         chuckedInFryerCount: document.getElementById('chuckedInFryerCount'),
         startShiftButton: document.getElementById('startShiftButton'),
         peelPotatoButton: document.getElementById('peelPotatoButton'),
@@ -109,14 +110,26 @@ export function setElements() {
         endOfShiftPopupTitle: document.getElementById('endOfShiftPopupTitle'),
         endOfShiftPopupContent: document.getElementById('endOfShiftPopupContent'),
         clock: document.querySelector('.clock'),
+        action6Button: document.getElementById('action6Button'),
+        action7Button: document.getElementById('action7Button'),
+        action8Button: document.getElementById('action8Button'),
+        action9Button: document.getElementById('action9Button'),
+        action10Button: document.getElementById('action10Button'),
+        action11Button: document.getElementById('action11Button'),
+        action12Button: document.getElementById('action12Button'),
+        action13Button: document.getElementById('action13Button'),
+        action14Button: document.getElementById('action14Button'),
+        action15Button: document.getElementById('action15Button'),
+        action17Button: document.getElementById('action17Button'),
+        action18Button: document.getElementById('action18Button'),
+        action19Button: document.getElementById('action19Button'),
+        action20Button: document.getElementById('action20Button'),
     };
 }
 
 export function getElements() {
     return elements;
 }
-
-document.addEventListener('titleScreenCreated', setElements);
 
 export function setActualPotatoesInStorage(value) {
     actualPotatoesInStorage = value;

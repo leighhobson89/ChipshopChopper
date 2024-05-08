@@ -73,35 +73,13 @@ let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
 
-let gameInProgress = false;
-
+export let gameInProgress = false;
+document.addEventListener('titleScreenCreated', setElements);
 const titleScreenCreatedEvent = new Event('titleScreenCreated');
+createGameWindow(titleScreenCreatedEvent);
 createTitleScreen();
-createGameWindow();
-document.dispatchEvent(titleScreenCreatedEvent);
-document.addEventListener('DOMContentLoaded', function() {
 
-    getElements().option1.addEventListener('click', function () {
-        gameInProgress = initialiseNewGame(gameInProgress);
-        console.log("gameInProgress after clicking new game =" + gameInProgress);
-    });
-    getElements().option2.addEventListener('click', function () {
-        // Add functionality for other options as needed
-    });
-    getElements().option3.addEventListener('click', function () {
-        // Add functionality for other options as needed
-    });
-    getElements().option4.addEventListener('click', function () {
-        toggleSound();
-    });
-    popupContinueButton.addEventListener('click', function() {
-        toggleEndOfShiftPopup(endOfShiftPopup);
-        toggleOverlay(popupOverlay);
-    });
-
-    gameLoop();
-});
-
+gameLoop();
 
 function gameLoop() {
     gameInProgress = !!gameInProgress;
@@ -263,13 +241,12 @@ async function triggerWastingProcessForBatch(batchId) {
     }
 }
 
-function initialiseNewGame(gameInProgress) {
+export function initialiseNewGame(gameInProgress) {
     if (gameInProgress) {
         return askUserToConfirmRestart();
     } else {
         getElements().option1.innerHTML = "New Game";
         getElements().optionsWindow.style.display = 'none';
-        createGameWindow();
         createRandomCustomerTime();
         getElements().gameWindow.style.display = "block";
         return true;

@@ -65,14 +65,15 @@ import {
 } from './constantsAndGlobalVars.js';
 
 import {
+    gameInProgress,
     startBatchTimer
 } from './gameloop.js';
 
 import {formatToCashNotation, updateButtonStyle} from "./ui.js";
 
 export function handleButtonClick(buttonId, value) {
-    const button = document.getElementById(buttonId);
-    const element = document.getElementById(value);
+    const button = getElements()[buttonId];
+    const element = getElements()[value];
 
     button.addEventListener('click', () => {
         switch (buttonId) {
@@ -132,26 +133,26 @@ function handlePeelPotato(element) {
 }
 
 function handleCutChips(element) {
-    const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
-    if (peeledCount > getOddNumberLeftOverAfterDoublePeelingChopping()) { //normal case
-        decrementCounter('peeledCount', getCutChipsRate());
+    const peeledCount = getElements().peeledCount;
+    if (parseInt(peeledCount.innerHTML) > getOddNumberLeftOverAfterDoublePeelingChopping()) { //normal case
+        decrementCounter(peeledCount.id, getCutChipsRate());
         incrementCounter(element, getNumberOfChipsFromPotato() * getCutChipsRate());
         setChipsCutThisShift(getChipsCutThisShift() + (getNumberOfChipsFromPotato() * getCutChipsRate()));
-    } else if (peeledCount > getZero()) { //odd number left handles case of double cutter
-        decrementCounter('peeledCount', getStandardDecrementIncrementOfOne());
+    } else if (parseInt(peeledCount.innerHTML) > getZero()) { //odd number left handles case of double cutter
+        decrementCounter(peeledCount.id, getStandardDecrementIncrementOfOne());
         incrementCounter(element, getNumberOfChipsFromPotato());
         setChipsCutThisShift(getChipsCutThisShift() + getNumberOfChipsFromPotato());
     }
 }
 
 function handleFryChips(buttonId) {
-    let cutChipsCount = parseInt(document.getElementById('cutCount').innerHTML);
-    if (cutChipsCount >= getFryerCapacity()) {
-        cutChipsCount = getFryerCapacity();
+    let cutChipsCount = getElements().cutCount;
+    if (parseInt(cutChipsCount.innerHTML) >= getFryerCapacity()) {
+        cutChipsCount.innerHTML = getFryerCapacity().toString();
     }
-    decrementCounter('cutCount', cutChipsCount);
+    decrementCounter(cutChipsCount.id, parseInt(cutChipsCount.innerHTML));
     fryChips();
-    setQuantityOfChipsFrying(cutChipsCount);
+    setQuantityOfChipsFrying(parseInt(cutChipsCount.innerHTML));
     updateButtonStyle(buttonId, null);
 }
 
@@ -372,7 +373,7 @@ export function disableButtons(init) {
                 button.classList.remove('disabled');
             }
         });
-    } else {
+    } else if (gameInProgress) {
         mainButtons.forEach(button => {
             if (!checkIfNonRepeatableUpgradePurchased(button)) {
                 if (!checkIfRepeatableUpgrade(button)) {
