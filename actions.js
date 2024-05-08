@@ -61,7 +61,11 @@ import {
     setShiftInProgress,
     setShiftLengthTimerVariable,
     setSpudsToAddToShift,
-    batchTimers, getAddOneToRandomNumberToEnsureAboveOne, getStart, getStop, getElements
+    getAddOneToRandomNumberToEnsureAboveOne,
+    getStart,
+    getStop,
+    getElements,
+    batchTimers
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -69,7 +73,10 @@ import {
     startBatchTimer
 } from './gameloop.js';
 
-import {formatToCashNotation, updateButtonStyle} from "./ui.js";
+import {
+    formatToCashNotation,
+    updateButtonStyle
+} from "./ui.js";
 
 export function handleButtonClick(buttonId, value) {
     const button = getElements()[buttonId];
@@ -121,12 +128,12 @@ function handlePeelPotato(element) {
     const potatoesInStorageBeforeThisPeel = getActualPotatoesInStorage();
     if (potatoesInStorageBeforeThisPeel > getOddNumberLeftOverAfterDoublePeelingChopping()) {
         setActualPotatoesInStorage(getActualPotatoesInStorage() - getPeelPotatoesRate());
-        decrementCounter('subInnerDivMid1_2', getPeelPotatoesRate());
+        decrementCounter(getElements().subInnerDivMid1_2.id, getPeelPotatoesRate());
         incrementCounter(element, getPeelPotatoesRate());
         setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + getPeelPotatoesRate());
     } else if (potatoesInStorageBeforeThisPeel > getZero()) {
         setActualPotatoesInStorage(getActualPotatoesInStorage() - getStandardDecrementIncrementOfOne());
-        decrementCounter('subInnerDivMid1_2', getStandardDecrementIncrementOfOne());
+        decrementCounter(getElements().subInnerDivMid1_2.id, getStandardDecrementIncrementOfOne());
         incrementCounter(element, getStandardDecrementIncrementOfOne());
         setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + getStandardDecrementIncrementOfOne());
     }
@@ -146,23 +153,23 @@ function handleCutChips(element) {
 }
 
 function handleFryChips(buttonId) {
-    let cutChipsCount = getElements().cutCount;
-    if (parseInt(cutChipsCount.innerHTML) >= getFryerCapacity()) {
-        cutChipsCount.innerHTML = getFryerCapacity().toString();
+    let cutChipsCounterElement = getElements().cutCount;
+    if (parseInt(cutChipsCounterElement.innerHTML) >= getFryerCapacity()) {
+        cutChipsCounterElement.innerHTML = getFryerCapacity().toString();
     }
-    decrementCounter(cutChipsCount.id, parseInt(cutChipsCount.innerHTML));
     fryChips();
-    setQuantityOfChipsFrying(parseInt(cutChipsCount.innerHTML));
+    setQuantityOfChipsFrying(parseInt(cutChipsCounterElement.innerHTML));
+    decrementCounter(cutChipsCounterElement.id, parseInt(cutChipsCounterElement.innerHTML));
     updateButtonStyle(buttonId, null);
 }
 
 function handleServingStorage() {
-    const fryerButton = document.getElementById('fryChipsButton');
-    let chuckedInFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
+    const fryerButton = getElements().fryChipsButton;
+    let chuckedInFryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
     let newBatchId = getChipsReadyToServeQuantity().length;
     // console.log("newbatchid: " + newBatchId + "length of array: " + getChipsReadyToServeQuantity().length);
     getChipsReadyToServeQuantity().push(chuckedInFryerCount);
-    document.getElementById('chuckedInFryerCount').innerHTML = getZero().toString();
+    getElements().chuckedInFryerCount.innerHTML = getZero().toString();
     if (fryerButton.classList.contains('action-button-main-flashing')) {
         updateButtonStyle(fryerButton.id, getStop());
     }
@@ -171,13 +178,13 @@ function handleServingStorage() {
     for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
         total += getChipsReadyToServeQuantity()[i];
     }
-    document.getElementById('readyToServeCount').innerHTML = total.toString();
+    getElements().readyToServeCount.innerHTML = total.toString();
     startBatchTimer(newBatchId);
 }
 
 function handleServeCustomer() {
-    decrementCounter('readyToServeCount', getPortionSize());
-    decrementCounter('customersWaitingCount', getStandardDecrementIncrementOfOne());
+    decrementCounter(getElements().readyToServeCount.id, getPortionSize());
+    decrementCounter(getElements().customersWaitingCount.id, getStandardDecrementIncrementOfOne());
     setCustomersWaiting(getCustomersWaiting() - getStandardDecrementIncrementOfOne());
     let newCustomersServedValue = getCustomersServed() + getStandardDecrementIncrementOfOne();
     setCustomersServed(newCustomersServedValue);
@@ -214,15 +221,15 @@ function handleServeCustomer() {
 function handleImprovePotatoStorage(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
-    document.getElementById(buttonId).innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
+    getElements()[buttonId].innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
     setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity);
-    document.getElementById('subInnerDivMid1_2').innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
+    getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
 }
 
 function handleTwoHandedPeeling(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button)) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
-        document.getElementById(buttonId).innerHTML = 'Double Peeling Tool PURCHASED';
+        getElements()[buttonId].innerHTML = 'Double Peeling Tool PURCHASED';
         updateButtonStyle(buttonId, null);
         setPeelPotatoesRate(getPeelPotatoesRate() * getUpgradeDoublePeelerMultiple());
     }
@@ -231,7 +238,7 @@ function handleTwoHandedPeeling(button, buttonId) {
 function handleTwoHandedChopping(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button)) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChopping());
-        document.getElementById(buttonId).innerHTML = 'Double Chopping Tool PURCHASED';
+        getElements()[buttonId].innerHTML = 'Double Chopping Tool PURCHASED';
         updateButtonStyle(buttonId, null);
         setCutChipsRate(getCutChipsRate() * getUpgradeDoubleChopperMultiple());
     }
@@ -240,15 +247,15 @@ function handleTwoHandedChopping(button, buttonId) {
 function handleImproveFryerCapacity(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
-    document.getElementById(buttonId).innerHTML = 'Improve Fryer Cap. ' + formatToCashNotation(newPriceOfUpgrade);
+    getElements()[buttonId].innerHTML = 'Improve Fryer Cap. ' + formatToCashNotation(newPriceOfUpgrade);
     setFryerCapacity(getFryerCapacity() + getUpgradeFryerCapacityAmount());
-    document.getElementById('fryChipsButton').innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
+    getElements().fryChipsButton.innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
 }
 
 function handleAddStorageHeater(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button)) {
         setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
-        document.getElementById(buttonId).innerHTML = 'Storage Bin Heater PURCHASED';
+        getElements()[buttonId].innerHTML = 'Storage Bin Heater PURCHASED';
         updateButtonStyle(buttonId, null);
         setMultipleForHeaterEffectOnCoolDown(getUpgradeHeaterMultiple());
     }
@@ -259,20 +266,21 @@ function handleStartShift() {
     setShiftInProgress(true);
     setShiftCounter(getShiftCounter() + getStandardDecrementIncrementOfOne());
 
-    document.getElementById('subInnerDiv1_1').innerHTML = 'Shift Left (s):';
-    document.getElementById('subInnerDiv1_2').innerHTML = getShiftTime();
+    getElements().subInnerDiv1_1.innerHTML = 'Shift Left (s):';
+    getElements().subInnerDiv1_2.innerHTML = getShiftTime();
+
     switch (getShiftCounter()) {
         case getOnShiftOne():
-            document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getStartingSpuds()).toString() + "/" + getPotatoStorageQuantity().toString();
+            getElements().subInnerDivMid1_2.innerHTML = addShiftSpuds(getStartingSpuds()).toString() + "/" + getPotatoStorageQuantity().toString();
             break;
         default:
-            document.getElementById('subInnerDivMid1_2').innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + getPotatoStorageQuantity().toString();
+            getElements().subInnerDivMid1_2.innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + getPotatoStorageQuantity().toString();
             break;
     }
 
     let newPotatoesToDeliverForNextShift = Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity());
     setActualPotatoesInStorage(newPotatoesToDeliverForNextShift);
-    document.getElementById('startShiftButton').innerHTML = 'Start Shift <br> (+ ' + selectARandomNumberOfSpudsForNextShift() + ' Potatoes)';
+    getElements().startShiftButton.innerHTML = 'Start Shift <br> (+ ' + selectARandomNumberOfSpudsForNextShift() + ' Potatoes)';
     disableButtons(false);
 }
 
@@ -284,7 +292,7 @@ function incrementCounter(counterElement, value) {
 }
 
 export function decrementCounter(counterId, value) {
-    const counterElement = document.getElementById(counterId);
+    const counterElement = getElements()[counterId];
     let count = parseInt(counterElement.innerHTML);
     count = Math.max(getZero(), count - value);
     if (counterId === "subInnerDivMid1_2") {
@@ -296,16 +304,23 @@ export function decrementCounter(counterId, value) {
 }
 
 export function disableButtons(init) {
-    const mainButtons = document.querySelectorAll('.action-button-main');
-    const bottomRowButtons = document.querySelectorAll('.action-button-bottom-row');
+    let mainButtons;
+    let bottomRowButtons;
+
+    if (gameInProgress) {
+        mainButtons = getElements().allBottomButtons;
+        bottomRowButtons = getElements().allMainButtons;
+    }
 
     if (!init) {
-        const spudsLeft = parseInt(document.getElementById('subInnerDivMid1_2').innerHTML);
-        const peeledCount = parseInt(document.getElementById('peeledCount').innerHTML);
-        const cutCount = parseInt(document.getElementById('cutCount').innerHTML);
-        const inFryerCount = parseInt(document.getElementById('chuckedInFryerCount').innerHTML);
-        const readyToServeCount = parseInt(document.getElementById('readyToServeCount').innerHTML);
-        const customerCount = parseInt(document.getElementById('customersWaitingCount').innerHTML);
+        mainButtons = getElements().allMainButtons;
+        bottomRowButtons = getElements().allBottomButtons;
+        const spudsLeft = parseInt(getElements().subInnerDivMid1_2.innerHTML);
+        const peeledCount = parseInt(getElements().peeledCount.innerHTML);
+        const cutCount = parseInt(getElements().cutCount.innerHTML);
+        const inFryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
+        const readyToServeCount = parseInt(getElements().readyToServeCount.innerHTML);
+        const customerCount = parseInt(getElements().customersWaitingCount.innerHTML);
 
         mainButtons.forEach(button => {
             switch (button.id) {
@@ -373,7 +388,7 @@ export function disableButtons(init) {
                 button.classList.remove('disabled');
             }
         });
-    } else if (gameInProgress) {
+    } else if (gameInProgress && getShiftCounter() > getZero()) {
         mainButtons.forEach(button => {
             if (!checkIfNonRepeatableUpgradePurchased(button)) {
                 if (!checkIfRepeatableUpgrade(button)) {
@@ -415,14 +430,14 @@ export function createRandomCustomerTime() {
 }
 
 export function incrementCustomersWaiting() {
-    let customerCount = parseInt(document.getElementById('customersWaitingCount').innerHTML);
+    let customerCount = parseInt(getElements().customersWaitingCount.innerHTML);
     customerCount += getStandardDecrementIncrementOfOne();
-    document.getElementById('customersWaitingCount').innerHTML = customerCount.toString();
+    getElements().customersWaitingCount.innerHTML = customerCount.toString();
     disableButtons(false);
 }
 
 function addShiftSpuds(quantity) {
-    let currentSpuds = parseInt(document.getElementById('subInnerDivMid1_2').innerHTML);
+    let currentSpuds = parseInt(getElements().subInnerDivMid1_2.innerHTML);
     if (currentSpuds + quantity > getPotatoStorageQuantity()) {
         return getPotatoStorageQuantity();
     }
@@ -466,8 +481,8 @@ function checkIfRepeatableUpgrade(button) {
 }
 
 function checkIfChipsStillInFryer() {
-    const fryerButton = document.getElementById('fryChipsButton');
-    const fryerElementText = document.getElementById('chuckedInFryerCount').innerHTML;
+    const fryerButton = getElements().fryChipsButton;
+    const fryerElementText = getElements().chuckedInFryerCount.innerHTML;
 
     let chipsStillInFryer = false;
     if (parseInt(fryerElementText) > getZero()) {

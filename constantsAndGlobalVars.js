@@ -1,10 +1,9 @@
 import {createEndOfShiftPopup, createOverlay, formatToCashNotation} from './ui.js';
 
 //ELEMENTS
-
+let elements;
 
 //CONSTANTS
-
 const CLOCK_SPEED = 1000;
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
 const SHIFT_LENGTH = 30;
@@ -72,8 +71,6 @@ export const popupOverlay = createOverlay();
  export let batchTimers = {};
 
  //GETTER SETTER METHODS
-let elements;
-// Setter function for all elements
 export function setElements() {
       elements = {
         option1: document.getElementById('option1'),
@@ -124,7 +121,9 @@ export function setElements() {
         action18Button: document.getElementById('action18Button'),
         action19Button: document.getElementById('action19Button'),
         action20Button: document.getElementById('action20Button'),
-    };
+        allBottomButtons: document.querySelectorAll('.action-button-bottom-row'),
+        allMainButtons: document.querySelectorAll('.action-button-main')
+      };
 }
 
 export function getElements() {

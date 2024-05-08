@@ -3,7 +3,6 @@ import {
     createTitleScreen,
     toggleEndOfShiftPopup,
     toggleOverlay,
-    toggleSound,
     updateButtonStyle,
     writePopupText
 } from './ui.js';
@@ -20,7 +19,6 @@ import {
     endOfShiftPopup,
     popupOverlay,
     shiftInProgress,
-    popupContinueButton,
     getPriceToAddStorageHeater,
     getPriceToImproveFryerCapacity,
     getCurrentCash,
@@ -72,14 +70,21 @@ import {
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
-
 export let gameInProgress = false;
-document.addEventListener('titleScreenCreated', setElements);
-const titleScreenCreatedEvent = new Event('titleScreenCreated');
-createGameWindow(titleScreenCreatedEvent);
-createTitleScreen();
 
-gameLoop();
+function main() {
+
+    document.addEventListener('titleScreenCreated', setElements);
+    const titleScreenCreatedEvent = new Event('titleScreenCreated');
+    createTitleScreen();
+    createGameWindow(titleScreenCreatedEvent);
+
+    gameLoop();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    main();
+});
 
 function gameLoop() {
     gameInProgress = !!gameInProgress;
@@ -300,4 +305,8 @@ function selectHowManyCustomersLeftAfterWalkOutAtShiftEnd() {
 
     customersWaiting -= randomWalkouts;
     return customersWaiting;
+}
+
+export function setGameInProgress(value) {
+    gameInProgress = value;
 }

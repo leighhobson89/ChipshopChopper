@@ -22,7 +22,7 @@ import {
     getSpudsToAddToShift,
     getStartingCash, getZero, getElements, popupContinueButton, endOfShiftPopup, popupOverlay, setElements
 } from './constantsAndGlobalVars.js';
-import {gameInProgress, initialiseNewGame} from "./gameloop.js";
+import {gameInProgress, initialiseNewGame, setGameInProgress} from "./gameloop.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -139,7 +139,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     const mainButtonDetails = [
         { id: 'peelPotatoButton', name: 'Peel Potato', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'cutChipsButton', name: 'Cut Chips', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'fryChipsButton', name: `Fry Chips (Capacity: 100)`, upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'fryChipsButton', name: `Fry Chips (Capacity: ${getFryerCapacity()})`, upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'servingStorageButton', name: 'Serving Storage', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'serveCustomerButton', name: 'Serve Customer', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action6Button', name: 'Action 6', upgrade: 'false', repeatableUpgrade: 'false' },
@@ -152,7 +152,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'action13Button', name: 'Action 13', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action14Button', name: 'Action 14', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action15Button', name: 'Action 15', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'improvePotatoStorageButton', name: 'Increase Potato Cap. $2.00', upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'improvePotatoStorageButton', name: 'Increase Potato Cap. ' + formatToCashNotation(getPriceToImprovePotatoStorage()), upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'action17Button', name: 'Action 17', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action18Button', name: 'Action 18', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action19Button', name: 'Action 19', upgrade: 'false', repeatableUpgrade: 'false' },
@@ -160,10 +160,10 @@ export function createGameWindow(titleScreenCreatedEvent) {
     ];
 
     const bottomButtonDetails = [
-        { id: 'twoHandedPeelingButton', name: 'Double Peeling Tool $4.00', upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'twoHandedChoppingButton', name: 'Double Chopping  $6.00 ', upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'improveFryerCapacityButton', name: 'Improve Fryer Cap.  $7.00', upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'addStorageHeaterButton', name: 'Buy Storage Heater $8.00', upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'twoHandedPeelingButton', name: 'Double Peeling Tool ' + formatToCashNotation(getPriceToEnableDoublePeeling()), upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'twoHandedChoppingButton', name: 'Double Chopping Tool ' + formatToCashNotation(getPriceToEnableDoubleChopping()), upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'improveFryerCapacityButton', name: 'Improve Fryer Cap. ' + formatToCashNotation(getPriceToImproveFryerCapacity()), upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'addStorageHeaterButton', name: 'Buy Storage Heater ' + formatToCashNotation(getPriceToAddStorageHeater()), upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
     ];
 
@@ -200,7 +200,6 @@ export function createGameWindow(titleScreenCreatedEvent) {
     disableButtons(true);
 
     document.dispatchEvent(titleScreenCreatedEvent);
-    console.log(getElements());
 
     createOptionScreenEventListeners();
 
@@ -400,7 +399,7 @@ export function writePopupText() {
 
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function () {
-        gameInProgress = initialiseNewGame(gameInProgress);
+        setGameInProgress(initialiseNewGame(gameInProgress));
         console.log("gameInProgress after clicking new game =" + gameInProgress);
     });
     getElements().option2.addEventListener('click', function () {
