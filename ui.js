@@ -247,11 +247,11 @@ export function createGameWindow(titleScreenCreatedEvent) {
     writeTextInSections(mainButtonDetails);
 
     handleButtonClick(getElements().startShiftButton.id, null);
-    handleButtonClick(getElements().peelPotatoButton.id, getElements().peeledCount);
-    handleButtonClick(getElements().cutChipsButton.id, getElements().cutCount);
-    handleButtonClick(getElements().fryChipsButton.id, getElements().chuckedInFryerCount);
-    handleButtonClick(getElements().servingStorageButton.id, getElements().readyToServeCount);
-    handleButtonClick(getElements().serveCustomerButton.id, getElements().customersWaitingCount);
+    handleButtonClick(getElements().peelPotatoButton.id, getElements().peeledCount.id);
+    handleButtonClick(getElements().cutChipsButton.id, getElements().cutCount.id);
+    handleButtonClick(getElements().fryChipsButton.id, getElements().chuckedInFryerCount.id);
+    handleButtonClick(getElements().servingStorageButton.id, getElements().readyToServeCount.id);
+    handleButtonClick(getElements().serveCustomerButton.id, getElements().customersWaitingCount.id);
     handleButtonClick(getElements().improvePotatoStorageButton.id, getPriceToImprovePotatoStorage());
     handleButtonClick(getElements().twoHandedPeelingButton.id, getPriceToEnableDoublePeeling());
     handleButtonClick(getElements().twoHandedChoppingButton.id, getPriceToEnableDoubleChopping());
@@ -446,7 +446,7 @@ export function writePopupText() {
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function () {
         setGameInProgress(initialiseNewGame(gameInProgress));
-        console.log("gameInProgress after clicking new game =" + gameInProgress);
+        //console.log("gameInProgress after clicking new game =" + gameInProgress);
         updateVisibleButtons(); //for debug if money given
     });
     getElements().option2.addEventListener('click', function () {

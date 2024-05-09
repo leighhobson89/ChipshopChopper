@@ -187,8 +187,6 @@ function handleCutChips(element) {
 
 function handleFryChips(buttonId) {
     let cutChipsCounterElement = getElements().cutCount;
-    console.log(cutChipsCounterElement.innerHTML);
-    console.log(parseInt(cutChipsCounterElement.innerHTML) >= getFryerCapacity());
     if (parseInt(cutChipsCounterElement.innerHTML) >= getFryerCapacity()) {
         setQuantityOfChipsFrying(getFryerCapacity());
     } else {
@@ -261,10 +259,7 @@ function handleImprovePotatoStorage(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     getElements()[buttonId].innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
-    console.log(getPotatoStorageQuantity());
-    console.log(getUpgradePotatoStorageQuantity)
     setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity());
-    console.log(getPotatoStorageQuantity());
     getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
 }
 
