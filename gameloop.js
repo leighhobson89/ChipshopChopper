@@ -69,7 +69,10 @@ import {
     getStop,
     getElements,
     setElements,
-    debugFlag
+    debugFlag,
+    getPriceToImproveAutoMoverFromFryerToStorage,
+    getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
+    getPriceToImproveAutoChipper, getPriceToImproveAutoPeeler, getPriceToImproveAutoCustomerServer
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
@@ -272,6 +275,7 @@ function askUserToConfirmRestart() {
 
 export function updateVisibleButtons() {
     if (!shiftInProgress && (getShiftCounter() > getZero() || debugFlag)) {
+        //manual phase upgrades
         if (getCurrentCash() >= getPriceToImprovePotatoStorage()) {
             getElements().improvePotatoStorageButton.classList.remove('hidden-button');
         }
@@ -286,6 +290,22 @@ export function updateVisibleButtons() {
         }
         if (getCurrentCash() >= getPriceToAddStorageHeater()) {
             getElements().addStorageHeaterButton.classList.remove('hidden-button');
+        }
+        //auto phase upgrades
+        if (getCurrentCash() >= getPriceToImproveAutoPeeler()) {
+            getElements().autoPeelerUpgradeButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToImproveAutoChipper()) {
+            getElements().autoChipperUpgradeButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut()) {
+            getElements().autoFryerUpgradeButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToImproveAutoMoverFromFryerToStorage()) {
+            getElements().autoStorageCollectorUpgradeButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToImproveAutoCustomerServer()) {
+            getElements().autoCustomerServerUpgradeButton.classList.remove('hidden-button');
         }
         disableButtons(false);
     }

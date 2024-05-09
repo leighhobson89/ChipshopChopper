@@ -159,17 +159,17 @@ div[id^="subInnerDivMid"][id$='_2'] {
     justify-content: left;
 }
 
-.bottom-buttons-container {
-    height: 60%;
-}
-
-.button-container {
+.main-button-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 7%;
     padding: 3%;
     justify-items: center;
     height: 65%;
+}
+
+.bottom-buttons-container {
+    height: 60%;
 }
 
 .bottom-row-container {

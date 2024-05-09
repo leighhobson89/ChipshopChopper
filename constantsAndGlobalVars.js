@@ -14,7 +14,7 @@ const FRY_TIMER = 15;
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
-let STARTING_CASH = 0;
+const STARTING_CASH = 0;
 const MIN_SPUDS_DELIVERY = 20;
 const MAX_SPUDS_DELIVERY = 80;
 const UPGRADE_POTATO_STORAGE_QUANTITY = 50;
@@ -61,6 +61,23 @@ export const popupOverlay = createOverlay();
  let priceToEnableDoublePeeling = 4; //40
  let priceToImproveFryerCapacity = 7; //100
  let priceToAddStorageHeater = 8; //200
+ let priceToImproveAutoPeeler = 100; //1000
+ let priceToImproveAutoChipper = 100; //1000
+ let priceToImproveAutoFryer = 150; //1500
+ let priceToImproveAutoStorageCollector = 200; //2000
+ let priceToImproveAutoCustomerServer = 300; //3000
+
+//AUTO SPEEDS
+let currentSpeedAutoPeeler = "N/A";
+let nextSpeedAutoPeeler = 1;
+let currentSpeedAutoChipper = "N/A";
+let nextSpeedAutoChipper = 1;
+let currentSpeedAutoFryer = "N/A";
+let nextSpeedAutoFryer = 30;
+let currentSpeedAutoStorageCollector = "N/A";
+let nextSpeedAutoStorageCollector = 30;
+let currentSpeedAutoCustomerServer = "N/A";
+let nextSpeedAutoCustomerServer = 30;
 
 //STATS
  let oldCash = 0;
@@ -110,11 +127,6 @@ export function setElements() {
         endOfShiftPopupTitle: document.getElementById('endOfShiftPopupTitle'),
         endOfShiftPopupContent: document.getElementById('endOfShiftPopupContent'),
         clock: document.querySelector('.clock'),
-        action6Button: document.getElementById('action6Button'),
-        action7Button: document.getElementById('action7Button'),
-        action8Button: document.getElementById('action8Button'),
-        action9Button: document.getElementById('action9Button'),
-        action10Button: document.getElementById('action10Button'),
         action11Button: document.getElementById('action11Button'),
         action12Button: document.getElementById('action12Button'),
         action13Button: document.getElementById('action13Button'),
@@ -126,8 +138,14 @@ export function setElements() {
         action20Button: document.getElementById('action20Button'),
         allBottomButtons: document.querySelectorAll('.action-button-bottom-row'),
         allMainButtons: document.querySelectorAll('.action-button-main'),
-          debug1: document.getElementById('debug1'),
-          debugsWindow: document.getElementById('debugsWindow'),
+        debug1: document.getElementById('debug1'),
+        debugsWindow: document.getElementById('debugsWindow'),
+        autoPeelerUpgradeButton: document.getElementById('autoPeelerUpgradeButton'),
+        autoChipperUpgradeButton: document.getElementById('autoChipperUpgradeButton'),
+        autoFryerUpgradeButton: document.getElementById('autoFryerUpgradeButton'),
+        autoStorageCollectorUpgradeButton: document.getElementById('autoStorageCollectorUpgradeButton'),
+        autoCustomerServerUpgradeButton: document.getElementById('autoCustomerServerUpgradeButton'),
+
       };
 }
 
@@ -511,6 +529,127 @@ export function getStop() {
 
 export function setCustomersWaitingBeforeEndOfShift(value) {
     customersWaitingAtEndOfShift = value;
+}
+
+//AUTO BUTTONS
+export function getPriceToImproveAutoPeeler() {
+    return priceToImproveAutoPeeler;
+}
+
+export function setPriceToImproveAutoPeeler(value) {
+    priceToImproveAutoPeeler = value;
+}
+
+export function getPriceToImproveAutoChipper() {
+    return priceToImproveAutoChipper;
+}
+
+export function setPriceToImproveAutoChipper(value) {
+    priceToImproveAutoChipper = value;
+}
+
+export function getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut() {
+    return priceToImproveAutoFryer;
+}
+
+export function setPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(value) {
+    priceToImproveAutoFryer = value;
+}
+
+export function getPriceToImproveAutoMoverFromFryerToStorage() {
+    return priceToImproveAutoStorageCollector;
+}
+
+export function setPriceToImproveAutoMoverFromFryerToStorage(value) {
+    priceToImproveAutoStorageCollector = value;
+}
+
+export function getPriceToImproveAutoCustomerServer() {
+    return priceToImproveAutoCustomerServer;
+}
+
+export function setPriceToImproveAutoCustomerServer(value) {
+    priceToImproveAutoCustomerServer = value;
+}
+
+export function getCurrentSpeedAutoPeeler() {
+    return currentSpeedAutoPeeler;
+}
+
+export function setCurrentSpeedAutoPeeler(value) {
+    currentSpeedAutoPeeler = value;
+}
+
+export function getCurrentSpeedAutoChipper() {
+    return currentSpeedAutoChipper;
+}
+
+export function setCurrentSpeedAutoChipper(value) {
+    currentSpeedAutoChipper = value;
+}
+
+export function getCurrentSpeedAutoFryer() {
+    return currentSpeedAutoFryer;
+}
+
+export function setCurrentSpeedAutoFryer(value) {
+    currentSpeedAutoFryer = value;
+}
+
+export function getCurrentSpeedAutoStorageCollector() {
+    return currentSpeedAutoStorageCollector;
+}
+
+export function setCurrentSpeedAutoStorageCollector(value) {
+    currentSpeedAutoStorageCollector = value;
+}
+
+export function getCurrentSpeedAutoCustomerServer() {
+    return currentSpeedAutoCustomerServer;
+}
+
+export function setCurrentSpeedAutoCustomerServer(value) {
+    currentSpeedAutoCustomerServer = value;
+}
+
+export function getNextSpeedAutoPeeler() {
+    return nextSpeedAutoPeeler;
+}
+
+export function setNextSpeedAutoPeeler(value) {
+    nextSpeedAutoPeeler = value;
+}
+
+export function getNextSpeedAutoChipper() {
+    return nextSpeedAutoChipper;
+}
+
+export function setNextSpeedAutoChipper(value) {
+    nextSpeedAutoChipper = value;
+}
+
+export function getNextSpeedAutoFryer() {
+    return nextSpeedAutoFryer;
+}
+
+export function setNextSpeedAutoFryer(value) {
+    nextSpeedAutoFryer = value;
+}
+
+export function getNextSpeedAutoStorageCollector() {
+    return nextSpeedAutoStorageCollector;
+}
+
+export function setNextSpeedAutoStorageCollector(value) {
+    nextSpeedAutoStorageCollector = value;
+}
+
+export function getNextSpeedAutoCustomerServer() {
+    return nextSpeedAutoCustomerServer;
+}
+
+export function setNextSpeedAutoCustomerServer(value) {
+    nextSpeedAutoCustomerServer = value;
 }
 
 //DEBUG
