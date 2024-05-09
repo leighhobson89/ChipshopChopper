@@ -19,16 +19,23 @@ const MIN_SPUDS_DELIVERY = 20;
 const MAX_SPUDS_DELIVERY = 80;
 const UPGRADE_POTATO_STORAGE_QUANTITY = 50;
 const UPGRADE_FRYER_CAPACITY_AMOUNT = 200;
-const MULTIPLE_FOR_IMPROVE_POTATO_STORAGE = 2;
-const MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY = 4;
 const NUMBER_OF_CHIPS_FROM_POTATO = 5;
 const COOL_DOWN_TIMER = 20;
 const STANDARD_DECREMENT_INCREMENT = 1;
 const UPGRADE_HEATER_MULTIPLE = 2;
-const UPGRADE_DOUBLE_PEELER_MULTIPLE = 2;
-const UPGRADE_DOUBLE_CHOPPER_MULTIPLE = 2;
 const ZERO = 0;
 const ONE = 1;
+
+//UPGRADE PRICE MULTIPLIER CONSTANTS
+const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
+const MULTIPLE_FOR_UPGRADE_DOUBLE_CHOPPER = 2;
+const MULTIPLE_FOR_IMPROVE_POTATO_STORAGE = 2;
+const MULTIPLE_FOR_IMPROVE_AUTO_PEELER = 2;
+const MULTIPLE_FOR_IMPROVE_AUTO_CHIPPER = 2;
+const MULTIPLE_FOR_IMPROVE_AUTO_FRYER = 2;
+const MULTIPLE_FOR_IMPROVE_AUTO_STORAGE_COLLECTOR = 2;
+const MULTIPLE_FOR_IMPROVE_AUTO_CUSTOMER_SERVER = 2;
+
 export const endOfShiftPopupObject = createEndOfShiftPopup();
 export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
 export const popupContinueButton = endOfShiftPopupObject.continueButton;
@@ -472,11 +479,11 @@ export function getUpgradeHeaterMultiple() {
 }
 
 export function getUpgradeDoublePeelerMultiple() {
-    return UPGRADE_DOUBLE_PEELER_MULTIPLE;
+    return MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER;
 }
 
 export function getUpgradeDoubleChopperMultiple() {
-    return UPGRADE_DOUBLE_CHOPPER_MULTIPLE;
+    return MULTIPLE_FOR_UPGRADE_DOUBLE_CHOPPER;
 }
 
 export function getZero() {
@@ -664,6 +671,28 @@ export function getDebugFlag() {
 export function getImprovePotatoStorageNotClickedYet() {
     return getPriceToImprovePotatoStorage() === 5; //needs to be updated if prices change for debug to work properly
 }
+
+export function getMultipleForImproveAutoPeeler() {
+    return MULTIPLE_FOR_IMPROVE_AUTO_PEELER;
+}
+
+export function getMultipleForImproveAutoChipper() {
+    return MULTIPLE_FOR_IMPROVE_AUTO_CHIPPER;
+}
+
+export function getMultipleForImproveAutoFryer() {
+    return MULTIPLE_FOR_IMPROVE_AUTO_FRYER;
+}
+
+export function getMultipleForImproveAutoStorageCollector() {
+    return MULTIPLE_FOR_IMPROVE_AUTO_STORAGE_COLLECTOR;
+}
+
+export function getMultipleForImproveAutoCustomerServer() {
+    return MULTIPLE_FOR_IMPROVE_AUTO_CUSTOMER_SERVER
+}
+
+
 
 
 

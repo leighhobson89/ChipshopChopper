@@ -246,17 +246,22 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
     writeTextInSections(mainButtonDetails);
 
-    handleButtonClick('startShiftButton', 'startShift');
-    handleButtonClick('peelPotatoButton', 'peeledCount');
-    handleButtonClick('cutChipsButton', 'cutCount');
-    handleButtonClick('fryChipsButton', 'chuckedInFryerCount');
-    handleButtonClick('servingStorageButton', 'readyToServeCount');
-    handleButtonClick('serveCustomerButton', 'customersWaitingCount');
-    handleButtonClick('improvePotatoStorageButton', getPriceToImprovePotatoStorage());
-    handleButtonClick('twoHandedPeelingButton', getPriceToEnableDoublePeeling());
-    handleButtonClick('twoHandedChoppingButton', getPriceToEnableDoubleChopping());
-    handleButtonClick('improveFryerCapacityButton', getPriceToImproveFryerCapacity());
-    handleButtonClick('addStorageHeaterButton', getPriceToAddStorageHeater());
+    handleButtonClick(getElements().startShiftButton.id, null);
+    handleButtonClick(getElements().peelPotatoButton.id, getElements().peeledCount);
+    handleButtonClick(getElements().cutChipsButton.id, getElements().cutCount);
+    handleButtonClick(getElements().fryChipsButton.id, getElements().chuckedInFryerCount);
+    handleButtonClick(getElements().servingStorageButton.id, getElements().readyToServeCount);
+    handleButtonClick(getElements().serveCustomerButton.id, getElements().customersWaitingCount);
+    handleButtonClick(getElements().improvePotatoStorageButton.id, getPriceToImprovePotatoStorage());
+    handleButtonClick(getElements().twoHandedPeelingButton.id, getPriceToEnableDoublePeeling());
+    handleButtonClick(getElements().twoHandedChoppingButton.id, getPriceToEnableDoubleChopping());
+    handleButtonClick(getElements().improveFryerCapacityButton.id, getPriceToImproveFryerCapacity());
+    handleButtonClick(getElements().addStorageHeaterButton.id, getPriceToAddStorageHeater());
+    handleButtonClick(getElements().autoPeelerUpgradeButton.id, getPriceToImproveAutoPeeler());
+    handleButtonClick(getElements().autoChipperUpgradeButton.id, getPriceToImproveAutoChipper());
+    handleButtonClick(getElements().autoFryerUpgradeButton.id, getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
+    handleButtonClick(getElements().autoStorageCollectorUpgradeButton.id, getPriceToImproveAutoMoverFromFryerToStorage());
+    handleButtonClick(getElements().autoCustomerServerUpgradeButton.id, getPriceToImproveAutoCustomerServer());
 }
 
 export function writeTextInSections(buttonDetails) {

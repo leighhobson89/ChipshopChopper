@@ -65,7 +65,25 @@ import {
     getStart,
     getStop,
     getElements,
-    batchTimers, getQuantityOfChipsFrying, getDebugFlag, getImprovePotatoStorageNotClickedYet
+    batchTimers,
+    getQuantityOfChipsFrying,
+    getDebugFlag,
+    getImprovePotatoStorageNotClickedYet,
+    getPriceToImproveAutoPeeler,
+    getPriceToImproveAutoChipper,
+    getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
+    getPriceToImproveAutoMoverFromFryerToStorage,
+    getPriceToImproveAutoCustomerServer,
+    setPriceToImproveAutoPeeler,
+    setPriceToImproveAutoChipper,
+    setPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
+    setPriceToImproveAutoMoverFromFryerToStorage,
+    setPriceToImproveAutoCustomerServer,
+    getMultipleForImproveAutoPeeler,
+    getMultipleForImproveAutoChipper,
+    getMultipleForImproveAutoFryer,
+    getMultipleForImproveAutoStorageCollector,
+    getMultipleForImproveAutoCustomerServer
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -84,38 +102,53 @@ export function handleButtonClick(buttonId, value) {
 
     button.addEventListener('click', () => {
         switch (buttonId) {
-            case 'peelPotatoButton':
+            case getElements().peelPotatoButton.id:
                 handlePeelPotato(element);
                 break;
-            case 'cutChipsButton':
+            case getElements().cutChipsButton.id:
                 handleCutChips(element);
                 break;
-            case 'fryChipsButton':
+            case getElements().fryChipsButton.id:
                 handleFryChips(buttonId);
                 break;
-            case 'servingStorageButton':
+            case getElements().servingStorageButton.id:
                 handleServingStorage();
                 break;
-            case 'serveCustomerButton':
+            case getElements().serveCustomerButton.id:
                 handleServeCustomer();
                 break;
-            case 'improvePotatoStorageButton':
+            case getElements().improvePotatoStorageButton.id:
                 handleImprovePotatoStorage(buttonId);
                 break;
-            case 'twoHandedPeelingButton':
+            case getElements().twoHandedPeelingButton.id:
                 handleTwoHandedPeeling(button, buttonId);
                 break;
-            case 'twoHandedChoppingButton':
+            case getElements().twoHandedChoppingButton.id:
                 handleTwoHandedChopping(button, buttonId);
                 break;
-            case 'improveFryerCapacityButton':
+            case getElements().improveFryerCapacityButton.id:
                 handleImproveFryerCapacity(buttonId);
                 break;
-            case 'addStorageHeaterButton':
+            case getElements().addStorageHeaterButton.id:
                 handleAddStorageHeater(button, buttonId);
                 break;
-            case 'startShiftButton':
+            case getElements().startShiftButton.id:
                 handleStartShift();
+                break;
+            case getElements().autoPeelerUpgradeButton.id:
+                handleAutoPeeler();
+                break;
+            case getElements().autoChipperUpgradeButton.id:
+                handleAutoChipper();
+                break;
+            case getElements().autoFryerUpgradeButton.id:
+                handleAutoFryer();
+                break;
+            case getElements().autoStorageCollectorUpgradeButton.id:
+                handleAutoStorageCollector();
+                break;
+            case getElements().autoCustomerServerUpgradeButton.id:
+                handleAutoCustomerServer();
                 break;
             default:
                 break;
@@ -295,6 +328,26 @@ function handleStartShift() {
     disableButtons(false);
 }
 
+function handleAutoPeeler() {
+    console.log("autoPeeler");
+}
+
+function handleAutoChipper() {
+    console.log("autoChipper");
+}
+
+function handleAutoFryer() {
+    console.log("autoFryer");
+}
+
+function handleAutoStorageCollector() {
+    console.log("autoStorageCollector");
+}
+
+function handleAutoCustomerServer() {
+    console.log("autoCustomerServer");
+}
+
 function incrementCounter(counterElement, value) {
     let count = parseInt(counterElement.innerHTML);
     count += value;
@@ -326,7 +379,7 @@ export function disableButtons(init) {
     if (!init) {
         mainButtons = getElements().allMainButtons;
         bottomRowButtons = getElements().allBottomButtons;
-        const spudsLeft = parseInt(getElements().subInnerDivMid1_2.innerHTML);
+        const spudCount = parseInt(getElements().subInnerDivMid1_2.innerHTML);
         const peeledCount = parseInt(getElements().peeledCount.innerHTML);
         const cutCount = parseInt(getElements().cutCount.innerHTML);
         const inFryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
@@ -335,24 +388,39 @@ export function disableButtons(init) {
 
         mainButtons.forEach(button => {
             switch (button.id) {
-                case 'peelPotatoButton':
-                    button.disabled = spudsLeft <= getZero() || !getShiftInProgress();
+                case getElements().peelPotatoButton.id:
+                    button.disabled = spudCount <= getZero() || !getShiftInProgress();
                     break;
-                case 'cutChipsButton':
+                case getElements().cutChipsButton.id:
                     button.disabled = peeledCount <= getZero() || !getShiftInProgress();
                     break;
-                case 'fryChipsButton':
-                    let chipsStillInFryer = checkIfChipsStillInFryer();
+                case getElements().fryChipsButton.id:
+                    checkIfChipsStillInFryer();
                     button.disabled = !getShiftInProgress() || (cutCount <= getZero() && !getChipsFrying());
                     break;
-                case 'servingStorageButton':
+                case getElements().servingStorageButton.id:
                     button.disabled = inFryerCount <= getZero() || !getShiftInProgress();
                     break;
-                case 'serveCustomerButton':
+                case getElements().serveCustomerButton.id:
                     button.disabled = customerCount <= getZero() || readyToServeCount < getPortionSize() || !getShiftInProgress();
                     break;
-                case 'improvePotatoStorageButton':
+                case getElements().improvePotatoStorageButton.id:
                     button.disabled = getCurrentCash() < getPriceToImprovePotatoStorage();
+                    break;
+                case getElements().autoPeelerUpgradeButton.id:
+                    button.disabled = getCurrentCash() < getPriceToImproveAutoPeeler();
+                    break;
+                case getElements().autoChipperUpgradeButton.id:
+                    button.disabled = getCurrentCash() < getPriceToImproveAutoChipper();
+                    break;
+                case getElements().autoFryerUpgradeButton.id:
+                    button.disabled = getCurrentCash() < getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut();
+                    break;
+                case getElements().autoStorageCollectorUpgradeButton.id:
+                    button.disabled = getCurrentCash() < getPriceToImproveAutoMoverFromFryerToStorage();
+                    break;
+                case getElements().autoCustomerServerUpgradeButton.id:
+                    button.disabled = getCurrentCash() < getPriceToImproveAutoCustomerServer();
                     break;
                 default:
                     button.disabled = false;
@@ -409,11 +477,11 @@ export function disableButtons(init) {
             }
         });
 
-        const pricesArrayMainButtons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, getPriceToImprovePotatoStorage(), 0, 0, 0, 0];
+        const pricesArrayMainButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), 0, 0, 0, 0, 0, getPriceToImprovePotatoStorage(), 0, 0, 0, 0];
 
         for (let i = 0; i < mainButtons.length; i++) {
             const button = mainButtons[i];
-            if (button.id !== "startShiftButton" && !checkIfNonRepeatableUpgradePurchased(button)) {
+            if (button.id !== getElements().startShiftButton.id && !checkIfNonRepeatableUpgradePurchased(button)) {
                 if (getCurrentCash() < pricesArrayMainButtons[i] || pricesArrayMainButtons[i] === getZero()) {
                     button.disabled = true;
                     button.classList.add('disabled');
@@ -425,7 +493,7 @@ export function disableButtons(init) {
 
         for (let i = 0; i < bottomRowButtons.length; i++) {
             const button = bottomRowButtons[i];
-            if (button.id !== "startShiftButton" && !checkIfNonRepeatableUpgradePurchased(button)) {
+            if (button.id !== getElements().startShiftButton.id && !checkIfNonRepeatableUpgradePurchased(button)) {
                 if (getCurrentCash() < pricesArrayBottomRow[i]) {
                     button.disabled = true;
                     button.classList.add('disabled');
@@ -468,18 +536,35 @@ function selectARandomNumberOfSpudsForNextShift() {
 
 function calculateAndSetNewPriceOfUpgrade(buttonId) {
     switch (buttonId) {
-        case "improvePotatoStorageButton":
+        //Manual Upgrades
+        case getElements().improvePotatoStorageButton.id:
             setPriceToImprovePotatoStorage(getPriceToImprovePotatoStorage() * getMultipleForImprovePotatoStorage());
             return getPriceToImprovePotatoStorage();
-        case "twoHandedPeelingButton":
+        case getElements().twoHandedPeelingButton.id:
             return getPriceToEnableDoublePeeling();
-        case "twoHandedChoppingButton":
+        case getElements().twoHandedChoppingButton.id:
             return getPriceToEnableDoubleChopping();
-        case "improveFryerCapacityButton":
+        case getElements().improveFryerCapacityButton.id:
             setPriceToImproveFryerCapacity(getPriceToImproveFryerCapacity() * getMultipleForImproveFryerCapacity());
             return getPriceToImproveFryerCapacity();
-        case "addStorageHeaterButton":
+        case getElements().addStorageHeaterButton.id:
             return getPriceToAddStorageHeater();
+            //Auto Upgrades
+        case getElements().autoPeelerUpgradeButton.id:
+            setPriceToImproveAutoPeeler(getPriceToImproveAutoPeeler() * getMultipleForImproveAutoPeeler());
+            return getPriceToImproveAutoPeeler();
+        case getElements().autoChipperUpgradeButton.id:
+            setPriceToImproveAutoChipper(getPriceToImproveAutoChipper() * getMultipleForImproveAutoChipper());
+            return getPriceToImproveAutoChipper();
+        case getElements().autoFryerUpgradeButton.id:
+            setPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut() * getMultipleForImproveAutoFryer());
+            return getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut();
+        case getElements().autoStorageCollectorUpgradeButton.id:
+            setPriceToImproveAutoMoverFromFryerToStorage(getPriceToImproveAutoMoverFromFryerToStorage() * getMultipleForImproveAutoStorageCollector());
+            return getPriceToImproveAutoMoverFromFryerToStorage();
+        case getElements().autoCustomerServerUpgradeButton.id:
+            setPriceToImproveAutoCustomerServer(getPriceToImproveAutoCustomerServer() * getMultipleForImproveAutoCustomerServer());
+            return getPriceToImproveAutoCustomerServer();
     }
 }
 
@@ -495,11 +580,8 @@ function checkIfChipsStillInFryer() {
     const fryerButton = getElements().fryChipsButton;
     const fryerElementText = getElements().chuckedInFryerCount.innerHTML;
 
-    let chipsStillInFryer = false;
     if (parseInt(fryerElementText) > getZero()) {
-        chipsStillInFryer = true;
         updateButtonStyle(fryerButton.id, getStart());
         fryerButton.innerHTML = 'Empty Fryer!';
     }
-    return chipsStillInFryer;
 }
