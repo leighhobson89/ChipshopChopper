@@ -65,7 +65,7 @@ import {
     getStart,
     getStop,
     getElements,
-    batchTimers, getQuantityOfChipsFrying, getDebugFlag
+    batchTimers, getQuantityOfChipsFrying, getDebugFlag, getImprovePotatoStorageNotClickedYet
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -224,12 +224,14 @@ function handleServeCustomer() {
 function handleImprovePotatoStorage(buttonId) {
     if (getDebugFlag) {
         setActualPotatoesInStorage(getStartingSpuds());
-        setPotatoStorageQuantity(200);
     }
     setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     getElements()[buttonId].innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
-    setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity);
+    console.log(getPotatoStorageQuantity());
+    console.log(getUpgradePotatoStorageQuantity)
+    setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity());
+    console.log(getPotatoStorageQuantity());
     getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
 }
 
@@ -278,7 +280,9 @@ function handleStartShift() {
 
     switch (getShiftCounter()) {
         case getOnShiftOne():
-            getElements().subInnerDivMid1_2.innerHTML = addShiftSpuds(getStartingSpuds()).toString() + "/" + getPotatoStorageQuantity().toString();
+            if (!getDebugFlag() || (getDebugFlag() && getImprovePotatoStorageNotClickedYet())) { //debug fix init of potatoes
+                getElements().subInnerDivMid1_2.innerHTML = addShiftSpuds(getStartingSpuds()).toString() + "/" + getPotatoStorageQuantity().toString();
+            }
             break;
         default:
             getElements().subInnerDivMid1_2.innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + getPotatoStorageQuantity().toString();

@@ -9,7 +9,7 @@ let elements;
 //CONSTANTS
 const CLOCK_SPEED = 1000;
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
-const SHIFT_LENGTH = 30;
+const SHIFT_LENGTH = 60;
 const FRY_TIMER = 15;
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
@@ -520,6 +520,10 @@ export function setDebugFlag(value) {
 
 export function getDebugFlag() {
     return debugFlag;
+}
+
+export function getImprovePotatoStorageNotClickedYet() {
+    return getPriceToImprovePotatoStorage() === 5; //needs to be updated if prices change for debug to work properly
 }
 
 
