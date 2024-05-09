@@ -65,7 +65,7 @@ import {
     getStart,
     getStop,
     getElements,
-    batchTimers
+    batchTimers, getQuantityOfChipsFrying
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -154,12 +154,15 @@ function handleCutChips(element) {
 
 function handleFryChips(buttonId) {
     let cutChipsCounterElement = getElements().cutCount;
+    console.log(cutChipsCounterElement.innerHTML);
+    console.log(parseInt(cutChipsCounterElement.innerHTML) >= getFryerCapacity());
     if (parseInt(cutChipsCounterElement.innerHTML) >= getFryerCapacity()) {
-        cutChipsCounterElement.innerHTML = getFryerCapacity().toString();
+        setQuantityOfChipsFrying(getFryerCapacity());
+    } else {
+        setQuantityOfChipsFrying(parseInt(cutChipsCounterElement.innerHTML));
     }
     fryChips();
-    setQuantityOfChipsFrying(parseInt(cutChipsCounterElement.innerHTML));
-    decrementCounter(cutChipsCounterElement.id, parseInt(cutChipsCounterElement.innerHTML));
+    decrementCounter(cutChipsCounterElement.id, getQuantityOfChipsFrying());
     updateButtonStyle(buttonId, null);
 }
 
