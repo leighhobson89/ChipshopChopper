@@ -518,7 +518,7 @@ export function disableButtons(init) {
                         button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
                     }
                     break;
-                case getElements().startShiftButton:
+                case getElements().startShiftButton.id:
                     button.disabled = getShiftTime() > getZero();
                     break;
                 default:
