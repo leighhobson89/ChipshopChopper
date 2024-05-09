@@ -22,6 +22,9 @@ const UPGRADE_FRYER_CAPACITY_AMOUNT = 200;
 const NUMBER_OF_CHIPS_FROM_POTATO = 5;
 const COOL_DOWN_TIMER = 20;
 const STANDARD_DECREMENT_INCREMENT = 1;
+const AUTO_FRYER_DECREMENT = 2.5;
+const AUTO_STORAGE_COLLECTOR_DECREMENT = 2.5;
+const AUTO_CUSTOMER_SERVER_DECREMENT = 2.5;
 const UPGRADE_HEATER_MULTIPLE = 2;
 const ZERO = 0;
 const ONE = 1;
@@ -30,6 +33,7 @@ const ONE = 1;
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
 const MULTIPLE_FOR_UPGRADE_DOUBLE_CHOPPER = 2;
 const MULTIPLE_FOR_IMPROVE_POTATO_STORAGE = 2;
+const MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY = 4;
 const MULTIPLE_FOR_IMPROVE_AUTO_PEELER = 2;
 const MULTIPLE_FOR_IMPROVE_AUTO_CHIPPER = 2;
 const MULTIPLE_FOR_IMPROVE_AUTO_FRYER = 2;
@@ -46,13 +50,10 @@ export const popupOverlay = createOverlay();
  let customerTime = 0;
  let shiftTimeRemaining = 0;
  let fryTimeRemaining = 0;
-
  let coolDownTimeRemaining = 0;
  let shiftCounter = 0;
- export let shiftInProgress = false;
  let customersServed = 0;
  let currentCash = 0;
- let chipsFrying = false;
  let quantityFrying = 0;
  let spudsToAddToShift = 0;
  let actualPotatoesInStorage = 100;
@@ -61,6 +62,16 @@ export const popupOverlay = createOverlay();
  let peelPotatoesRate = 1;
  let chipsReadyToServeQuantity = [];
  let fryerCapacity = 100;
+
+ //FLAGS
+ export let shiftInProgress = false;
+ let chipsFrying = false;
+ let autoPeelerBought = false;
+ let autoChipperBought = false;
+ let autoFryerBought = false;
+ let autoStorageCollectorBought = false;
+ let autoCustomerServerBought = false;
+
 
 //PRICES
  let priceToImprovePotatoStorage = 5; //50
@@ -691,6 +702,62 @@ export function getMultipleForImproveAutoStorageCollector() {
 export function getMultipleForImproveAutoCustomerServer() {
     return MULTIPLE_FOR_IMPROVE_AUTO_CUSTOMER_SERVER
 }
+
+export function getAutoPeelerBought() {
+    return autoPeelerBought;
+}
+
+export function setAutoPeelerBought(value) {
+    autoPeelerBought = value;
+}
+
+export function getAutoChipperBought() {
+    return autoChipperBought;
+}
+
+export function setAutoChipperBought(value) {
+    autoChipperBought = value;
+}
+
+export function getAutoFryerBought() {
+    return autoFryerBought;
+}
+
+export function setAutoFryerBought(value) {
+    autoFryerBought = value;
+}
+
+export function getAutoStorageCollectorBought() {
+    return autoStorageCollectorBought;
+}
+
+export function setAutoStorageCollectorBought(value) {
+    autoStorageCollectorBought = value;
+}
+
+export function getAutoCustomerServerBought() {
+    return autoCustomerServerBought;
+}
+
+export function setAutoCustomerServerBought(value) {
+    autoCustomerServerBought = value;
+}
+
+export function getAutoFryerUpgradeDecrement() {
+    return AUTO_FRYER_DECREMENT;
+}
+
+export function getAutoStorageCollectorUpgradeDecrement() {
+    return AUTO_STORAGE_COLLECTOR_DECREMENT;
+}
+
+export function getAutoCustomerServerUpgradeDecrement() {
+    return AUTO_CUSTOMER_SERVER_DECREMENT;
+}
+
+
+
+
 
 
 

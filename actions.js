@@ -83,7 +83,40 @@ import {
     getMultipleForImproveAutoChipper,
     getMultipleForImproveAutoFryer,
     getMultipleForImproveAutoStorageCollector,
-    getMultipleForImproveAutoCustomerServer
+    getMultipleForImproveAutoCustomerServer,
+    setCurrentSpeedAutoPeeler,
+    getNextSpeedAutoPeeler,
+    getCurrentSpeedAutoPeeler,
+    setNextSpeedAutoPeeler,
+    getAutoPeelerBought,
+    setAutoPeelerBought,
+    getAutoChipperBought,
+    setAutoChipperBought,
+    setCurrentSpeedAutoChipper,
+    getNextSpeedAutoChipper,
+    getCurrentSpeedAutoChipper,
+    setNextSpeedAutoChipper,
+    getAutoFryerBought,
+    setAutoFryerBought,
+    setCurrentSpeedAutoFryer,
+    getNextSpeedAutoFryer,
+    setNextSpeedAutoFryer,
+    getCurrentSpeedAutoFryer,
+    getAutoFryerUpgradeDecrement,
+    getAutoStorageCollectorBought,
+    setAutoStorageCollectorBought,
+    setCurrentSpeedAutoStorageCollector,
+    getNextSpeedAutoStorageCollector,
+    setNextSpeedAutoStorageCollector,
+    getCurrentSpeedAutoStorageCollector,
+    getAutoStorageCollectorUpgradeDecrement,
+    getNextSpeedAutoCustomerServer,
+    setCurrentSpeedAutoCustomerServer,
+    setNextSpeedAutoCustomerServer,
+    getCurrentSpeedAutoCustomerServer,
+    setAutoCustomerServerBought,
+    getAutoCustomerServerBought,
+    getAutoCustomerServerUpgradeDecrement
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -136,19 +169,19 @@ export function handleButtonClick(buttonId, value) {
                 handleStartShift();
                 break;
             case getElements().autoPeelerUpgradeButton.id:
-                handleAutoPeeler();
+                handleAutoPeeler(buttonId);
                 break;
             case getElements().autoChipperUpgradeButton.id:
-                handleAutoChipper();
+                handleAutoChipper(buttonId);
                 break;
             case getElements().autoFryerUpgradeButton.id:
-                handleAutoFryer();
+                handleAutoFryer(buttonId);
                 break;
             case getElements().autoStorageCollectorUpgradeButton.id:
-                handleAutoStorageCollector();
+                handleAutoStorageCollector(buttonId);
                 break;
             case getElements().autoCustomerServerUpgradeButton.id:
-                handleAutoCustomerServer();
+                handleAutoCustomerServer(buttonId);
                 break;
             default:
                 break;
@@ -323,24 +356,59 @@ function handleStartShift() {
     disableButtons(false);
 }
 
-function handleAutoPeeler() {
-    console.log("autoPeeler");
+function handleAutoPeeler(buttonId) {
+    if (!getAutoPeelerBought()) {
+        setAutoPeelerBought(true);
+    }
+    setCurrentCash(getCurrentCash() - getPriceToImproveAutoPeeler());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setCurrentSpeedAutoPeeler(getNextSpeedAutoPeeler());
+    setNextSpeedAutoPeeler(getCurrentSpeedAutoPeeler() + getStandardDecrementIncrementOfOne());
+    getElements()[buttonId].innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()}/s)<br> Next: ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
 }
 
-function handleAutoChipper() {
-    console.log("autoChipper");
+function handleAutoChipper(buttonId) {
+    if (!getAutoChipperBought()) {
+        setAutoChipperBought(true);
+    }
+    setCurrentCash(getCurrentCash() - getPriceToImproveAutoChipper());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setCurrentSpeedAutoChipper(getNextSpeedAutoChipper());
+    setNextSpeedAutoChipper(getCurrentSpeedAutoChipper() + getStandardDecrementIncrementOfOne());
+    getElements()[buttonId].innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()}/s)<br> Next: ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
 }
 
-function handleAutoFryer() {
-    console.log("autoFryer");
+function handleAutoFryer(buttonId) {
+    if (!getAutoFryerBought()) {
+        setAutoFryerBought(true);
+    }
+    setCurrentCash(getCurrentCash() - getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
+    setNextSpeedAutoFryer(getCurrentSpeedAutoFryer() - getAutoFryerUpgradeDecrement());
+    getElements()[buttonId].innerHTML = `Auto Fryer (${Math.floor(getCurrentSpeedAutoFryer())}s)<br> Next: ${getNextSpeedAutoFryer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
 }
 
-function handleAutoStorageCollector() {
-    console.log("autoStorageCollector");
+function handleAutoStorageCollector(buttonId) {
+    if (!getAutoStorageCollectorBought()) {
+        setAutoStorageCollectorBought(true);
+    }
+    setCurrentCash(getCurrentCash() - getPriceToImproveAutoMoverFromFryerToStorage());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setCurrentSpeedAutoStorageCollector(getNextSpeedAutoStorageCollector());
+    setNextSpeedAutoStorageCollector(getCurrentSpeedAutoStorageCollector() - getAutoStorageCollectorUpgradeDecrement());
+    getElements()[buttonId].innerHTML = `Auto Collector (${Math.floor(getCurrentSpeedAutoStorageCollector())}s)<br> Next: ${getNextSpeedAutoStorageCollector()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
 }
 
-function handleAutoCustomerServer() {
-    console.log("autoCustomerServer");
+function handleAutoCustomerServer(buttonId) {
+    if (!getAutoCustomerServerBought()) {
+        setAutoCustomerServerBought(true);
+    }
+    setCurrentCash(getCurrentCash() - getPriceToImproveAutoCustomerServer());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setCurrentSpeedAutoCustomerServer(getNextSpeedAutoCustomerServer());
+    setNextSpeedAutoCustomerServer(getCurrentSpeedAutoCustomerServer() - getAutoCustomerServerUpgradeDecrement());
+    getElements()[buttonId].innerHTML = `Auto Collector (${Math.floor(getCurrentSpeedAutoCustomerServer())}s)<br> Next: ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
 }
 
 function incrementCounter(counterElement, value) {
