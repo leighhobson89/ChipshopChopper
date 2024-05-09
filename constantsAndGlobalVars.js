@@ -64,7 +64,7 @@ export const popupOverlay = createOverlay();
 
 //PRICES
  let priceToImprovePotatoStorage = 5; //50
- let priceToEnableDoubleChopping = 6; //60
+ let priceToEnableDoubleChipping = 6; //60
  let priceToEnableDoublePeeling = 4; //40
  let priceToImproveFryerCapacity = 7; //100
  let priceToAddStorageHeater = 8; //200
@@ -111,7 +111,7 @@ export function setElements() {
         gameWindow: document.getElementById('gameWindow'),
         improvePotatoStorageButton: document.getElementById('improvePotatoStorageButton'),
         twoHandedPeelingButton: document.getElementById('twoHandedPeelingButton'),
-        twoHandedChoppingButton: document.getElementById('twoHandedChoppingButton'),
+        twoHandedChippingButton: document.getElementById('twoHandedChippingButton'),
         improveFryerCapacityButton: document.getElementById('improveFryerCapacityButton'),
         addStorageHeaterButton: document.getElementById('addStorageHeaterButton'),
         peeledCount: document.getElementById('peeledCount'),
@@ -266,12 +266,12 @@ export function setPotatoStorageQuantity(value) {
     potatoStorage = value;
 }
 
-export function getPriceToEnableDoubleChopping() {
-    return priceToEnableDoubleChopping;
+export function getPriceToEnableDoubleChipping() {
+    return priceToEnableDoubleChipping;
 }
 
-export function setPriceToEnableDoubleChopping(value) {
-    priceToEnableDoubleChopping = value;
+export function setPriceToEnableDoubleChipping(value) {
+    priceToEnableDoubleChipping = value;
 }
 
 export function getPriceToImproveFryerCapacity() {
@@ -494,7 +494,7 @@ export function getOne() {
     return ONE;
 }
 
-export function getOddNumberLeftOverAfterDoublePeelingChopping() {
+export function getOddNumberLeftOverAfterDoublePeelingChipping() {
     return ONE;
 }
 

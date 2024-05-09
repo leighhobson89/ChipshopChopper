@@ -82,10 +82,6 @@ body {
     pointer-events: none;
 }
 
-
-
-
-
 .game-window {
     width: 80%;
     height: 80%;
@@ -184,7 +180,6 @@ div[id^="subInnerDivMid"][id$='_2'] {
 .action-button-main,
 .action-button-bottom-row {
     width: 100%;
-    padding: 10px;
     text-align: center;
     background-color: transparent;
     color: white;
@@ -194,6 +189,22 @@ div[id^="subInnerDivMid"][id$='_2'] {
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     visibility: visible;
     font-weight: bold;
+}
+
+.first-row-main-buttons {
+    min-height: 40px;
+}
+
+.second-row-main-buttons {
+    min-height: 60px;
+}
+
+.third-row-main-buttons {
+    min-height: 30px;
+}
+
+.fourth-row-main-buttons {
+    min-height: 50px;
 }
 
 .action-button-main:hover,

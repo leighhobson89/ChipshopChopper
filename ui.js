@@ -15,7 +15,7 @@ import {
     getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
-    getPriceToEnableDoubleChopping,
+    getPriceToEnableDoubleChipping,
     getPriceToEnableDoublePeeling,
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
@@ -208,7 +208,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
     const bottomButtonDetails = [
         { id: 'twoHandedPeelingButton', name: `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`, upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'twoHandedChoppingButton', name: `Double Chopping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChopping())}`, upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'twoHandedChippingButton', name: `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'improveFryerCapacityButton', name: `Improve Fryer Cap. <br> ${formatToCashNotation(getPriceToImproveFryerCapacity())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'addStorageHeaterButton', name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
@@ -219,6 +219,22 @@ export function createGameWindow(titleScreenCreatedEvent) {
         button.id = mainButtonDetails[i].id;
         button.innerHTML = mainButtonDetails[i].name;
         button.classList.add('action-button-main');
+
+        // Determine the class and height based on button position
+        if (i < 5) {
+            button.classList.add('first-row-main-buttons');
+            button.style.height = '40px';
+        } else if (i >= 5 && i < 10) {
+            button.classList.add('second-row-main-buttons');
+            button.style.height = '60px';
+        } else if (i >= 10 && i < 15) {
+            button.classList.add('third-row-main-buttons');
+            button.style.height = '30px';
+        } else if (i >= 15 && i < 20) {
+            button.classList.add('fourth-row-main-buttons');
+            button.style.height = '50px';
+        }
+
         mainButtonContainer.appendChild(button);
     }
 
@@ -238,9 +254,9 @@ export function createGameWindow(titleScreenCreatedEvent) {
     document.body.appendChild(gameWindow);
 
     hideUpgradeButtonsGameStart(bottomButtonsContainer);
-    disableButtons(true);
 
     document.dispatchEvent(titleScreenCreatedEvent);
+    disableButtons(true);
 
     createOptionScreenEventListeners();
 
@@ -254,7 +270,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     handleButtonClick(getElements().serveCustomerButton.id, getElements().customersWaitingCount.id);
     handleButtonClick(getElements().improvePotatoStorageButton.id, getPriceToImprovePotatoStorage());
     handleButtonClick(getElements().twoHandedPeelingButton.id, getPriceToEnableDoublePeeling());
-    handleButtonClick(getElements().twoHandedChoppingButton.id, getPriceToEnableDoubleChopping());
+    handleButtonClick(getElements().twoHandedChippingButton.id, getPriceToEnableDoubleChipping());
     handleButtonClick(getElements().improveFryerCapacityButton.id, getPriceToImproveFryerCapacity());
     handleButtonClick(getElements().addStorageHeaterButton.id, getPriceToAddStorageHeater());
     handleButtonClick(getElements().autoPeelerUpgradeButton.id, getPriceToImproveAutoPeeler());
@@ -317,7 +333,7 @@ export function updateButtonStyle(buttonId, startStop) {
     const element = getElements()[buttonId];
     if (startStop === null) {
         switch (buttonId) {
-            case "fryChipsButton":
+            case getElements().fryChipsButton.id:
                 if (getChipsFrying()) {
                     element.classList.add('cooking');
                     element.classList.remove('disabled');

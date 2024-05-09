@@ -22,7 +22,7 @@ import {
     getPriceToAddStorageHeater,
     getPriceToImproveFryerCapacity,
     getCurrentCash,
-    getPriceToEnableDoubleChopping,
+    getPriceToEnableDoubleChipping,
     getPriceToEnableDoublePeeling,
     getPriceToImprovePotatoStorage,
     getChipsReadyToServeQuantity,
@@ -282,8 +282,8 @@ export function updateVisibleButtons() {
         if (getCurrentCash() >= getPriceToEnableDoublePeeling()) {
             getElements().twoHandedPeelingButton.classList.remove('hidden-button');
         }
-        if (getCurrentCash() >= getPriceToEnableDoubleChopping()) {
-            getElements().twoHandedChoppingButton.classList.remove('hidden-button');
+        if (getCurrentCash() >= getPriceToEnableDoubleChipping()) {
+            getElements().twoHandedChippingButton.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getPriceToImproveFryerCapacity()) {
             getElements().improveFryerCapacityButton.classList.remove('hidden-button');
