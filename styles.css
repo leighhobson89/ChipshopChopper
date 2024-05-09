@@ -49,6 +49,43 @@ body {
     background-color: #0056b3;
 }
 
+.debugs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 10vh;
+    margin: auto;
+}
+
+.debug {
+    background-color: red;
+    color: white;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.debug:hover {
+    background-color: yellow;
+    color: black;
+}
+
+.debug-toggledOn {
+    background-color: green;
+    color: black;
+    pointer-events: none;
+}
+
+
+
+
+
 .game-window {
     width: 80%;
     height: 80%;

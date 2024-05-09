@@ -1,5 +1,8 @@
 import {createEndOfShiftPopup, createOverlay, formatToCashNotation} from './ui.js';
 
+//DEBUG
+export let debugFlag = false;
+
 //ELEMENTS
 let elements;
 
@@ -11,7 +14,7 @@ const FRY_TIMER = 15;
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
-const STARTING_CASH = 0;
+let STARTING_CASH = 0;
 const MIN_SPUDS_DELIVERY = 20;
 const MAX_SPUDS_DELIVERY = 80;
 const UPGRADE_POTATO_STORAGE_QUANTITY = 50;
@@ -122,7 +125,9 @@ export function setElements() {
         action19Button: document.getElementById('action19Button'),
         action20Button: document.getElementById('action20Button'),
         allBottomButtons: document.querySelectorAll('.action-button-bottom-row'),
-        allMainButtons: document.querySelectorAll('.action-button-main')
+        allMainButtons: document.querySelectorAll('.action-button-main'),
+          debug1: document.getElementById('debug1'),
+          debugsWindow: document.getElementById('debugsWindow'),
       };
 }
 
@@ -506,6 +511,15 @@ export function getStop() {
 
 export function setCustomersWaitingBeforeEndOfShift(value) {
     customersWaitingAtEndOfShift = value;
+}
+
+//DEBUG
+export function setDebugFlag(value) {
+    debugFlag = value;
+}
+
+export function getDebugFlag() {
+    return debugFlag;
 }
 
 

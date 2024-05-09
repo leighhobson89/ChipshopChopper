@@ -65,7 +65,7 @@ import {
     getStart,
     getStop,
     getElements,
-    batchTimers, getQuantityOfChipsFrying
+    batchTimers, getQuantityOfChipsFrying, getDebugFlag
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -222,6 +222,10 @@ function handleServeCustomer() {
 }
 
 function handleImprovePotatoStorage(buttonId) {
+    if (getDebugFlag) {
+        setActualPotatoesInStorage(getStartingSpuds());
+        setPotatoStorageQuantity(200);
+    }
     setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     getElements()[buttonId].innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);

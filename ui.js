@@ -10,7 +10,8 @@ import {
     getCustomersWaiting,
     getCustomersWaitingBeforeEndOfShift,
     getFryerCapacity,
-    getOldCash, getOne,
+    getOldCash,
+    getOne,
     getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
@@ -20,9 +21,15 @@ import {
     getPriceToImprovePotatoStorage,
     getShiftCounter,
     getSpudsToAddToShift,
-    getStartingCash, getZero, getElements, popupContinueButton, endOfShiftPopup, popupOverlay, setElements
+    getStartingCash,
+    getZero,
+    getElements,
+    popupContinueButton,
+    endOfShiftPopup,
+    popupOverlay,
+    setCurrentCash, setDebugFlag
 } from './constantsAndGlobalVars.js';
-import {gameInProgress, initialiseNewGame, setGameInProgress} from "./gameloop.js";
+import {gameInProgress, initialiseNewGame, setGameInProgress, updateVisibleButtons} from "./gameloop.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -36,12 +43,21 @@ export function createTitleScreen() {
     options.classList.add('options');
     options.id = 'optionsWindow';
 
+    const debugs = document.createElement('div');
+    debugs.classList.add('debugs');
+    debugs.id = 'debugsWindow';
+
     // Define the option names and their initial colors
     const optionInfo = [
         { name: 'New Game', color: '#007bff' },    // Blue
         { name: 'Load Game', color: '#007bff' },   // Blue
         { name: 'Help', color: '#007bff' },        // Blue
         { name: 'Toggle Sound', color: '#00cc00' } // Green
+    ];
+
+    // Define the option names and their initial colors
+    const debugInfo = [
+        { name: 'Give $1000', color: 'Black' },    // Blue
     ];
 
     // Create and append clickable options
@@ -54,8 +70,17 @@ export function createTitleScreen() {
         options.appendChild(option);
     }
 
+    for (let i = 0; i < debugInfo.length; i++) {
+        const debug = document.createElement('div');
+        debug.innerHTML = debugInfo[i].name;
+        debug.classList.add('debug');
+        debug.id = `debug${i + 1}`;
+        debugs.appendChild(debug);
+    }
+
     titleScreen.appendChild(title);
     titleScreen.appendChild(options);
+    titleScreen.appendChild(debugs);
 
     document.body.appendChild(titleScreen);
 }
@@ -401,6 +426,7 @@ function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function () {
         setGameInProgress(initialiseNewGame(gameInProgress));
         console.log("gameInProgress after clicking new game =" + gameInProgress);
+        updateVisibleButtons(); //for debug if money given
     });
     getElements().option2.addEventListener('click', function () {
         // Add functionality for other options as needed
@@ -414,5 +440,14 @@ function createOptionScreenEventListeners() {
     popupContinueButton.addEventListener('click', function() {
         toggleEndOfShiftPopup(endOfShiftPopup);
         toggleOverlay(popupOverlay);
+    });
+
+    //DEBUG
+    getElements().debug1.addEventListener('click', function () {
+        setDebugFlag(true);
+        getElements().debug1.classList.add('debug-toggledOn');
+        setCurrentCash(1000);
+        getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+        console.log("$1000 given (debug)");
     });
 }

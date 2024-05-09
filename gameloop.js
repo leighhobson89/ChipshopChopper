@@ -64,7 +64,12 @@ import {
     getJustDeleteTheOneElementFromArray,
     resetBatchTimers,
     setQuantityOfChipsFrying,
-    getAddOneToRandomNumberToEnsureAboveOne, setCustomersWaitingBeforeEndOfShift, getStop, getElements, setElements
+    getAddOneToRandomNumberToEnsureAboveOne,
+    setCustomersWaitingBeforeEndOfShift,
+    getStop,
+    getElements,
+    setElements,
+    debugFlag
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
@@ -252,6 +257,9 @@ export function initialiseNewGame(gameInProgress) {
     } else {
         getElements().option1.innerHTML = "New Game";
         getElements().optionsWindow.style.display = 'none';
+        //debug
+        getElements().debugsWindow.style.display = 'none';
+        //
         createRandomCustomerTime();
         getElements().gameWindow.style.display = "block";
         return true;
@@ -262,8 +270,8 @@ function askUserToConfirmRestart() {
     getElements().option1.innerHTML = "Click again to start a New Game...";
 }
 
-function updateVisibleButtons() {
-    if (!shiftInProgress && getShiftCounter() > getZero()) {
+export function updateVisibleButtons() {
+    if (!shiftInProgress && (getShiftCounter() > getZero() || debugFlag)) {
         if (getCurrentCash() >= getPriceToImprovePotatoStorage()) {
             getElements().improvePotatoStorageButton.classList.remove('hidden-button');
         }
