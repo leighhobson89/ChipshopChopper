@@ -10,7 +10,7 @@ import {
 import {
     createRandomCustomerTime, cutChips,
     decrementCounter,
-    disableButtons,
+    disableButtons, fryChips,
     incrementCustomersWaiting,
     peelPotato
 } from './actions.js';
@@ -83,19 +83,22 @@ import {
     getCurrentSpeedAutoChipper,
     getActualPotatoesInStorage,
     getOne,
-    TIMER_CORRECTION_COEFFICIENT, getNumberOfChipsFromPotato,
+    TIMER_CORRECTION_COEFFICIENT,
+    getNumberOfChipsFromPotato,
+    getAutoFryerBought,
+    getCurrentSpeedAutoFryer,
+    getAutoFryerEfficiency,
+    setAutoPeelerCounter,
+    getAutoPeelerCounter,
+    setAutoChipperCounter,
+    setAutoFryerCounter,
+    getAutoFryerCounter, getAutoChipperCounter,
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
 let lastAutoUpgradesUpdateTime = new Date().getTime();
-
-let autoPeelerCounter = 0;
-let autoChipperCounter = 0;
-let autoFryerCounter = 0;
-let autoStorageCollectorCounter = 0;
-let autoCustomerServerCounter = 0;
 
 export let gameInProgress = false;
 
@@ -164,27 +167,45 @@ function updateShiftCountDown() {
         if (getShiftTimeRemaining() > getZero()) {
             //PROCESS AUTO UPGRADES
             if (timeDiffSecondsAutoUpgrades >= getOneForTimeDiff()) {
-                autoPeelerCounter += (getClockSpeed() / getAutoUpgradesClockSpeed());
-                autoChipperCounter += (getClockSpeed() / getAutoUpgradesClockSpeed());
+                setAutoPeelerCounter(getAutoPeelerCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
+                setAutoChipperCounter(getAutoChipperCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
+                setAutoFryerCounter(getAutoFryerCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
 
-                if (getAutoPeelerBought() && (autoPeelerCounter * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoPeeler())) {
+                if (getAutoPeelerBought() && (getAutoPeelerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoPeeler())) {
                     if (getActualPotatoesInStorage() > getZero()) {
                         peelPotato(getElements().peeledCount, getOne());
                     }
-                    autoPeelerCounter = 0;
+                    setAutoPeelerCounter(getZero());
                 }
-                if (getAutoChipperBought() && (autoChipperCounter * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoChipper())) {
+                if (getAutoChipperBought() && (getAutoChipperCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoChipper())) {
                     if (parseInt(getElements().peeledCount.innerHTML) > getZero()) {
                         cutChips(getNumberOfChipsFromPotato(), getOne());
                     }
-                    autoChipperCounter = 0;
+                    setAutoChipperCounter(getZero());
+                }
+                console.log(getAutoFryerCounter() * TIMER_CORRECTION_COEFFICIENT);
+                if (
+                    getAutoFryerBought() &&
+                    (!getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
+                    !getChipsFrying()) &&
+                    (getAutoFryerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() * getCurrentSpeedAutoFryer())
+                ) {
+                    if (parseInt(getElements().cutCount.innerHTML) > getZero()) {
+                        let transferQuantity = Math.min(parseInt(getElements().cutCount.innerHTML), (getFryerCapacity() * getAutoFryerEfficiency()));
+                        setQuantityOfChipsFrying(transferQuantity);
+                        fryChips();
+                        decrementCounter(getElements().cutCount.id, getQuantityOfChipsFrying());
+                        updateButtonStyle(getElements().fryChipsButton.id, null);
+                    }
+                    setAutoFryerCounter(getZero());
+                } else if ((getElements().fryChipsButton.classList.contains('action-button-main-flashing')) || getChipsFrying()) {
+                    setAutoFryerCounter(getZero());
                 }
 
                 lastAutoUpgradesUpdateTime = now;
             }
             //
             if (timeDiffSecondsShift >= getOneForTimeDiff()) {
-                console.log("ONE SECOND HAS PASSED");
                 setShiftTimeRemaining(getShiftTimeRemaining() - getStandardDecrementIncrementOfOne());
                 getElements().subInnerDiv1_2.innerHTML = getShiftTimeRemaining().toString();
                 //console.log(`Shift time remaining: ${getShiftTimeRemaining()} seconds`);

@@ -116,7 +116,7 @@ import {
     getCurrentSpeedAutoCustomerServer,
     setAutoCustomerServerBought,
     getAutoCustomerServerBought,
-    getAutoCustomerServerUpgradeDecrement, getOne, Role
+    getAutoCustomerServerUpgradeDecrement, getOne, Role, setAutoPeelerCounter, setAutoFryerCounter
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -375,6 +375,7 @@ function handleAutoFryer(buttonId) {
     if (!getAutoFryerBought()) {
         setAutoFryerBought(true);
     }
+    setAutoFryerCounter(getZero());
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
@@ -574,7 +575,7 @@ function addShiftSpuds(quantity) {
     return currentSpuds + quantity;
 }
 
-function fryChips() {
+export function fryChips() {
     setFryTimer(getFryTimer());
     setChipsFrying(true);
 }

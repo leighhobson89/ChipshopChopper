@@ -64,6 +64,7 @@ export const popupOverlay = createOverlay();
  let peelPotatoesRate = 1;
  let chipsReadyToServeQuantity = [];
  let fryerCapacity = 100;
+ let autoFryerEfficiency = 0.5;
 
  //FLAGS
  export let shiftInProgress = false;
@@ -97,6 +98,12 @@ let currentSpeedAutoStorageCollector = "N/A";
 let nextSpeedAutoStorageCollector = 30;
 let currentSpeedAutoCustomerServer = "N/A";
 let nextSpeedAutoCustomerServer = 30;
+
+export let autoPeelerCounter = 0;
+export let autoChipperCounter = 0;
+export let autoFryerCounter = 0;
+export let autoStorageCollectorCounter = 0;
+export let autoCustomerServerCounter = 0;
 
 //STATS
  let oldCash = 0;
@@ -769,6 +776,54 @@ export function getAutoCustomerServerUpgradeDecrement() {
 
 export function getAutoUpgradesClockSpeed() {
     return AUTO_UPGRADES_CLOCK_SPEED;
+}
+
+export function getAutoFryerEfficiency() {
+    return autoFryerEfficiency;
+}
+
+export function setAutoFryerEfficiency(value) {
+    autoFryerEfficiency = value;
+}
+
+export function getAutoPeelerCounter() {
+    return autoPeelerCounter;
+}
+
+export function setAutoPeelerCounter(value) {
+    autoPeelerCounter = value;
+}
+
+export function getAutoChipperCounter() {
+    return autoChipperCounter;
+}
+
+export function setAutoChipperCounter(value) {
+    autoChipperCounter = value;
+}
+
+export function getAutoFryerCounter() {
+    return autoFryerCounter;
+}
+
+export function setAutoFryerCounter(value) {
+    autoFryerCounter = value;
+}
+
+export function getAutoStorageCollectorCounter() {
+    return autoStorageCollectorCounter;
+}
+
+export function setAutoStorageCollectorCounter(value) {
+    autoStorageCollectorCounter = value;
+}
+
+export function getAutoCustomerServerCounter() {
+    return autoCustomerServerCounter;
+}
+
+export function setAutoCustomerServerCounter(value) {
+    autoCustomerServerCounter = value;
 }
 
 
