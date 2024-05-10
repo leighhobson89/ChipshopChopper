@@ -11,7 +11,8 @@ import {
     createRandomCustomerTime,
     decrementCounter,
     disableButtons,
-    incrementCustomersWaiting
+    incrementCustomersWaiting,
+    peelPotato
 } from './actions.js';
 
 import {
@@ -75,13 +76,26 @@ import {
     getPriceToImproveAutoChipper,
     getPriceToImproveAutoPeeler,
     getPriceToImproveAutoCustomerServer,
-    getAutoUpgradesClockSpeed, getCurrentSpeedAutoPeeler
+    getAutoUpgradesClockSpeed,
+    getCurrentSpeedAutoPeeler,
+    getAutoPeelerBought,
+    getAutoChipperBought,
+    getCurrentSpeedAutoChipper,
+    getActualPotatoesInStorage,
+    getOne,
+    TIMER_CORRECTION_COEFFICIENT,
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
 let lastAutoUpgradesUpdateTime = new Date().getTime();
+
+let autoPeelerCounter = 0;
+let autoChipperCounter = 0;
+let autoFryerCounter = 0;
+let autoStorageCollectorCounter = 0;
+let autoCustomerServerCounter = 0;
 
 export let gameInProgress = false;
 
@@ -150,11 +164,19 @@ function updateShiftCountDown() {
         if (getShiftTimeRemaining() > getZero()) {
             //PROCESS AUTO UPGRADES
             if (timeDiffSecondsAutoUpgrades >= getOneForTimeDiff()) {
-                console.log("checking for autoPeeler...");
-                // 1/20th of a second has passed
-                // add 20 to count: count = count + (getClockspeed() / getAutoUpgradeClockSpeed());
-                // if count >= clockSpeed / getCurrentSpeedAutoPeeler
-                // increment
+                autoPeelerCounter += (getClockSpeed() / getAutoUpgradesClockSpeed());
+                autoChipperCounter += (getClockSpeed() / getAutoUpgradesClockSpeed());
+
+                if (getAutoPeelerBought() && (autoPeelerCounter * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoPeeler())) {
+                    if (getActualPotatoesInStorage() > getZero()) {
+                        peelPotato(getElements().peeledCount, getOne());
+                    }
+                    autoPeelerCounter = 0;
+                }
+                if (getAutoChipperBought() && (autoChipperCounter * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoChipper())) {
+                    console.log("incrementing autochipper...");
+                    autoChipperCounter = 0;
+                }
 
                 lastAutoUpgradesUpdateTime = now;
             }

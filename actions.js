@@ -116,7 +116,7 @@ import {
     getCurrentSpeedAutoCustomerServer,
     setAutoCustomerServerBought,
     getAutoCustomerServerBought,
-    getAutoCustomerServerUpgradeDecrement
+    getAutoCustomerServerUpgradeDecrement, getOne
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -193,15 +193,9 @@ export function handleButtonClick(buttonId, value) {
 function handlePeelPotato(element) {
     const potatoesInStorageBeforeThisPeel = getActualPotatoesInStorage();
     if (potatoesInStorageBeforeThisPeel > getOddNumberLeftOverAfterDoublePeelingChipping()) {
-        setActualPotatoesInStorage(getActualPotatoesInStorage() - getPeelPotatoesRate());
-        decrementCounter(getElements().subInnerDivMid1_2.id, getPeelPotatoesRate());
-        incrementCounter(element, getPeelPotatoesRate());
-        setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + getPeelPotatoesRate());
+        peelPotato(element, getPeelPotatoesRate());
     } else if (potatoesInStorageBeforeThisPeel > getZero()) {
-        setActualPotatoesInStorage(getActualPotatoesInStorage() - getStandardDecrementIncrementOfOne());
-        decrementCounter(getElements().subInnerDivMid1_2.id, getStandardDecrementIncrementOfOne());
-        incrementCounter(element, getStandardDecrementIncrementOfOne());
-        setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + getStandardDecrementIncrementOfOne());
+        peelPotato(element, getOne());
     }
 }
 
@@ -411,7 +405,7 @@ function handleAutoCustomerServer(buttonId) {
     getElements()[buttonId].innerHTML = `Auto Collector (${Math.floor(getCurrentSpeedAutoCustomerServer())}s)<br> Next: ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
 }
 
-function incrementCounter(counterElement, value) {
+export function incrementCounter(counterElement, value) {
     let count = parseInt(counterElement.innerHTML);
     count += value;
     counterElement.innerHTML = count.toString();
@@ -642,4 +636,11 @@ function checkIfChipsStillInFryer() {
         updateButtonStyle(fryerButton.id, getStart());
         fryerButton.innerHTML = 'Empty Fryer!';
     }
+}
+
+export function peelPotato(counterElement, value) {
+    setActualPotatoesInStorage(getActualPotatoesInStorage() - value);
+    decrementCounter(getElements().subInnerDivMid1_2.id, value);
+    incrementCounter(counterElement, value);
+    setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + value);
 }
