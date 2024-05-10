@@ -72,12 +72,17 @@ import {
     debugFlag,
     getPriceToImproveAutoMoverFromFryerToStorage,
     getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
-    getPriceToImproveAutoChipper, getPriceToImproveAutoPeeler, getPriceToImproveAutoCustomerServer
+    getPriceToImproveAutoChipper,
+    getPriceToImproveAutoPeeler,
+    getPriceToImproveAutoCustomerServer,
+    getAutoUpgradesClockSpeed, getCurrentSpeedAutoPeeler
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
+let lastAutoUpgradesUpdateTime = new Date().getTime();
+
 export let gameInProgress = false;
 
 function main() {
@@ -124,7 +129,6 @@ function updateCustomerCountdown() {
         if (getCustomerTime() > getZero()) {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setCustomerTime(getCustomerTime() - getStandardDecrementIncrementOfOne());
-                lastCustomerUpdateTime = now;
                 //console.log(`Customer time remaining: ${getCustomerTime()} seconds`);
                 if (getCustomerTime() === getZero()) {
                     incrementCustomersWaiting();
@@ -132,6 +136,7 @@ function updateCustomerCountdown() {
                     createRandomCustomerTime();
                 }
             }
+            lastCustomerUpdateTime = now;
         }
     }
 }
@@ -139,12 +144,24 @@ function updateCustomerCountdown() {
 function updateShiftCountDown() {
     if (shiftInProgress) {
         const now = new Date().getTime();
-        const timeDiffSeconds = (now - lastShiftUpdateTime) / getClockSpeed();
+        const timeDiffSecondsShift = (now - lastShiftUpdateTime) / getClockSpeed();
+        const timeDiffSecondsAutoUpgrades = (now - lastAutoUpgradesUpdateTime) / getAutoUpgradesClockSpeed();
 
         if (getShiftTimeRemaining() > getZero()) {
-            if (timeDiffSeconds >= getOneForTimeDiff()) {
-                setShiftTimeRemaining(getShiftTimeRemaining() - 1);
-                lastShiftUpdateTime = now;
+            //PROCESS AUTO UPGRADES
+            if (timeDiffSecondsAutoUpgrades >= getOneForTimeDiff()) {
+                console.log("checking for autoPeeler...");
+                // 1/20th of a second has passed
+                // add 20 to count: count = count + (getClockspeed() / getAutoUpgradeClockSpeed());
+                // if count >= clockSpeed / getCurrentSpeedAutoPeeler
+                // increment
+
+                lastAutoUpgradesUpdateTime = now;
+            }
+            //
+            if (timeDiffSecondsShift >= getOneForTimeDiff()) {
+                console.log("ONE SECOND HAS PASSED");
+                setShiftTimeRemaining(getShiftTimeRemaining() - getStandardDecrementIncrementOfOne());
                 getElements().subInnerDiv1_2.innerHTML = getShiftTimeRemaining().toString();
                 //console.log(`Shift time remaining: ${getShiftTimeRemaining()} seconds`);
                 if (getShiftTimeRemaining() === getZero()) {
@@ -181,6 +198,7 @@ function updateShiftCountDown() {
                     setChipsFriedThisShift(getZero());
                     setChipsWastedThisShift(getZero());
                 }
+                lastShiftUpdateTime = now;
             }
         }
     } else {
@@ -197,7 +215,6 @@ function updateChipsFryingTimer() {
         if (getFryTimeRemaining() > getZero()) {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setFryTimer(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
-                lastFryingUpdateTime = now;
                 fryerButton.innerHTML = 'Frying ' + getQuantityOfChipsFrying() +' Chips <br> (' + getFryTimeRemaining() + 's)';
                 //console.log(`Fry time remaining: ${getFryTimeRemaining()} seconds`);
                 if (getFryTimeRemaining() === getZero()) {
@@ -210,6 +227,7 @@ function updateChipsFryingTimer() {
                     disableButtons(false);
                 }
             }
+            lastFryingUpdateTime = now;
         }
     }
 }

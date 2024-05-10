@@ -8,6 +8,7 @@ let elements;
 
 //CONSTANTS
 const CLOCK_SPEED = 1000;
+const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
 const SHIFT_LENGTH = 60;
 const FRY_TIMER = 15;
@@ -753,6 +754,10 @@ export function getAutoStorageCollectorUpgradeDecrement() {
 
 export function getAutoCustomerServerUpgradeDecrement() {
     return AUTO_CUSTOMER_SERVER_DECREMENT;
+}
+
+export function getAutoUpgradesClockSpeed() {
+    return AUTO_UPGRADES_CLOCK_SPEED;
 }
 
 
