@@ -8,7 +8,7 @@ import {
 } from './ui.js';
 
 import {
-    createRandomCustomerTime,
+    createRandomCustomerTime, cutChips,
     decrementCounter,
     disableButtons,
     incrementCustomersWaiting,
@@ -83,7 +83,7 @@ import {
     getCurrentSpeedAutoChipper,
     getActualPotatoesInStorage,
     getOne,
-    TIMER_CORRECTION_COEFFICIENT,
+    TIMER_CORRECTION_COEFFICIENT, getNumberOfChipsFromPotato,
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
@@ -149,8 +149,8 @@ function updateCustomerCountdown() {
                     setCustomersWaiting(getCustomersWaiting() + getStandardDecrementIncrementOfOne());
                     createRandomCustomerTime();
                 }
+                lastCustomerUpdateTime = now;
             }
-            lastCustomerUpdateTime = now;
         }
     }
 }
@@ -174,7 +174,9 @@ function updateShiftCountDown() {
                     autoPeelerCounter = 0;
                 }
                 if (getAutoChipperBought() && (autoChipperCounter * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoChipper())) {
-                    console.log("incrementing autochipper...");
+                    if (parseInt(getElements().peeledCount.innerHTML) > getZero()) {
+                        cutChips(getNumberOfChipsFromPotato(), getOne());
+                    }
                     autoChipperCounter = 0;
                 }
 
@@ -235,9 +237,12 @@ function updateChipsFryingTimer() {
         const fryerButton = getElements().fryChipsButton;
 
         if (getFryTimeRemaining() > getZero()) {
+            console.log(timeDiffSeconds >= getOneForTimeDiff());
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setFryTimer(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
                 fryerButton.innerHTML = 'Frying ' + getQuantityOfChipsFrying() +' Chips <br> (' + getFryTimeRemaining() + 's)';
+                console.log(getFryTimeRemaining());
+
                 //console.log(`Fry time remaining: ${getFryTimeRemaining()} seconds`);
                 if (getFryTimeRemaining() === getZero()) {
                     setChipsFrying(false);
@@ -248,8 +253,8 @@ function updateChipsFryingTimer() {
                     setQuantityOfChipsFrying(getZero());
                     disableButtons(false);
                 }
+                lastFryingUpdateTime = now;
             }
-            lastFryingUpdateTime = now;
         }
     }
 }

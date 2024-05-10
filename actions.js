@@ -202,13 +202,9 @@ function handlePeelPotato(element) {
 function handleCutChips(element) {
     const peeledCount = getElements().peeledCount;
     if (parseInt(peeledCount.innerHTML) > getOddNumberLeftOverAfterDoublePeelingChipping()) { //normal case
-        decrementCounter(peeledCount.id, getCutChipsRate());
-        incrementCounter(element, getNumberOfChipsFromPotato() * getCutChipsRate());
-        setChipsCutThisShift(getChipsCutThisShift() + (getNumberOfChipsFromPotato() * getCutChipsRate()));
+        cutChips(getNumberOfChipsFromPotato() * getCutChipsRate(), getCutChipsRate());
     } else if (parseInt(peeledCount.innerHTML) > getZero()) { //odd number left handles case of double cutter
-        decrementCounter(peeledCount.id, getStandardDecrementIncrementOfOne());
-        incrementCounter(element, getNumberOfChipsFromPotato());
-        setChipsCutThisShift(getChipsCutThisShift() + getNumberOfChipsFromPotato());
+        cutChips(getNumberOfChipsFromPotato(), getOddNumberLeftOverAfterDoublePeelingChipping());
     }
 }
 
@@ -643,4 +639,10 @@ export function peelPotato(counterElement, value) {
     decrementCounter(getElements().subInnerDivMid1_2.id, value);
     incrementCounter(counterElement, value);
     setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + value);
+}
+
+export function cutChips(quantity, cutChipsRate) {
+    decrementCounter(getElements().peeledCount.id, cutChipsRate);
+    incrementCounter(getElements().cutCount, quantity);
+    setChipsCutThisShift(getChipsCutThisShift() + quantity);
 }
