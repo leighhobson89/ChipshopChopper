@@ -43,7 +43,7 @@ import {
     getNextSpeedAutoChipper,
     getCurrentSpeedAutoChipper,
     getNextSpeedAutoPeeler,
-    getCurrentSpeedAutoPeeler
+    getCurrentSpeedAutoPeeler, Role
 } from './constantsAndGlobalVars.js';
 import {gameInProgress, initialiseNewGame, setGameInProgress, updateVisibleButtons} from "./gameloop.js";
 
@@ -281,7 +281,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
 }
 
 export function writeTextInSections(buttonDetails) {
-    getElements().innerDiv2.innerHTML = 'Chip Shop Prepper';
+    getElements().innerDiv2.innerHTML = Role.ONE;
 
     getElements().subInnerDiv1_1.innerHTML = 'Shift rem. (s):';
     getElements().subInnerDiv1_2.innerHTML = "Start Shift";
@@ -487,4 +487,16 @@ function createOptionScreenEventListeners() {
         getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
         console.log("$1000 given (debug)");
     });
+}
+
+export function changeTextWithAnimation(element, newText, animation1, animation2) {
+    element.classList.add(animation1);
+    element.classList.add(animation2);
+
+    element.innerHTML = newText;
+
+    setTimeout(() => {
+        element.classList.remove(animation1);
+        element.classList.remove(animation2);
+    }, 500);
 }

@@ -46,8 +46,8 @@ export const endOfShiftPopupObject = createEndOfShiftPopup();
 export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
 export const popupContinueButton = endOfShiftPopupObject.continueButton;
 export const popupOverlay = createOverlay();
-//-----------------------------------------------------------
 
+ //GLOBAL VARIABLES
  let multipleForHeaterEffectOnCoolDown = 1;
  let customerTime = 0;
  let shiftTimeRemaining = 0;
@@ -73,7 +73,6 @@ export const popupOverlay = createOverlay();
  let autoFryerBought = false;
  let autoStorageCollectorBought = false;
  let autoCustomerServerBought = false;
-
 
 //PRICES
  let priceToImprovePotatoStorage = 5; //50
@@ -108,6 +107,17 @@ let nextSpeedAutoCustomerServer = 30;
  let customersWaiting = 0;
  let chipsWastedThisShift = 0;
 
+ //STRING LITERAL ENUMS
+ export const Role = {
+     ONE: 'Chip Shop Prepper',
+     TWO: 'Smart Prepper',
+     THREE: 'Chip Shop Manager',
+     FOUR: 'Chip Shop Owner',
+     FIVE: 'Chip Empire Executive',
+     SIX: 'Rich Lazy Director',
+     SEVEN: 'President of Potatoes'
+ }
+ //BATCH TIMER VARIABLE
  export let batchTimers = {};
 
  //GETTER SETTER METHODS
