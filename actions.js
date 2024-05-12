@@ -225,7 +225,7 @@ function handleFryChips(buttonId) {
     updateButtonStyle(buttonId, null);
 }
 
-function handleServingStorage() {
+export function handleServingStorage() {
     const fryerButton = getElements().fryChipsButton;
     let chuckedInFryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
     let newBatchId = getChipsReadyToServeQuantity().length;

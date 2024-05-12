@@ -10,7 +10,7 @@ import {
 import {
     createRandomCustomerTime, cutChips,
     decrementCounter,
-    disableButtons, fryChips,
+    disableButtons, fryChips, handleServingStorage,
     incrementCustomersWaiting,
     peelPotato, serveCustomer
 } from './actions.js';
@@ -218,17 +218,11 @@ function updateShiftCountDown() {
                     (getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
                     (getAutoStorageCollectorCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() * getCurrentSpeedAutoStorageCollector())
                 )){
-                    if (parseInt(getElements().chuckedInFryerCount.innerHTML) > getZero()) {
-                        let tempChips = parseInt(getElements().chuckedInFryerCount.innerHTML);
-                        decrementCounter(getElements().chuckedInFryerCount.id, tempChips);
-                        getElements().readyToServeCount.innerHTML = tempChips.toString();
-                        updateButtonStyle(getElements().fryChipsButton.id, getStop());
-                        getElements().fryChipsButton.innerHTML = `Fry Chips<br> (Capacity: ${getFryerCapacity()})`;
-                    }
+                    handleServingStorage();
                     setAutoStorageCollectorCounter(getZero());
                 }
 
-                console.log(getAutoCustomerServerCounter() * TIMER_CORRECTION_COEFFICIENT);
+                //console.log(getAutoCustomerServerCounter() * TIMER_CORRECTION_COEFFICIENT);
                 if (
                     getAutoCustomerServerBought() &&
                     (getAutoCustomerServerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() * getCurrentSpeedAutoCustomerServer()) &&
