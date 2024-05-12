@@ -12,7 +12,7 @@ import {
     decrementCounter,
     disableButtons, fryChips,
     incrementCustomersWaiting,
-    peelPotato
+    peelPotato, serveCustomer
 } from './actions.js';
 
 import {
@@ -92,7 +92,14 @@ import {
     getAutoPeelerCounter,
     setAutoChipperCounter,
     setAutoFryerCounter,
-    getAutoFryerCounter, getAutoChipperCounter,
+    getAutoFryerCounter,
+    getAutoChipperCounter,
+    setAutoStorageCollectorCounter,
+    getAutoStorageCollectorCounter,
+    getAutoStorageCollectorBought,
+    getCurrentSpeedAutoStorageCollector,
+    getAutoCustomerServerBought,
+    getAutoCustomerServerCounter, getCurrentSpeedAutoCustomerServer, getPortionSize, setAutoCustomerServerCounter,
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
@@ -170,6 +177,9 @@ function updateShiftCountDown() {
                 setAutoPeelerCounter(getAutoPeelerCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
                 setAutoChipperCounter(getAutoChipperCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
                 setAutoFryerCounter(getAutoFryerCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
+                setAutoStorageCollectorCounter(getAutoStorageCollectorCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
+                setAutoCustomerServerCounter(getAutoCustomerServerCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
+
 
                 if (getAutoPeelerBought() && (getAutoPeelerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoPeeler())) {
                     if (getActualPotatoesInStorage() > getZero()) {
@@ -183,7 +193,7 @@ function updateShiftCountDown() {
                     }
                     setAutoChipperCounter(getZero());
                 }
-                console.log(getAutoFryerCounter() * TIMER_CORRECTION_COEFFICIENT);
+                //console.log(getAutoFryerCounter() * TIMER_CORRECTION_COEFFICIENT);
                 if (
                     getAutoFryerBought() &&
                     (!getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
@@ -202,6 +212,32 @@ function updateShiftCountDown() {
                     setAutoFryerCounter(getZero());
                 }
 
+                //console.log(getAutoStorageCollectorCounter() * TIMER_CORRECTION_COEFFICIENT);
+                if (
+                    getAutoStorageCollectorBought() &&
+                    (getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
+                    (getAutoStorageCollectorCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() * getCurrentSpeedAutoStorageCollector())
+                )){
+                    if (parseInt(getElements().chuckedInFryerCount.innerHTML) > getZero()) {
+                        let tempChips = parseInt(getElements().chuckedInFryerCount.innerHTML);
+                        decrementCounter(getElements().chuckedInFryerCount.id, tempChips);
+                        getElements().readyToServeCount.innerHTML = tempChips.toString();
+                        updateButtonStyle(getElements().fryChipsButton.id, getStop());
+                        getElements().fryChipsButton.innerHTML = `Fry Chips<br> (Capacity: ${getFryerCapacity()})`;
+                    }
+                    setAutoStorageCollectorCounter(getZero());
+                }
+
+                console.log(getAutoCustomerServerCounter() * TIMER_CORRECTION_COEFFICIENT);
+                if (
+                    getAutoCustomerServerBought() &&
+                    (getAutoCustomerServerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() * getCurrentSpeedAutoCustomerServer()) &&
+                    getCustomersWaiting() > 0 &&
+                    parseInt(getElements().readyToServeCount.innerHTML) >= getPortionSize()
+                ){
+                    serveCustomer();
+                    setAutoCustomerServerCounter(getZero());
+                }
                 lastAutoUpgradesUpdateTime = now;
             }
             //

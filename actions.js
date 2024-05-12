@@ -116,7 +116,11 @@ import {
     getCurrentSpeedAutoCustomerServer,
     setAutoCustomerServerBought,
     getAutoCustomerServerBought,
-    getAutoCustomerServerUpgradeDecrement, getOne, Role, setAutoPeelerCounter, setAutoFryerCounter
+    getAutoCustomerServerUpgradeDecrement,
+    getOne,
+    Role,
+    setAutoFryerCounter,
+    setAutoStorageCollectorCounter
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -200,7 +204,7 @@ function handlePeelPotato(element) {
     }
 }
 
-function handleCutChips(element) {
+function handleCutChips() {
     const peeledCount = getElements().peeledCount;
     if (parseInt(peeledCount.innerHTML) > getOddNumberLeftOverAfterDoublePeelingChipping()) { //normal case
         cutChips(getNumberOfChipsFromPotato() * getCutChipsRate(), getCutChipsRate());
@@ -241,38 +245,7 @@ function handleServingStorage() {
 }
 
 function handleServeCustomer() {
-    decrementCounter(getElements().readyToServeCount.id, getPortionSize());
-    decrementCounter(getElements().customersWaitingCount.id, getStandardDecrementIncrementOfOne());
-    setCustomersWaiting(getCustomersWaiting() - getStandardDecrementIncrementOfOne());
-    let newCustomersServedValue = getCustomersServed() + getStandardDecrementIncrementOfOne();
-    setCustomersServed(newCustomersServedValue);
-
-    let totalChips = getZero();
-    let portionSizeFulfilled = false;
-
-    for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
-        if (getChipsReadyToServeQuantity()[i] >= getPortionSize() && !portionSizeFulfilled && totalChips === getZero()) {
-            setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - getPortionSize());
-            portionSizeFulfilled = true;
-            // console.log("took full portion from batch " + i);
-            if (getChipsReadyToServeQuantity()[i] === getZero()) {
-                clearInterval(batchTimers[i]);
-            }
-        } else if (!portionSizeFulfilled && ((getPortionSize() - totalChips) > getChipsReadyToServeQuantity()[i])) {
-            totalChips += getChipsReadyToServeQuantity()[i];
-            // console.log("not enough chips with " + getChipsReadyToServeQuantity()[i] + " in batch " + i + " - moving on to next batch, with " + totalChips + " added so far!");
-            setChipsReadyToServeQuantity(i, getZero());
-            clearInterval(batchTimers[i]);
-        } else {
-            const chipsToAdd = Math.min(getChipsReadyToServeQuantity()[i], getPortionSize() - totalChips);
-            setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - chipsToAdd);
-            // console.log("chips to add to fulfill order: " + chipsToAdd + " because batch has:" + getChipsReadyToServeQuantity()[i] + " and totalChips value is:" + totalChips);
-            totalChips += chipsToAdd;
-            // console.log("fulfilled portion from multiple batches, here is the state of the array:");
-            // console.log(getChipsReadyToServeQuantity());
-            portionSizeFulfilled = true;
-        }
-    }
+    serveCustomer();
     // console.log("Total Customers Served: " + getCustomersServed());
 }
 
@@ -387,6 +360,7 @@ function handleAutoStorageCollector(buttonId) {
     if (!getAutoStorageCollectorBought()) {
         setAutoStorageCollectorBought(true);
     }
+    setAutoStorageCollectorCounter(getZero());
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoMoverFromFryerToStorage());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoStorageCollector(getNextSpeedAutoStorageCollector());
@@ -428,7 +402,7 @@ export function disableButtons(init) {
     let mainButtons;
     let bottomRowButtons;
     const pricesArrayMainButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), 0, 0, 0, 0, 0, getPriceToImprovePotatoStorage(), 0, 0, 0, 0];
-    const pricesArrayBottomRow = [getPriceToEnableDoublePeeling(), getPriceToEnableDoubleChipping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
+    //const pricesArrayBottomRow = [getPriceToEnableDoublePeeling(), getPriceToEnableDoubleChipping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
 
     if (gameInProgress) {
         mainButtons = getElements().allMainButtons;
@@ -649,4 +623,39 @@ export function cutChips(quantity, cutChipsRate) {
     decrementCounter(getElements().peeledCount.id, cutChipsRate);
     incrementCounter(getElements().cutCount, quantity);
     setChipsCutThisShift(getChipsCutThisShift() + quantity);
+}
+
+export function serveCustomer() {
+    decrementCounter(getElements().readyToServeCount.id, getPortionSize());
+    decrementCounter(getElements().customersWaitingCount.id, getOne());
+    setCustomersWaiting(getCustomersWaiting() - getStandardDecrementIncrementOfOne());
+    let newCustomersServedValue = getCustomersServed() + getStandardDecrementIncrementOfOne();
+    setCustomersServed(newCustomersServedValue);
+
+    let totalChips = getZero();
+    let portionSizeFulfilled = false;
+
+    for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
+        if (getChipsReadyToServeQuantity()[i] >= getPortionSize() && !portionSizeFulfilled && totalChips === getZero()) {
+            setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - getPortionSize());
+            portionSizeFulfilled = true;
+            // console.log("took full portion from batch " + i);
+            if (getChipsReadyToServeQuantity()[i] === getZero()) {
+                clearInterval(batchTimers[i]);
+            }
+        } else if (!portionSizeFulfilled && ((getPortionSize() - totalChips) > getChipsReadyToServeQuantity()[i])) {
+            totalChips += getChipsReadyToServeQuantity()[i];
+            // console.log("not enough chips with " + getChipsReadyToServeQuantity()[i] + " in batch " + i + " - moving on to next batch, with " + totalChips + " added so far!");
+            setChipsReadyToServeQuantity(i, getZero());
+            clearInterval(batchTimers[i]);
+        } else {
+            const chipsToAdd = Math.min(getChipsReadyToServeQuantity()[i], getPortionSize() - totalChips);
+            setChipsReadyToServeQuantity(i, getChipsReadyToServeQuantity()[i] - chipsToAdd);
+            // console.log("chips to add to fulfill order: " + chipsToAdd + " because batch has:" + getChipsReadyToServeQuantity()[i] + " and totalChips value is:" + totalChips);
+            totalChips += chipsToAdd;
+            // console.log("fulfilled portion from multiple batches, here is the state of the array:");
+            // console.log(getChipsReadyToServeQuantity());
+            portionSizeFulfilled = true;
+        }
+    }
 }
