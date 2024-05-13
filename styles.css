@@ -256,6 +256,24 @@ div[id^="subInnerDivMid"][id$='_2'] {
     }
 }
 
+.waiting-trigger-auto-action {
+    color: chartreuse;
+    background-color: darkgreen;
+    font-weight: bold;
+    animation: flashAutoAction 0.5s infinite alternate;
+}
+
+@keyframes flashAutoAction {
+    from {
+        color: chartreuse;
+        background-color: darkgreen;
+    }
+    to {
+        color: darkgreen;
+        background-color: chartreuse;
+    }
+}
+
 .hidden-button {
     visibility: hidden;
 }

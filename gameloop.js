@@ -8,98 +8,105 @@ import {
 } from './ui.js';
 
 import {
-    createRandomCustomerTime, cutChips,
+    createRandomCustomerTime,
+    cutChips,
     decrementCounter,
-    disableButtons, fryChips, handleServingStorage,
+    disableButtons,
+    fryChips,
+    handleServingStorage,
     incrementCustomersWaiting,
-    peelPotato, serveCustomer
+    peelPotato,
+    serveCustomer
 } from './actions.js';
 
 import {
     batchTimers,
+    debugFlag,
     endOfShiftPopup,
-    popupOverlay,
-    shiftInProgress,
-    getPriceToAddStorageHeater,
-    getPriceToImproveFryerCapacity,
-    getCurrentCash,
-    getPriceToEnableDoubleChipping,
-    getPriceToEnableDoublePeeling,
-    getPriceToImprovePotatoStorage,
+    getActualPotatoesInStorage,
+    getAddOneToRandomNumberToEnsureAboveOne,
+    getAutoChipperBought,
+    getAutoChipperCounter,
+    getAutoCustomerServerBought,
+    getAutoCustomerServerCounter,
+    getAutoFryerBought,
+    getAutoFryerCounter,
+    getAutoFryerEfficiency,
+    getAutoPeelerBought,
+    getAutoPeelerCounter,
+    getAutoStorageCollectorBought,
+    getAutoStorageCollectorCounter,
+    getAutoUpgradesClockSpeed,
+    getChipsFriedThisShift,
+    getChipsFrying,
     getChipsReadyToServeQuantity,
     getChipsWastedThisShift,
-    setChipsWastedThisShift,
-    setChipsReadyToServeQuantity,
+    getClockSpeed,
+    getCoolDownTimer,
     getCoolDownTimeRemaining,
-    setCoolDownTimeRemaining,
-    getMultipleForHeaterEffectOnCoolDown,
+    getCurrentCash,
+    getCurrentSpeedAutoChipper,
+    getCurrentSpeedAutoCustomerServer,
+    getCurrentSpeedAutoFryer,
+    getCurrentSpeedAutoPeeler,
+    getCurrentSpeedAutoStorageCollector,
+    getCustomersServed,
+    getCustomersWaiting,
+    getCustomerTime,
+    getElements,
     getFryerCapacity,
+    getFryTimeRemaining,
+    getJustDeleteTheOneElementFromArray,
+    getMultipleForHeaterEffectOnCoolDown,
+    getNumberOfChipsFromPotato,
+    getOne,
+    getOneForTimeDiff,
+    getPortionSize,
+    getPriceOfChips,
+    getPriceToAddStorageHeater,
+    getPriceToEnableDoubleChipping,
+    getPriceToEnableDoublePeeling,
+    getPriceToImproveAutoChipper,
+    getPriceToImproveAutoCustomerServer,
+    getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
+    getPriceToImproveAutoMoverFromFryerToStorage,
+    getPriceToImproveAutoPeeler,
+    getPriceToImproveFryerCapacity,
+    getPriceToImprovePotatoStorage,
     getQuantityOfChipsFrying,
-    getChipsFriedThisShift,
+    getShiftCounter,
+    getShiftInProgress,
+    getShiftTimeRemaining,
+    getStandardDecrementIncrementOfOne,
+    getStop,
+    getZero,
+    popupOverlay,
+    resetBatchTimers,
+    setAutoChipperCounter,
+    setAutoCustomerServerCounter,
+    setAutoFryerCounter,
+    setAutoPeelerCounter,
+    setAutoStorageCollectorCounter,
+    setChipsCutThisShift,
     setChipsFriedThisShift,
     setChipsFrying,
-    getFryTimeRemaining,
-    setFryTimer,
-    getChipsFrying,
-    setChipsCutThisShift,
-    setPotatoesPeeledThisShift,
-    setCustomersServed,
-    getShiftCounter,
-    getCustomersServed,
+    setChipsReadyToServeQuantity,
+    setChipsWastedThisShift,
+    setCoolDownTimeRemaining,
     setCurrentCash,
-    setOldCash,
-    setShiftInProgress,
-    getCustomersWaiting,
+    setCustomersServed,
     setCustomersWaiting,
-    getShiftInProgress,
-    getPriceOfChips,
-    getShiftTimeRemaining,
-    setShiftTimeRemaining,
-    getCustomerTime,
-    setCustomerTime,
-    getCoolDownTimer,
-    getClockSpeed,
-    getZero,
-    getOneForTimeDiff,
-    getStandardDecrementIncrementOfOne,
-    getJustDeleteTheOneElementFromArray,
-    resetBatchTimers,
-    setQuantityOfChipsFrying,
-    getAddOneToRandomNumberToEnsureAboveOne,
     setCustomersWaitingBeforeEndOfShift,
-    getStop,
-    getElements,
+    setCustomerTime,
     setElements,
-    debugFlag,
-    getPriceToImproveAutoMoverFromFryerToStorage,
-    getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
-    getPriceToImproveAutoChipper,
-    getPriceToImproveAutoPeeler,
-    getPriceToImproveAutoCustomerServer,
-    getAutoUpgradesClockSpeed,
-    getCurrentSpeedAutoPeeler,
-    getAutoPeelerBought,
-    getAutoChipperBought,
-    getCurrentSpeedAutoChipper,
-    getActualPotatoesInStorage,
-    getOne,
+    setFryTimer,
+    setOldCash,
+    setPotatoesPeeledThisShift,
+    setQuantityOfChipsFrying,
+    setShiftInProgress,
+    setShiftTimeRemaining,
+    shiftInProgress,
     TIMER_CORRECTION_COEFFICIENT,
-    getNumberOfChipsFromPotato,
-    getAutoFryerBought,
-    getCurrentSpeedAutoFryer,
-    getAutoFryerEfficiency,
-    setAutoPeelerCounter,
-    getAutoPeelerCounter,
-    setAutoChipperCounter,
-    setAutoFryerCounter,
-    getAutoFryerCounter,
-    getAutoChipperCounter,
-    setAutoStorageCollectorCounter,
-    getAutoStorageCollectorCounter,
-    getAutoStorageCollectorBought,
-    getCurrentSpeedAutoStorageCollector,
-    getAutoCustomerServerBought,
-    getAutoCustomerServerCounter, getCurrentSpeedAutoCustomerServer, getPortionSize, setAutoCustomerServerCounter,
 } from './constantsAndGlobalVars.js';
 
 let lastShiftUpdateTime = new Date().getTime();
@@ -176,10 +183,6 @@ function updateShiftCountDown() {
             if (timeDiffSecondsAutoUpgrades >= getOneForTimeDiff()) {
                 setAutoPeelerCounter(getAutoPeelerCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
                 setAutoChipperCounter(getAutoChipperCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
-                setAutoFryerCounter(getAutoFryerCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
-                setAutoStorageCollectorCounter(getAutoStorageCollectorCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
-                setAutoCustomerServerCounter(getAutoCustomerServerCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
-
 
                 if (getAutoPeelerBought() && (getAutoPeelerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoPeeler())) {
                     if (getActualPotatoesInStorage() > getZero()) {
@@ -193,49 +196,48 @@ function updateShiftCountDown() {
                     }
                     setAutoChipperCounter(getZero());
                 }
-                //console.log(getAutoFryerCounter() * TIMER_CORRECTION_COEFFICIENT);
                 if (
                     getAutoFryerBought() &&
                     (!getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
                     !getChipsFrying()) &&
-                    (getAutoFryerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() * getCurrentSpeedAutoFryer())
+                    getAutoFryerCounter() === getZero()
                 ) {
                     if (parseInt(getElements().cutCount.innerHTML) > getZero()) {
+                        updateButtonCountdownText(getElements().autoFryerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoFryer()));
+                        updateButtonClass(getElements().autoFryerUpgradeButton, getCurrentSpeedAutoFryer());
                         let transferQuantity = Math.min(parseInt(getElements().cutCount.innerHTML), (getFryerCapacity() * getAutoFryerEfficiency()));
                         setQuantityOfChipsFrying(transferQuantity);
                         fryChips();
                         decrementCounter(getElements().cutCount.id, getQuantityOfChipsFrying());
                         updateButtonStyle(getElements().fryChipsButton.id, null);
                     }
-                    setAutoFryerCounter(getZero());
-                } else if ((getElements().fryChipsButton.classList.contains('action-button-main-flashing')) || getChipsFrying()) {
-                    setAutoFryerCounter(getZero());
                 }
 
-                //console.log(getAutoStorageCollectorCounter() * TIMER_CORRECTION_COEFFICIENT);
                 if (
                     getAutoStorageCollectorBought() &&
                     (getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
-                    (getAutoStorageCollectorCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() * getCurrentSpeedAutoStorageCollector())
+                    getAutoStorageCollectorCounter() === getZero()
                 )){
+                    updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoStorageCollector()));
+                    updateButtonClass(getElements().autoStorageCollectorUpgradeButton, getCurrentSpeedAutoStorageCollector());
                     handleServingStorage();
-                    setAutoStorageCollectorCounter(getZero());
                 }
 
-                //console.log(getAutoCustomerServerCounter() * TIMER_CORRECTION_COEFFICIENT);
                 if (
                     getAutoCustomerServerBought() &&
-                    (getAutoCustomerServerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() * getCurrentSpeedAutoCustomerServer()) &&
+                    getAutoCustomerServerCounter() === getZero() &&
                     getCustomersWaiting() > 0 &&
                     parseInt(getElements().readyToServeCount.innerHTML) >= getPortionSize()
                 ){
+                    updateButtonCountdownText(getElements().autoCustomerServerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoCustomerServer()));
+                    updateButtonClass(getElements().autoCustomerServerUpgradeButton, getCurrentSpeedAutoCustomerServer());
                     serveCustomer();
-                    setAutoCustomerServerCounter(getZero());
                 }
                 lastAutoUpgradesUpdateTime = now;
             }
             //
             if (timeDiffSecondsShift >= getOneForTimeDiff()) {
+                checkAutoUpgradeButtonsAndUpdateTheirCountDownTime();
                 setShiftTimeRemaining(getShiftTimeRemaining() - getStandardDecrementIncrementOfOne());
                 getElements().subInnerDiv1_2.innerHTML = getShiftTimeRemaining().toString();
                 //console.log(`Shift time remaining: ${getShiftTimeRemaining()} seconds`);
@@ -288,11 +290,9 @@ function updateChipsFryingTimer() {
         const fryerButton = getElements().fryChipsButton;
 
         if (getFryTimeRemaining() > getZero()) {
-            console.log(timeDiffSeconds >= getOneForTimeDiff());
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setFryTimer(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
                 fryerButton.innerHTML = 'Frying ' + getQuantityOfChipsFrying() +' Chips <br> (' + getFryTimeRemaining() + 's)';
-                console.log(getFryTimeRemaining());
 
                 //console.log(`Fry time remaining: ${getFryTimeRemaining()} seconds`);
                 if (getFryTimeRemaining() === getZero()) {
@@ -433,4 +433,57 @@ function selectHowManyCustomersLeftAfterWalkOutAtShiftEnd() {
 
 export function setGameInProgress(value) {
     gameInProgress = value;
+}
+
+function checkAutoUpgradeButtonsAndUpdateTheirCountDownTime() {
+    if (getAutoFryerBought()) {
+        let value = updateButtonCountdownText(getElements().autoFryerUpgradeButton, 'countDown', null);
+        setAutoFryerCounter(value);
+        updateButtonClass(getElements().autoFryerUpgradeButton, value);
+    }
+    if (getAutoStorageCollectorBought()) {
+        let value = updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'countDown', null);
+        setAutoStorageCollectorCounter(value);
+        if(!getElements().fryChipsButton.classList.contains('action-button-main-flashing')) {
+            updateButtonClass(getElements().autoStorageCollectorUpgradeButton, value);
+        }
+    }
+    if (getAutoCustomerServerBought()) {
+        let value = updateButtonCountdownText(getElements().autoCustomerServerUpgradeButton, 'countDown', null);
+        setAutoCustomerServerCounter(value);
+        if (parseInt(getElements().readyToServeCount.innerHTML) < getPortionSize() || getCustomersWaiting() <= getZero()) {
+            updateButtonClass(getElements().autoCustomerServerUpgradeButton, value);
+        }
+    }
+}
+
+function updateButtonCountdownText(buttonElement, action, resetElementSpeed) {
+    const regex = /Ready in (\d+)s/;
+    const match = buttonElement.innerHTML.match(regex);
+    let newValue;
+
+    if (match) {
+        const currentValue = parseInt(match[1], 10);
+
+        if (action === "countDown") {
+            if (currentValue > getZero()) {
+                newValue = currentValue - getOne();
+                buttonElement.innerHTML = buttonElement.innerHTML.replace(regex, `Ready in ${newValue}s`);
+            } else {
+                return getZero();
+            }
+        }
+        if (action === 'reset') {
+            buttonElement.innerHTML = buttonElement.innerHTML.replace(regex, `Ready in ${resetElementSpeed}s`);
+        }
+    }
+    return newValue;
+}
+
+function updateButtonClass(buttonElement, value) {
+    if (value <= getZero()) {
+        buttonElement.classList.add('waiting-trigger-auto-action');
+    } else {
+        buttonElement.classList.remove('waiting-trigger-auto-action');
+    }
 }

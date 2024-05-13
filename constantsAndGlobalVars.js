@@ -101,9 +101,9 @@ let nextSpeedAutoCustomerServer = 30;
 
 export let autoPeelerCounter = 0;
 export let autoChipperCounter = 0;
-export let autoFryerCounter = 0;
-export let autoStorageCollectorCounter = 0;
-export let autoCustomerServerCounter = 0;
+export let autoFryerCounter = 30;
+export let autoStorageCollectorCounter = 30;
+export let autoCustomerServerCounter = 30;
 
 //STATS
  let oldCash = 0;

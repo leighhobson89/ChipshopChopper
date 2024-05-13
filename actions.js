@@ -353,7 +353,7 @@ function handleAutoFryer(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
     setNextSpeedAutoFryer(getCurrentSpeedAutoFryer() - getAutoFryerUpgradeDecrement());
-    getElements()[buttonId].innerHTML = `Auto Fryer (${Math.floor(getCurrentSpeedAutoFryer())}s)<br> Next: ${getNextSpeedAutoFryer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+    getElements()[buttonId].innerHTML = `Auto Fryer (${Math.floor(getCurrentSpeedAutoFryer())}s)<br> Next: ${getNextSpeedAutoFryer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoFryer())}s`;
 }
 
 function handleAutoStorageCollector(buttonId) {
@@ -365,7 +365,7 @@ function handleAutoStorageCollector(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoStorageCollector(getNextSpeedAutoStorageCollector());
     setNextSpeedAutoStorageCollector(getCurrentSpeedAutoStorageCollector() - getAutoStorageCollectorUpgradeDecrement());
-    getElements()[buttonId].innerHTML = `Auto Collector (${Math.floor(getCurrentSpeedAutoStorageCollector())}s)<br> Next: ${getNextSpeedAutoStorageCollector()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+    getElements()[buttonId].innerHTML = `Auto Collector (${Math.floor(getCurrentSpeedAutoStorageCollector())}s)<br> Next: ${getNextSpeedAutoStorageCollector()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoStorageCollector())}s`;
 }
 
 function handleAutoCustomerServer(buttonId) {
@@ -376,7 +376,7 @@ function handleAutoCustomerServer(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoCustomerServer(getNextSpeedAutoCustomerServer());
     setNextSpeedAutoCustomerServer(getCurrentSpeedAutoCustomerServer() - getAutoCustomerServerUpgradeDecrement());
-    getElements()[buttonId].innerHTML = `Auto Collector (${Math.floor(getCurrentSpeedAutoCustomerServer())}s)<br> Next: ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+    getElements()[buttonId].innerHTML = `Auto Collector (${Math.floor(getCurrentSpeedAutoCustomerServer())}s)<br> Next: ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s`;
 }
 
 export function incrementCounter(counterElement, value) {
