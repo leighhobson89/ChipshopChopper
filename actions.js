@@ -129,7 +129,7 @@ import {
 } from './gameloop.js';
 
 import {
-    changeTextWithAnimation,
+    changePlayerRole,
     formatToCashNotation,
     updateButtonStyle
 } from "./ui.js";
@@ -266,7 +266,6 @@ function handleTwoHandedPeeling(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button)) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
         getElements()[buttonId].innerHTML = 'Double Peeling Tool PURCHASED';
-        changeTextWithAnimation(getElements().innerDiv2, Role.TWO, 'text-bounce-animation', 'fade-text-animation');
         updateButtonStyle(buttonId, null);
         setPeelPotatoesRate(getPeelPotatoesRate() * getUpgradeDoublePeelerMultiple());
     }
@@ -276,7 +275,6 @@ function handleTwoHandedChipping(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button)) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChipping());
         getElements()[buttonId].innerHTML = 'Double Chipping Tool PURCHASED';
-        changeTextWithAnimation(getElements().innerDiv2, Role.TWO, 'text-bounce-animation', 'fade-text-animation');
         updateButtonStyle(buttonId, null);
         setCutChipsRate(getCutChipsRate() * getUpgradeDoubleChopperMultiple());
     }

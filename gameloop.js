@@ -1,4 +1,5 @@
 import {
+    changePlayerRole,
     createGameWindow,
     createTitleScreen,
     toggleEndOfShiftPopup,
@@ -81,7 +82,7 @@ import {
     getStop,
     getZero,
     popupOverlay,
-    resetBatchTimers,
+    resetBatchTimers, Role,
     setAutoChipperCounter,
     setAutoCustomerServerCounter,
     setAutoFryerCounter,
@@ -137,6 +138,7 @@ function gameLoop() {
     updateShiftCountDown();
     updateChipsFryingTimer();
     updateVisibleButtons();
+    checkPlayerRole();
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
@@ -486,5 +488,28 @@ function updateButtonClass(buttonElement, value) {
         buttonElement.classList.add('waiting-trigger-auto-action');
     } else {
         buttonElement.classList.remove('waiting-trigger-auto-action');
+    }
+}
+
+function checkPlayerRole() {
+    let existingRoleText = getElements().innerDiv2.innerHTML;
+    if (existingRoleText === Role.ONE) {
+       if (getElements().twoHandedPeelingButton.classList.contains('non-repeatable-upgrade-purchased') || getElements().twoHandedChippingButton.classList.contains('non-repeatable-upgrade-purchased')) {
+           changePlayerRole(getElements().innerDiv2, Role.TWO, 'text-bounce-animation', 'fade-text-animation');
+       }
+    } else if (existingRoleText === Role.TWO && getElements().twoHandedPeelingButton.classList.contains('non-repeatable-upgrade-purchased') && getElements().twoHandedChippingButton.classList.contains('non-repeatable-upgrade-purchased')) {
+        if (getAutoPeelerBought() || getAutoChipperBought() || getAutoFryerBought() || getAutoStorageCollectorBought() || getAutoCustomerServerBought()) {
+            changePlayerRole(getElements().innerDiv2, Role.THREE, 'text-bounce-animation', 'fade-text-animation');
+        }
+    } else if (existingRoleText === Role.THREE && getAutoPeelerBought() && getAutoChipperBought() && getAutoFryerBought() && getAutoStorageCollectorBought() && getAutoCustomerServerBought()) {
+        changePlayerRole(getElements().innerDiv2, Role.FOUR, 'text-bounce-animation', 'fade-text-animation');
+    } else if (existingRoleText === Role.FOUR) {
+
+    } else if (existingRoleText === Role.FIVE) {
+
+    } else if (existingRoleText === Role.SIX) {
+
+    } else if (existingRoleText === Role.SEVEN) {
+
     }
 }

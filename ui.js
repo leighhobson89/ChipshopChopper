@@ -489,7 +489,7 @@ function createOptionScreenEventListeners() {
     });
 }
 
-export function changeTextWithAnimation(element, newText, animation1, animation2) {
+export function changePlayerRole(element, newText, animation1, animation2) {
     element.classList.add(animation1);
     element.classList.add(animation2);
 
