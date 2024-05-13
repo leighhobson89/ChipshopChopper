@@ -228,16 +228,11 @@ function handleFryChips(buttonId) {
 export function handleServingStorage() {
     const fryerButton = getElements().fryChipsButton;
     let chuckedInFryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
-    console.log("chuckedInFryerCount: " + getElements().chuckedInFryerCount.innerHTML);
     let newBatchId = getChipsReadyToServeQuantity().length;
 
-    console.log(getChipsReadyToServeQuantity());
     let cleanArray = cleanUpArray(getChipsReadyToServeQuantity()); //clean any NaN or Empty elements from array added by mistake
-    console.log(cleanArray);
-    cleanArray.push(chuckedInFryerCount);
-    console.log(cleanArray);
     setChipsReadyToServeQuantity(cleanArray, 'clean');
-    console.log(getChipsReadyToServeQuantity());
+    getChipsReadyToServeQuantity().push(chuckedInFryerCount);
     getElements().chuckedInFryerCount.innerHTML = getZero().toString();
     if (fryerButton.classList.contains('action-button-main-flashing')) {
         updateButtonStyle(fryerButton.id, getStop());
