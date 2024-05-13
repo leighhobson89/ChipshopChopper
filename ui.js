@@ -47,7 +47,12 @@ import {
     Role,
     getPriceToFloatOnStockMarket,
     getUpgradeFryerCapacityAmount,
-    getUpgradePotatoStorageQuantity
+    getUpgradePotatoStorageQuantity,
+    getFryTimer,
+    getPriceToImproveFryTimer,
+    getNextSpeedFryTimer,
+    getMaxSpudsDelivery,
+    getPriceToDoubleSpudsMax, getNextMaxSpudsDelivery
 } from './constantsAndGlobalVars.js';
 import {gameInProgress, initialiseNewGame, setGameInProgress, updateVisibleButtons} from "./gameloop.js";
 
@@ -198,13 +203,13 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'autoFryerUpgradeButton', name: `Auto Fryer (${getCurrentSpeedAutoFryer()})<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'autoStorageCollectorUpgradeButton', name: `Auto Collector (${getCurrentSpeedAutoStorageCollector()})<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'autoCustomerServerUpgradeButton', name: `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'action11Button', name: 'Action 11', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action12Button', name: 'Action 12', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action13Button', name: 'Action 13', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action14Button', name: 'Action 14', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action15Button', name: 'Action 15', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'improvePotatoStorageButton', name: `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'improveFryerCapacityButton', name: `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'fastFryerUpgradeButton', name: `Improve Fry Speed<br>${getFryTimer()} → ${getNextSpeedFryTimer()}<br>${formatToCashNotation(getPriceToImproveFryTimer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'action14Button', name: 'Action 12', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'action15Button', name: 'Action 13', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'potatoDeliveryDoublerButton', name: `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'action17Button', name: 'Action 15', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action18Button', name: 'Action 18', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action19Button', name: 'Action 19', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action20Button', name: 'Action 20', upgrade: 'false', repeatableUpgrade: 'false' }
@@ -282,6 +287,8 @@ export function createGameWindow(titleScreenCreatedEvent) {
     handleButtonClick(getElements().autoFryerUpgradeButton.id, getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
     handleButtonClick(getElements().autoStorageCollectorUpgradeButton.id, getPriceToImproveAutoMoverFromFryerToStorage());
     handleButtonClick(getElements().autoCustomerServerUpgradeButton.id, getPriceToImproveAutoCustomerServer());
+    handleButtonClick(getElements().fastFryerUpgradeButton.id, getPriceToImproveFryTimer());
+    handleButtonClick(getElements().potatoDeliveryDoublerButton.id, getPriceToDoubleSpudsMax());
 }
 
 export function writeTextInSections(buttonDetails) {

@@ -49,7 +49,7 @@ import {
     setCustomerTimerVariable,
     setCutChipsRate,
     setFryerCapacity,
-    setFryTimer,
+    setFryTimeRemaining,
     setMultipleForHeaterEffectOnCoolDown,
     setPeelPotatoesRate,
     setPotatoesPeeledThisShift,
@@ -119,7 +119,27 @@ import {
     getAutoCustomerServerUpgradeDecrement,
     getOne,
     setAutoFryerCounter,
-    setAutoStorageCollectorCounter
+    setAutoStorageCollectorCounter,
+    getImproveFryTimerBought,
+    setImproveFryTimerBought,
+    getPriceToImproveFryTimer,
+    setPriceToImproveFryTimer,
+    getMultipleForImproveFryTimer,
+    setPriceToDoubleSpudsMax,
+    getPriceToDoubleSpudsMax,
+    getMultipleForMaxSpudsUpgrade,
+    setCurrentMaxSpudsDelivery,
+    getNextMaxSpudsDelivery,
+    setNextMaxSpudsDelivery,
+    getCurrentMaxSpudsDelivery,
+    getUpgradeMaxSpudsIncrement,
+    setCurrentSpeedFryTimer,
+    getCurrentSpeedFryTimer,
+    setNextSpeedFryTimer,
+    getUpgradeFryTimeDecrement,
+    getNextSpeedFryTimer,
+    getDoubleMaxSpudsDeliveryBought,
+    setDoubleMaxSpudsDeliveryBought, setFryTimer, setMaxSpudsDelivery
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -185,6 +205,12 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case getElements().autoCustomerServerUpgradeButton.id:
                 handleAutoCustomerServer(buttonId);
+                break;
+            case getElements().fastFryerUpgradeButton.id:
+                handleImproveFryTimer(buttonId);
+                break;
+            case getElements().potatoDeliveryDoublerButton.id:
+                handleDoubleMaxSpudsDelivery(buttonId);
                 break;
             default:
                 break;
@@ -377,6 +403,31 @@ function handleAutoCustomerServer(buttonId) {
     getElements()[buttonId].innerHTML = `Auto Collector (${getCurrentSpeedAutoCustomerServer()}s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s`;
 }
 
+function handleImproveFryTimer(buttonId) {
+    if (!getImproveFryTimerBought()) {
+        setImproveFryTimerBought(true);
+    }
+    setCurrentCash(getCurrentCash() - getPriceToImproveFryTimer());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setCurrentSpeedFryTimer(getNextSpeedFryTimer());
+    setFryTimer(Math.floor(getCurrentSpeedFryTimer()));
+    setNextSpeedFryTimer(getCurrentSpeedFryTimer() - getUpgradeFryTimeDecrement());
+    getElements()[buttonId].innerHTML = `Improve Fry Speed<br>${getCurrentSpeedFryTimer()} → ${getNextSpeedFryTimer()}<br>${formatToCashNotation(newPriceOfUpgrade)}`
+}
+
+function handleDoubleMaxSpudsDelivery(buttonId) {
+    if (!getDoubleMaxSpudsDeliveryBought()) {
+        setDoubleMaxSpudsDeliveryBought(true);
+    }
+    setCurrentCash(getCurrentCash() - getPriceToDoubleSpudsMax());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setCurrentMaxSpudsDelivery(getNextMaxSpudsDelivery());
+    setMaxSpudsDelivery(getCurrentMaxSpudsDelivery());
+    setNextMaxSpudsDelivery(getCurrentMaxSpudsDelivery() * getUpgradeMaxSpudsIncrement());
+    getElements()[buttonId].innerHTML = `Double Max Delivery<br>${getCurrentMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(newPriceOfUpgrade)}`
+
+}
+
 export function incrementCounter(counterElement, value) {
     let count = parseInt(counterElement.innerHTML);
     count += value;
@@ -399,7 +450,7 @@ export function decrementCounter(counterId, value) {
 export function disableButtons(init) {
     let mainButtons;
     let bottomRowButtons;
-    const pricesArrayMainButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), 0, 0, 0, 0, 0, getPriceToImprovePotatoStorage(), 0, 0, 0, 0];
+    const pricesArrayMainButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), getPriceToImprovePotatoStorage(), getPriceToImproveFryerCapacity(), 0, 0, 0, 0, 0, 0, 0, 0];
     //const pricesArrayBottomRow = [getPriceToEnableDoublePeeling(), getPriceToEnableDoubleChipping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
 
     if (gameInProgress) {
@@ -548,7 +599,7 @@ function addShiftSpuds(quantity) {
 }
 
 export function fryChips() {
-    setFryTimer(getFryTimer());
+    setFryTimeRemaining(getFryTimer());
     setChipsFrying(true);
 }
 
@@ -589,6 +640,13 @@ function calculateAndSetNewPriceOfUpgrade(buttonId) {
         case getElements().autoCustomerServerUpgradeButton.id:
             setPriceToImproveAutoCustomerServer(getPriceToImproveAutoCustomerServer() * getMultipleForImproveAutoCustomerServer());
             return getPriceToImproveAutoCustomerServer();
+            //Third Phase Upgrades
+        case getElements().fastFryerUpgradeButton.id:
+            setPriceToImproveFryTimer(getPriceToImproveFryTimer() * getMultipleForImproveFryTimer());
+            return getPriceToImproveFryTimer();
+        case getElements().potatoDeliveryDoublerButton.id:
+            setPriceToDoubleSpudsMax(getPriceToDoubleSpudsMax() * getMultipleForMaxSpudsUpgrade());
+            return getPriceToDoubleSpudsMax();
     }
 }
 

@@ -12,13 +12,12 @@ const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
 const SHIFT_LENGTH = 60; //80
-const FRY_TIMER = 15;
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
 const STARTING_CASH = 0;
 const MIN_SPUDS_DELIVERY = 20;
-const MAX_SPUDS_DELIVERY = 80;
+const UPGRADE_MAX_SPUDS_DELIVERY_INCREMENT = 2;
 const UPGRADE_POTATO_STORAGE_QUANTITY = 50;
 const UPGRADE_FRYER_CAPACITY_AMOUNT = 200;
 const NUMBER_OF_CHIPS_FROM_POTATO = 5;
@@ -27,6 +26,7 @@ const STANDARD_DECREMENT_INCREMENT = 1;
 const AUTO_FRYER_DECREMENT = 2.5;
 const AUTO_STORAGE_COLLECTOR_DECREMENT = 2.5;
 const AUTO_CUSTOMER_SERVER_DECREMENT = 2.5;
+const UPGRADE_FRY_TIME_DECREMENT = 2.5;
 const UPGRADE_HEATER_MULTIPLE = 2;
 const ZERO = 0;
 const ONE = 1;
@@ -42,6 +42,8 @@ const MULTIPLE_FOR_IMPROVE_AUTO_CHIPPER = 2;
 const MULTIPLE_FOR_IMPROVE_AUTO_FRYER = 2;
 const MULTIPLE_FOR_IMPROVE_AUTO_STORAGE_COLLECTOR = 2;
 const MULTIPLE_FOR_IMPROVE_AUTO_CUSTOMER_SERVER = 2;
+const MULTIPLE_FOR_IMPROVE_FRY_TIMER = 4;
+const MULTIPLE_FOR_MAX_SPUDS_UPGRADE = 4;
 
 //ROLE UPGRADE AMOUNTS
 const ROLE_FIVE_UPGRADE = 1000;
@@ -58,6 +60,7 @@ export const popupOverlay = createOverlay();
  let multipleForHeaterEffectOnCoolDown = 1;
  let customerTime = 0;
  let shiftTimeRemaining = 0;
+ let fryTimer = 15;
  let fryTimeRemaining = 0;
  let coolDownTimeRemaining = 0;
  let shiftCounter = 0;
@@ -65,6 +68,7 @@ export const popupOverlay = createOverlay();
  let currentCash = 0;
  let quantityFrying = 0;
  let spudsToAddToShift = 0;
+ let maxSpudsDelivery = 80;
  let actualPotatoesInStorage = 100;
  let potatoStorage = 200;
  let cutChipsRate = 1;
@@ -81,6 +85,8 @@ export const popupOverlay = createOverlay();
  let autoFryerBought = false;
  let autoStorageCollectorBought = false;
  let autoCustomerServerBought = false;
+ let improveFryTimerBought = false;
+ let doubleMaxSpudsDeliveryBought = false;
 
 //PRICES
  let priceToImprovePotatoStorage = 5; //50
@@ -93,6 +99,8 @@ export const popupOverlay = createOverlay();
  let priceToImproveAutoFryer = 150; //1500
  let priceToImproveAutoStorageCollector = 200; //2000
  let priceToImproveAutoCustomerServer = 300; //3000
+ let priceToImproveFryTimer = 500; //5000
+ let priceToDoubleSpudsMax = 500; //5000
 
 //AUTO SPEEDS
 let currentSpeedAutoPeeler = "N/A";
@@ -105,6 +113,10 @@ let currentSpeedAutoStorageCollector = "N/A";
 let nextSpeedAutoStorageCollector = 30;
 let currentSpeedAutoCustomerServer = "N/A";
 let nextSpeedAutoCustomerServer = 30;
+let currentSpeedFryTimer = "N/A";
+let nextSpeedFryTimer = 12.5;
+let currentMaxSpudsDelivery = maxSpudsDelivery;
+let nextMaxSpudsDelivery = 160;
 
 export let autoPeelerCounter = 0;
 export let autoChipperCounter = 0;
@@ -171,11 +183,10 @@ export function setElements() {
         endOfShiftPopupTitle: document.getElementById('endOfShiftPopupTitle'),
         endOfShiftPopupContent: document.getElementById('endOfShiftPopupContent'),
         clock: document.querySelector('.clock'),
-        action11Button: document.getElementById('action11Button'),
-        action12Button: document.getElementById('action12Button'),
         action13Button: document.getElementById('action13Button'),
         action14Button: document.getElementById('action14Button'),
         action15Button: document.getElementById('action15Button'),
+        action16Button: document.getElementById('action17Button'),
         action17Button: document.getElementById('action17Button'),
         action18Button: document.getElementById('action18Button'),
         action19Button: document.getElementById('action19Button'),
@@ -189,7 +200,8 @@ export function setElements() {
         autoFryerUpgradeButton: document.getElementById('autoFryerUpgradeButton'),
         autoStorageCollectorUpgradeButton: document.getElementById('autoStorageCollectorUpgradeButton'),
         autoCustomerServerUpgradeButton: document.getElementById('autoCustomerServerUpgradeButton'),
-
+        fastFryerUpgradeButton: document.getElementById('fastFryerUpgradeButton'),
+        potatoDeliveryDoublerButton: document.getElementById('potatoDeliveryDoublerButton'),
       };
 }
 
@@ -271,7 +283,7 @@ export function getQuantityOfChipsFrying() {
     return quantityFrying;
 }
 
-export function setFryTimer(value) {
+export function setFryTimeRemaining(value) {
     fryTimeRemaining = value;
 }
 
@@ -478,10 +490,18 @@ export function getMaxValueWaitForNewCustomer() {
 }
 
 export function getFryTimer() {
-    return FRY_TIMER;
+    return fryTimer;
+}
+
+export function setFryTimer(value) {
+    fryTimer = value;
 }
 export function getMaxSpudsDelivery() {
-    return MAX_SPUDS_DELIVERY;
+    return maxSpudsDelivery;
+}
+
+export function setMaxSpudsDelivery(value) {
+    maxSpudsDelivery = value;
 }
 export function getMinSpudsDelivery() {
     return MIN_SPUDS_DELIVERY;
@@ -850,6 +870,86 @@ export function getRoleUpgrade(currentRole) {
 
 export function getPriceToFloatOnStockMarket() {
     return PRICE_TO_FLOAT;
+}
+
+export function getPriceToImproveFryTimer() {
+    return priceToImproveFryTimer;
+}
+
+export function setPriceToImproveFryTimer(value) {
+    priceToImproveFryTimer = value;
+}
+
+export function getNextSpeedFryTimer() {
+    return nextSpeedFryTimer;
+}
+
+export function setNextSpeedFryTimer(value) {
+    nextSpeedFryTimer = value;
+}
+
+export function getCurrentSpeedFryTimer() {
+    return currentSpeedFryTimer;
+}
+
+export function setCurrentSpeedFryTimer(value) {
+    currentSpeedFryTimer = value;
+}
+
+export function getMultipleForImproveFryTimer() {
+    return MULTIPLE_FOR_IMPROVE_FRY_TIMER;
+}
+
+export function getPriceToDoubleSpudsMax() {
+    return priceToDoubleSpudsMax;
+}
+
+export function setPriceToDoubleSpudsMax(value) {
+    priceToDoubleSpudsMax = value;
+}
+
+export function getNextMaxSpudsDelivery() {
+    return nextMaxSpudsDelivery;
+}
+
+export function setNextMaxSpudsDelivery(value) {
+    nextMaxSpudsDelivery = value;
+}
+
+export function getCurrentMaxSpudsDelivery() {
+    return currentMaxSpudsDelivery;
+}
+
+export function setCurrentMaxSpudsDelivery(value) {
+    currentMaxSpudsDelivery = value;
+}
+
+export function getMultipleForMaxSpudsUpgrade() {
+    return MULTIPLE_FOR_MAX_SPUDS_UPGRADE;
+}
+
+export function getImproveFryTimerBought() {
+    return improveFryTimerBought;
+}
+
+export function setImproveFryTimerBought(value) {
+    improveFryTimerBought = value;
+}
+
+export function getDoubleMaxSpudsDeliveryBought() {
+    return doubleMaxSpudsDeliveryBought;
+}
+
+export function setDoubleMaxSpudsDeliveryBought(value) {
+    doubleMaxSpudsDeliveryBought = value;
+}
+
+export function getUpgradeFryTimeDecrement() {
+    return UPGRADE_FRY_TIME_DECREMENT;
+}
+
+export function getUpgradeMaxSpudsIncrement() {
+    return UPGRADE_MAX_SPUDS_DELIVERY_INCREMENT;
 }
 
 

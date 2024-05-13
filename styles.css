@@ -201,11 +201,11 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .third-row-main-buttons {
-    min-height: 30px;
+    min-height: 50px;
 }
 
 .fourth-row-main-buttons {
-    min-height: 50px;
+    min-height: 30px;
 }
 
 .action-button-main:hover,

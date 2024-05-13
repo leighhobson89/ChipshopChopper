@@ -100,7 +100,7 @@ import {
     setCustomersWaitingBeforeEndOfShift,
     setCustomerTime,
     setElements,
-    setFryTimer,
+    setFryTimeRemaining,
     setOldCash,
     setPotatoesPeeledThisShift,
     setQuantityOfChipsFrying,
@@ -292,7 +292,7 @@ function updateChipsFryingTimer() {
 
         if (getFryTimeRemaining() > getZero()) {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
-                setFryTimer(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
+                setFryTimeRemaining(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
                 fryerButton.innerHTML = 'Frying ' + getQuantityOfChipsFrying() +' Chips <br> (' + getFryTimeRemaining() + 's)';
 
                 //console.log(`Fry time remaining: ${getFryTimeRemaining()} seconds`);
@@ -406,17 +406,16 @@ export function updateVisibleButtons() {
         }
         //third phase upgrades
         if (getCurrentCash() >= getRoleUpgrade(Role.FIVE)) {
-            //show buttons 12 and 13
-            //potato delivery doubler
-            //fast fryer
+            getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
+            getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getRoleUpgrade(Role.SIX)) {
-            //show buttons 14 and 15
-            //customer frequency doubler
-            //investment fund
-            //change buttons 16 & 17 to control investment fund amounts
-            //change button 19 to automatic shift starter button with toggle on or off
-            //change button 18 to float on stock market (conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
+            //show Buy investment fund mechanic button -> show buttons 17-20 when bought
+            //investment fund button changes to Float on Stock Market when bought 18
+            //(0conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
+            //show customer frequency doubler 15
+            //Buttons 17 & 18 to control investment fund amounts +/-
+            //Buttons 19 & 20 to control risk level of investment fund high low toggle one button enabled and one not when one clicked
         }
         if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
             //set Start Shift Button to WIN GAME
@@ -431,7 +430,7 @@ function wasteChipsStillInFryerOrFryingAtEndOfShift() {
     const fryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
 
     setChipsFrying(false);
-    setFryTimer(getZero());
+    setFryTimeRemaining(getZero());
     getElements().fryChipsButton.innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
     setChipsWastedThisShift(fryerCount + getQuantityOfChipsFrying() + getChipsWastedThisShift());
     setQuantityOfChipsFrying(getZero());
