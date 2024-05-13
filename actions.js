@@ -228,9 +228,16 @@ function handleFryChips(buttonId) {
 export function handleServingStorage() {
     const fryerButton = getElements().fryChipsButton;
     let chuckedInFryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
+    console.log("chuckedInFryerCount: " + getElements().chuckedInFryerCount.innerHTML);
     let newBatchId = getChipsReadyToServeQuantity().length;
-    // console.log("newbatchid: " + newBatchId + "length of array: " + getChipsReadyToServeQuantity().length);
-    getChipsReadyToServeQuantity().push(chuckedInFryerCount);
+
+    console.log(getChipsReadyToServeQuantity());
+    let cleanArray = cleanUpArray(getChipsReadyToServeQuantity()); //clean any NaN or Empty elements from array added by mistake
+    console.log(cleanArray);
+    cleanArray.push(chuckedInFryerCount);
+    console.log(cleanArray);
+    setChipsReadyToServeQuantity(cleanArray, 'clean');
+    console.log(getChipsReadyToServeQuantity());
     getElements().chuckedInFryerCount.innerHTML = getZero().toString();
     if (fryerButton.classList.contains('action-button-main-flashing')) {
         updateButtonStyle(fryerButton.id, getStop());
@@ -658,4 +665,18 @@ export function serveCustomer() {
             portionSizeFulfilled = true;
         }
     }
+}
+
+function cleanUpArray(array) {
+    let cleanedArray = [];
+
+    for (let element of array) {
+        if (
+            Number.isInteger(element) &&
+            !isNaN(element)
+        ) {
+            cleanedArray.push(element); // Add the element to the cleaned array
+        }
+    }
+    return cleanedArray;
 }

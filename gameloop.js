@@ -231,6 +231,7 @@ function updateShiftCountDown() {
                 ){
                     updateButtonCountdownText(getElements().autoCustomerServerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoCustomerServer()));
                     updateButtonClass(getElements().autoCustomerServerUpgradeButton, getCurrentSpeedAutoCustomerServer());
+                    setAutoCustomerServerCounter(1);
                     serveCustomer();
                 }
                 lastAutoUpgradesUpdateTime = now;

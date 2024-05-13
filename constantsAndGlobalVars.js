@@ -11,7 +11,7 @@ const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
 const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
-const SHIFT_LENGTH = 320; //80
+const SHIFT_LENGTH = 60; //80
 const FRY_TIMER = 15;
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
@@ -389,7 +389,9 @@ export function getChipsReadyToServeQuantity() {
 }
 
 export function setChipsReadyToServeQuantity(index, value) {
-    if (value === 'clear') {
+    if (value === 'clean') {
+        chipsReadyToServeQuantity = index; //clean array passed in
+    } else if (value === 'clear') {
         chipsReadyToServeQuantity = []; // Set array to empty
     } else {
         chipsReadyToServeQuantity[index] = value; // Update array normally
