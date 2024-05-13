@@ -1,7 +1,7 @@
 import {
     changePlayerRole,
     createGameWindow,
-    createTitleScreen,
+    createTitleScreen, hideUpgradeButtonsGameStart,
     toggleEndOfShiftPopup,
     toggleOverlay,
     updateButtonStyle,
@@ -406,6 +406,17 @@ export function updateVisibleButtons() {
         if (getCurrentCash() >= getPriceToImproveAutoCustomerServer()) {
             getElements().autoCustomerServerUpgradeButton.classList.remove('hidden-button');
         }
+        //third phase upgrades
+        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE)) {
+            //show buttons 12 and 13
+            //potato delivery doubler
+            //fast fryer
+        }
+        if (getCurrentCash() >= getRoleUpgrade(Role.SIX)) {
+            //show buttons 14 and 15
+            //customer frequency doubler
+            //investment fund
+        }
         disableButtons(false);
     }
 }
@@ -506,6 +517,7 @@ function checkPlayerRole() {
         changePlayerRole(getElements().innerDiv2, Role.FOUR, 'text-bounce-animation', 'fade-text-animation');
     } else if (existingRoleText === Role.FOUR) {
         if (getCurrentCash() >= getRoleUpgrade(Role.FOUR)) {
+            hideUpgradeButtonsGameStart()
             changePlayerRole(getElements().innerDiv2, Role.FIVE, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.FIVE) {
