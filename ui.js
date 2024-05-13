@@ -43,7 +43,11 @@ import {
     getNextSpeedAutoChipper,
     getCurrentSpeedAutoChipper,
     getNextSpeedAutoPeeler,
-    getCurrentSpeedAutoPeeler, Role
+    getCurrentSpeedAutoPeeler,
+    Role,
+    getPriceToFloatOnStockMarket,
+    getUpgradeFryerCapacityAmount,
+    getUpgradePotatoStorageQuantity
 } from './constantsAndGlobalVars.js';
 import {gameInProgress, initialiseNewGame, setGameInProgress, updateVisibleButtons} from "./gameloop.js";
 
@@ -189,18 +193,18 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'fryChipsButton', name: `Fry Chips<br> (Capacity: ${getFryerCapacity()})`, upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'servingStorageButton', name: 'Serving Storage', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'serveCustomerButton', name: 'Serve Customer', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'autoPeelerUpgradeButton', name: `Auto Peeler (${getCurrentSpeedAutoPeeler()})<br> Next: ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(getPriceToImproveAutoPeeler())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'autoChipperUpgradeButton', name: `Auto Chipper (${getCurrentSpeedAutoChipper()})<br> Next: ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(getPriceToImproveAutoChipper())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'autoFryerUpgradeButton', name: `Auto Fryer (${getCurrentSpeedAutoFryer()})<br> Next: ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'autoStorageCollectorUpgradeButton', name: `Auto Collector (${getCurrentSpeedAutoStorageCollector()})<br> Next: ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'autoCustomerServerUpgradeButton', name: `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br> Next: ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'autoPeelerUpgradeButton', name: `Auto Peeler (${getCurrentSpeedAutoPeeler()})<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(getPriceToImproveAutoPeeler())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'autoChipperUpgradeButton', name: `Auto Chipper (${getCurrentSpeedAutoChipper()})<br> ${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(getPriceToImproveAutoChipper())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'autoFryerUpgradeButton', name: `Auto Fryer (${getCurrentSpeedAutoFryer()})<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'autoStorageCollectorUpgradeButton', name: `Auto Collector (${getCurrentSpeedAutoStorageCollector()})<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'autoCustomerServerUpgradeButton', name: `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'action11Button', name: 'Action 11', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action12Button', name: 'Action 12', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action13Button', name: 'Action 13', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action14Button', name: 'Action 14', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action15Button', name: 'Action 15', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'improvePotatoStorageButton', name: `Increase Potato Cap. <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'action17Button', name: 'Action 17', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'improvePotatoStorageButton', name: `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'improveFryerCapacityButton', name: `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'action18Button', name: 'Action 18', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action19Button', name: 'Action 19', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action20Button', name: 'Action 20', upgrade: 'false', repeatableUpgrade: 'false' }
@@ -209,7 +213,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     const bottomButtonDetails = [
         { id: 'twoHandedPeelingButton', name: `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'twoHandedChippingButton', name: `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`, upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'improveFryerCapacityButton', name: `Improve Fryer Cap. <br> ${formatToCashNotation(getPriceToImproveFryerCapacity())}`, upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'floatStockMarketButton', name: `Float on Stock Market <br> ${formatToCashNotation(getPriceToFloatOnStockMarket())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'addStorageHeaterButton', name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
     ];

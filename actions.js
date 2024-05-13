@@ -257,8 +257,8 @@ function handleImprovePotatoStorage(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
-    getElements()[buttonId].innerHTML = 'Increase Potato Cap. ' + formatToCashNotation(newPriceOfUpgrade);
     setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity());
+    getElements()[buttonId].innerHTML = `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(newPriceOfUpgrade)}`;
     getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
 }
 
@@ -283,8 +283,8 @@ function handleTwoHandedChipping(button, buttonId) {
 function handleImproveFryerCapacity(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
-    getElements()[buttonId].innerHTML = 'Improve Fryer Cap. ' + formatToCashNotation(newPriceOfUpgrade);
     setFryerCapacity(getFryerCapacity() + getUpgradeFryerCapacityAmount());
+    getElements()[buttonId].innerHTML = `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(newPriceOfUpgrade)}`;
     getElements().fryChipsButton.innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
 }
 
@@ -330,7 +330,7 @@ function handleAutoPeeler(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoPeeler(getNextSpeedAutoPeeler());
     setNextSpeedAutoPeeler(getCurrentSpeedAutoPeeler() + getStandardDecrementIncrementOfOne());
-    getElements()[buttonId].innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()}/s)<br> Next: ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+    getElements()[buttonId].innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()}/s)<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
 }
 
 function handleAutoChipper(buttonId) {
@@ -341,7 +341,7 @@ function handleAutoChipper(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoChipper(getNextSpeedAutoChipper());
     setNextSpeedAutoChipper(getCurrentSpeedAutoChipper() + getStandardDecrementIncrementOfOne());
-    getElements()[buttonId].innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()}/s)<br> Next: ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+    getElements()[buttonId].innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()}/s)<br>${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
 }
 
 function handleAutoFryer(buttonId) {
@@ -353,7 +353,7 @@ function handleAutoFryer(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
     setNextSpeedAutoFryer(getCurrentSpeedAutoFryer() - getAutoFryerUpgradeDecrement());
-    getElements()[buttonId].innerHTML = `Auto Fryer (${Math.floor(getCurrentSpeedAutoFryer())}s)<br> Next: ${getNextSpeedAutoFryer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoFryer())}s`;
+    getElements()[buttonId].innerHTML = `Auto Fryer (${getCurrentSpeedAutoFryer()}s)<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoFryer())}s`;
 }
 
 function handleAutoStorageCollector(buttonId) {
@@ -365,7 +365,7 @@ function handleAutoStorageCollector(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoStorageCollector(getNextSpeedAutoStorageCollector());
     setNextSpeedAutoStorageCollector(getCurrentSpeedAutoStorageCollector() - getAutoStorageCollectorUpgradeDecrement());
-    getElements()[buttonId].innerHTML = `Auto Collector (${Math.floor(getCurrentSpeedAutoStorageCollector())}s)<br> Next: ${getNextSpeedAutoStorageCollector()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoStorageCollector())}s`;
+    getElements()[buttonId].innerHTML = `Auto Collector (${getCurrentSpeedAutoStorageCollector()}s)<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoStorageCollector())}s`;
 }
 
 function handleAutoCustomerServer(buttonId) {
@@ -376,7 +376,7 @@ function handleAutoCustomerServer(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoCustomerServer(getNextSpeedAutoCustomerServer());
     setNextSpeedAutoCustomerServer(getCurrentSpeedAutoCustomerServer() - getAutoCustomerServerUpgradeDecrement());
-    getElements()[buttonId].innerHTML = `Auto Collector (${Math.floor(getCurrentSpeedAutoCustomerServer())}s)<br> Next: ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s`;
+    getElements()[buttonId].innerHTML = `Auto Collector (${getCurrentSpeedAutoCustomerServer()}s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s`;
 }
 
 export function incrementCounter(counterElement, value) {

@@ -30,6 +30,7 @@ const AUTO_CUSTOMER_SERVER_DECREMENT = 2.5;
 const UPGRADE_HEATER_MULTIPLE = 2;
 const ZERO = 0;
 const ONE = 1;
+const PRICE_TO_FLOAT = 500000;
 
 //UPGRADE PRICE MULTIPLIER CONSTANTS
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
@@ -845,6 +846,10 @@ export function getRoleUpgrade(currentRole) {
         case Role.SEVEN:
             return ROLE_GAME_WINNER;
     }
+}
+
+export function getPriceToFloatOnStockMarket() {
+    return PRICE_TO_FLOAT;
 }
 
 
