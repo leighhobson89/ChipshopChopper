@@ -118,7 +118,6 @@ import {
     getAutoCustomerServerBought,
     getAutoCustomerServerUpgradeDecrement,
     getOne,
-    Role,
     setAutoFryerCounter,
     setAutoStorageCollectorCounter
 } from './constantsAndGlobalVars.js';
@@ -129,7 +128,6 @@ import {
 } from './gameloop.js';
 
 import {
-    changePlayerRole,
     formatToCashNotation,
     updateButtonStyle
 } from "./ui.js";

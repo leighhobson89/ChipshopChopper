@@ -256,8 +256,6 @@ function updateShiftCountDown() {
 
                     for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
                         clearInterval(batchTimers[i]);  //kill all timers end of shift
-                        // console.log("Wasted this shift before adding chipsreadytoservequantity: " + getChipsWastedThisShift());
-                        // console.log("value of chipsreadytoservequantity: " + getChipsReadyToServeQuantity()[i]);
                         setChipsWastedThisShift(getChipsWastedThisShift() + getChipsReadyToServeQuantity()[i]);
                     }
 
@@ -422,7 +420,7 @@ export function updateVisibleButtons() {
         }
         if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
             //set Start Shift Button to WIN GAME
-            //Win game code
+            //Winner  code
         }
         disableButtons(false);
     }
