@@ -471,7 +471,7 @@ export function disableButtons(init) {
                         button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
                     }
                     break;
-                case getElements().twoHandedChippingButton:
+                case getElements().twoHandedChippingButton.id:
                     if (!checkIfNonRepeatableUpgradePurchased(button)) {
                         button.disabled = getCurrentCash() < getPriceToEnableDoubleChipping();
                     }
