@@ -416,6 +416,13 @@ export function updateVisibleButtons() {
             //show buttons 14 and 15
             //customer frequency doubler
             //investment fund
+            //change buttons 16 & 17 to control investment fund amounts
+            //change button 19 to automatic shift starter button with toggle on or off
+            //change button 18 to float on stock market (conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
+        }
+        if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
+            //set Start Shift Button to WIN GAME
+            //Win game code
         }
         disableButtons(false);
     }
@@ -529,7 +536,7 @@ function checkPlayerRole() {
             changePlayerRole(getElements().innerDiv2, Role.SEVEN, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.SEVEN) {
-        if (getCurrentCash() >= getRoleUpgrade(Role.SIX)) {
+        if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
             winGame();
         }
     }

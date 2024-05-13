@@ -46,6 +46,7 @@ const MULTIPLE_FOR_IMPROVE_AUTO_CUSTOMER_SERVER = 2;
 const ROLE_FIVE_UPGRADE = 1000;
 const ROLE_SIX_UPGRADE = 10000;
 const ROLE_SEVEN_UPGRADE = 100000;
+const ROLE_GAME_WINNER = 1000000;
 
 export const endOfShiftPopupObject = createEndOfShiftPopup();
 export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
@@ -841,6 +842,8 @@ export function getRoleUpgrade(currentRole) {
             return ROLE_SIX_UPGRADE;
         case Role.SIX:
             return ROLE_SEVEN_UPGRADE;
+        case Role.SEVEN:
+            return ROLE_GAME_WINNER;
     }
 }
 
