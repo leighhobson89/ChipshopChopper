@@ -42,6 +42,11 @@ const MULTIPLE_FOR_IMPROVE_AUTO_FRYER = 2;
 const MULTIPLE_FOR_IMPROVE_AUTO_STORAGE_COLLECTOR = 2;
 const MULTIPLE_FOR_IMPROVE_AUTO_CUSTOMER_SERVER = 2;
 
+//ROLE UPGRADE AMOUNTS
+const ROLE_FIVE_UPGRADE = 1000;
+const ROLE_SIX_UPGRADE = 10000;
+const ROLE_SEVEN_UPGRADE = 100000;
+
 export const endOfShiftPopupObject = createEndOfShiftPopup();
 export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
 export const popupContinueButton = endOfShiftPopupObject.continueButton;
@@ -826,6 +831,17 @@ export function getAutoCustomerServerCounter() {
 
 export function setAutoCustomerServerCounter(value) {
     autoCustomerServerCounter = value;
+}
+
+export function getRoleUpgrade(currentRole) {
+    switch(currentRole) {
+        case Role.FOUR:
+            return ROLE_FIVE_UPGRADE;
+        case Role.FIVE:
+            return ROLE_SIX_UPGRADE;
+        case Role.SIX:
+            return ROLE_SEVEN_UPGRADE;
+    }
 }
 
 

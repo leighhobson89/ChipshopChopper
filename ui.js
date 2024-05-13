@@ -73,7 +73,7 @@ export function createTitleScreen() {
 
     // Define the option names and their initial colors
     const debugInfo = [
-        { name: 'Give $1000', color: 'Black' },    // Blue
+        { name: 'Give $10000', color: 'Black' },    // Blue
     ];
 
     // Create and append clickable options
@@ -483,9 +483,10 @@ function createOptionScreenEventListeners() {
     getElements().debug1.addEventListener('click', function () {
         setDebugFlag(true);
         getElements().debug1.classList.add('debug-toggledOn');
-        setCurrentCash(1000);
+        let donation = 10000;
+        setCurrentCash(donation);
         getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
-        console.log("$1000 given (debug)");
+        console.log("$" + donation + " given (debug)");
     });
 }
 

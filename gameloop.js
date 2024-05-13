@@ -74,7 +74,7 @@ import {
     getPriceToImproveAutoPeeler,
     getPriceToImproveFryerCapacity,
     getPriceToImprovePotatoStorage,
-    getQuantityOfChipsFrying,
+    getQuantityOfChipsFrying, getRoleUpgrade,
     getShiftCounter,
     getShiftInProgress,
     getShiftTimeRemaining,
@@ -502,14 +502,27 @@ function checkPlayerRole() {
             changePlayerRole(getElements().innerDiv2, Role.THREE, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.THREE && getAutoPeelerBought() && getAutoChipperBought() && getAutoFryerBought() && getAutoStorageCollectorBought() && getAutoCustomerServerBought()) {
+        if (getFryerCapacity() >= 300 && getElements().addStorageHeaterButton.classList.contains('non-repeatable-upgrade-purchased'))
         changePlayerRole(getElements().innerDiv2, Role.FOUR, 'text-bounce-animation', 'fade-text-animation');
     } else if (existingRoleText === Role.FOUR) {
-
+        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR)) {
+            changePlayerRole(getElements().innerDiv2, Role.FIVE, 'text-bounce-animation', 'fade-text-animation');
+        }
     } else if (existingRoleText === Role.FIVE) {
-
+        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE)) {
+            changePlayerRole(getElements().innerDiv2, Role.SIX, 'text-bounce-animation', 'fade-text-animation');
+        }
     } else if (existingRoleText === Role.SIX) {
-
+        if (getCurrentCash() >= getRoleUpgrade(Role.SIX)) {
+            changePlayerRole(getElements().innerDiv2, Role.SEVEN, 'text-bounce-animation', 'fade-text-animation');
+        }
     } else if (existingRoleText === Role.SEVEN) {
-
+        if (getCurrentCash() >= getRoleUpgrade(Role.SIX)) {
+            winGame();
+        }
     }
+}
+
+function winGame() {
+    console.log("You won the game!");
 }
