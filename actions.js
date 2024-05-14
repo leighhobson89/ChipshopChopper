@@ -139,7 +139,12 @@ import {
     getUpgradeFryTimeDecrement,
     getNextSpeedFryTimer,
     getDoubleMaxSpudsDeliveryBought,
-    setDoubleMaxSpudsDeliveryBought, setFryTimer, setMaxSpudsDelivery
+    setDoubleMaxSpudsDeliveryBought,
+    setFryTimer,
+    setMaxSpudsDelivery,
+    setPeelerUpgradeBought,
+    setChipperUpgradeBought,
+    setHeaterUpgradeBought
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -287,7 +292,7 @@ function handleImprovePotatoStorage(buttonId) {
 }
 
 function handleTwoHandedPeeling(button, buttonId) {
-    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+    if (!checkIfNonRepeatableUpgradePurchased(button, 'peeler')) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
         getElements()[buttonId].innerHTML = 'Double Peeling Tool PURCHASED';
         updateButtonStyle(buttonId, null);
@@ -296,7 +301,7 @@ function handleTwoHandedPeeling(button, buttonId) {
 }
 
 function handleTwoHandedChipping(button, buttonId) {
-    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+    if (!checkIfNonRepeatableUpgradePurchased(button, 'chipper')) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChipping());
         getElements()[buttonId].innerHTML = 'Double Chipping Tool PURCHASED';
         updateButtonStyle(buttonId, null);
@@ -313,7 +318,7 @@ function handleImproveFryerCapacity(buttonId) {
 }
 
 function handleAddStorageHeater(button, buttonId) {
-    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+    if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
         setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
         getElements()[buttonId].innerHTML = 'Storage Bin Heater PURCHASED';
         updateButtonStyle(buttonId, null);
@@ -650,7 +655,18 @@ function calculateAndSetNewPriceOfUpgrade(buttonId) {
     }
 }
 
-function checkIfNonRepeatableUpgradePurchased(button) {
+function checkIfNonRepeatableUpgradePurchased(button, upgrade) {
+    switch(upgrade) {
+        case 'peeler':
+            setPeelerUpgradeBought(true);
+            break;
+        case 'chipper':
+            setChipperUpgradeBought(true);
+            break;
+        case 'heater':
+            setHeaterUpgradeBought(true);
+            break;
+    }
     return button.classList.contains('non-repeatable-upgrade-purchased');
 }
 

@@ -80,6 +80,9 @@ export const popupOverlay = createOverlay();
  //FLAGS
  export let shiftInProgress = false;
  let chipsFrying = false;
+ let peelerUpgradeBought = false;
+ let chipperUpgradeBought = false;
+ let heaterUpgradeBought = false;
  let autoPeelerBought = false;
  let autoChipperBought = false;
  let autoFryerBought = false;
@@ -171,7 +174,7 @@ export function setElements() {
         cutChipsButton: document.getElementById('cutChipsButton'),
         servingStorageButton: document.getElementById('servingStorageButton'),
         serveCustomerButton: document.getElementById('serveCustomerButton'),
-        innerDiv2: document.getElementById('innerDiv2'),
+        playerRoleText: document.getElementById('playerRoleText'),
         subInnerDiv1_1: document.getElementById('subInnerDiv1_1'),
         subInnerDiv1_2: document.getElementById('subInnerDiv1_2'),
         subInnerDiv3_1: document.getElementById('subInnerDiv3_1'),
@@ -313,6 +316,30 @@ export function getPotatoStorageQuantity() {
 
 export function setPotatoStorageQuantity(value) {
     potatoStorage = value;
+}
+
+export function getPeelerUpgradeBought() {
+    return peelerUpgradeBought;
+}
+
+export function setPeelerUpgradeBought(value) {
+    peelerUpgradeBought = value;
+}
+
+export function getChipperUpgradeBought() {
+    return chipperUpgradeBought;
+}
+
+export function setChipperUpgradeBought(value) {
+    chipperUpgradeBought = value;
+}
+
+export function getHeaterUpgradeBought() {
+    return heaterUpgradeBought;
+}
+
+export function setHeaterUpgradeBought(value) {
+    heaterUpgradeBought = value;
 }
 
 export function getPriceToEnableDoubleChipping() {

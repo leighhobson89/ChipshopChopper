@@ -37,7 +37,7 @@ import {
     getAutoPeelerCounter,
     getAutoStorageCollectorBought,
     getAutoStorageCollectorCounter,
-    getAutoUpgradesClockSpeed,
+    getAutoUpgradesClockSpeed, getChipperUpgradeBought,
     getChipsFriedThisShift,
     getChipsFrying,
     getChipsReadyToServeQuantity,
@@ -56,12 +56,12 @@ import {
     getCustomerTime,
     getElements,
     getFryerCapacity,
-    getFryTimeRemaining,
+    getFryTimeRemaining, getHeaterUpgradeBought,
     getJustDeleteTheOneElementFromArray,
     getMultipleForHeaterEffectOnCoolDown,
     getNumberOfChipsFromPotato,
     getOne,
-    getOneForTimeDiff,
+    getOneForTimeDiff, getPeelerUpgradeBought,
     getPortionSize,
     getPriceOfChips,
     getPriceToAddStorageHeater,
@@ -507,30 +507,31 @@ function updateButtonClass(buttonElement, value) {
 }
 
 function checkPlayerRole() {
-    let existingRoleText = getElements().innerDiv2.innerHTML;
+    let existingRoleText = getElements().playerRoleText.innerHTML;
     if (existingRoleText === Role.ONE) {
-       if (getElements().twoHandedPeelingButton.classList.contains('non-repeatable-upgrade-purchased') || getElements().twoHandedChippingButton.classList.contains('non-repeatable-upgrade-purchased')) {
-           changePlayerRole(getElements().innerDiv2, Role.TWO, 'text-bounce-animation', 'fade-text-animation');
+       if (getPeelerUpgradeBought() || getChipperUpgradeBought()) {
+           changePlayerRole(getElements().playerRoleText, Role.TWO, 'text-bounce-animation', 'fade-text-animation');
        }
-    } else if (existingRoleText === Role.TWO && getElements().twoHandedPeelingButton.classList.contains('non-repeatable-upgrade-purchased') && getElements().twoHandedChippingButton.classList.contains('non-repeatable-upgrade-purchased')) {
+    } else if (existingRoleText === Role.TWO && getPeelerUpgradeBought() && getChipperUpgradeBought()) {
         if (getAutoPeelerBought() || getAutoChipperBought() || getAutoFryerBought() || getAutoStorageCollectorBought() || getAutoCustomerServerBought()) {
-            changePlayerRole(getElements().innerDiv2, Role.THREE, 'text-bounce-animation', 'fade-text-animation');
+            changePlayerRole(getElements().playerRoleText, Role.THREE, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.THREE && getAutoPeelerBought() && getAutoChipperBought() && getAutoFryerBought() && getAutoStorageCollectorBought() && getAutoCustomerServerBought()) {
-        if (getFryerCapacity() >= 300 && getElements().addStorageHeaterButton.classList.contains('non-repeatable-upgrade-purchased'))
-        changePlayerRole(getElements().innerDiv2, Role.FOUR, 'text-bounce-animation', 'fade-text-animation');
+        if (getFryerCapacity() >= 300 && getHeaterUpgradeBought()) {
+            changePlayerRole(getElements().playerRoleText, Role.FOUR, 'text-bounce-animation', 'fade-text-animation');
+        }
     } else if (existingRoleText === Role.FOUR) {
         if (getCurrentCash() >= getRoleUpgrade(Role.FOUR)) {
             hideUpgradeButtonsGameStart()
-            changePlayerRole(getElements().innerDiv2, Role.FIVE, 'text-bounce-animation', 'fade-text-animation');
+            changePlayerRole(getElements().playerRoleText, Role.FIVE, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.FIVE) {
         if (getCurrentCash() >= getRoleUpgrade(Role.FIVE)) {
-            changePlayerRole(getElements().innerDiv2, Role.SIX, 'text-bounce-animation', 'fade-text-animation');
+            changePlayerRole(getElements().playerRoleText, Role.SIX, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.SIX) {
         if (getCurrentCash() >= getRoleUpgrade(Role.SIX)) {
-            changePlayerRole(getElements().innerDiv2, Role.SEVEN, 'text-bounce-animation', 'fade-text-animation');
+            changePlayerRole(getElements().playerRoleText, Role.SEVEN, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.SEVEN) {
         if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {

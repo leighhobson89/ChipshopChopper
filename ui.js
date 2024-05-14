@@ -124,7 +124,11 @@ export function createGameWindow(titleScreenCreatedEvent) {
     for (let i = 1; i <= 3; i++) {
         const innerDiv = document.createElement('div');
         innerDiv.classList.add('inner-div-topDivRow1');
-        innerDiv.id = `innerDiv${i}`;
+        if (i === 2) {
+            innerDiv.id = 'playerRoleText';
+        } else {
+            innerDiv.id = `innerDiv${i}`;
+        }
 
         topDivRow1.appendChild(innerDiv);
 
@@ -292,7 +296,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
 }
 
 export function writeTextInSections(buttonDetails) {
-    getElements().innerDiv2.innerHTML = Role.ONE;
+    getElements().playerRoleText.innerHTML = Role.ONE;
 
     getElements().subInnerDiv1_1.innerHTML = 'Shift rem. (s):';
     getElements().subInnerDiv1_2.innerHTML = "Start Shift";
