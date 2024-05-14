@@ -411,7 +411,7 @@ export function updateVisibleButtons() {
             getElements().autoCustomerServerUpgradeButton.classList.remove('hidden-button');
         }
         //third phase upgrades
-        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && getElements().playerRoleText.innerHTML === (Role.FIVE)) {
+        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && getElements().playerRoleText.innerHTML === (Role.FIVE) || getElements().playerRoleText.innerHTML === (Role.SIX)) {
             getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
             getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
         }
