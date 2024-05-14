@@ -148,7 +148,11 @@ import {
     setInvestmentFundUnlocked,
     getInvestmentFundUnlocked,
     getPriceToUnlockInvestmentFund,
-    getPriceToFloatOnStockMarket
+    getPriceToFloatOnStockMarket,
+    getPriceToUnlockAutoShiftStart,
+    setAutoShiftStartUpgradeUnlocked,
+    setAutoShiftStatus,
+    getAutoShiftStatus
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -325,11 +329,29 @@ function handleImproveFryerCapacity(buttonId) {
 }
 
 function handleAddStorageHeater(button, buttonId) {
-    if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
-        setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
-        getElements()[buttonId].innerHTML = 'Storage Bin Heater PURCHASED';
-        updateButtonStyle(buttonId, null);
-        setMultipleForHeaterEffectOnCoolDown(getUpgradeHeaterMultiple());
+    if (!getInvestmentFundUnlocked()) { //storage heater button
+        if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
+            setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
+            getElements()[buttonId].innerHTML = 'Storage Bin Heater PURCHASED';
+            updateButtonStyle(buttonId, null);
+            setMultipleForHeaterEffectOnCoolDown(getUpgradeHeaterMultiple());
+        }
+    } else { //auto shift start button
+        if (!checkIfNonRepeatableUpgradePurchased(button, 'autoShift')) { //if auto shift start not bought yet
+            setCurrentCash(getCurrentCash() - getPriceToUnlockAutoShiftStart());
+            getElements()[buttonId].innerHTML = 'Auto Shift Start Upgrade DISABLED';
+            getElements()[buttonId].classList.add('toggleable-button-on-state'); //initialisation leave as this
+            updateButtonStyle(buttonId, null);
+            setAutoShiftStatus(false);
+        } else { //if auto shift start already bought
+            if (!getAutoShiftStatus()) {
+                setAutoShiftStatus(true);
+                updateButtonStyle(buttonId, null);
+            } else {
+                setAutoShiftStatus(false);
+                updateButtonStyle(buttonId, null);
+            }
+        }
     }
 }
 
@@ -447,8 +469,14 @@ function handleInvestmentFundUnlockButton(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToUnlockInvestmentFund());
     updateButtonStyle(buttonId, null);
     // change storageBinHeaterButton to AutoStartShift upgrade for $2000
+    updateStorageBinHeaterToAutoShiftStartButton();
     // remove double peelingButton and ChippingButton and replace with component for adding removing funds to investment and increasing and decreasing risk percentage
     // show buttons 17-20 (or better change it to be info fields to show investment mechanic data
+}
+
+function updateStorageBinHeaterToAutoShiftStartButton() {
+    getElements().addStorageHeaterButton.innerHTML = `Auto Shift Start Upgrade<br>${formatToCashNotation(getPriceToUnlockAutoShiftStart())})`;
+    getElements().addStorageHeaterButton.classList.remove('non-repeatable-upgrade-purchased');
 }
 
 export function incrementCounter(counterElement, value) {
@@ -690,6 +718,9 @@ function checkIfNonRepeatableUpgradePurchased(button, upgrade) {
             break;
         case 'heater':
             setHeaterUpgradeBought(true);
+            break;
+        case 'autoShift':
+            setAutoShiftStartUpgradeUnlocked(true);
             break;
     }
     return button.classList.contains('non-repeatable-upgrade-purchased');

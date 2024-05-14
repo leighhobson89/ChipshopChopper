@@ -32,6 +32,7 @@ const ZERO = 0;
 const ONE = 1;
 const PRICE_TO_FLOAT = 200000;
 const PRICE_TO_UNLOCK_INVESTMENT_FUND = 20000;
+const PRICE_TO_UNLOCK_AUTO_SHIFT_START = 2000;
 
 //UPGRADE PRICE MULTIPLIER CONSTANTS
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
@@ -92,6 +93,8 @@ export const popupOverlay = createOverlay();
  let improveFryTimerBought = false;
  let doubleMaxSpudsDeliveryBought = false;
  let investmentFundUnlocked = false;
+ let autoShiftStartUpgradeUnlocked = false;
+ let autoShiftStatus = false;
 
 //PRICES
  let priceToImprovePotatoStorage = 5; //50
@@ -994,6 +997,25 @@ export function setInvestmentFundUnlocked(value) {
     investmentFundUnlocked = value;
 }
 
+export function getAutoShiftStartUpgradeUnlocked() {
+    return autoShiftStartUpgradeUnlocked;
+}
+
+export function setAutoShiftStartUpgradeUnlocked(value) {
+    autoShiftStartUpgradeUnlocked = value;
+}
+
+export function getPriceToUnlockAutoShiftStart() {
+    return PRICE_TO_UNLOCK_AUTO_SHIFT_START;
+}
+
+export function getAutoShiftStatus() {
+    return autoShiftStatus;
+}
+
+export function setAutoShiftStatus(value) {
+    autoShiftStatus = value;
+}
 
 
 

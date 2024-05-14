@@ -52,7 +52,7 @@ import {
     getPriceToImproveFryTimer,
     getNextSpeedFryTimer,
     getMaxSpudsDelivery,
-    getPriceToDoubleSpudsMax, getNextMaxSpudsDelivery, getPriceToUnlockInvestmentFund
+    getPriceToDoubleSpudsMax, getNextMaxSpudsDelivery, getPriceToUnlockInvestmentFund, getInvestmentFundUnlocked
 } from './constantsAndGlobalVars.js';
 import {gameInProgress, initialiseNewGame, setGameInProgress, updateVisibleButtons} from "./gameloop.js";
 
@@ -362,6 +362,24 @@ export function updateButtonStyle(buttonId, startStop) {
                 element.innerHTML = `Float on Stock Market<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}`;
                 element.classList.add('disabled');
                 break;
+            case getElements().addStorageHeaterButton.id: //used only for auto shift start
+                if (getInvestmentFundUnlocked()) {
+                    if (element.classList.contains('toggleable-button-on-state')) {
+                        element.classList.add('toggleable-button-off-state');
+                        element.classList.remove('toggleable-button-on-state');
+                        element.classList.add('non-repeatable-upgrade-purchased');
+                        element.innerHTML = 'Auto Shift Start Upgrade DISABLED';
+                        break;
+                    } else {
+                        element.classList.add('toggleable-button-on-state');
+                        element.classList.remove('toggleable-button-off-state');
+                        element.innerHTML = 'Auto Shift Start Upgrade ENABLED';
+                        break;
+                    }
+                } else {
+                    element.classList.add('non-repeatable-upgrade-purchased');
+                    break;
+                }
             default: //non repeatable upgrades
                 element.classList.add('non-repeatable-upgrade-purchased');
                 break;

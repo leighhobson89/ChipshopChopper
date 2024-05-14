@@ -222,6 +222,34 @@ div[id^="subInnerDivMid"][id$='_2'] {
     pointer-events: none;
 }
 
+.auto-shift-start-purchased {
+    font-weight: bold;
+    color: black;
+}
+
+.action-button-bottom-row.toggleable-button-off-state {
+    background-color: white;
+    color: black;
+}
+
+.action-button-bottom-row.non-repeatable-upgrade-purchased.toggleable-button-off-state {
+    background-color: white;
+    color: black;
+}
+
+.action-button-bottom-row.toggleable-button-off-state:hover {
+    color: black;
+}
+
+.action-button-bottom-row.toggleable-button-on-state {
+    background-color: chartreuse;
+    color: black;
+}
+
+.action-button-bottom-row.toggleable-button-on-state:hover {
+    color: black;
+}
+
 .action-button-main.non-repeatable-upgrade-purchased,
 .action-button-bottom-row.non-repeatable-upgrade-purchased {
     background-color: chartreuse;
