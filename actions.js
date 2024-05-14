@@ -198,7 +198,7 @@ export function handleButtonClick(buttonId, value) {
             case getElements().improveFryerCapacityButton.id:
                 handleImproveFryerCapacity(buttonId);
                 break;
-            case getElements().addStorageHeaterButton.id:
+            case getElements().addStorageHeaterAutoShiftStartButton.id:
                 handleAddStorageHeater(button, buttonId);
                 break;
             case getElements().startShiftButton.id:
@@ -475,8 +475,8 @@ function handleInvestmentFundUnlockButton(buttonId) {
 }
 
 function updateStorageBinHeaterToAutoShiftStartButton() {
-    getElements().addStorageHeaterButton.innerHTML = `Auto Shift Start Upgrade<br>${formatToCashNotation(getPriceToUnlockAutoShiftStart())})`;
-    getElements().addStorageHeaterButton.classList.remove('non-repeatable-upgrade-purchased');
+    getElements().addStorageHeaterAutoShiftStartButton.innerHTML = `Auto Shift Start Upgrade<br>${formatToCashNotation(getPriceToUnlockAutoShiftStart())})`;
+    getElements().addStorageHeaterAutoShiftStartButton.classList.remove('non-repeatable-upgrade-purchased');
 }
 
 export function incrementCounter(counterElement, value) {
@@ -581,7 +581,7 @@ export function disableButtons(init) {
                 case getElements().improveFryerCapacityButton.id:
                     button.disabled = getCurrentCash() < getPriceToImproveFryerCapacity();
                     break;
-                case getElements().addStorageHeaterButton.id:
+                case getElements().addStorageHeaterAutoShiftStartButton.id:
                     if (!checkIfNonRepeatableUpgradePurchased(button)) {
                         button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
                     }
@@ -680,7 +680,7 @@ function calculateAndSetNewPriceOfUpgrade(buttonId) {
         case getElements().improveFryerCapacityButton.id:
             setPriceToImproveFryerCapacity(getPriceToImproveFryerCapacity() * getMultipleForImproveFryerCapacity());
             return getPriceToImproveFryerCapacity();
-        case getElements().addStorageHeaterButton.id:
+        case getElements().addStorageHeaterAutoShiftStartButton.id:
             return getPriceToAddStorageHeater();
             //Auto Upgrades
         case getElements().autoPeelerUpgradeButton.id:

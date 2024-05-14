@@ -386,7 +386,7 @@ export function updateVisibleButtons() {
             getElements().improveFryerCapacityButton.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getPriceToAddStorageHeater()) {
-            getElements().addStorageHeaterButton.classList.remove('hidden-button');
+            getElements().addStorageHeaterAutoShiftStartButton.classList.remove('hidden-button');
         }
         //auto phase upgrades
         if (getCurrentCash() >= getPriceToImproveAutoPeeler()) {

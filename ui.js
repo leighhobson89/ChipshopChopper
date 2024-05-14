@@ -223,7 +223,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'twoHandedPeelingButton', name: `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'twoHandedChippingButton', name: `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'investmentFundUnlockButton', name: `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFund())}`, upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'addStorageHeaterButton', name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`, upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'addStorageHeaterAutoShiftStartButton', name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
     ];
 
@@ -285,7 +285,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     handleButtonClick(getElements().twoHandedPeelingButton.id, getPriceToEnableDoublePeeling());
     handleButtonClick(getElements().twoHandedChippingButton.id, getPriceToEnableDoubleChipping());
     handleButtonClick(getElements().improveFryerCapacityButton.id, getPriceToImproveFryerCapacity());
-    handleButtonClick(getElements().addStorageHeaterButton.id, getPriceToAddStorageHeater());
+    handleButtonClick(getElements().addStorageHeaterAutoShiftStartButton.id, getPriceToAddStorageHeater());
     handleButtonClick(getElements().autoPeelerUpgradeButton.id, getPriceToImproveAutoPeeler());
     handleButtonClick(getElements().autoChipperUpgradeButton.id, getPriceToImproveAutoChipper());
     handleButtonClick(getElements().autoFryerUpgradeButton.id, getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
@@ -362,7 +362,7 @@ export function updateButtonStyle(buttonId, startStop) {
                 element.innerHTML = `Float on Stock Market<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}`;
                 element.classList.add('disabled');
                 break;
-            case getElements().addStorageHeaterButton.id: //used only for auto shift start
+            case getElements().addStorageHeaterAutoShiftStartButton.id: //used only for auto shift start
                 if (getInvestmentFundUnlocked()) {
                     if (element.classList.contains('toggleable-button-on-state')) {
                         element.classList.add('toggleable-button-off-state');

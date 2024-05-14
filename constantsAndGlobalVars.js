@@ -170,7 +170,7 @@ export function setElements() {
         twoHandedPeelingButton: document.getElementById('twoHandedPeelingButton'),
         twoHandedChippingButton: document.getElementById('twoHandedChippingButton'),
         improveFryerCapacityButton: document.getElementById('improveFryerCapacityButton'),
-        addStorageHeaterButton: document.getElementById('addStorageHeaterButton'),
+        addStorageHeaterAutoShiftStartButton: document.getElementById('addStorageHeaterAutoShiftStartButton'),
         peeledCount: document.getElementById('peeledCount'),
         cutCount: document.getElementById('cutCount'),
         chuckedInFryerCount: document.getElementById('chuckedInFryerCount'),
