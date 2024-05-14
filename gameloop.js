@@ -14,7 +14,7 @@ import {
     decrementCounter,
     disableButtons,
     fryChips,
-    handleServingStorage,
+    handleServingStorage, handleStartShift,
     incrementCustomersWaiting,
     peelPotato,
     serveCustomer
@@ -34,7 +34,7 @@ import {
     getAutoFryerCounter,
     getAutoFryerEfficiency,
     getAutoPeelerBought,
-    getAutoPeelerCounter,
+    getAutoPeelerCounter, getAutoShiftStatus,
     getAutoStorageCollectorBought,
     getAutoStorageCollectorCounter,
     getAutoUpgradesClockSpeed, getChipperUpgradeBought,
@@ -267,10 +267,13 @@ function updateShiftCountDown() {
                     getElements().readyToServeCount.innerHTML = getZero().toString();
                     resetBatchTimers();
 
-                    writePopupText();
+                    if (!getAutoShiftStatus()) { //no popup if autoShiftStartIsEnabled
+                        writePopupText();
+                        toggleEndOfShiftPopup(endOfShiftPopup);
+                        toggleOverlay(popupOverlay);
+                    }
+
                     setCustomersServed(getZero());
-                    toggleEndOfShiftPopup(endOfShiftPopup);
-                    toggleOverlay(popupOverlay);
                     setPotatoesPeeledThisShift(getZero());
                     setChipsCutThisShift(getZero());
                     setChipsFriedThisShift(getZero());
@@ -281,6 +284,9 @@ function updateShiftCountDown() {
         }
     } else {
         disableButtons(true);
+        if (getAutoShiftStatus()) {
+            handleStartShift();
+        }
     }
 }
 

@@ -355,7 +355,7 @@ function handleAddStorageHeater(button, buttonId) {
     }
 }
 
-function handleStartShift() {
+export function handleStartShift() {
     setShiftLengthTimerVariable(getShiftLength());
     setShiftInProgress(true);
     setShiftCounter(getShiftCounter() + getStandardDecrementIncrementOfOne());
