@@ -412,12 +412,8 @@ export function updateVisibleButtons() {
         if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && getElements().playerRoleText.innerHTML === (Role.SIX)) {
             getElements().investmentFundUnlockButton.classList.remove('hidden-button');
             //show buttons 17-20 when investment fund is unlocked
-            //investment fund button changes to Float on Stock Market when bought middle bottom row
-            //(0conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
+            //(conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
             //show customer frequency doubler 15
-            //show auto start shift in place of storage heater and make invisible all non repeatable upgrades from bottom row as have to be bought by now
-            //Buttons 17 & 18 to control investment fund amounts +/-
-            //Buttons 19 & 20 to control risk level of investment fund high low toggle one button enabled and one not when one clicked
         }
         if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
             //set Start Shift Button to WIN GAME

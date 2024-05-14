@@ -446,6 +446,9 @@ function handleInvestmentFundUnlockButton(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToUnlockInvestmentFund());
     updateButtonStyle(buttonId, null);
+    // change storageBinHeaterButton to AutoStartShift upgrade for $2000
+    // remove double peelingButton and ChippingButton and replace with component for adding removing funds to investment and increasing and decreasing risk percentage
+    // show buttons 17-20 (or better change it to be info fields to show investment mechanic data
 }
 
 export function incrementCounter(counterElement, value) {
