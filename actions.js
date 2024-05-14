@@ -339,7 +339,7 @@ function handleAddStorageHeater(button, buttonId) {
     } else { //auto shift start button
         if (!checkIfNonRepeatableUpgradePurchased(button, 'autoShift')) { //if auto shift start not bought yet
             setCurrentCash(getCurrentCash() - getPriceToUnlockAutoShiftStart());
-            getElements()[buttonId].innerHTML = 'Auto Shift Start Upgrade DISABLED';
+            getElements()[buttonId].innerHTML = `Auto Shift Start Upgrade<br>DISABLED`;
             getElements()[buttonId].classList.add('toggleable-button-on-state'); //initialisation leave as this
             updateButtonStyle(buttonId, null);
             setAutoShiftStatus(false);

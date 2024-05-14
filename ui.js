@@ -368,12 +368,12 @@ export function updateButtonStyle(buttonId, startStop) {
                         element.classList.add('toggleable-button-off-state');
                         element.classList.remove('toggleable-button-on-state');
                         element.classList.add('non-repeatable-upgrade-purchased');
-                        element.innerHTML = 'Auto Shift Start Upgrade DISABLED';
+                        element.innerHTML = `Auto Shift Start Upgrade<br>DISABLED`;
                         break;
                     } else {
                         element.classList.add('toggleable-button-on-state');
                         element.classList.remove('toggleable-button-off-state');
-                        element.innerHTML = 'Auto Shift Start Upgrade ENABLED';
+                        element.innerHTML = `Auto Shift Start Upgrade<br>ENABLED`;
                         break;
                     }
                 } else {
