@@ -144,7 +144,11 @@ import {
     setMaxSpudsDelivery,
     setPeelerUpgradeBought,
     setChipperUpgradeBought,
-    setHeaterUpgradeBought
+    setHeaterUpgradeBought,
+    setInvestmentFundUnlocked,
+    getInvestmentFundUnlocked,
+    getPriceToUnlockInvestmentFund,
+    getPriceToFloatOnStockMarket
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -216,6 +220,9 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case getElements().potatoDeliveryDoublerButton.id:
                 handleDoubleMaxSpudsDelivery(buttonId);
+                break;
+            case getElements().investmentFundUnlockButton.id:
+                handleInvestmentFundUnlockButton(buttonId);
                 break;
             default:
                 break;
@@ -433,6 +440,14 @@ function handleDoubleMaxSpudsDelivery(buttonId) {
 
 }
 
+function handleInvestmentFundUnlockButton(buttonId) {
+    if (!getInvestmentFundUnlocked()) {
+        setInvestmentFundUnlocked(true);
+    }
+    setCurrentCash(getCurrentCash() - getPriceToUnlockInvestmentFund());
+    updateButtonStyle(buttonId, null);
+}
+
 export function incrementCounter(counterElement, value) {
     let count = parseInt(counterElement.innerHTML);
     count += value;
@@ -542,6 +557,13 @@ export function disableButtons(init) {
                     break;
                 case getElements().startShiftButton.id:
                     button.disabled = getShiftTime() > getZero();
+                    break;
+                case getElements().investmentFundUnlockButton.id:
+                    if (getInvestmentFundUnlocked()) {
+                        button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
+                    } else {
+                        button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFund();
+                    }
                     break;
                 default:
                     button.disabled = false;

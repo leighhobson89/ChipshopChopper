@@ -30,7 +30,8 @@ const UPGRADE_FRY_TIME_DECREMENT = 2.5;
 const UPGRADE_HEATER_MULTIPLE = 2;
 const ZERO = 0;
 const ONE = 1;
-const PRICE_TO_FLOAT = 500000;
+const PRICE_TO_FLOAT = 200000;
+const PRICE_TO_UNLOCK_INVESTMENT_FUND = 20000;
 
 //UPGRADE PRICE MULTIPLIER CONSTANTS
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
@@ -90,6 +91,7 @@ export const popupOverlay = createOverlay();
  let autoCustomerServerBought = false;
  let improveFryTimerBought = false;
  let doubleMaxSpudsDeliveryBought = false;
+ let investmentFundUnlocked = false;
 
 //PRICES
  let priceToImprovePotatoStorage = 5; //50
@@ -205,6 +207,7 @@ export function setElements() {
         autoCustomerServerUpgradeButton: document.getElementById('autoCustomerServerUpgradeButton'),
         fastFryerUpgradeButton: document.getElementById('fastFryerUpgradeButton'),
         potatoDeliveryDoublerButton: document.getElementById('potatoDeliveryDoublerButton'),
+        investmentFundUnlockButton: document.getElementById('investmentFundUnlockButton'),
       };
 }
 
@@ -895,6 +898,10 @@ export function getRoleUpgrade(currentRole) {
     }
 }
 
+export function getPriceToUnlockInvestmentFund() {
+    return PRICE_TO_UNLOCK_INVESTMENT_FUND;
+}
+
 export function getPriceToFloatOnStockMarket() {
     return PRICE_TO_FLOAT;
 }
@@ -979,6 +986,13 @@ export function getUpgradeMaxSpudsIncrement() {
     return UPGRADE_MAX_SPUDS_DELIVERY_INCREMENT;
 }
 
+export function getInvestmentFundUnlocked() {
+    return investmentFundUnlocked;
+}
+
+export function setInvestmentFundUnlocked(value) {
+    investmentFundUnlocked = value;
+}
 
 
 

@@ -52,7 +52,7 @@ import {
     getPriceToImproveFryTimer,
     getNextSpeedFryTimer,
     getMaxSpudsDelivery,
-    getPriceToDoubleSpudsMax, getNextMaxSpudsDelivery
+    getPriceToDoubleSpudsMax, getNextMaxSpudsDelivery, getPriceToUnlockInvestmentFund
 } from './constantsAndGlobalVars.js';
 import {gameInProgress, initialiseNewGame, setGameInProgress, updateVisibleButtons} from "./gameloop.js";
 
@@ -222,7 +222,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     const bottomButtonDetails = [
         { id: 'twoHandedPeelingButton', name: `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'twoHandedChippingButton', name: `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`, upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'floatStockMarketButton', name: `Float on Stock Market <br> ${formatToCashNotation(getPriceToFloatOnStockMarket())}`, upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'investmentFundUnlockButton', name: `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFund())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'addStorageHeaterButton', name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
     ];
@@ -293,6 +293,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     handleButtonClick(getElements().autoCustomerServerUpgradeButton.id, getPriceToImproveAutoCustomerServer());
     handleButtonClick(getElements().fastFryerUpgradeButton.id, getPriceToImproveFryTimer());
     handleButtonClick(getElements().potatoDeliveryDoublerButton.id, getPriceToDoubleSpudsMax());
+    handleButtonClick(getElements().investmentFundUnlockButton.id, getPriceToUnlockInvestmentFund());
 }
 
 export function writeTextInSections(buttonDetails) {
@@ -356,6 +357,10 @@ export function updateButtonStyle(buttonId, startStop) {
                     element.classList.remove('cooking');
                     element.classList.add('disabled');
                 }
+                break;
+            case getElements().investmentFundUnlockButton.id:
+                element.innerHTML = `Float on Stock Market<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}`;
+                element.classList.add('disabled');
                 break;
             default: //non repeatable upgrades
                 element.classList.add('non-repeatable-upgrade-purchased');
@@ -498,7 +503,7 @@ function createOptionScreenEventListeners() {
     getElements().debug1.addEventListener('click', function () {
         setDebugFlag(true);
         getElements().debug1.classList.add('debug-toggledOn');
-        let donation = 10000;
+        let donation = 25000;
         setCurrentCash(donation);
         getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
         console.log("$" + donation + " given (debug)");
