@@ -405,7 +405,7 @@ export function updateVisibleButtons() {
             getElements().autoCustomerServerUpgradeButton.classList.remove('hidden-button');
         }
         //third phase upgrades
-        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE)) {
+        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && getElements().playerRoleText.innerHTML === (Role.FIVE)) {
             getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
             getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
         }
@@ -522,7 +522,6 @@ function checkPlayerRole() {
         }
     } else if (existingRoleText === Role.FOUR) {
         if (getCurrentCash() >= getRoleUpgrade(Role.FOUR)) {
-            hideUpgradeButtonsGameStart()
             changePlayerRole(getElements().playerRoleText, Role.FIVE, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.FIVE) {
