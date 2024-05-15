@@ -90,7 +90,7 @@ import {
     setChipsReadyToServeQuantity,
     setChipsWastedThisShift,
     setCoolDownTimeRemaining,
-    setCurrentCash, setCurrentRiskLevel,
+    setCurrentCash, setCurrentRiskLevel, setCurrentValueOfInvestment,
     setCustomersServed,
     setCustomersWaiting,
     setCustomersWaitingBeforeEndOfShift,
@@ -494,7 +494,7 @@ function winGame() {
 function updateInvestmentPlanData() {
     getElements().investmentDataScreenBottomRowColumn1.innerHTML = formatToCashNotation(getAmountInvestmentCash());
     getElements().investmentDataScreenBottomRowColumn2.innerHTML = getAmountInvestmentRisk() + "%";
-    getElements().investmentDataScreenBottomRowColumn3 = formatToCashNotation(getCurrentValueOfInvestment());
+    getElements().investmentDataScreenBottomRowColumn3.innerHTML = formatToCashNotation(getCurrentValueOfInvestment());
     // console.log('Cash Invested:' + getAmountInvestmentCash());
     // console.log('Risk:' + getAmountInvestmentRisk());
 }
@@ -526,9 +526,17 @@ function checkRiskAgainstThreshold() {
     const threshold = getRiskThreshold();
     if (getCurrentRiskLevel() >= threshold && getAmountInvestmentCash() > getZero()) {
         console.log("DEVALUE investment");
-        //devalue investment
-        setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2)));
+        devalueInvestment();
+        setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2))); //start from a non zero random risk level
     } else {
         console.log("no devalue of investment");
     }
+}
+
+function devalueInvestment() {
+    const percentageOverThreshold = ((getCurrentRiskLevel() - getRiskThreshold()) / getRiskThreshold()) * 100;
+    console.log("percentage over threshold:" + percentageOverThreshold);
+    const amountOfInvestmentToLose = getCurrentValueOfInvestment() * (percentageOverThreshold / 100)
+    console.log("percentage of investment (amount to lose):" + amountOfInvestmentToLose);
+    setCurrentValueOfInvestment(getCurrentValueOfInvestment() - amountOfInvestmentToLose);
 }

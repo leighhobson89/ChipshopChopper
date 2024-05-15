@@ -166,7 +166,7 @@ import {
     getAmountInvestmentCash,
     getAmountInvestmentRisk,
     getMaxRiskAmount,
-    setAmountInvestmentRisk, getHeaterUpgradeBought
+    setAmountInvestmentRisk, getHeaterUpgradeBought, setCurrentValueOfInvestment, getCurrentValueOfInvestment
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -513,19 +513,35 @@ function handleIncreaseCashInvested() {
     if (getCurrentCash() >= getInvestmentCashIncrementDecrement()) {
         setCurrentCash(getCurrentCash() - getInvestmentCashIncrementDecrement());
         setAmountInvestmentCash(getAmountInvestmentCash() + getInvestmentCashIncrementDecrement());
+        setCurrentValueOfInvestment(getCurrentValueOfInvestment() + getInvestmentCashIncrementDecrement());
     } else {
         setAmountInvestmentCash(getAmountInvestmentCash() + getCurrentCash());
+        setCurrentValueOfInvestment(getCurrentValueOfInvestment() + getCurrentCash());
         setCurrentCash(getZero());
     }
 }
 
 function handleDecreaseCashInvested() {
-    if (getAmountInvestmentCash() >= getInvestmentCashIncrementDecrement()) {
-        setCurrentCash(getCurrentCash() + getInvestmentCashIncrementDecrement());
-        setAmountInvestmentCash(getAmountInvestmentCash() - getInvestmentCashIncrementDecrement());
-    } else if (getAmountInvestmentCash() > getZero()) {
-        setCurrentCash(getCurrentCash() + getAmountInvestmentCash());
-        setAmountInvestmentCash(getZero());
+    if (getCurrentValueOfInvestment() >= getAmountInvestmentCash()) {
+        if (getAmountInvestmentCash() >= getInvestmentCashIncrementDecrement()) {
+            setCurrentCash(getCurrentCash() + getInvestmentCashIncrementDecrement());
+            setAmountInvestmentCash(getAmountInvestmentCash() - getInvestmentCashIncrementDecrement());
+            setCurrentValueOfInvestment(getCurrentValueOfInvestment() - getInvestmentCashIncrementDecrement());
+        } else if (getAmountInvestmentCash() > getZero()) {
+            setCurrentCash(getCurrentCash() + getAmountInvestmentCash());
+            setCurrentValueOfInvestment(getCurrentValueOfInvestment() - getAmountInvestmentCash());
+            setAmountInvestmentCash(getZero());
+        }
+    } else {
+        if (getCurrentValueOfInvestment() >= getInvestmentCashIncrementDecrement()) {
+            setCurrentCash(getCurrentCash() + getInvestmentCashIncrementDecrement());
+            setAmountInvestmentCash(getAmountInvestmentCash() - getInvestmentCashIncrementDecrement());
+            setCurrentValueOfInvestment(getCurrentValueOfInvestment() - getInvestmentCashIncrementDecrement());
+        } else if (getCurrentValueOfInvestment() > getZero()) {
+            setCurrentCash(getCurrentCash() + getCurrentValueOfInvestment());
+            setCurrentValueOfInvestment(getZero());
+            setAmountInvestmentCash(getZero());
+        }
     }
 }
 
