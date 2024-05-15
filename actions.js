@@ -10,7 +10,7 @@ import {
     getFryerCapacity,
     getFryTimer,
     getMaxSpudsDelivery,
-    getMaxValueWaitForNewCustomer,
+    getCurrentMaxValueWaitForNewCustomer,
     getMinSpudsDelivery,
     getMultipleForImproveFryerCapacity,
     getMultipleForImprovePotatoStorage,
@@ -152,7 +152,14 @@ import {
     getPriceToUnlockAutoShiftStart,
     setAutoShiftStartUpgradeUnlocked,
     setAutoShiftStatus,
-    getAutoShiftStatus, getGameInProgress
+    getAutoShiftStatus,
+    getGameInProgress,
+    getPriceToIncreaseFootfall,
+    setCurrentMaxValueWaitForNewCustomer,
+    getNextMaxValueWaitForNewCustomer,
+    setNextMaxValueWaitForNewCustomer,
+    getMultipleForIncreaseFootfallUpgrade,
+    setPriceToIncreaseFootfall, getIncreaseFootfallDecrement
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -226,6 +233,9 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case getElements().investmentFundUnlockButton.id:
                 handleInvestmentFundUnlockButton(buttonId);
+                break;
+            case getElements().customerFrequencyIncreaser.id:
+                handleIncreaseFootfall(buttonId);
                 break;
             default:
                 break;
@@ -445,7 +455,7 @@ function handleImproveFryTimer(buttonId) {
     setCurrentSpeedFryTimer(getNextSpeedFryTimer());
     setFryTimer(Math.floor(getCurrentSpeedFryTimer()));
     setNextSpeedFryTimer(getCurrentSpeedFryTimer() - getUpgradeFryTimeDecrement());
-    getElements()[buttonId].innerHTML = `Improve Fry Speed<br>${getCurrentSpeedFryTimer()} → ${getNextSpeedFryTimer()}<br>${formatToCashNotation(newPriceOfUpgrade)}`
+    getElements()[buttonId].innerHTML = `Improve Fry Speed<br>${getCurrentSpeedFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(newPriceOfUpgrade)}`
 }
 
 function handleDoubleMaxSpudsDelivery(buttonId) {
@@ -471,6 +481,14 @@ function handleInvestmentFundUnlockButton(buttonId) {
     hideDoublePeelerChipperAndShowInvestmentComponents();
     // remove double peelingButton and ChippingButton and replace with component for adding removing funds to investment and increasing and decreasing risk percentage
     // show buttons 17-20 (or better change it to be info fields to show investment mechanic data
+}
+
+function handleIncreaseFootfall(buttonId) {
+    setCurrentCash(getCurrentCash() - getPriceToIncreaseFootfall());
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setCurrentMaxValueWaitForNewCustomer(getNextMaxValueWaitForNewCustomer());
+    setNextMaxValueWaitForNewCustomer(getCurrentMaxValueWaitForNewCustomer() - getIncreaseFootfallDecrement());
+    getElements()[buttonId].innerHTML = `Max. Wait For Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(newPriceOfUpgrade)}`
 }
 
 function updateStorageBinHeaterToAutoShiftStartButton() {
@@ -636,7 +654,7 @@ function disableButtonsHelper(buttons, pricesArray) {
 }
 
 export function createRandomCustomerTime() {
-    const timeUntilNextCustomer = Math.floor(Math.random() * getMaxValueWaitForNewCustomer()) + 1;
+    const timeUntilNextCustomer = Math.floor(Math.random() * getCurrentMaxValueWaitForNewCustomer()) + 1;
     setCustomerTimerVariable(timeUntilNextCustomer);
 }
 
@@ -704,6 +722,9 @@ function calculateAndSetNewPriceOfUpgrade(buttonId) {
         case getElements().potatoDeliveryDoublerButton.id:
             setPriceToDoubleSpudsMax(getPriceToDoubleSpudsMax() * getMultipleForMaxSpudsUpgrade());
             return getPriceToDoubleSpudsMax();
+        case getElements().customerFrequencyIncreaser.id:
+            setPriceToIncreaseFootfall(getPriceToIncreaseFootfall() * getMultipleForIncreaseFootfallUpgrade());
+            return getPriceToIncreaseFootfall();
     }
 }
 

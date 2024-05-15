@@ -20,7 +20,7 @@ import {
     getFryerCapacity,
     getFryTimer, getGameInProgress,
     getInvestmentFundUnlocked,
-    getMaxSpudsDelivery,
+    getMaxSpudsDelivery, getCurrentMaxValueWaitForNewCustomer,
     getNextMaxSpudsDelivery,
     getNextSpeedAutoChipper,
     getNextSpeedAutoCustomerServer,
@@ -58,7 +58,7 @@ import {
     Role,
     setCurrentCash,
     setDebugFlag,
-    setGameInProgress
+    setGameInProgress, getNextMaxValueWaitForNewCustomer, getPriceToIncreaseFootfall
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -215,14 +215,9 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'autoCustomerServerUpgradeButton', name: `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'improvePotatoStorageButton', name: `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'improveFryerCapacityButton', name: `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'fastFryerUpgradeButton', name: `Improve Fry Speed<br>${getFryTimer()} → ${getNextSpeedFryTimer()}<br>${formatToCashNotation(getPriceToImproveFryTimer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'action14Button', name: 'Action 14', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action15Button', name: 'Action 15', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action16Button', name: 'Action 16', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action17Button', name: 'Action 17', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action18Button', name: 'Action 18', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action19Button', name: 'Action 19', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'fastFryerUpgradeButton', name: `Improve Fry Speed<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'potatoDeliveryDoublerButton', name: `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'customerFrequencyIncreaser', name: `Max. Wait For Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}`, upgrade: 'true', repeatableUpgrade: 'true' },
     ];
 
     const bottomButtonDetails = [
@@ -302,6 +297,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     handleButtonClick(getElements().fastFryerUpgradeButton.id, getPriceToImproveFryTimer());
     handleButtonClick(getElements().potatoDeliveryDoublerButton.id, getPriceToDoubleSpudsMax());
     handleButtonClick(getElements().investmentFundUnlockButton.id, getPriceToUnlockInvestmentFund());
+    handleButtonClick(getElements().customerFrequencyIncreaser.id, getPriceToIncreaseFootfall());
 }
 
 export function writeTextInSections(buttonDetails) {
@@ -545,6 +541,7 @@ export function updateVisibleButtons() {
         if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && getElements().playerRoleText.innerHTML === (Role.FIVE) || getElements().playerRoleText.innerHTML === (Role.SIX)) {
             getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
             getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
+            getElements().customerFrequencyIncreaser.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && getElements().playerRoleText.innerHTML === (Role.SIX)) {
             getElements().investmentFundUnlockButton.classList.remove('hidden-button');

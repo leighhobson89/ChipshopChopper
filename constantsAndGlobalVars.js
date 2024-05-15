@@ -10,7 +10,6 @@ let elements;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const MAX_VALUE_WAIT_FOR_NEW_CUSTOMER = 10;
 const SHIFT_LENGTH = 30; //80
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
@@ -28,6 +27,7 @@ const AUTO_STORAGE_COLLECTOR_DECREMENT = 2.5;
 const AUTO_CUSTOMER_SERVER_DECREMENT = 2.5;
 const UPGRADE_FRY_TIME_DECREMENT = 2.5;
 const UPGRADE_HEATER_MULTIPLE = 2;
+const INCREASE_FOOTFALL_DECREMENT = 2;
 const ZERO = 0;
 const ONE = 1;
 const PRICE_TO_FLOAT = 200000;
@@ -46,6 +46,7 @@ const MULTIPLE_FOR_IMPROVE_AUTO_STORAGE_COLLECTOR = 2;
 const MULTIPLE_FOR_IMPROVE_AUTO_CUSTOMER_SERVER = 2;
 const MULTIPLE_FOR_IMPROVE_FRY_TIMER = 4;
 const MULTIPLE_FOR_MAX_SPUDS_UPGRADE = 4;
+const MULTIPLE_FOR_INCREASE_FOOTFALL_UPGRADE = 2;
 
 //ROLE UPGRADE AMOUNTS
 const ROLE_FIVE_UPGRADE = 1000;
@@ -59,6 +60,8 @@ export const popupContinueButton = endOfShiftPopupObject.continueButton;
 export const popupOverlay = createOverlay();
 
  //GLOBAL VARIABLES
+ let currentMaxValueWaitForNewCustomer = 10;
+ let nextMaxValueWaitForNewCustomer = 8;
  let multipleForHeaterEffectOnCoolDown = 1;
  let customerTime = 0;
  let shiftTimeRemaining = 0;
@@ -98,18 +101,19 @@ export let shiftInProgress = false;
  let autoShiftStatus = false;
 
 //PRICES
- let priceToImprovePotatoStorage = 5; //50
- let priceToEnableDoubleChipping = 6; //60
- let priceToEnableDoublePeeling = 4; //40
- let priceToImproveFryerCapacity = 7; //100
- let priceToAddStorageHeater = 8; //200
- let priceToImproveAutoPeeler = 100; //1000
- let priceToImproveAutoChipper = 100; //1000
- let priceToImproveAutoFryer = 150; //1500
- let priceToImproveAutoStorageCollector = 200; //2000
- let priceToImproveAutoCustomerServer = 300; //3000
- let priceToImproveFryTimer = 500; //5000
- let priceToDoubleSpudsMax = 500; //5000
+ let priceToImprovePotatoStorage = 5;
+ let priceToEnableDoubleChipping = 6;
+ let priceToEnableDoublePeeling = 4;
+ let priceToImproveFryerCapacity = 7;
+ let priceToAddStorageHeater = 8;
+ let priceToImproveAutoPeeler = 100;
+ let priceToImproveAutoChipper = 100;
+ let priceToImproveAutoFryer = 150;
+ let priceToImproveAutoStorageCollector = 200;
+ let priceToImproveAutoCustomerServer = 300;
+ let priceToImproveFryTimer = 500;
+ let priceToDoubleSpudsMax = 500;
+ let priceToIncreaseFootfall = 200;
 
 //AUTO SPEEDS
 let currentSpeedAutoPeeler = "N/A";
@@ -193,14 +197,7 @@ export function setElements() {
         endOfShiftPopupTitle: document.getElementById('endOfShiftPopupTitle'),
         endOfShiftPopupContent: document.getElementById('endOfShiftPopupContent'),
         clock: document.querySelector('.clock'),
-        action13Button: document.getElementById('action13Button'),
-        action14Button: document.getElementById('action14Button'),
-        action15Button: document.getElementById('action15Button'),
-        action16Button: document.getElementById('action17Button'),
-        action17Button: document.getElementById('action17Button'),
-        action18Button: document.getElementById('action18Button'),
-        action19Button: document.getElementById('action19Button'),
-        action20Button: document.getElementById('action20Button'),
+        customerFrequencyIncreaser: document.getElementById('customerFrequencyIncreaser'),
         allBottomButtons: document.querySelectorAll('.action-button-bottom-row'),
         allMainButtons: document.querySelectorAll('.action-button-main'),
         debug1: document.getElementById('debug1'),
@@ -530,8 +527,28 @@ export function getStartingSpuds() {
     return STARTING_SPUDS;
 }
 
-export function getMaxValueWaitForNewCustomer() {
-    return MAX_VALUE_WAIT_FOR_NEW_CUSTOMER;
+export function getCurrentMaxValueWaitForNewCustomer() {
+    return currentMaxValueWaitForNewCustomer;
+}
+
+export function setCurrentMaxValueWaitForNewCustomer(value) {
+    currentMaxValueWaitForNewCustomer = value;
+}
+
+export function getNextMaxValueWaitForNewCustomer() {
+    return nextMaxValueWaitForNewCustomer;
+}
+
+export function setNextMaxValueWaitForNewCustomer(value) {
+    nextMaxValueWaitForNewCustomer = value;
+}
+
+export function getPriceToIncreaseFootfall() {
+    return priceToIncreaseFootfall;
+}
+
+export function setPriceToIncreaseFootfall(value) {
+    priceToIncreaseFootfall = value;
 }
 
 export function getFryTimer() {
@@ -977,6 +994,10 @@ export function getMultipleForMaxSpudsUpgrade() {
     return MULTIPLE_FOR_MAX_SPUDS_UPGRADE;
 }
 
+export function getMultipleForIncreaseFootfallUpgrade() {
+    return MULTIPLE_FOR_INCREASE_FOOTFALL_UPGRADE;
+}
+
 export function getImproveFryTimerBought() {
     return improveFryTimerBought;
 }
@@ -1027,6 +1048,10 @@ export function getAutoShiftStatus() {
 
 export function setAutoShiftStatus(value) {
     autoShiftStatus = value;
+}
+
+export function getIncreaseFootfallDecrement() {
+    return INCREASE_FOOTFALL_DECREMENT;
 }
 
 
