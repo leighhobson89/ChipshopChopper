@@ -172,6 +172,7 @@ export function setElements() {
         option3: document.getElementById('option3'),
         option4: document.getElementById('option4'),
         bottomRowContainer: document.getElementById('bottomRowContainer'),
+        mainButtonContainer: document.getElementById('mainButtonContainer'),
         fryChipsButton: document.getElementById('fryChipsButton'),
         customersWaitingCount: document.getElementById('customersWaitingCount'),
         readyToServeCount: document.getElementById('readyToServeCount'),
@@ -221,6 +222,8 @@ export function setElements() {
         investmentCashComponent_DecrementButton: document.getElementById('investmentCashComponent_DecrementButton'),
         investmentRiskComponent_IncrementButton: document.getElementById('investmentRiskComponent_IncrementButton'),
         investmentRiskComponent_DecrementButton: document.getElementById('investmentRiskComponent_DecrementButton'),
+        investmentDataScreenButton: document.getElementById('investmentDataScreenButton'),
+        investmentDataScreen: document.getElementById('investmentDataScreen'),
       };
 }
 

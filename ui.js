@@ -200,9 +200,10 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
     const mainButtonContainer = document.createElement('div');
     mainButtonContainer.classList.add('main-button-container');
+    mainButtonContainer.id = 'mainButtonContainer';
 
-    const bottomButtonsContainer = document.createElement('div');
-    bottomButtonsContainer.classList.add('bottom-buttons-container');
+    const bottomSectionContainer = document.createElement('div');
+    bottomSectionContainer.classList.add('bottom-section-container');
 
     const bottomRowContainer = document.createElement('div');
     bottomRowContainer.classList.add('bottom-row-container');
@@ -224,6 +225,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'fastFryerUpgradeButton', name: `Improve Fry Speed<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'potatoDeliveryDoublerButton', name: `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'customerFrequencyIncreaser', name: `Max. Wait For Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'investmentDataScreenButton', name: `Investment Data Screen Placeholder`, upgrade: 'false', repeatableUpgrade: 'false' },
     ];
 
     const bottomButtonDetails = [
@@ -235,6 +237,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     ];
 
     createInvestmentComponents(bottomRowContainer);
+    createInvestmentDataScreen(mainButtonContainer);
 
     for (let i = 0; i < mainButtonDetails.length; i++) {
         const button = document.createElement('button');
@@ -268,14 +271,14 @@ export function createGameWindow(titleScreenCreatedEvent) {
         bottomRowContainer.appendChild(button);
     }
 
-    bottomButtonsContainer.appendChild(mainButtonContainer);
-    bottomButtonsContainer.appendChild(bottomRowContainer);
+    bottomSectionContainer.appendChild(mainButtonContainer);
+    bottomSectionContainer.appendChild(bottomRowContainer);
 
-    gameWindow.appendChild(bottomButtonsContainer);
+    gameWindow.appendChild(bottomSectionContainer);
 
     document.body.appendChild(gameWindow);
 
-    hideUpgradeButtonsGameStart(bottomButtonsContainer);
+    hideUpgradeButtonsGameStart(bottomSectionContainer);
 
     document.dispatchEvent(titleScreenCreatedEvent);
     disableButtons(true);
@@ -555,10 +558,15 @@ export function updateVisibleButtons() {
         }
         if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && getElements().playerRoleText.innerHTML === (Role.SIX)) {
             getElements().investmentFundUnlockButton.classList.remove('hidden-button');
-            //show buttons 17-20 when investment fund is unlocked
+        }
+
+        if (getElements().playerRoleText.innerHTML === (Role.SIX) && getInvestmentFundUnlocked() && getElements().investmentDataScreen.style.display === 'none') {
+            getElements().investmentDataScreen.style.display = 'flex';
+            getElements().mainButtonContainer.replaceChild(getElements().investmentDataScreen, getElements().investmentDataScreenButton);
             //(conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
             //show customer frequency doubler 15
         }
+
         if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
             //set Start Shift Button to WIN GAME
             //Winner  code
@@ -697,4 +705,14 @@ function createInvestmentComponents(bottomRowContainer) {
 
     investmentRiskComponent_IncrementButton.innerHTML = `Add<br>1% Risk`;
     investmentRiskComponent_DecrementButton.innerHTML = `Remove<br>1% Risk`;
+}
+
+function createInvestmentDataScreen(mainButtonContainer) {
+
+    const investmentDataScreen = document.createElement('div');
+    investmentDataScreen.id = 'investmentDataScreen';
+    investmentDataScreen.style.display = 'none';
+    investmentDataScreen.classList.add('investment-data-screen');
+
+    mainButtonContainer.appendChild(investmentDataScreen);
 }

@@ -161,10 +161,10 @@ div[id^="subInnerDivMid"][id$='_2'] {
     gap: 7%;
     padding: 3%;
     justify-items: center;
-    height: 65%;
+    height: 75%;
 }
 
-.bottom-buttons-container {
+.bottom-section-container {
     height: 60%;
 }
 
@@ -174,7 +174,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     gap: 7%;
     padding: 3%;
     justify-items: center;
-    height: 24%;
+    height: 15%;
 }
 
 .action-button-main,
@@ -475,5 +475,10 @@ div[id^="subInnerDivMid"][id$='_2'] {
     font-weight: bold;
     height: 100%;
     width: 100%;
+}
+
+.investment-data-screen {
+    width: 80%;
+    border: 1px red solid;
 }
 
