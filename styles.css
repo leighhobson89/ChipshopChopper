@@ -499,6 +499,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     align-items: center;
     justify-content: center;
     text-align: center;
+    font-weight: bold;
 
 }
 

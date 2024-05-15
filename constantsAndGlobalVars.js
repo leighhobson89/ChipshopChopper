@@ -86,6 +86,7 @@ export const popupOverlay = createOverlay();
  let amountInvestmentRisk = 0;
  let investmentCashIncrementDecrement = 1000;
  let investmentRiskIncrementDecrement = 1;
+ let currentValueOfInvestment = 0;
 
  //FLAGS
 export let gameInProgress = false;
@@ -1083,6 +1084,14 @@ export function getInvestmentRiskIncrementDecrement() {
 
 export function getMaxRiskAmount() {
     return MAX_RISK_INVESTMENT_MECHANIC;
+}
+
+export function getCurrentValueOfInvestment() {
+    return currentValueOfInvestment;
+}
+
+export function setCurrentValueOfInvestment(value) {
+    currentValueOfInvestment = value;
 }
 
 

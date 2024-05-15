@@ -63,7 +63,10 @@ import {
     setGameInProgress,
     getNextMaxValueWaitForNewCustomer,
     getPriceToIncreaseFootfall,
-    getInvestmentCashIncrementDecrement, getInvestmentRiskIncrementDecrement
+    getInvestmentCashIncrementDecrement,
+    getInvestmentRiskIncrementDecrement,
+    getAmountInvestmentCash,
+    getAmountInvestmentRisk, getCurrentValueOfInvestment
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -744,9 +747,9 @@ function initialiseInvestmentScreenText() {
         'Current Risk:',
         'Current Value:',
         'Withdraw All:',
-        '$0',
-        '0%',
-        '$0',
+        `${formatToCashNotation(getAmountInvestmentCash())}`,
+        `${getAmountInvestmentRisk()}%`,
+        `${formatToCashNotation(getCurrentValueOfInvestment())}`,
         ''
     ];
 

@@ -1,7 +1,7 @@
 import {
     changePlayerRole,
     createGameWindow,
-    createTitleScreen,
+    createTitleScreen, formatToCashNotation,
     toggleEndOfShiftPopup,
     toggleOverlay,
     updateButtonStyle,
@@ -53,7 +53,7 @@ import {
     getCurrentSpeedAutoCustomerServer,
     getCurrentSpeedAutoFryer,
     getCurrentSpeedAutoPeeler,
-    getCurrentSpeedAutoStorageCollector,
+    getCurrentSpeedAutoStorageCollector, getCurrentValueOfInvestment,
     getCustomersServed,
     getCustomersWaiting,
     getCustomerTime,
@@ -487,6 +487,9 @@ function winGame() {
 }
 
 function updateInvestmentPlanData() {
+    getElements().investmentDataScreenBottomRowColumn1.innerHTML = formatToCashNotation(getAmountInvestmentCash());
+    getElements().investmentDataScreenBottomRowColumn2.innerHTML = getAmountInvestmentRisk() + "%";
+    getElements().investmentDataScreenBottomRowColumn3 = formatToCashNotation(getCurrentValueOfInvestment());
     console.log('Cash Invested:' + getAmountInvestmentCash());
     console.log('Risk:' + getAmountInvestmentRisk());
 }
