@@ -209,7 +209,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .action-button-main:hover,
-.action-button-bottom-row:hover {
+.action-button-bottom-row:hover,
+.investmentComponent-button:hover {
     background-color: white;
     color: black;
     font-weight: bold;
@@ -258,7 +259,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .action-button-main.disabled,
-.action-button-bottom-row.disabled {
+.action-button-bottom-row.disabled,
+.investmentComponent-button.disabled {
     background-color: grey;
     color: black;
     pointer-events: none;
@@ -414,4 +416,51 @@ div[id^="subInnerDivMid"][id$='_2'] {
     transition: opacity 0.5s ease;
 }
 
+/* INVESTMENT COMPONENTS */
+
+.investmentComponent {
+    width: 100%;
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    visibility: visible;
+    font-weight: bold;
+    font-size: 0.75em;
+}
+
+.investmentComponent_title {
+    flex: 1;
+    border-right: 1px solid black;
+}
+
+.investmentComponent_Amount {
+    flex: 1;
+}
+
+.investmentComponent_Buttons_Container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.investmentComponent_Buttons_Inner_Container {
+    flex: 1;
+    display: flex;
+    height: 50%;
+}
+
+.investmentComponent-button {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    visibility: visible;
+    font-weight: bold;
+    height: 100%;
+    width: 100%;
+}
 

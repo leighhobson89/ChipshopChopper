@@ -233,15 +233,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
     ];
 
-    const investmentCashComponent = document.createElement('div');
-    investmentCashComponent.id = 'investmentCashComponent';
-    investmentCashComponent.style.display = 'none';
-    investmentCashComponent.innerHTML = 'hello world';
-
-    const investmentRiskComponent = document.createElement('div');
-    investmentRiskComponent.id = 'investmentRiskComponent';
-    investmentRiskComponent.style.display = 'none';
-    investmentRiskComponent.innerHTML = 'hello world';
+    createInvestmentComponents(bottomRowContainer);
 
     for (let i = 0; i < mainButtonDetails.length; i++) {
         const button = document.createElement('button');
@@ -266,9 +258,6 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
         mainButtonContainer.appendChild(button);
     }
-
-    bottomRowContainer.appendChild(investmentCashComponent);
-    bottomRowContainer.appendChild(investmentRiskComponent);
 
     for (let i = 0; i < bottomButtonDetails.length; i++) {
         const button = document.createElement('button');
@@ -619,4 +608,85 @@ export function hideDoublePeelerChipperAndShowInvestmentComponents() {
     getElements().bottomRowContainer.replaceChild(getElements().investmentRiskComponent, getElements().twoHandedChippingButton);
     getElements().investmentCashComponent.style.display = 'flex';
     getElements().investmentRiskComponent.style.display = 'flex';
+}
+
+function createInvestmentComponents(bottomRowContainer) {
+    const investmentCashComponent = document.createElement('div');
+    investmentCashComponent.id = 'investmentCashComponent';
+    investmentCashComponent.style.display = 'none';
+    investmentCashComponent.classList.add('investmentComponent');
+
+    const investmentCashComponent_title = document.createElement('div');
+    investmentCashComponent_title.classList.add('investmentComponent_title');
+
+    const investmentCashComponent_Cash_Amount = document.createElement('div');
+    investmentCashComponent_Cash_Amount.classList.add('investmentComponent_Amount');
+
+    const investmentCashComponent_Buttons_Container = document.createElement('div');
+    investmentCashComponent_Buttons_Container.classList.add('investmentComponent_Buttons_Container');
+
+    const investmentCashComponent_IncrementButtonContainer = document.createElement('div');
+    const investmentCashComponent_DecrementButtonContainer = document.createElement('div');
+    investmentCashComponent_IncrementButtonContainer.classList.add('investmentComponent_Buttons_Inner_Container');
+    investmentCashComponent_DecrementButtonContainer.classList.add('investmentComponent_Buttons_Inner_Container');
+
+    const investmentCashComponent_IncrementButton = document.createElement('button');
+    const investmentCashComponent_DecrementButton = document.createElement('button');
+
+    investmentCashComponent_IncrementButton.classList.add('investmentComponent-button');
+    investmentCashComponent_DecrementButton.classList.add('investmentComponent-button');
+
+    investmentCashComponent_IncrementButton.innerHTML = `Add<br>1000$`;
+    investmentCashComponent_DecrementButton.innerHTML = `Remove<br>1000$`;
+
+    investmentCashComponent_IncrementButtonContainer.appendChild(investmentCashComponent_IncrementButton);
+    investmentCashComponent_DecrementButtonContainer.appendChild(investmentCashComponent_DecrementButton);
+
+    investmentCashComponent_Buttons_Container.appendChild(investmentCashComponent_IncrementButtonContainer);
+    investmentCashComponent_Buttons_Container.appendChild(investmentCashComponent_DecrementButtonContainer);
+
+    investmentCashComponent.appendChild(investmentCashComponent_title);
+    investmentCashComponent.appendChild(investmentCashComponent_Cash_Amount);
+    investmentCashComponent.appendChild(investmentCashComponent_Buttons_Container);
+
+    const investmentRiskComponent = document.createElement('div');
+    investmentRiskComponent.id = 'investmentRiskComponent';
+    investmentRiskComponent.style.display = 'none';
+    investmentRiskComponent.classList.add('investmentComponent');
+
+    const investmentRiskComponent_title = document.createElement('div');
+    investmentRiskComponent_title.classList.add('investmentComponent_title');
+
+    const investmentRiskComponent_Risk_Amount = document.createElement('div');
+    investmentRiskComponent_Risk_Amount.classList.add('investmentComponent_Amount');
+
+    const investmentRiskComponent_Buttons_Container = document.createElement('div');
+    investmentRiskComponent_Buttons_Container.classList.add('investmentComponent_Buttons_Container');
+
+    const investmentRiskComponent_IncrementButtonContainer = document.createElement('div');
+    const investmentRiskComponent_DecrementButtonContainer = document.createElement('div');
+    investmentRiskComponent_IncrementButtonContainer.classList.add('investmentComponent_Buttons_Inner_Container');
+    investmentRiskComponent_DecrementButtonContainer.classList.add('investmentComponent_Buttons_Inner_Container');
+
+    const investmentRiskComponent_IncrementButton = document.createElement('button');
+    const investmentRiskComponent_DecrementButton = document.createElement('button');
+
+    investmentRiskComponent_IncrementButton.classList.add('investmentComponent-button');
+    investmentRiskComponent_DecrementButton.classList.add('investmentComponent-button');
+
+    investmentRiskComponent_IncrementButton.innerHTML = `Add<br>1% Risk`;
+    investmentRiskComponent_DecrementButton.innerHTML = `Remove<br>1% Risk`;
+
+    investmentRiskComponent_IncrementButtonContainer.appendChild(investmentRiskComponent_IncrementButton);
+    investmentRiskComponent_DecrementButtonContainer.appendChild(investmentRiskComponent_DecrementButton);
+
+    investmentRiskComponent_Buttons_Container.appendChild(investmentRiskComponent_IncrementButtonContainer);
+    investmentRiskComponent_Buttons_Container.appendChild(investmentRiskComponent_DecrementButtonContainer);
+
+    investmentRiskComponent.appendChild(investmentRiskComponent_title);
+    investmentRiskComponent.appendChild(investmentRiskComponent_Risk_Amount);
+    investmentRiskComponent.appendChild(investmentRiskComponent_Buttons_Container);
+
+    bottomRowContainer.appendChild(investmentCashComponent);
+    bottomRowContainer.appendChild(investmentRiskComponent);
 }
