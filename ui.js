@@ -18,9 +18,11 @@ import {
     getCustomersWaitingBeforeEndOfShift,
     getElements,
     getFryerCapacity,
-    getFryTimer, getGameInProgress,
+    getFryTimer,
+    getGameInProgress,
     getInvestmentFundUnlocked,
-    getMaxSpudsDelivery, getCurrentMaxValueWaitForNewCustomer,
+    getMaxSpudsDelivery,
+    getCurrentMaxValueWaitForNewCustomer,
     getNextMaxSpudsDelivery,
     getNextSpeedAutoChipper,
     getNextSpeedAutoCustomerServer,
@@ -47,7 +49,8 @@ import {
     getPriceToImprovePotatoStorage,
     getPriceToUnlockInvestmentFund,
     getRoleUpgrade,
-    getShiftCounter, getShiftInProgress,
+    getShiftCounter,
+    getShiftInProgress,
     getSpudsToAddToShift,
     getStartingCash,
     getUpgradeFryerCapacityAmount,
@@ -58,7 +61,10 @@ import {
     Role,
     setCurrentCash,
     setDebugFlag,
-    setGameInProgress, getNextMaxValueWaitForNewCustomer, getPriceToIncreaseFootfall
+    setGameInProgress,
+    getNextMaxValueWaitForNewCustomer,
+    getPriceToIncreaseFootfall,
+    getInvestmentCashIncrementDecrement, getInvestmentRiskIncrementDecrement
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -298,6 +304,10 @@ export function createGameWindow(titleScreenCreatedEvent) {
     handleButtonClick(getElements().potatoDeliveryDoublerButton.id, getPriceToDoubleSpudsMax());
     handleButtonClick(getElements().investmentFundUnlockButton.id, getPriceToUnlockInvestmentFund());
     handleButtonClick(getElements().customerFrequencyIncreaser.id, getPriceToIncreaseFootfall());
+    handleButtonClick(getElements().investmentCashComponent_IncrementButton.id, getInvestmentCashIncrementDecrement());
+    handleButtonClick(getElements().investmentCashComponent_DecrementButton.id, getInvestmentCashIncrementDecrement());
+    handleButtonClick(getElements().investmentRiskComponent_IncrementButton.id, getInvestmentRiskIncrementDecrement());
+    handleButtonClick(getElements().investmentRiskComponent_DecrementButton.id, getInvestmentRiskIncrementDecrement());
 }
 
 export function writeTextInSections(buttonDetails) {
@@ -627,6 +637,9 @@ function createInvestmentComponents(bottomRowContainer) {
     const investmentCashComponent_IncrementButton = document.createElement('button');
     const investmentCashComponent_DecrementButton = document.createElement('button');
 
+    investmentCashComponent_IncrementButton.id = 'investmentCashComponent_IncrementButton';
+    investmentCashComponent_DecrementButton.id = 'investmentCashComponent_DecrementButton';
+
     investmentCashComponent_IncrementButton.classList.add('investmentComponent-button-top');
     investmentCashComponent_DecrementButton.classList.add('investmentComponent-button-bottom');
 
@@ -657,6 +670,9 @@ function createInvestmentComponents(bottomRowContainer) {
 
     const investmentRiskComponent_IncrementButton = document.createElement('button');
     const investmentRiskComponent_DecrementButton = document.createElement('button');
+
+    investmentRiskComponent_IncrementButton.id = 'investmentRiskComponent_IncrementButton';
+    investmentRiskComponent_DecrementButton.id = 'investmentRiskComponent_DecrementButton';
 
     investmentRiskComponent_IncrementButton.classList.add('investmentComponent-button-top');
     investmentRiskComponent_DecrementButton.classList.add('investmentComponent-button-bottom');

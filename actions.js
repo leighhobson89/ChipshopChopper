@@ -159,7 +159,14 @@ import {
     getNextMaxValueWaitForNewCustomer,
     setNextMaxValueWaitForNewCustomer,
     getMultipleForIncreaseFootfallUpgrade,
-    setPriceToIncreaseFootfall, getIncreaseFootfallDecrement
+    setPriceToIncreaseFootfall,
+    getIncreaseFootfallDecrement,
+    setAmountInvestmentCash,
+    getInvestmentCashIncrementDecrement,
+    getAmountInvestmentCash,
+    getAmountInvestmentRisk,
+    getMaxRiskAmount,
+    setAmountInvestmentRisk
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -236,6 +243,18 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case getElements().customerFrequencyIncreaser.id:
                 handleIncreaseFootfall(buttonId);
+                break;
+            case getElements().investmentCashComponent_IncrementButton.id:
+                handleIncreaseCashInvested();
+                break;
+            case getElements().investmentCashComponent_DecrementButton.id:
+                handleDecreaseCashInvested();
+                break;
+            case getElements().investmentRiskComponent_IncrementButton.id:
+                handleIncreaseRiskAmount();
+                break;
+            case getElements().investmentRiskComponent_DecrementButton.id:
+                handleDecreaseRiskAmount();
                 break;
             default:
                 break;
@@ -479,7 +498,6 @@ function handleInvestmentFundUnlockButton(buttonId) {
     updateButtonStyle(buttonId, null);
     updateStorageBinHeaterToAutoShiftStartButton();
     hideDoublePeelerChipperAndShowInvestmentComponents();
-    // remove double peelingButton and ChippingButton and replace with component for adding removing funds to investment and increasing and decreasing risk percentage
     // show buttons 17-20 (or better change it to be info fields to show investment mechanic data
 }
 
@@ -489,6 +507,38 @@ function handleIncreaseFootfall(buttonId) {
     setCurrentMaxValueWaitForNewCustomer(getNextMaxValueWaitForNewCustomer());
     setNextMaxValueWaitForNewCustomer(getCurrentMaxValueWaitForNewCustomer() - getIncreaseFootfallDecrement());
     getElements()[buttonId].innerHTML = `Max. Wait For Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(newPriceOfUpgrade)}`
+}
+
+function handleIncreaseCashInvested() {
+    if (getCurrentCash() >= getInvestmentCashIncrementDecrement()) {
+        setCurrentCash(getCurrentCash() - getInvestmentCashIncrementDecrement());
+        setAmountInvestmentCash(getAmountInvestmentCash() + getInvestmentCashIncrementDecrement());
+    } else {
+        setAmountInvestmentCash(getAmountInvestmentCash() + getCurrentCash());
+        setCurrentCash(getZero());
+    }
+}
+
+function handleDecreaseCashInvested() {
+    if (getAmountInvestmentCash() >= getInvestmentCashIncrementDecrement()) {
+        setCurrentCash(getCurrentCash() + getInvestmentCashIncrementDecrement());
+        setAmountInvestmentCash(getAmountInvestmentCash() - getInvestmentCashIncrementDecrement());
+    } else if (getAmountInvestmentCash() > getZero()) {
+        setCurrentCash(getCurrentCash() + getAmountInvestmentCash());
+        setAmountInvestmentCash(getZero());
+    }
+}
+
+function handleIncreaseRiskAmount() {
+    if (getAmountInvestmentRisk() < getMaxRiskAmount()) {
+        setAmountInvestmentRisk(getAmountInvestmentRisk() + getOne());
+    }
+}
+
+function handleDecreaseRiskAmount() {
+    if (getAmountInvestmentRisk() > getZero()) {
+        setAmountInvestmentRisk(getAmountInvestmentRisk() - getOne());
+    }
 }
 
 function updateStorageBinHeaterToAutoShiftStartButton() {

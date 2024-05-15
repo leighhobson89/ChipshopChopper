@@ -33,6 +33,7 @@ const ONE = 1;
 const PRICE_TO_FLOAT = 200000;
 const PRICE_TO_UNLOCK_INVESTMENT_FUND = 20000;
 const PRICE_TO_UNLOCK_AUTO_SHIFT_START = 2000;
+const MAX_RISK_INVESTMENT_MECHANIC = 21;
 
 //UPGRADE PRICE MULTIPLIER CONSTANTS
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
@@ -81,6 +82,10 @@ export const popupOverlay = createOverlay();
  let chipsReadyToServeQuantity = [];
  let fryerCapacity = 100;
  let autoFryerEfficiency = 0.5;
+ let amountInvestmentCash = 0;
+ let amountInvestmentRisk = 0;
+ let investmentCashIncrementDecrement = 1000;
+ let investmentRiskIncrementDecrement = 1;
 
  //FLAGS
 export let gameInProgress = false;
@@ -212,6 +217,10 @@ export function setElements() {
         investmentFundUnlockButton: document.getElementById('investmentFundUnlockButton'),
         investmentCashComponent: document.getElementById('investmentCashComponent'),
         investmentRiskComponent: document.getElementById('investmentRiskComponent'),
+        investmentCashComponent_IncrementButton: document.getElementById('investmentCashComponent_IncrementButton'),
+        investmentCashComponent_DecrementButton: document.getElementById('investmentCashComponent_DecrementButton'),
+        investmentRiskComponent_IncrementButton: document.getElementById('investmentRiskComponent_IncrementButton'),
+        investmentRiskComponent_DecrementButton: document.getElementById('investmentRiskComponent_DecrementButton'),
       };
 }
 
@@ -1054,6 +1063,33 @@ export function getIncreaseFootfallDecrement() {
     return INCREASE_FOOTFALL_DECREMENT;
 }
 
+export function getAmountInvestmentCash() {
+    return amountInvestmentCash;
+}
+
+export function setAmountInvestmentCash(value) {
+    amountInvestmentCash = value;
+}
+
+export function getAmountInvestmentRisk() {
+    return amountInvestmentRisk;
+}
+
+export function setAmountInvestmentRisk(value) {
+    amountInvestmentRisk = value;
+}
+
+export function getInvestmentCashIncrementDecrement() {
+    return investmentCashIncrementDecrement;
+}
+
+export function getInvestmentRiskIncrementDecrement() {
+    return investmentRiskIncrementDecrement;
+}
+
+export function getMaxRiskAmount() {
+    return MAX_RISK_INVESTMENT_MECHANIC;
+}
 
 
 

@@ -26,7 +26,7 @@ import {
     batchTimers,
     endOfShiftPopup,
     getActualPotatoesInStorage,
-    getAddOneToRandomNumberToEnsureAboveOne,
+    getAddOneToRandomNumberToEnsureAboveOne, getAmountInvestmentCash, getAmountInvestmentRisk,
     getAutoChipperBought,
     getAutoChipperCounter,
     getAutoCustomerServerBought,
@@ -60,7 +60,7 @@ import {
     getElements,
     getFryerCapacity,
     getFryTimeRemaining, getGameInProgress,
-    getHeaterUpgradeBought,
+    getHeaterUpgradeBought, getInvestmentFundUnlocked,
     getJustDeleteTheOneElementFromArray,
     getMultipleForHeaterEffectOnCoolDown,
     getNumberOfChipsFromPotato,
@@ -132,6 +132,9 @@ function gameLoop() {
     updateChipsFryingTimer();
     updateVisibleButtons();
     checkPlayerRole();
+    if (getInvestmentFundUnlocked()) {
+        updateInvestmentPlanData();
+    }
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
@@ -481,4 +484,9 @@ function checkPlayerRole() {
 
 function winGame() {
     console.log("You won the game!");
+}
+
+function updateInvestmentPlanData() {
+    console.log('Cash Invested:' + getAmountInvestmentCash());
+    console.log('Risk:' + getAmountInvestmentRisk());
 }
