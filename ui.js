@@ -714,5 +714,22 @@ function createInvestmentDataScreen(mainButtonContainer) {
     investmentDataScreen.classList.add('investment-data-screen');
     investmentDataScreen.classList.add('fourth-row-main-buttons');
 
+    const divGrid = document.createElement('div');
+    divGrid.classList.add('investment-data-grid');
+
+    for (let i = 0; i < 8; i++) {
+        const divElement = document.createElement('div');
+        divElement.classList.add('investment-data-item');
+
+        if (i < 4) {
+            divElement.classList.add('top-row');
+        } else {
+            divElement.classList.add('bottom-row');
+        }
+
+        divGrid.appendChild(divElement);
+    }
+
+    investmentDataScreen.appendChild(divGrid);
     mainButtonContainer.appendChild(investmentDataScreen);
 }
