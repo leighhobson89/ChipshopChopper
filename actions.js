@@ -675,7 +675,7 @@ export function disableButtons(init) {
                     if (getInvestmentFundUnlocked()) {
                         button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
                     } else {
-                        button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFund();
+                        button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFund() || !getShiftInProgress();
                     }
                     break;
                 default:

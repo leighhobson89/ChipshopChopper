@@ -10,7 +10,7 @@ let elements;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const SHIFT_LENGTH = 30; //80
+const SHIFT_LENGTH = 8; //80
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
@@ -34,6 +34,9 @@ const PRICE_TO_FLOAT = 200000;
 const PRICE_TO_UNLOCK_INVESTMENT_FUND = 20000;
 const PRICE_TO_UNLOCK_AUTO_SHIFT_START = 2000;
 const MAX_RISK_INVESTMENT_MECHANIC = 21;
+const RISK_THRESHOLD = 2500;
+const RISK_ADJUSTMENT_COEFFICIENT = 98; //
+const BASE_RISK_NUMBER = 200; //
 
 //UPGRADE PRICE MULTIPLIER CONSTANTS
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
@@ -87,6 +90,7 @@ export const popupOverlay = createOverlay();
  let investmentCashIncrementDecrement = 1000;
  let investmentRiskIncrementDecrement = 1;
  let currentValueOfInvestment = 0;
+ let currentRiskLevel = 0;
 
  //FLAGS
 export let gameInProgress = false;
@@ -103,6 +107,7 @@ export let shiftInProgress = false;
  let improveFryTimerBought = false;
  let doubleMaxSpudsDeliveryBought = false;
  let investmentFundUnlocked = false;
+ let investmentFundUnlockable = false;
  let autoShiftStartUpgradeUnlocked = false;
  let autoShiftStatus = false;
 
@@ -1092,6 +1097,34 @@ export function getCurrentValueOfInvestment() {
 
 export function setCurrentValueOfInvestment(value) {
     currentValueOfInvestment = value;
+}
+
+export function getRiskThreshold() {
+    return RISK_THRESHOLD;
+}
+
+export function getCurrentRiskLevel() {
+    return currentRiskLevel;
+}
+
+export function setCurrentRiskLevel(value) {
+    currentRiskLevel = value;
+}
+
+export function getRiskAdjustmentCoefficient() {
+    return RISK_ADJUSTMENT_COEFFICIENT;
+}
+
+export function getBaseRiskNumber() {
+    return BASE_RISK_NUMBER;
+}
+
+export function getInvestmentFundUnlockable() {
+    return investmentFundUnlockable;
+}
+
+export function setInvestmentFundUnlockable(value) {
+    investmentFundUnlockable = value;
 }
 
 

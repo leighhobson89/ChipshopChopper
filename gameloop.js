@@ -39,7 +39,7 @@ import {
     getAutoShiftStatus,
     getAutoStorageCollectorBought,
     getAutoStorageCollectorCounter,
-    getAutoUpgradesClockSpeed,
+    getAutoUpgradesClockSpeed, getBaseRiskNumber,
     getChipperUpgradeBought,
     getChipsFriedThisShift,
     getChipsFrying,
@@ -48,7 +48,7 @@ import {
     getClockSpeed,
     getCoolDownTimer,
     getCoolDownTimeRemaining,
-    getCurrentCash,
+    getCurrentCash, getCurrentRiskLevel,
     getCurrentSpeedAutoChipper,
     getCurrentSpeedAutoCustomerServer,
     getCurrentSpeedAutoFryer,
@@ -69,7 +69,7 @@ import {
     getPeelerUpgradeBought,
     getPortionSize,
     getPriceOfChips,
-    getQuantityOfChipsFrying,
+    getQuantityOfChipsFrying, getRiskAdjustmentCoefficient, getRiskThreshold,
     getRoleUpgrade,
     getShiftInProgress,
     getShiftTimeRemaining,
@@ -90,13 +90,13 @@ import {
     setChipsReadyToServeQuantity,
     setChipsWastedThisShift,
     setCoolDownTimeRemaining,
-    setCurrentCash,
+    setCurrentCash, setCurrentRiskLevel,
     setCustomersServed,
     setCustomersWaiting,
     setCustomersWaitingBeforeEndOfShift,
     setCustomerTime,
     setElements,
-    setFryTimeRemaining, setGameInProgress,
+    setFryTimeRemaining, setGameInProgress, setInvestmentFundUnlockable,
     setOldCash,
     setPotatoesPeeledThisShift,
     setQuantityOfChipsFrying,
@@ -274,6 +274,10 @@ function updateShiftCountDown() {
                     setChipsCutThisShift(getZero());
                     setChipsFriedThisShift(getZero());
                     setChipsWastedThisShift(getZero());
+                    if (getInvestmentFundUnlocked()) {
+                        incrementRiskValue();
+                        checkRiskAgainstThreshold();
+                    }
                 }
                 lastShiftUpdateTime = now;
             }
@@ -470,6 +474,7 @@ function checkPlayerRole() {
     } else if (existingRoleText === Role.FIVE) {
         if (getCurrentCash() >= getRoleUpgrade(Role.FIVE)) {
             changePlayerRole(getElements().playerRoleText, Role.SIX, 'text-bounce-animation', 'fade-text-animation');
+            setInvestmentFundUnlockable(true);
         }
     } else if (existingRoleText === Role.SIX) {
         if (getCurrentCash() >= getRoleUpgrade(Role.SIX)) {
@@ -490,6 +495,40 @@ function updateInvestmentPlanData() {
     getElements().investmentDataScreenBottomRowColumn1.innerHTML = formatToCashNotation(getAmountInvestmentCash());
     getElements().investmentDataScreenBottomRowColumn2.innerHTML = getAmountInvestmentRisk() + "%";
     getElements().investmentDataScreenBottomRowColumn3 = formatToCashNotation(getCurrentValueOfInvestment());
-    console.log('Cash Invested:' + getAmountInvestmentCash());
-    console.log('Risk:' + getAmountInvestmentRisk());
+    // console.log('Cash Invested:' + getAmountInvestmentCash());
+    // console.log('Risk:' + getAmountInvestmentRisk());
+}
+
+function incrementRiskValue() {
+    if (getAmountInvestmentRisk() > getZero() && getAmountInvestmentCash() > getZero()) {
+        const baseRiskNumber = getBaseRiskNumber();
+        let currentRisk = getCurrentRiskLevel();
+
+        let riskPercentage = getAmountInvestmentRisk() * 10;
+        console.log("risk level %: " + getAmountInvestmentRisk());
+        let randomAdjusterNumber = (Math.random() * getRiskAdjustmentCoefficient());
+        console.log("randomAdjusterNumber: " + randomAdjusterNumber);
+        let riskIncrementThisShift = baseRiskNumber - randomAdjusterNumber;
+        console.log("riskIncrementThisShift: " + riskIncrementThisShift);
+
+        currentRisk += riskIncrementThisShift + riskPercentage;
+        let doubleRisk = Math.random() * 100 + 1 > 50;
+        if (doubleRisk) {
+            currentRisk *= ((getAmountInvestmentRisk() / 100) + 1);
+        }
+
+        console.log("currentRisk: " + currentRisk + "/" + getRiskThreshold());
+        setCurrentRiskLevel(currentRisk);
+    }
+}
+
+function checkRiskAgainstThreshold() {
+    const threshold = getRiskThreshold();
+    if (getCurrentRiskLevel() >= threshold && getAmountInvestmentCash() > getZero()) {
+        console.log("DEVALUE investment");
+        //devalue investment
+        setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2)));
+    } else {
+        console.log("no devalue of investment");
+    }
 }

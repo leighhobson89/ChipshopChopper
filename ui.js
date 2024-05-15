@@ -66,7 +66,7 @@ import {
     getInvestmentCashIncrementDecrement,
     getInvestmentRiskIncrementDecrement,
     getAmountInvestmentCash,
-    getAmountInvestmentRisk, getCurrentValueOfInvestment
+    getAmountInvestmentRisk, getCurrentValueOfInvestment, getInvestmentFundUnlockable
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -562,7 +562,7 @@ export function updateVisibleButtons() {
             getElements().investmentFundUnlockButton.classList.remove('hidden-button');
         }
 
-        if (getElements().playerRoleText.innerHTML === (Role.SIX) && getInvestmentFundUnlocked() && getElements().investmentDataScreen.style.display === 'none') {
+        if (getElements().playerRoleText.innerHTML === (Role.SIX) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.style.display === 'none') {
             getElements().investmentDataScreen.style.display = 'flex';
             getElements().mainButtonContainer.replaceChild(getElements().investmentDataScreen, getElements().investmentDataScreenButton);
             initialiseInvestmentScreenText();
