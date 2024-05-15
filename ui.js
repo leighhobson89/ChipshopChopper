@@ -226,7 +226,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'improveFryerCapacityButton', name: `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'fastFryerUpgradeButton', name: `Improve Fry Speed<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'potatoDeliveryDoublerButton', name: `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'customerFrequencyIncreaser', name: `Max. Wait For Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}`, upgrade: 'true', repeatableUpgrade: 'true' },
+        { id: 'customerFrequencyIncreaser', name: `Max Wait Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'investmentDataScreenButton', name: `Investment Data Screen Placeholder`, upgrade: 'false', repeatableUpgrade: 'false' },
     ];
 
@@ -702,11 +702,11 @@ function createInvestmentComponents(bottomRowContainer) {
     investmentCashComponent_title.innerHTML = `Change<br>Investment<br>Amount`;
     investmentRiskComponent_title.innerHTML = `Change<br>Risk<br>Amount`;
 
-    investmentCashComponent_IncrementButton.innerHTML = `Add<br>1000$`;
-    investmentCashComponent_DecrementButton.innerHTML = `Remove<br>1000$`;
+    investmentCashComponent_IncrementButton.innerHTML = `+1000$`;
+    investmentCashComponent_DecrementButton.innerHTML = `-1000$`;
 
-    investmentRiskComponent_IncrementButton.innerHTML = `Add<br>1% Risk`;
-    investmentRiskComponent_DecrementButton.innerHTML = `Remove<br>1% Risk`;
+    investmentRiskComponent_IncrementButton.innerHTML = `+1% Risk`;
+    investmentRiskComponent_DecrementButton.innerHTML = `-1% Risk`;
 }
 
 function createInvestmentDataScreen(mainButtonContainer) {

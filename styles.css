@@ -84,7 +84,7 @@ body {
 
 .game-window {
     width: 80%;
-    height: 80%;
+    height: 85%;
     position: fixed;
     top: 55%;
     left: 50%;
@@ -95,13 +95,13 @@ body {
 
 .top-section {
     width: 100%;
-    height: 25%;
+    height: 20%;
     border-bottom: 3px white solid;
 }
 
 .bottom-section {
     width: 100%;
-    height: 75%;
+    height: 80%;
 }
 
 .top-div-row-1,
@@ -158,8 +158,9 @@ div[id^="subInnerDivMid"][id$='_2'] {
 .main-button-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 7%;
-    padding: 3%;
+    row-gap: 11%;
+    column-gap: 6%;
+    padding: 2% 2% 4% 2%;
     justify-items: center;
     height: 75%;
 }
@@ -171,10 +172,10 @@ div[id^="subInnerDivMid"][id$='_2'] {
 .bottom-row-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 7%;
-    padding: 3%;
+    gap: 6%;
+    padding: 4% 2% 1% 2%;
     justify-items: center;
-    height: 15%;
+    height: 18%;
 }
 
 .action-button-main,
@@ -205,7 +206,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .fourth-row-main-buttons {
-    min-height: 60px;
+    min-height: 40px;
     grid-column-end: span 5;
     width: 100%;
 }
@@ -422,37 +423,42 @@ div[id^="subInnerDivMid"][id$='_2'] {
 /* INVESTMENT COMPONENTS */
 
 .investmentComponent {
+    display: flex;
     width: 100%;
+    height: 80%;
     background-color: transparent;
     color: white;
     border: 2px solid white;
     border-radius: 10px;
     visibility: visible;
     font-weight: bold;
-    font-size: 0.75em;
+    font-size: 0.70em;
 }
 
 .investmentComponent_title {
     display: flex;
     height: 100%;
-    width: 100%;
     text-align: center;
     justify-content: center;
     align-items: center;
+    width: 50%;
 }
 
 .investmentComponent_Buttons_Container {
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 50%;
 }
 
 .investmentComponent_Buttons_Inner_Container {
     display: flex;
     height: 50%;
+    width: 100%;
 }
 
 .investmentComponent-button-top {
+    display: flex;
     background-color: transparent;
     color: white;
     border: 2px solid white;
@@ -460,23 +466,28 @@ div[id^="subInnerDivMid"][id$='_2'] {
     border-top: none;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    visibility: visible;
     font-weight: bold;
+    font-size: 0.90em;
     height: 100%;
     width: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
 .investmentComponent-button-bottom {
+    display: flex;
     background-color: transparent;
     color: white;
     border: 2px none white;
     border-left-style: solid;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    visibility: visible;
     font-weight: bold;
+    font-size: 0.90em;
     height: 100%;
     width: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
 .investment-data-screen {
@@ -487,8 +498,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
 
 .investment-data-grid {
     display: grid;
-    grid-template-columns: 25% 10% 40% 25%;
-    grid-template-rows: 30% 70%;
+    grid-template-columns: 20% 20% 35% 25%;
+    grid-template-rows: 45% 55%;
     width: 100%;
     height: 100%;
 }
