@@ -562,8 +562,8 @@ export function updateVisibleButtons() {
         if (getElements().playerRoleText.innerHTML === (Role.SIX) && getInvestmentFundUnlocked() && getElements().investmentDataScreen.style.display === 'none') {
             getElements().investmentDataScreen.style.display = 'flex';
             getElements().mainButtonContainer.replaceChild(getElements().investmentDataScreen, getElements().investmentDataScreenButton);
+            initialiseInvestmentScreenText();
             //(conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
-            //show customer frequency doubler 15
         }
 
         if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
@@ -723,8 +723,10 @@ function createInvestmentDataScreen(mainButtonContainer) {
 
         if (i < 4) {
             divElement.classList.add('top-row');
+            divElement.id = `investmentDataScreenTopRowColumn${i+1}`;
         } else {
             divElement.classList.add('bottom-row');
+            divElement.id = `investmentDataScreenBottomRowColumn${i-3}`;
         }
 
         divGrid.appendChild(divElement);
@@ -732,4 +734,38 @@ function createInvestmentDataScreen(mainButtonContainer) {
 
     investmentDataScreen.appendChild(divGrid);
     mainButtonContainer.appendChild(investmentDataScreen);
+}
+
+function initialiseInvestmentScreenText() {
+    const elements = getElements();
+
+    const strings = [
+        'Cash Invested:',
+        'Current Risk:',
+        'Current Value:',
+        'Withdraw All:',
+        '$0',
+        '0%',
+        '$0',
+        ''
+    ];
+
+    const keys = [
+        'investmentDataScreenTopRowColumn1',
+        'investmentDataScreenTopRowColumn2',
+        'investmentDataScreenTopRowColumn3',
+        'investmentDataScreenTopRowColumn4',
+        'investmentDataScreenBottomRowColumn1',
+        'investmentDataScreenBottomRowColumn2',
+        'investmentDataScreenBottomRowColumn3',
+        'investmentDataScreenBottomRowColumn4'
+    ];
+
+    // Loop through the keys and set innerHTML for each element
+    keys.forEach((key, index) => {
+        const element = elements[key];
+        if (element) {
+            element.innerHTML = strings[index];
+        }
+    });
 }

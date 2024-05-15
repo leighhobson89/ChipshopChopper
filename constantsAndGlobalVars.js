@@ -224,6 +224,14 @@ export function setElements() {
         investmentRiskComponent_DecrementButton: document.getElementById('investmentRiskComponent_DecrementButton'),
         investmentDataScreenButton: document.getElementById('investmentDataScreenButton'),
         investmentDataScreen: document.getElementById('investmentDataScreen'),
+        investmentDataScreenTopRowColumn1: document.getElementById('investmentDataScreenTopRowColumn1'),
+        investmentDataScreenTopRowColumn2: document.getElementById('investmentDataScreenTopRowColumn2'),
+        investmentDataScreenTopRowColumn3: document.getElementById('investmentDataScreenTopRowColumn3'),
+        investmentDataScreenTopRowColumn4: document.getElementById('investmentDataScreenTopRowColumn4'),
+        investmentDataScreenBottomRowColumn1: document.getElementById('investmentDataScreenBottomRowColumn1'),
+        investmentDataScreenBottomRowColumn2: document.getElementById('investmentDataScreenBottomRowColumn2'),
+        investmentDataScreenBottomRowColumn3: document.getElementById('investmentDataScreenBottomRowColumn3'),
+        investmentDataScreenBottomRowColumn4: document.getElementById('investmentDataScreenBottomRowColumn4'),
       };
 }
 
