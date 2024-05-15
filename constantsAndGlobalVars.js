@@ -373,10 +373,6 @@ export function getPriceToEnableDoubleChipping() {
     return priceToEnableDoubleChipping;
 }
 
-export function setPriceToEnableDoubleChipping(value) {
-    priceToEnableDoubleChipping = value;
-}
-
 export function getPriceToImproveFryerCapacity() {
     return priceToImproveFryerCapacity;
 }
@@ -388,11 +384,6 @@ export function setPriceToImproveFryerCapacity(value) {
 export function getPriceToAddStorageHeater() {
     return priceToAddStorageHeater;
 }
-
-export function setPriceToAddStorageHeater(value) {
-    priceToAddStorageHeater = value;
-}
-
 export function getCutChipsRate() {
     return cutChipsRate;
 }
@@ -411,10 +402,6 @@ export function setPeelPotatoesRate(value) {
 
 export function getPriceToEnableDoublePeeling() {
     return priceToEnableDoublePeeling;
-}
-
-export function setPriceToEnableDoublePeeling(value) {
-    priceToEnableDoublePeeling = value;
 }
 
 export function getOldCash() {
@@ -1040,10 +1027,6 @@ export function getInvestmentFundUnlocked() {
 
 export function setInvestmentFundUnlocked(value) {
     investmentFundUnlocked = value;
-}
-
-export function getAutoShiftStartUpgradeUnlocked() {
-    return autoShiftStartUpgradeUnlocked;
 }
 
 export function setAutoShiftStartUpgradeUnlocked(value) {

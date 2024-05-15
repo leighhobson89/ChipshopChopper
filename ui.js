@@ -19,7 +19,6 @@ import {
     getElements,
     getFryerCapacity,
     getFryTimer,
-    getGameInProgress,
     getInvestmentFundUnlocked,
     getMaxSpudsDelivery,
     getCurrentMaxValueWaitForNewCustomer,
@@ -246,16 +245,16 @@ export function createGameWindow(titleScreenCreatedEvent) {
         button.classList.add('action-button-main');
 
         // Determine the class and height based on button position
-        if (i < 5) {
+        if (i <= 4) {
             button.classList.add('first-row-main-buttons');
             button.style.height = '40px';
-        } else if (i >= 5 && i < 10) {
+        } else if (i >= 5 && i <= 9) {
             button.classList.add('second-row-main-buttons');
             button.style.height = '60px';
-        } else if (i >= 10 && i < 15) {
+        } else if (i >= 10 && i <= 14) {
             button.classList.add('third-row-main-buttons');
             button.style.height = '30px';
-        } else if (i >= 15 && i < 20) {
+        } else if (i === 15) {
             button.classList.add('fourth-row-main-buttons');
             button.style.height = '50px';
         }
@@ -335,7 +334,7 @@ export function writeTextInSections(buttonDetails) {
 }
 
 export function hideUpgradeButtonsGameStart(bottomButtonsContainer) {
-    bottomButtonsContainer.querySelectorAll('.action-button-main:nth-child(n+6)').forEach(button => {
+    bottomButtonsContainer.querySelectorAll('.action-button-main:nth-child(n+7)').forEach(button => {
         button.classList.add('hidden-button');
     });
     bottomButtonsContainer.querySelectorAll('.action-button-bottom-row:not(:last-child)').forEach(button => {
@@ -713,6 +712,7 @@ function createInvestmentDataScreen(mainButtonContainer) {
     investmentDataScreen.id = 'investmentDataScreen';
     investmentDataScreen.style.display = 'none';
     investmentDataScreen.classList.add('investment-data-screen');
+    investmentDataScreen.classList.add('fourth-row-main-buttons');
 
     mainButtonContainer.appendChild(investmentDataScreen);
 }
