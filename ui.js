@@ -616,9 +616,6 @@ function createInvestmentComponents(bottomRowContainer) {
     const investmentCashComponent_title = document.createElement('div');
     investmentCashComponent_title.classList.add('investmentComponent_title');
 
-    const investmentCashComponent_Cash_Amount = document.createElement('div');
-    investmentCashComponent_Cash_Amount.classList.add('investmentComponent_Amount');
-
     const investmentCashComponent_Buttons_Container = document.createElement('div');
     investmentCashComponent_Buttons_Container.classList.add('investmentComponent_Buttons_Container');
 
@@ -633,9 +630,6 @@ function createInvestmentComponents(bottomRowContainer) {
     investmentCashComponent_IncrementButton.classList.add('investmentComponent-button-top');
     investmentCashComponent_DecrementButton.classList.add('investmentComponent-button-bottom');
 
-    investmentCashComponent_IncrementButton.innerHTML = `Add<br>1000$`;
-    investmentCashComponent_DecrementButton.innerHTML = `Remove<br>1000$`;
-
     investmentCashComponent_IncrementButtonContainer.appendChild(investmentCashComponent_IncrementButton);
     investmentCashComponent_DecrementButtonContainer.appendChild(investmentCashComponent_DecrementButton);
 
@@ -643,7 +637,6 @@ function createInvestmentComponents(bottomRowContainer) {
     investmentCashComponent_Buttons_Container.appendChild(investmentCashComponent_DecrementButtonContainer);
 
     investmentCashComponent.appendChild(investmentCashComponent_title);
-    investmentCashComponent.appendChild(investmentCashComponent_Cash_Amount);
     investmentCashComponent.appendChild(investmentCashComponent_Buttons_Container);
 
     const investmentRiskComponent = document.createElement('div');
@@ -653,9 +646,6 @@ function createInvestmentComponents(bottomRowContainer) {
 
     const investmentRiskComponent_title = document.createElement('div');
     investmentRiskComponent_title.classList.add('investmentComponent_title');
-
-    const investmentRiskComponent_Risk_Amount = document.createElement('div');
-    investmentRiskComponent_Risk_Amount.classList.add('investmentComponent_Amount');
 
     const investmentRiskComponent_Buttons_Container = document.createElement('div');
     investmentRiskComponent_Buttons_Container.classList.add('investmentComponent_Buttons_Container');
@@ -671,9 +661,6 @@ function createInvestmentComponents(bottomRowContainer) {
     investmentRiskComponent_IncrementButton.classList.add('investmentComponent-button-top');
     investmentRiskComponent_DecrementButton.classList.add('investmentComponent-button-bottom');
 
-    investmentRiskComponent_IncrementButton.innerHTML = `Add<br>1% Risk`;
-    investmentRiskComponent_DecrementButton.innerHTML = `Remove<br>1% Risk`;
-
     investmentRiskComponent_IncrementButtonContainer.appendChild(investmentRiskComponent_IncrementButton);
     investmentRiskComponent_DecrementButtonContainer.appendChild(investmentRiskComponent_DecrementButton);
 
@@ -681,9 +668,17 @@ function createInvestmentComponents(bottomRowContainer) {
     investmentRiskComponent_Buttons_Container.appendChild(investmentRiskComponent_DecrementButtonContainer);
 
     investmentRiskComponent.appendChild(investmentRiskComponent_title);
-    investmentRiskComponent.appendChild(investmentRiskComponent_Risk_Amount);
     investmentRiskComponent.appendChild(investmentRiskComponent_Buttons_Container);
 
     bottomRowContainer.appendChild(investmentCashComponent);
     bottomRowContainer.appendChild(investmentRiskComponent);
+
+    investmentCashComponent_title.innerHTML = `Change<br>Investment<br>Amount`;
+    investmentRiskComponent_title.innerHTML = `Change<br>Risk<br>Amount`;
+
+    investmentCashComponent_IncrementButton.innerHTML = `Add<br>1000$`;
+    investmentCashComponent_DecrementButton.innerHTML = `Remove<br>1000$`;
+
+    investmentRiskComponent_IncrementButton.innerHTML = `Add<br>1% Risk`;
+    investmentRiskComponent_DecrementButton.innerHTML = `Remove<br>1% Risk`;
 }
