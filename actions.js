@@ -152,16 +152,15 @@ import {
     getPriceToUnlockAutoShiftStart,
     setAutoShiftStartUpgradeUnlocked,
     setAutoShiftStatus,
-    getAutoShiftStatus
+    getAutoShiftStatus, getGameInProgress
 } from './constantsAndGlobalVars.js';
 
 import {
-    gameInProgress,
     startBatchTimer
 } from './gameloop.js';
 
 import {
-    formatToCashNotation,
+    formatToCashNotation, hideDoublePeelerChipperAndShowInvestmentComponents,
     updateButtonStyle
 } from "./ui.js";
 
@@ -469,6 +468,7 @@ function handleInvestmentFundUnlockButton(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToUnlockInvestmentFund());
     updateButtonStyle(buttonId, null);
     updateStorageBinHeaterToAutoShiftStartButton();
+    hideDoublePeelerChipperAndShowInvestmentComponents();
     // remove double peelingButton and ChippingButton and replace with component for adding removing funds to investment and increasing and decreasing risk percentage
     // show buttons 17-20 (or better change it to be info fields to show investment mechanic data
 }
@@ -503,7 +503,7 @@ export function disableButtons(init) {
     const pricesArrayMainButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), getPriceToImprovePotatoStorage(), getPriceToImproveFryerCapacity(), 0, 0, 0, 0, 0, 0, 0, 0];
     //const pricesArrayBottomRow = [getPriceToEnableDoublePeeling(), getPriceToEnableDoubleChipping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
 
-    if (gameInProgress) {
+    if (getGameInProgress()) {
         mainButtons = getElements().allMainButtons;
         bottomRowButtons = getElements().allBottomButtons;
     }
@@ -606,7 +606,7 @@ export function disableButtons(init) {
                 button.classList.remove('disabled');
             }
         });
-    } else if (gameInProgress && getShiftCounter() > getZero()) {
+    } else if (getGameInProgress() && getShiftCounter() > getZero()) {
         mainButtons.forEach(button => {
             if (!checkIfNonRepeatableUpgradePurchased(button)) {
                 if (!checkIfRepeatableUpgrade(button)) {
@@ -795,7 +795,7 @@ function cleanUpArray(array) {
             Number.isInteger(element) &&
             !isNaN(element)
         ) {
-            cleanedArray.push(element); // Add the element to the cleaned array
+            cleanedArray.push(element);
         }
     }
     return cleanedArray;

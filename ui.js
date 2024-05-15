@@ -1,60 +1,66 @@
-import {handleButtonClick, disableButtons} from './actions.js';
+import {disableButtons, handleButtonClick} from './actions.js';
 import {
+    debugFlag,
+    endOfShiftPopup,
     getActualPotatoesInStorage,
     getChipsCutThisShift,
     getChipsFriedThisShift,
     getChipsFrying,
     getChipsWastedThisShift,
     getCurrentCash,
+    getCurrentSpeedAutoChipper,
+    getCurrentSpeedAutoCustomerServer,
+    getCurrentSpeedAutoFryer,
+    getCurrentSpeedAutoPeeler,
+    getCurrentSpeedAutoStorageCollector,
     getCustomersServed,
     getCustomersWaiting,
     getCustomersWaitingBeforeEndOfShift,
+    getElements,
     getFryerCapacity,
+    getFryTimer, getGameInProgress,
+    getInvestmentFundUnlocked,
+    getMaxSpudsDelivery,
+    getNextMaxSpudsDelivery,
+    getNextSpeedAutoChipper,
+    getNextSpeedAutoCustomerServer,
+    getNextSpeedAutoFryer,
+    getNextSpeedAutoPeeler,
+    getNextSpeedAutoStorageCollector,
+    getNextSpeedFryTimer,
     getOldCash,
     getOne,
     getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
+    getPriceToDoubleSpudsMax,
     getPriceToEnableDoubleChipping,
     getPriceToEnableDoublePeeling,
-    getPriceToImproveFryerCapacity,
-    getPriceToImprovePotatoStorage,
-    getShiftCounter,
-    getSpudsToAddToShift,
-    getStartingCash,
-    getZero,
-    getElements,
-    popupContinueButton,
-    endOfShiftPopup,
-    popupOverlay,
-    setCurrentCash,
-    setDebugFlag,
-    getPriceToImproveAutoPeeler,
+    getPriceToFloatOnStockMarket,
     getPriceToImproveAutoChipper,
+    getPriceToImproveAutoCustomerServer,
     getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
     getPriceToImproveAutoMoverFromFryerToStorage,
-    getPriceToImproveAutoCustomerServer,
-    getNextSpeedAutoCustomerServer,
-    getCurrentSpeedAutoCustomerServer,
-    getNextSpeedAutoStorageCollector,
-    getCurrentSpeedAutoStorageCollector,
-    getNextSpeedAutoFryer,
-    getCurrentSpeedAutoFryer,
-    getNextSpeedAutoChipper,
-    getCurrentSpeedAutoChipper,
-    getNextSpeedAutoPeeler,
-    getCurrentSpeedAutoPeeler,
-    Role,
-    getPriceToFloatOnStockMarket,
+    getPriceToImproveAutoPeeler,
+    getPriceToImproveFryerCapacity,
+    getPriceToImproveFryTimer,
+    getPriceToImprovePotatoStorage,
+    getPriceToUnlockInvestmentFund,
+    getRoleUpgrade,
+    getShiftCounter, getShiftInProgress,
+    getSpudsToAddToShift,
+    getStartingCash,
     getUpgradeFryerCapacityAmount,
     getUpgradePotatoStorageQuantity,
-    getFryTimer,
-    getPriceToImproveFryTimer,
-    getNextSpeedFryTimer,
-    getMaxSpudsDelivery,
-    getPriceToDoubleSpudsMax, getNextMaxSpudsDelivery, getPriceToUnlockInvestmentFund, getInvestmentFundUnlocked
+    getZero,
+    popupContinueButton,
+    popupOverlay,
+    Role,
+    setCurrentCash,
+    setDebugFlag,
+    setGameInProgress
 } from './constantsAndGlobalVars.js';
-import {gameInProgress, initialiseNewGame, setGameInProgress, updateVisibleButtons} from "./gameloop.js";
+import {initialiseNewGame} from "./gameloop.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -168,7 +174,6 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
     topSection.appendChild(topDivRowMid);
 
-
     const topDivRow2 = document.createElement('div');
     topDivRow2.classList.add('top-div-row-2');
 
@@ -195,6 +200,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
     const bottomRowContainer = document.createElement('div');
     bottomRowContainer.classList.add('bottom-row-container');
+    bottomRowContainer.id = 'bottomRowContainer';
 
     const mainButtonDetails = [
         { id: 'peelPotatoButton', name: 'Peel Potato', upgrade: 'false', repeatableUpgrade: 'false' },
@@ -210,13 +216,13 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'improvePotatoStorageButton', name: `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'improveFryerCapacityButton', name: `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`, upgrade: 'true', repeatableUpgrade: 'true' },
         { id: 'fastFryerUpgradeButton', name: `Improve Fry Speed<br>${getFryTimer()} → ${getNextSpeedFryTimer()}<br>${formatToCashNotation(getPriceToImproveFryTimer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'action14Button', name: 'Action 12', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action15Button', name: 'Action 13', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'potatoDeliveryDoublerButton', name: `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'action17Button', name: 'Action 15', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'action14Button', name: 'Action 14', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'action15Button', name: 'Action 15', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'action16Button', name: 'Action 16', upgrade: 'false', repeatableUpgrade: 'false' },
+        { id: 'action17Button', name: 'Action 17', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action18Button', name: 'Action 18', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'action19Button', name: 'Action 19', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'action20Button', name: 'Action 20', upgrade: 'false', repeatableUpgrade: 'false' }
+        { id: 'potatoDeliveryDoublerButton', name: `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`, upgrade: 'true', repeatableUpgrade: 'true' },
     ];
 
     const bottomButtonDetails = [
@@ -226,6 +232,16 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'addStorageHeaterAutoShiftStartButton', name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
     ];
+
+    const investmentCashComponent = document.createElement('div');
+    investmentCashComponent.id = 'investmentCashComponent';
+    investmentCashComponent.style.display = 'none';
+    investmentCashComponent.innerHTML = 'hello world';
+
+    const investmentRiskComponent = document.createElement('div');
+    investmentRiskComponent.id = 'investmentRiskComponent';
+    investmentRiskComponent.style.display = 'none';
+    investmentRiskComponent.innerHTML = 'hello world';
 
     for (let i = 0; i < mainButtonDetails.length; i++) {
         const button = document.createElement('button');
@@ -250,6 +266,9 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
         mainButtonContainer.appendChild(button);
     }
+
+    bottomRowContainer.appendChild(investmentCashComponent);
+    bottomRowContainer.appendChild(investmentRiskComponent);
 
     for (let i = 0; i < bottomButtonDetails.length; i++) {
         const button = document.createElement('button');
@@ -497,10 +516,65 @@ export function writePopupText() {
 
 }
 
+export function updateVisibleButtons() {
+    if (!getShiftInProgress() && (getShiftCounter() > getZero() || debugFlag)) {
+        //manual phase upgrades
+        if (getCurrentCash() >= getPriceToImprovePotatoStorage()) {
+            getElements().improvePotatoStorageButton.classList.remove('hidden-button');
+        }
+        if (!getInvestmentFundUnlocked()) {
+            if (getCurrentCash() >= getPriceToEnableDoublePeeling()) {
+                getElements().twoHandedPeelingButton.classList.remove('hidden-button');
+            }
+            if (getCurrentCash() >= getPriceToEnableDoubleChipping()) {
+                getElements().twoHandedChippingButton.classList.remove('hidden-button');
+            }
+        }
+        if (getCurrentCash() >= getPriceToImproveFryerCapacity()) {
+            getElements().improveFryerCapacityButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToAddStorageHeater()) {
+            getElements().addStorageHeaterAutoShiftStartButton.classList.remove('hidden-button');
+        }
+        //auto phase upgrades
+        if (getCurrentCash() >= getPriceToImproveAutoPeeler()) {
+            getElements().autoPeelerUpgradeButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToImproveAutoChipper()) {
+            getElements().autoChipperUpgradeButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut()) {
+            getElements().autoFryerUpgradeButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToImproveAutoMoverFromFryerToStorage()) {
+            getElements().autoStorageCollectorUpgradeButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getPriceToImproveAutoCustomerServer()) {
+            getElements().autoCustomerServerUpgradeButton.classList.remove('hidden-button');
+        }
+        //third phase upgrades
+        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && getElements().playerRoleText.innerHTML === (Role.FIVE) || getElements().playerRoleText.innerHTML === (Role.SIX)) {
+            getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
+            getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
+        }
+        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && getElements().playerRoleText.innerHTML === (Role.SIX)) {
+            getElements().investmentFundUnlockButton.classList.remove('hidden-button');
+            //show buttons 17-20 when investment fund is unlocked
+            //(conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
+            //show customer frequency doubler 15
+        }
+        if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
+            //set Start Shift Button to WIN GAME
+            //Winner  code
+        }
+        disableButtons(false);
+    }
+}
+
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function () {
-        setGameInProgress(initialiseNewGame(gameInProgress));
-        //console.log("gameInProgress after clicking new game =" + gameInProgress);
+        setGameInProgress(initialiseNewGame());
+        //console.log("gameInProgress after clicking new game =" + getGameInProgress());
         updateVisibleButtons(); //for debug if money given
     });
     getElements().option2.addEventListener('click', function () {
@@ -538,4 +612,11 @@ export function changePlayerRole(element, newText, animation1, animation2) {
         element.classList.remove(animation1);
         element.classList.remove(animation2);
     }, 500);
+}
+
+export function hideDoublePeelerChipperAndShowInvestmentComponents() {
+    getElements().bottomRowContainer.replaceChild(getElements().investmentCashComponent, getElements().twoHandedPeelingButton);
+    getElements().bottomRowContainer.replaceChild(getElements().investmentRiskComponent, getElements().twoHandedChippingButton);
+    getElements().investmentCashComponent.style.display = 'flex';
+    getElements().investmentRiskComponent.style.display = 'flex';
 }

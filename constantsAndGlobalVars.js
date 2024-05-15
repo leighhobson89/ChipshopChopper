@@ -80,7 +80,8 @@ export const popupOverlay = createOverlay();
  let autoFryerEfficiency = 0.5;
 
  //FLAGS
- export let shiftInProgress = false;
+export let gameInProgress = false;
+export let shiftInProgress = false;
  let chipsFrying = false;
  let peelerUpgradeBought = false;
  let chipperUpgradeBought = false;
@@ -161,6 +162,7 @@ export function setElements() {
         option2: document.getElementById('option2'),
         option3: document.getElementById('option3'),
         option4: document.getElementById('option4'),
+        bottomRowContainer: document.getElementById('bottomRowContainer'),
         fryChipsButton: document.getElementById('fryChipsButton'),
         customersWaitingCount: document.getElementById('customersWaitingCount'),
         readyToServeCount: document.getElementById('readyToServeCount'),
@@ -211,6 +213,8 @@ export function setElements() {
         fastFryerUpgradeButton: document.getElementById('fastFryerUpgradeButton'),
         potatoDeliveryDoublerButton: document.getElementById('potatoDeliveryDoublerButton'),
         investmentFundUnlockButton: document.getElementById('investmentFundUnlockButton'),
+        investmentCashComponent: document.getElementById('investmentCashComponent'),
+        investmentRiskComponent: document.getElementById('investmentRiskComponent'),
       };
 }
 
@@ -248,6 +252,14 @@ export function setShiftTime(value) {
 
 export function getShiftTime() {
     return shiftTimeRemaining;
+}
+
+export function setGameInProgress(value) {
+    gameInProgress = value;
+}
+
+export function getGameInProgress() {
+    return gameInProgress;
 }
 
 export function setShiftInProgress(value) {

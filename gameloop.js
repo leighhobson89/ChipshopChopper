@@ -1,10 +1,11 @@
 import {
     changePlayerRole,
     createGameWindow,
-    createTitleScreen, hideUpgradeButtonsGameStart,
+    createTitleScreen,
     toggleEndOfShiftPopup,
     toggleOverlay,
     updateButtonStyle,
+    updateVisibleButtons,
     writePopupText
 } from './ui.js';
 
@@ -14,7 +15,8 @@ import {
     decrementCounter,
     disableButtons,
     fryChips,
-    handleServingStorage, handleStartShift,
+    handleServingStorage,
+    handleStartShift,
     incrementCustomersWaiting,
     peelPotato,
     serveCustomer
@@ -22,7 +24,6 @@ import {
 
 import {
     batchTimers,
-    debugFlag,
     endOfShiftPopup,
     getActualPotatoesInStorage,
     getAddOneToRandomNumberToEnsureAboveOne,
@@ -34,10 +35,12 @@ import {
     getAutoFryerCounter,
     getAutoFryerEfficiency,
     getAutoPeelerBought,
-    getAutoPeelerCounter, getAutoShiftStatus,
+    getAutoPeelerCounter,
+    getAutoShiftStatus,
     getAutoStorageCollectorBought,
     getAutoStorageCollectorCounter,
-    getAutoUpgradesClockSpeed, getChipperUpgradeBought,
+    getAutoUpgradesClockSpeed,
+    getChipperUpgradeBought,
     getChipsFriedThisShift,
     getChipsFrying,
     getChipsReadyToServeQuantity,
@@ -56,33 +59,26 @@ import {
     getCustomerTime,
     getElements,
     getFryerCapacity,
-    getFryTimeRemaining, getHeaterUpgradeBought,
+    getFryTimeRemaining, getGameInProgress,
+    getHeaterUpgradeBought,
     getJustDeleteTheOneElementFromArray,
     getMultipleForHeaterEffectOnCoolDown,
     getNumberOfChipsFromPotato,
     getOne,
-    getOneForTimeDiff, getPeelerUpgradeBought,
+    getOneForTimeDiff,
+    getPeelerUpgradeBought,
     getPortionSize,
     getPriceOfChips,
-    getPriceToAddStorageHeater,
-    getPriceToEnableDoubleChipping,
-    getPriceToEnableDoublePeeling,
-    getPriceToImproveAutoChipper,
-    getPriceToImproveAutoCustomerServer,
-    getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
-    getPriceToImproveAutoMoverFromFryerToStorage,
-    getPriceToImproveAutoPeeler,
-    getPriceToImproveFryerCapacity,
-    getPriceToImprovePotatoStorage,
-    getQuantityOfChipsFrying, getRoleUpgrade,
-    getShiftCounter,
+    getQuantityOfChipsFrying,
+    getRoleUpgrade,
     getShiftInProgress,
     getShiftTimeRemaining,
     getStandardDecrementIncrementOfOne,
     getStop,
     getZero,
     popupOverlay,
-    resetBatchTimers, Role,
+    resetBatchTimers,
+    Role,
     setAutoChipperCounter,
     setAutoCustomerServerCounter,
     setAutoFryerCounter,
@@ -100,13 +96,12 @@ import {
     setCustomersWaitingBeforeEndOfShift,
     setCustomerTime,
     setElements,
-    setFryTimeRemaining,
+    setFryTimeRemaining, setGameInProgress,
     setOldCash,
     setPotatoesPeeledThisShift,
     setQuantityOfChipsFrying,
     setShiftInProgress,
     setShiftTimeRemaining,
-    shiftInProgress,
     TIMER_CORRECTION_COEFFICIENT,
 } from './constantsAndGlobalVars.js';
 
@@ -114,8 +109,6 @@ let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
 let lastAutoUpgradesUpdateTime = new Date().getTime();
-
-export let gameInProgress = false;
 
 function main() {
 
@@ -132,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function gameLoop() {
-    gameInProgress = !!gameInProgress;
+    setGameInProgress(!!getGameInProgress());
     updateClock();
     updateCustomerCountdown();
     updateShiftCountDown();
@@ -175,7 +168,7 @@ function updateCustomerCountdown() {
 }
 
 function updateShiftCountDown() {
-    if (shiftInProgress) {
+    if (getShiftInProgress()) {
         const now = new Date().getTime();
         const timeDiffSecondsShift = (now - lastShiftUpdateTime) / getClockSpeed();
         const timeDiffSecondsAutoUpgrades = (now - lastAutoUpgradesUpdateTime) / getAutoUpgradesClockSpeed();
@@ -357,8 +350,8 @@ async function triggerWastingProcessForBatch(batchId) {
     }
 }
 
-export function initialiseNewGame(gameInProgress) {
-    if (gameInProgress) {
+export function initialiseNewGame() {
+    if (getGameInProgress()) {
         return askUserToConfirmRestart();
     } else {
         getElements().option1.innerHTML = "New Game";
@@ -374,59 +367,6 @@ export function initialiseNewGame(gameInProgress) {
 
 function askUserToConfirmRestart() {
     getElements().option1.innerHTML = "Click again to start a New Game...";
-}
-
-export function updateVisibleButtons() {
-    if (!shiftInProgress && (getShiftCounter() > getZero() || debugFlag)) {
-        //manual phase upgrades
-        if (getCurrentCash() >= getPriceToImprovePotatoStorage()) {
-            getElements().improvePotatoStorageButton.classList.remove('hidden-button');
-        }
-        if (getCurrentCash() >= getPriceToEnableDoublePeeling()) {
-            getElements().twoHandedPeelingButton.classList.remove('hidden-button');
-        }
-        if (getCurrentCash() >= getPriceToEnableDoubleChipping()) {
-            getElements().twoHandedChippingButton.classList.remove('hidden-button');
-        }
-        if (getCurrentCash() >= getPriceToImproveFryerCapacity()) {
-            getElements().improveFryerCapacityButton.classList.remove('hidden-button');
-        }
-        if (getCurrentCash() >= getPriceToAddStorageHeater()) {
-            getElements().addStorageHeaterAutoShiftStartButton.classList.remove('hidden-button');
-        }
-        //auto phase upgrades
-        if (getCurrentCash() >= getPriceToImproveAutoPeeler()) {
-            getElements().autoPeelerUpgradeButton.classList.remove('hidden-button');
-        }
-        if (getCurrentCash() >= getPriceToImproveAutoChipper()) {
-            getElements().autoChipperUpgradeButton.classList.remove('hidden-button');
-        }
-        if (getCurrentCash() >= getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut()) {
-            getElements().autoFryerUpgradeButton.classList.remove('hidden-button');
-        }
-        if (getCurrentCash() >= getPriceToImproveAutoMoverFromFryerToStorage()) {
-            getElements().autoStorageCollectorUpgradeButton.classList.remove('hidden-button');
-        }
-        if (getCurrentCash() >= getPriceToImproveAutoCustomerServer()) {
-            getElements().autoCustomerServerUpgradeButton.classList.remove('hidden-button');
-        }
-        //third phase upgrades
-        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && getElements().playerRoleText.innerHTML === (Role.FIVE) || getElements().playerRoleText.innerHTML === (Role.SIX)) {
-            getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
-            getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
-        }
-        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && getElements().playerRoleText.innerHTML === (Role.SIX)) {
-            getElements().investmentFundUnlockButton.classList.remove('hidden-button');
-            //show buttons 17-20 when investment fund is unlocked
-            //(conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
-            //show customer frequency doubler 15
-        }
-        if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
-            //set Start Shift Button to WIN GAME
-            //Winner  code
-        }
-        disableButtons(false);
-    }
 }
 
 function wasteChipsStillInFryerOrFryingAtEndOfShift() {
@@ -451,10 +391,6 @@ function selectHowManyCustomersLeftAfterWalkOutAtShiftEnd() {
 
     customersWaiting -= randomWalkouts;
     return customersWaiting;
-}
-
-export function setGameInProgress(value) {
-    gameInProgress = value;
 }
 
 function checkAutoUpgradeButtonsAndUpdateTheirCountDownTime() {
