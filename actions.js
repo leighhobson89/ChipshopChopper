@@ -166,7 +166,7 @@ import {
     getAmountInvestmentCash,
     getAmountInvestmentRisk,
     getMaxRiskAmount,
-    setAmountInvestmentRisk
+    setAmountInvestmentRisk, getHeaterUpgradeBought
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -622,6 +622,18 @@ export function disableButtons(init) {
                 case getElements().autoCustomerServerUpgradeButton.id:
                     button.disabled = getCurrentCash() < getPriceToImproveAutoCustomerServer();
                     break;
+                case getElements().improveFryerCapacityButton.id:
+                    button.disabled = getCurrentCash() < getPriceToImproveFryerCapacity();
+                    break;
+                case getElements().fastFryerUpgradeButton.id:
+                    button.disabled = getCurrentCash() < getPriceToImproveFryTimer();
+                    break;
+                case getElements().potatoDeliveryDoublerButton.id:
+                    button.disabled = getCurrentCash() < getPriceToDoubleSpudsMax();
+                    break;
+                case getElements().customerFrequencyIncreaser.id:
+                    button.disabled = getCurrentCash() < getPriceToIncreaseFootfall();
+                    break;
                 default:
                     button.disabled = false;
                     break;
@@ -636,21 +648,24 @@ export function disableButtons(init) {
         bottomRowButtons.forEach(button => {
             switch (button.id) {
                 case getElements().twoHandedPeelingButton.id:
-                    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+                    if (!checkIfNonRepeatableUpgradePurchased(button, 'peeler')) {
                         button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
                     }
                     break;
                 case getElements().twoHandedChippingButton.id:
-                    if (!checkIfNonRepeatableUpgradePurchased(button)) {
+                    if (!checkIfNonRepeatableUpgradePurchased(button, 'chipper')) {
                         button.disabled = getCurrentCash() < getPriceToEnableDoubleChipping();
                     }
                     break;
-                case getElements().improveFryerCapacityButton.id:
-                    button.disabled = getCurrentCash() < getPriceToImproveFryerCapacity();
-                    break;
                 case getElements().addStorageHeaterAutoShiftStartButton.id:
-                    if (!checkIfNonRepeatableUpgradePurchased(button)) {
-                        button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+                    if (!getHeaterUpgradeBought()) {
+                        if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
+                            button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+                        }
+                    } else {
+                        if (!checkIfNonRepeatableUpgradePurchased(button, 'autoShift')) {
+                            button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
+                        }
                     }
                     break;
                 case getElements().startShiftButton.id:
