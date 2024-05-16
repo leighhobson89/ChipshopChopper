@@ -170,7 +170,6 @@ import {
     getHeaterUpgradeBought,
     setCurrentValueOfInvestment,
     getCurrentValueOfInvestment,
-    getShiftTimeRemaining
 } from './constantsAndGlobalVars.js';
 
 import {

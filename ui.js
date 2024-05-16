@@ -70,7 +70,7 @@ import {
     getCurrentValueOfInvestment,
     getInvestmentFundUnlockable,
     getPromotionFlag,
-    setPromotionFlag
+    setPromotionFlag, getGrowthInvestment
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -508,6 +508,18 @@ export function writePopupText() {
         setPromotionFlag(false);
     }
 
+    let investmentMessage = "";
+    let growthLossMessage = "";
+
+    if (getCurrentValueOfInvestment() > getZero()) {
+        investmentMessage = `Your investments of ${formatToCashNotation(getAmountInvestmentCash())} returned ${formatToCashNotation(getCurrentValueOfInvestment())} at a risk level of ${getAmountInvestmentRisk()}%`;
+        if (getGrowthInvestment() >= getZero()) {
+            growthLossMessage = `A growth of ${getGrowthInvestment()} on the initial investment.`;
+        } else {
+            growthLossMessage = `A loss of ${Math.abs(getGrowthInvestment())} on the initial investment.`;
+        }
+    }
+
     popupContent.innerHTML = `
     <div class="popup-content">
         Your shift has ended!<br><br>
@@ -524,7 +536,10 @@ export function writePopupText() {
 
         ${potatoesMessage}<br><br>
         
-        <span style="color: yellow;">${promotionMessage}</span>
+        <span style="color: yellow;">${promotionMessage}</span><br><br>
+        
+        ${investmentMessage}<br>
+        ${growthLossMessage}
     </div>`;
 
 }

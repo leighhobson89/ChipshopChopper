@@ -59,7 +59,7 @@ import {
     getCustomerTime,
     getElements,
     getFryerCapacity,
-    getFryTimeRemaining, getGameInProgress,
+    getFryTimeRemaining, getGameInProgress, getGrowthInvestment,
     getHeaterUpgradeBought, getInterestRateBaseValue, getInvestmentFundUnlocked,
     getJustDeleteTheOneElementFromArray,
     getMultipleForHeaterEffectOnCoolDown,
@@ -96,7 +96,7 @@ import {
     setCustomersWaitingBeforeEndOfShift,
     setCustomerTime,
     setElements,
-    setFryTimeRemaining, setGameInProgress, setInvestmentFundUnlockable,
+    setFryTimeRemaining, setGameInProgress, setGrowthInvestment, setInvestmentFundUnlockable,
     setOldCash,
     setPotatoesPeeledThisShift,
     setQuantityOfChipsFrying,
@@ -270,6 +270,7 @@ function updateShiftCountDown() {
                         toggleOverlay(popupOverlay);
                     }
 
+                    setGrowthInvestment(getZero());
                     setCustomersServed(getZero());
                     setPotatoesPeeledThisShift(getZero());
                     setChipsCutThisShift(getZero());
@@ -531,7 +532,7 @@ function checkRiskAgainstThreshold(doubleRisk) {
         devalueInvestment(doubleRisk);
         setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2))); //start from a non-zero random risk level
     } else {
-        console.log("no devalue of investment");
+        //console.log("no devalue of investment");
     }
 }
 
@@ -541,33 +542,35 @@ function devalueInvestment(doubleRisk) {
     let amountOfInvestmentToLose = getCurrentValueOfInvestment() * (percentageOverThreshold / 100);
     // console.log("percentage of investment (amount to lose):" + amountOfInvestmentToLose);
     if (doubleRisk) {
-        console.log("double risk means losing " + getAmountInvestmentRisk() + " extra.");
+        //console.log("double risk means losing " + getAmountInvestmentRisk() + " extra.");
         amountOfInvestmentToLose *= ((getAmountInvestmentRisk() / 100) + 1);
     }
+    setGrowthInvestment(getGrowthInvestment() - amountOfInvestmentToLose);
     setCurrentValueOfInvestment(getCurrentValueOfInvestment() - amountOfInvestmentToLose);
 }
 
 export function calculateForthcomingTotalInvestment() {
     if (getAmountInvestmentCash() > getZero() && getAmountInvestmentRisk() > getZero()) {
         let remaining = getShiftTimeRemaining();
-        console.log("Remaining time: " + remaining);
+        //console.log("Remaining time: " + remaining);
 
         let totalPercentageGainAtEndOfShiftIfFullShift = (getInterestRateBaseValue() + (getAmountInvestmentRisk() / 10)) * getCurrentValueOfInvestment();
-        console.log("Total percentage gain at end of shift: " + totalPercentageGainAtEndOfShiftIfFullShift);
+        //console.log("Total percentage gain at end of shift: " + totalPercentageGainAtEndOfShiftIfFullShift);
 
         let proportionOfShiftLeft = remaining / getShiftLength();
-        console.log("Proportion of shift left: " + (proportionOfShiftLeft * 100) + "%");
+        //console.log("Proportion of shift left: " + (proportionOfShiftLeft * 100) + "%");
 
         let gainIfThingsLeftAsTheyAre = (totalPercentageGainAtEndOfShiftIfFullShift * proportionOfShiftLeft) / 10;
-        console.log("Cash gain this shift if nothing touched: " + gainIfThingsLeftAsTheyAre);
+        //console.log("Cash gain this shift if nothing touched: " + gainIfThingsLeftAsTheyAre);
 
         let valueToIncreaseThisSecond = gainIfThingsLeftAsTheyAre / remaining;
-        console.log("Cash gain this second: " + valueToIncreaseThisSecond);
+        //console.log("Cash gain this second: " + valueToIncreaseThisSecond);
 
         let newValueOfInvestment = getCurrentValueOfInvestment() + valueToIncreaseThisSecond;
-        console.log("New value of investment: " + newValueOfInvestment);
+        //console.log("New value of investment: " + newValueOfInvestment);
 
         if (!isNaN(valueToIncreaseThisSecond)) {
+            setGrowthInvestment(getGrowthInvestment() + valueToIncreaseThisSecond);
             setCurrentValueOfInvestment(newValueOfInvestment);
         }
     }

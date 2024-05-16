@@ -92,6 +92,7 @@ export const popupOverlay = createOverlay();
  let investmentRiskIncrementDecrement = 1;
  let currentValueOfInvestment = 0;
  let currentRiskLevel = 0;
+ let growthInvestment = 0;
 
  //FLAGS
 export let gameInProgress = false;
@@ -1140,6 +1141,14 @@ export function getPromotionFlag() {
 
 export function setPromotionFlag(value) {
     promotionFlag = value;
+}
+
+export function getGrowthInvestment() {
+    return growthInvestment;
+}
+
+export function setGrowthInvestment(value) {
+    growthInvestment = value;
 }
 
 
