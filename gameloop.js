@@ -276,8 +276,8 @@ function updateShiftCountDown() {
                     setChipsFriedThisShift(getZero());
                     setChipsWastedThisShift(getZero());
                     if (getInvestmentFundUnlocked()) {
-                        incrementRiskValue();
-                        checkRiskAgainstThreshold();
+                        let doubleRisk = incrementRiskValue();
+                        checkRiskAgainstThreshold(doubleRisk);
                     }
                 }
                 lastShiftUpdateTime = now;
@@ -520,25 +520,30 @@ function incrementRiskValue() {
 
         // console.log("currentRisk: " + currentRisk + "/" + getRiskThreshold());
         setCurrentRiskLevel(currentRisk);
+        return doubleRisk;
     }
 }
 
-function checkRiskAgainstThreshold() {
+function checkRiskAgainstThreshold(doubleRisk) {
     const threshold = getRiskThreshold();
     if (getCurrentRiskLevel() >= threshold && getAmountInvestmentCash() > getZero()) {
         console.log("DEVALUE investment");
-        devalueInvestment();
+        devalueInvestment(doubleRisk);
         setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2))); //start from a non-zero random risk level
     } else {
         console.log("no devalue of investment");
     }
 }
 
-function devalueInvestment() {
-    const percentageOverThreshold = ((getCurrentRiskLevel() - getRiskThreshold()) / getRiskThreshold()) * 100;
+function devalueInvestment(doubleRisk) {
+    const percentageOverThreshold = (((getCurrentRiskLevel() - getRiskThreshold()) / getRiskThreshold()) * 100) * 2;
     // console.log("percentage over threshold:" + percentageOverThreshold);
-    const amountOfInvestmentToLose = getCurrentValueOfInvestment() * (percentageOverThreshold / 100)
+    let amountOfInvestmentToLose = getCurrentValueOfInvestment() * (percentageOverThreshold / 100);
     // console.log("percentage of investment (amount to lose):" + amountOfInvestmentToLose);
+    if (doubleRisk) {
+        console.log("double risk means losing " + getAmountInvestmentRisk() + " extra.");
+        amountOfInvestmentToLose *= ((getAmountInvestmentRisk() / 100) + 1);
+    }
     setCurrentValueOfInvestment(getCurrentValueOfInvestment() - amountOfInvestmentToLose);
 }
 
