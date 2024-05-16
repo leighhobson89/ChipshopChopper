@@ -1,4 +1,4 @@
-import {createEndOfShiftPopup, createOverlay, formatToCashNotation} from './ui.js';
+import {createEndOfShiftOrGamePopup, createOverlay, formatToCashNotation} from './ui.js';
 
 //DEBUG
 export let debugFlag = false;
@@ -7,6 +7,9 @@ export let debugFlag = false;
 let elements;
 
 //CONSTANTS
+const END_GAME_FRY_TIMER = 15;
+const END_GAME_CASH = 999998;
+const END_GAME_POTATOES = 8;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
@@ -58,9 +61,9 @@ const ROLE_SIX_UPGRADE = 10000;
 const ROLE_SEVEN_UPGRADE = 100000;
 const ROLE_GAME_WINNER = 1000000;
 
-export const endOfShiftPopupObject = createEndOfShiftPopup();
-export const endOfShiftPopup = endOfShiftPopupObject.popupContainer;
-export const popupContinueButton = endOfShiftPopupObject.continueButton;
+export const endOfShiftOrGamePopupObject = createEndOfShiftOrGamePopup();
+export const endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
+export const popupContinueButton = endOfShiftOrGamePopupObject.continueButton;
 export const popupOverlay = createOverlay();
 
  //GLOBAL VARIABLES
@@ -210,8 +213,8 @@ export function setElements() {
         subInnerDivMid1_2: document.getElementById('subInnerDivMid1_2'),
         subInnerDivMid3_1: document.getElementById('subInnerDivMid3_1'),
         subInnerDivMid3_2: document.getElementById('subInnerDivMid3_2'),
-        endOfShiftPopupTitle: document.getElementById('endOfShiftPopupTitle'),
-        endOfShiftPopupContent: document.getElementById('endOfShiftPopupContent'),
+        endOfShiftOrGamePopupTitle: document.getElementById('endOfShiftOrGamePopupTitle'),
+        endOfShiftOrGamePopupContent: document.getElementById('endOfShiftOrGamePopupContent'),
         clock: document.querySelector('.clock'),
         customerFrequencyIncreaser: document.getElementById('customerFrequencyIncreaser'),
         allBottomButtons: document.querySelectorAll('.action-button-bottom-row'),
@@ -1156,10 +1159,22 @@ export function setGrowthInvestment(value) {
     growthInvestment = value;
 }
 
-export function getFloatOnStockMarketUnlocked() {
+export function getFloatOnStockMarketUnlockedAndEndGameFlowStarted() {
     return floatOnStockMarketUnlocked;
 }
 
-export function setFloatOnStockMarketUnlocked(value) {
+export function setFloatOnStockMarketUnlockedAndEndGameFlowStarted(value) {
     floatOnStockMarketUnlocked = value;
+}
+
+export function getEndGameCash() {
+    return END_GAME_CASH;
+}
+
+export function getEndGamePotatoes() {
+    return END_GAME_POTATOES;
+}
+
+export function getEndGameFryTimer() {
+    return END_GAME_FRY_TIMER;
 }

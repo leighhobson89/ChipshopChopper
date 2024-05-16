@@ -2,7 +2,7 @@ import {
     changePlayerRole,
     createGameWindow,
     createTitleScreen, formatToCashNotation,
-    toggleEndOfShiftPopup,
+    toggleEndOfShiftOrGamePopup,
     toggleOverlay,
     updateButtonStyle,
     updateVisibleButtons,
@@ -24,7 +24,7 @@ import {
 
 import {
     batchTimers,
-    endOfShiftPopup,
+    endOfShiftOrGamePopup,
     getActualPotatoesInStorage,
     getAddOneToRandomNumberToEnsureAboveOne, getAmountInvestmentCash, getAmountInvestmentRisk,
     getAutoChipperBought,
@@ -266,7 +266,7 @@ function updateShiftCountDown() {
 
                     if (!getAutoShiftStatus()) { //no popup if autoShiftStartIsEnabled
                         writePopupText();
-                        toggleEndOfShiftPopup(endOfShiftPopup);
+                        toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
                         toggleOverlay(popupOverlay);
                     }
 
@@ -378,7 +378,7 @@ function askUserToConfirmRestart() {
     getElements().option1.innerHTML = "Click again to start a New Game...";
 }
 
-function wasteChipsStillInFryerOrFryingAtEndOfShift() {
+export function wasteChipsStillInFryerOrFryingAtEndOfShift() {
     const fryerButton = getElements().fryChipsButton;
     const fryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
 
@@ -482,15 +482,11 @@ function checkPlayerRole() {
         if (getCurrentCash() >= getRoleUpgrade(Role.SIX)) {
             changePlayerRole(getElements().playerRoleText, Role.SEVEN, 'text-bounce-animation', 'fade-text-animation');
         }
-    } else if (existingRoleText === Role.SEVEN) {
-        if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
-            winGame();
-        }
     }
 }
 
 function winGame() {
-    console.log("You won the game!");
+
 }
 
 function updateInvestmentPlanData() {

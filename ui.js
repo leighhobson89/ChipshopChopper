@@ -1,7 +1,7 @@
 import {disableButtons, handleButtonClick} from './actions.js';
 import {
     debugFlag,
-    endOfShiftPopup,
+    endOfShiftOrGamePopup,
     getActualPotatoesInStorage,
     getChipsCutThisShift,
     getChipsFriedThisShift,
@@ -70,7 +70,7 @@ import {
     getCurrentValueOfInvestment,
     getInvestmentFundUnlockable,
     getPromotionFlag,
-    setPromotionFlag, getGrowthInvestment
+    setPromotionFlag, getGrowthInvestment, getFloatOnStockMarketUnlockedAndEndGameFlowStarted
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -424,18 +424,18 @@ export function updateButtonStyle(buttonId, startStop) {
     }
 }
 
-export function createEndOfShiftPopup() {
+export function createEndOfShiftOrGamePopup() {
     const popupContainer = document.createElement('div');
     popupContainer.classList.add('popup-container');
 
     const popupTitle = document.createElement('div');
-    popupTitle.id = 'endOfShiftPopupTitle';
+    popupTitle.id = 'endOfShiftOrGamePopupTitle';
     popupTitle.classList.add('popup-row');
     popupTitle.classList.add('popup-row-1');
     popupTitle.innerHTML = `<div class="popup-title">test</div>`;
 
     const popupContent = document.createElement('div');
-    popupContent.id = 'endOfShiftPopupContent';
+    popupContent.id = 'endOfShiftOrGamePopupContent';
     popupContent.classList.add('popup-row');
     popupContent.classList.add('popup-row-2');
     popupContent.innerHTML = '<div class="popup-content">test</div>';
@@ -468,7 +468,7 @@ export function createOverlay() {
     return overlay;
 }
 
-export function toggleEndOfShiftPopup(popupContainer) {
+export function toggleEndOfShiftOrGamePopup(popupContainer) {
     if (popupContainer.style.display === 'none') {
         popupContainer.style.display = 'block';
     } else {
@@ -493,43 +493,61 @@ export function writePopupText() {
 
     let totalPotatoes = currentPotatoes + spudsToAdd;
     let nextShiftPotatoes = Math.min(totalPotatoes, storageQuantity);
-    const popupTitle = getElements().endOfShiftPopupTitle;
-    const popupContent = getElements().endOfShiftPopupContent;
+    const popupTitle = getElements().endOfShiftOrGamePopupTitle;
+    const popupContent = getElements().endOfShiftOrGamePopupContent;
 
-    popupTitle.innerHTML = `<div class="popup-title">End Of Shift ${shiftCounter}</div>`;
-    let potatoesMessage = `Potatoes for next shift: ${currentPotatoes} + ${nextShiftPotatoes - currentPotatoes} to be delivered = ${nextShiftPotatoes}`;
-    if (nextShiftPotatoes === storageQuantity) {
-        potatoesMessage += " (due to max storage reached)";
-    }
-
-    let promotionMessage = "";
-    if (getPromotionFlag()) {
-        promotionMessage = `You were Promoted to ${getElements().playerRoleText.innerHTML}!<br><br>`;
-        setPromotionFlag(false);
-    }
-
-    let investmentMessage = "";
-    let growthLossMessage = "";
-    let totalGrowthMessage = "";
-
-    if (getCurrentValueOfInvestment() > getZero()) {
-        investmentMessage = `Your investments of ${formatToCashNotation(getAmountInvestmentCash())} returned ${formatToCashNotation(getCurrentValueOfInvestment())} at a risk level of ${getAmountInvestmentRisk()}%`;
-        if (getGrowthInvestment() >= getZero()) {
-            growthLossMessage = `A growth of ${formatToCashNotation(getGrowthInvestment())} this period`;
-        } else {
-            growthLossMessage = `A loss of ${formatToCashNotation(Math.abs(getGrowthInvestment()))} this period`;
+    if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
+        popupTitle.innerHTML = `<div class="popup-title">Congratulations! You Won!!!</div>`;
+        //add total Earnings, Spendings, PotatoesPeeled, ChipsCut, ChipsWasted, CustomersServed for all game
+        popupContent.innerHTML = `
+    <div class="popup-content">
+        <span style="color: yellow;">You have beat the game, well done!</span><br><br>
+        
+        You earned a total of: <br>
+        You spent a total of: <br>
+        You peeled a total of XX potatoes.<br>
+        You cut a total of XX chips.<br>
+        You wasted a total of XX chips.<br>
+        
+        You served a total of XX customers!<br>
+        
+        Now please do the honours and fry up and serve the last customer their chips before you retire as a millionaire!
+    </div>`;
+    } else {
+        popupTitle.innerHTML = `<div class="popup-title">End Of Shift ${shiftCounter}</div>`;
+        let potatoesMessage = `Potatoes for next shift: ${currentPotatoes} + ${nextShiftPotatoes - currentPotatoes} to be delivered = ${nextShiftPotatoes}`;
+        if (nextShiftPotatoes === storageQuantity) {
+            potatoesMessage += " (due to max storage reached)";
         }
-    }
 
-    if (getCurrentValueOfInvestment() > getZero()) {
-        if (getCurrentValueOfInvestment() - getAmountInvestmentCash() >= getZero()) {
-            totalGrowthMessage = `A total growth of ${formatToCashNotation(getCurrentValueOfInvestment() - getAmountInvestmentCash())}`;
-        } else {
-            totalGrowthMessage = `A total loss of ${formatToCashNotation(Math.abs(getCurrentValueOfInvestment() - getAmountInvestmentCash()))}`;
+        let promotionMessage = "";
+        if (getPromotionFlag()) {
+            promotionMessage = `You were Promoted to ${getElements().playerRoleText.innerHTML}!<br><br>`;
+            setPromotionFlag(false);
         }
-    }
 
-    popupContent.innerHTML = `
+        let investmentMessage = "";
+        let growthLossMessage = "";
+        let totalGrowthMessage = "";
+
+        if (getCurrentValueOfInvestment() > getZero()) {
+            investmentMessage = `Your investments of ${formatToCashNotation(getAmountInvestmentCash())} returned ${formatToCashNotation(getCurrentValueOfInvestment())} at a risk level of ${getAmountInvestmentRisk()}%`;
+            if (getGrowthInvestment() >= getZero()) {
+                growthLossMessage = `A growth of ${formatToCashNotation(getGrowthInvestment())} this period`;
+            } else {
+                growthLossMessage = `A loss of ${formatToCashNotation(Math.abs(getGrowthInvestment()))} this period`;
+            }
+        }
+
+        if (getCurrentValueOfInvestment() > getZero()) {
+            if (getCurrentValueOfInvestment() - getAmountInvestmentCash() >= getZero()) {
+                totalGrowthMessage = `A total growth of ${formatToCashNotation(getCurrentValueOfInvestment() - getAmountInvestmentCash())}`;
+            } else {
+                totalGrowthMessage = `A total loss of ${formatToCashNotation(Math.abs(getCurrentValueOfInvestment() - getAmountInvestmentCash()))}`;
+            }
+        }
+
+        popupContent.innerHTML = `
     <div class="popup-content">
         Your shift has ended!<br><br>
         Earnings: ${formatToCashNotation(getCurrentCash() - getOldCash())} this shift + ${formatToCashNotation(getOldCash())} in bank = ${formatToCashNotation(getCurrentCash())}<br><br>
@@ -551,7 +569,7 @@ export function writePopupText() {
         ${growthLossMessage}<br>
         ${totalGrowthMessage}
     </div>`;
-
+    }
 }
 
 export function updateVisibleButtons() {
@@ -591,25 +609,19 @@ export function updateVisibleButtons() {
             getElements().autoCustomerServerUpgradeButton.classList.remove('hidden-button');
         }
         //third phase upgrades
-        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && getElements().playerRoleText.innerHTML === (Role.FIVE) || getElements().playerRoleText.innerHTML === (Role.SIX)) {
+        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && (getElements().playerRoleText.innerHTML === Role.FIVE || getElements().playerRoleText.innerHTML === Role.SIX || getElements().playerRoleText.innerHTML === Role.SEVEN)) {
             getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
             getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
             getElements().customerFrequencyIncreaser.classList.remove('hidden-button');
         }
-        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && getElements().playerRoleText.innerHTML === (Role.SIX)) {
+        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && (getElements().playerRoleText.innerHTML === Role.SIX || getElements().playerRoleText.innerHTML === Role.SEVEN)) {
             getElements().investmentFundUnlockOrFloatButton.classList.remove('hidden-button');
         }
 
-        if (getElements().playerRoleText.innerHTML === (Role.SIX) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.style.display === 'none') {
+        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerHTML === Role.SIX || getElements().playerRoleText.innerHTML === Role.SEVEN) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.style.display === 'none') {
             getElements().investmentDataScreen.style.display = 'flex';
             getElements().mainButtonContainer.replaceChild(getElements().investmentDataScreen, getElements().investmentDataScreenButton);
             initialiseInvestmentScreenText();
-            //(conditions to be met and will sell off whole shop so player has $999998, no upgrades, 1 customer, 8 potatoes to make one portion and complete the game)
-        }
-
-        if (getCurrentCash() >= getRoleUpgrade(Role.SEVEN)) {
-            //set Start Shift Button to WIN GAME
-            //Winner  code
         }
         disableButtons(false);
     }
@@ -631,7 +643,7 @@ function createOptionScreenEventListeners() {
         toggleSound();
     });
     popupContinueButton.addEventListener('click', function() {
-        toggleEndOfShiftPopup(endOfShiftPopup);
+        toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
         toggleOverlay(popupOverlay);
     });
 
@@ -818,4 +830,39 @@ function initialiseInvestmentScreenText() {
             element.innerHTML = strings[index];
         }
     });
+}
+
+export function triggerEndGameScreen() {
+    console.log("You won the game!");
+}
+
+export function hideButtonsReadyForEndGame() {
+    const mainButtonContainer = getElements().mainButtonContainer;
+    const mainButtons = mainButtonContainer.getElementsByClassName('action-button-main');
+    for (let i = 5; i < mainButtons.length; i++) {
+        mainButtons[i].classList.add('hidden-button');
+        mainButtons[i].style.display = 'none';
+    }
+
+    const bottomRowContainer = getElements().bottomRowContainer;
+    const bottomButtons = bottomRowContainer.getElementsByClassName('action-button-bottom-row');
+    for (let i = 0; i < bottomButtons.length - 1; i++) {
+        bottomButtons[i].classList.add('hidden-button');
+        bottomButtons[i].style.display = 'none';
+    }
+
+    getElements().investmentDataScreen.classList.add('hidden-button');
+    getElements().investmentDataScreen.style.display = 'none';
+
+    getElements().investmentCashComponent.classList.add('hidden-button');
+    getElements().investmentCashComponent.style.display = 'none';
+
+    getElements().investmentRiskComponent.classList.add('hidden-button');
+    getElements().investmentRiskComponent.style.display = 'none';
+
+    getElements().withdrawInvestmentButton.classList.add('hidden-button');
+    getElements().withdrawInvestmentButton.style.display = 'none';
+
+    getElements().bottomRowContainer.classList.add('end-game-position-start-shift-button');
+
 }

@@ -545,3 +545,9 @@ div[id^="subInnerDivMid"][id$='_2'] {
     background-color: chartreuse;
 }
 
+.end-game-position-start-shift-button {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 4em; !important;
+}
+
