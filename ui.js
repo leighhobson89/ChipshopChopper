@@ -510,13 +510,22 @@ export function writePopupText() {
 
     let investmentMessage = "";
     let growthLossMessage = "";
+    let totalGrowthMessage = "";
 
     if (getCurrentValueOfInvestment() > getZero()) {
         investmentMessage = `Your investments of ${formatToCashNotation(getAmountInvestmentCash())} returned ${formatToCashNotation(getCurrentValueOfInvestment())} at a risk level of ${getAmountInvestmentRisk()}%`;
         if (getGrowthInvestment() >= getZero()) {
-            growthLossMessage = `A growth of ${getGrowthInvestment()} on the initial investment.`;
+            growthLossMessage = `A growth of ${formatToCashNotation(getGrowthInvestment())} this period`;
         } else {
-            growthLossMessage = `A loss of ${Math.abs(getGrowthInvestment())} on the initial investment.`;
+            growthLossMessage = `A loss of ${formatToCashNotation(Math.abs(getGrowthInvestment()))} this period`;
+        }
+    }
+
+    if (getCurrentValueOfInvestment() > getZero()) {
+        if (getCurrentValueOfInvestment() - getAmountInvestmentCash() >= getZero()) {
+            totalGrowthMessage = `A total growth of ${formatToCashNotation(getCurrentValueOfInvestment() - getAmountInvestmentCash())}`;
+        } else {
+            totalGrowthMessage = `A total loss of ${formatToCashNotation(Math.abs(getCurrentValueOfInvestment() - getAmountInvestmentCash()))}`;
         }
     }
 
@@ -539,7 +548,8 @@ export function writePopupText() {
         <span style="color: yellow;">${promotionMessage}</span><br><br>
         
         ${investmentMessage}<br>
-        ${growthLossMessage}
+        ${growthLossMessage}<br>
+        ${totalGrowthMessage}
     </div>`;
 
 }
