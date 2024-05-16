@@ -179,7 +179,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .action-button-main,
-.action-button-bottom-row {
+.action-button-bottom-row,
+.investment-withdraw-button {
     width: 100%;
     text-align: center;
     background-color: transparent;
@@ -264,8 +265,10 @@ div[id^="subInnerDivMid"][id$='_2'] {
 
 .action-button-main.disabled,
 .action-button-bottom-row.disabled,
+.investment-withdraw-button.disabled,
 .investmentComponent-button.disabled,
-#investmentCashComponent_DecrementButton.disabled {
+#investmentCashComponent_DecrementButton.disabled,
+#investmentRiskComponent_DecrementButton.disabled {
     background-color: grey;
     color: black;
     pointer-events: none;
@@ -526,5 +529,19 @@ div[id^="subInnerDivMid"][id$='_2'] {
 
 .investment-data-grid div:nth-child(4n) {
     border-right: none;
+}
+
+.investment-withdraw-button {
+    border: none;
+    border-radius: 0 0 7px 0;
+    color: white;
+    background-color: darkgreen;
+    width: 100%;
+    height: 100%;
+}
+
+.investment-withdraw-button:hover {
+    color: black;
+    background-color: chartreuse;
 }
 

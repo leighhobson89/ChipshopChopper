@@ -10,7 +10,7 @@ let elements;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const SHIFT_LENGTH = 8; //80
+const SHIFT_LENGTH = 8; //120
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
@@ -239,6 +239,7 @@ export function setElements() {
         investmentDataScreenBottomRowColumn2: document.getElementById('investmentDataScreenBottomRowColumn2'),
         investmentDataScreenBottomRowColumn3: document.getElementById('investmentDataScreenBottomRowColumn3'),
         investmentDataScreenBottomRowColumn4: document.getElementById('investmentDataScreenBottomRowColumn4'),
+        withdrawInvestmentButton: document.getElementById('withdrawInvestmentButton'),
       };
 }
 

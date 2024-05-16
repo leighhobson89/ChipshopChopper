@@ -730,6 +730,16 @@ function createInvestmentDataScreen(mainButtonContainer) {
         } else {
             divElement.classList.add('bottom-row');
             divElement.id = `investmentDataScreenBottomRowColumn${i-3}`;
+
+            if (i === 7) {
+                const withdrawButton = document.createElement('button');
+                withdrawButton.id = 'withdrawInvestmentButton';
+                withdrawButton.innerHTML = 'Cannot Withdraw';
+                withdrawButton.classList.add('investment-withdraw-button');
+                withdrawButton.disabled = true;
+                withdrawButton.classList.add('disabled');
+                divElement.appendChild(withdrawButton);
+            }
         }
 
         divGrid.appendChild(divElement);
@@ -750,7 +760,6 @@ function initialiseInvestmentScreenText() {
         `${formatToCashNotation(getAmountInvestmentCash())}`,
         `${getAmountInvestmentRisk()}%`,
         `${formatToCashNotation(getCurrentValueOfInvestment())}`,
-        ''
     ];
 
     const keys = [
@@ -761,7 +770,6 @@ function initialiseInvestmentScreenText() {
         'investmentDataScreenBottomRowColumn1',
         'investmentDataScreenBottomRowColumn2',
         'investmentDataScreenBottomRowColumn3',
-        'investmentDataScreenBottomRowColumn4'
     ];
 
     // Loop through the keys and set innerHTML for each element

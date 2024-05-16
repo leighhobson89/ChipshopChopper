@@ -550,6 +550,9 @@ function handleDecreaseCashInvested() {
             setAmountInvestmentCash(getZero());
         }
     }
+    if (getAmountInvestmentCash() === 0) {
+        setAmountInvestmentRisk(getZero());
+    }
 }
 
 function handleIncreaseRiskAmount() {
@@ -592,6 +595,8 @@ export function disableButtons(init) {
     let mainButtons;
     let bottomRowButtons;
     let investmentCashComponent_DecrementButton = getElements().investmentCashComponent_DecrementButton;
+    let investmentRiskComponent_DecrementButton = getElements().investmentRiskComponent_DecrementButton;
+    let withdrawInvestmentButton = getElements().withdrawInvestmentButton;
 
     const pricesArrayMainButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), getPriceToImprovePotatoStorage(), getPriceToImproveFryerCapacity(), 0, 0, 0, 0, 0, 0, 0, 0];
     //const pricesArrayBottomRow = [getPriceToEnableDoublePeeling(), getPriceToEnableDoubleChipping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
@@ -615,6 +620,13 @@ export function disableButtons(init) {
         if (!getShiftInProgress()) {
             investmentCashComponent_DecrementButton.disabled = false;
             investmentCashComponent_DecrementButton.classList.remove('disabled');
+            investmentRiskComponent_DecrementButton.disabled = false;
+            investmentRiskComponent_DecrementButton.classList.remove('disabled');
+            if (getCurrentValueOfInvestment() > getZero()) {
+                withdrawInvestmentButton.disabled = false;
+                withdrawInvestmentButton.classList.remove('disabled');
+                changeWithdrawInvestmentButtonText(true);
+            }
         }
 
         mainButtons.forEach(button => {
@@ -717,6 +729,11 @@ export function disableButtons(init) {
             if (getShiftInProgress()) {
                 investmentCashComponent_DecrementButton.disabled = true;
                 investmentCashComponent_DecrementButton.classList.add('disabled');
+                investmentRiskComponent_DecrementButton.disabled = true;
+                investmentRiskComponent_DecrementButton.classList.add('disabled');
+                withdrawInvestmentButton.disabled = true;
+                withdrawInvestmentButton.classList.add('disabled');
+                changeWithdrawInvestmentButtonText(false);
             }
 
             if (button.disabled) {
@@ -921,4 +938,8 @@ function cleanUpArray(array) {
         }
     }
     return cleanedArray;
+}
+
+function changeWithdrawInvestmentButtonText(value) {
+    value ? getElements().withdrawInvestmentButton.innerHTML = 'Withdraw Now!' : getElements().withdrawInvestmentButton.innerHTML = 'Cannot Withdraw';
 }
