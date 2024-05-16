@@ -362,13 +362,13 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .popup-row-1 {
-    height: 30%;
+    height: 15%;
     justify-content: center;
     align-items: center;
 }
 
 .popup-row-2 {
-    height: 50%;
+    height: 65%;
     padding-left: 10%;
 }
 
@@ -376,7 +376,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     height: 18%;
     justify-content: end;
     align-items: center;
-    padding-bottom: 2%;
+    padding-bottom: 5px;
 }
 
 .popup-title {

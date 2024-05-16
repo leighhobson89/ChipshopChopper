@@ -504,7 +504,7 @@ export function writePopupText() {
 
     let promotionMessage = "";
     if (getPromotionFlag()) {
-        promotionMessage = `You were Promoted to ${getElements().playerRoleText.innerHTML}!`;
+        promotionMessage = `You were Promoted to ${getElements().playerRoleText.innerHTML}!<br><br>`;
         setPromotionFlag(false);
     }
 
@@ -545,7 +545,7 @@ export function writePopupText() {
 
         ${potatoesMessage}<br><br>
         
-        <span style="color: yellow;">${promotionMessage}</span><br><br>
+        <span style="color: yellow;">${promotionMessage}</span>
         
         ${investmentMessage}<br>
         ${growthLossMessage}<br>
