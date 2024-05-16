@@ -261,6 +261,9 @@ export function handleButtonClick(buttonId, value) {
             case getElements().investmentRiskComponent_DecrementButton.id:
                 handleDecreaseRiskAmount();
                 break;
+            case getElements().withdrawInvestmentButton.id:
+                handleWithDrawNowButton();
+                break;
             default:
                 break;
         }
@@ -565,6 +568,15 @@ function handleDecreaseRiskAmount() {
     if (getAmountInvestmentRisk() > getZero()) {
         setAmountInvestmentRisk(getAmountInvestmentRisk() - getOne());
     }
+}
+
+function handleWithDrawNowButton() {
+    setCurrentCash(getCurrentCash() + getCurrentValueOfInvestment());
+    setCurrentValueOfInvestment(getZero());
+    setAmountInvestmentCash(getZero());
+    setAmountInvestmentRisk(getZero());
+    getElements().withdrawInvestmentButton.classList.add('disabled');
+    getElements().withdrawInvestmentButton.disabled = true;
 }
 
 function updateStorageBinHeaterToAutoShiftStartButton() {

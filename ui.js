@@ -313,6 +313,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     handleButtonClick(getElements().investmentCashComponent_DecrementButton.id, getInvestmentCashIncrementDecrement());
     handleButtonClick(getElements().investmentRiskComponent_IncrementButton.id, getInvestmentRiskIncrementDecrement());
     handleButtonClick(getElements().investmentRiskComponent_DecrementButton.id, getInvestmentRiskIncrementDecrement());
+    handleButtonClick(getElements().withdrawInvestmentButton.id, null);
 }
 
 export function writeTextInSections(buttonDetails) {
