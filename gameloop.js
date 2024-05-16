@@ -60,7 +60,7 @@ import {
     getElements,
     getFryerCapacity,
     getFryTimeRemaining, getGameInProgress,
-    getHeaterUpgradeBought, getInvestmentFundUnlocked,
+    getHeaterUpgradeBought, getInterestRateBaseValue, getInvestmentFundUnlocked,
     getJustDeleteTheOneElementFromArray,
     getMultipleForHeaterEffectOnCoolDown,
     getNumberOfChipsFromPotato,
@@ -71,7 +71,7 @@ import {
     getPriceOfChips,
     getQuantityOfChipsFrying, getRiskAdjustmentCoefficient, getRiskThreshold,
     getRoleUpgrade,
-    getShiftInProgress,
+    getShiftInProgress, getShiftLength,
     getShiftTimeRemaining,
     getStandardDecrementIncrementOfOne,
     getStop,
@@ -240,6 +240,7 @@ function updateShiftCountDown() {
                 setShiftTimeRemaining(getShiftTimeRemaining() - getStandardDecrementIncrementOfOne());
                 getElements().subInnerDiv1_2.innerHTML = getShiftTimeRemaining().toString();
                 //console.log(`Shift time remaining: ${getShiftTimeRemaining()} seconds`);
+                calculateForthcomingTotalInvestment();
                 if (getShiftTimeRemaining() === getZero()) {
 
                     setShiftInProgress(false);
@@ -505,11 +506,11 @@ function incrementRiskValue() {
         let currentRisk = getCurrentRiskLevel();
 
         let riskPercentage = getAmountInvestmentRisk() * 10;
-        console.log("risk level %: " + getAmountInvestmentRisk());
+        // console.log("risk level %: " + getAmountInvestmentRisk());
         let randomAdjusterNumber = (Math.random() * getRiskAdjustmentCoefficient());
-        console.log("randomAdjusterNumber: " + randomAdjusterNumber);
+        // console.log("randomAdjusterNumber: " + randomAdjusterNumber);
         let riskIncrementThisShift = baseRiskNumber - randomAdjusterNumber;
-        console.log("riskIncrementThisShift: " + riskIncrementThisShift);
+        // console.log("riskIncrementThisShift: " + riskIncrementThisShift);
 
         currentRisk += riskIncrementThisShift + riskPercentage;
         let doubleRisk = Math.random() * 100 + 1 > 50;
@@ -517,7 +518,7 @@ function incrementRiskValue() {
             currentRisk *= ((getAmountInvestmentRisk() / 100) + 1);
         }
 
-        console.log("currentRisk: " + currentRisk + "/" + getRiskThreshold());
+        // console.log("currentRisk: " + currentRisk + "/" + getRiskThreshold());
         setCurrentRiskLevel(currentRisk);
     }
 }
@@ -527,7 +528,7 @@ function checkRiskAgainstThreshold() {
     if (getCurrentRiskLevel() >= threshold && getAmountInvestmentCash() > getZero()) {
         console.log("DEVALUE investment");
         devalueInvestment();
-        setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2))); //start from a non zero random risk level
+        setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2))); //start from a non-zero random risk level
     } else {
         console.log("no devalue of investment");
     }
@@ -535,8 +536,34 @@ function checkRiskAgainstThreshold() {
 
 function devalueInvestment() {
     const percentageOverThreshold = ((getCurrentRiskLevel() - getRiskThreshold()) / getRiskThreshold()) * 100;
-    console.log("percentage over threshold:" + percentageOverThreshold);
+    // console.log("percentage over threshold:" + percentageOverThreshold);
     const amountOfInvestmentToLose = getCurrentValueOfInvestment() * (percentageOverThreshold / 100)
-    console.log("percentage of investment (amount to lose):" + amountOfInvestmentToLose);
+    // console.log("percentage of investment (amount to lose):" + amountOfInvestmentToLose);
     setCurrentValueOfInvestment(getCurrentValueOfInvestment() - amountOfInvestmentToLose);
+}
+
+export function calculateForthcomingTotalInvestment() {
+    if (getAmountInvestmentCash() > getZero() && getAmountInvestmentRisk() > getZero()) {
+        let remaining = getShiftTimeRemaining();
+        console.log("Remaining time: " + remaining);
+
+        let totalPercentageGainAtEndOfShiftIfFullShift = (getInterestRateBaseValue() + (getAmountInvestmentRisk() / 10)) * getCurrentValueOfInvestment();
+        console.log("Total percentage gain at end of shift: " + totalPercentageGainAtEndOfShiftIfFullShift);
+
+        let proportionOfShiftLeft = remaining / getShiftLength();
+        console.log("Proportion of shift left: " + (proportionOfShiftLeft * 100) + "%");
+
+        let gainIfThingsLeftAsTheyAre = (totalPercentageGainAtEndOfShiftIfFullShift * proportionOfShiftLeft) / 10;
+        console.log("Cash gain this shift if nothing touched: " + gainIfThingsLeftAsTheyAre);
+
+        let valueToIncreaseThisSecond = gainIfThingsLeftAsTheyAre / remaining;
+        console.log("Cash gain this second: " + valueToIncreaseThisSecond);
+
+        let newValueOfInvestment = getCurrentValueOfInvestment() + valueToIncreaseThisSecond;
+        console.log("New value of investment: " + newValueOfInvestment);
+
+        if (!isNaN(valueToIncreaseThisSecond)) {
+            setCurrentValueOfInvestment(newValueOfInvestment);
+        }
+    }
 }

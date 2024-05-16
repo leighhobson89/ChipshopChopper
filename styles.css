@@ -264,7 +264,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
 
 .action-button-main.disabled,
 .action-button-bottom-row.disabled,
-.investmentComponent-button.disabled {
+.investmentComponent-button.disabled,
+#investmentCashComponent_DecrementButton.disabled {
     background-color: grey;
     color: black;
     pointer-events: none;

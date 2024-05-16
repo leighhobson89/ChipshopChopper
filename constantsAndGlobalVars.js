@@ -35,8 +35,9 @@ const PRICE_TO_UNLOCK_INVESTMENT_FUND = 20000;
 const PRICE_TO_UNLOCK_AUTO_SHIFT_START = 2000;
 const MAX_RISK_INVESTMENT_MECHANIC = 21;
 const RISK_THRESHOLD = 2500;
-const RISK_ADJUSTMENT_COEFFICIENT = 98; //
-const BASE_RISK_NUMBER = 200; //
+const RISK_ADJUSTMENT_COEFFICIENT = 98;
+const BASE_RISK_NUMBER = 200;
+const INTEREST_RATE_BASE_VALUE = 1.2; //
 
 //UPGRADE PRICE MULTIPLIER CONSTANTS
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
@@ -1125,6 +1126,10 @@ export function getInvestmentFundUnlockable() {
 
 export function setInvestmentFundUnlockable(value) {
     investmentFundUnlockable = value;
+}
+
+export function getInterestRateBaseValue() {
+    return INTEREST_RATE_BASE_VALUE;
 }
 
 

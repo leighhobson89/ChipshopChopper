@@ -166,10 +166,15 @@ import {
     getAmountInvestmentCash,
     getAmountInvestmentRisk,
     getMaxRiskAmount,
-    setAmountInvestmentRisk, getHeaterUpgradeBought, setCurrentValueOfInvestment, getCurrentValueOfInvestment
+    setAmountInvestmentRisk,
+    getHeaterUpgradeBought,
+    setCurrentValueOfInvestment,
+    getCurrentValueOfInvestment,
+    getShiftTimeRemaining
 } from './constantsAndGlobalVars.js';
 
 import {
+    calculateForthcomingTotalInvestment,
     startBatchTimer
 } from './gameloop.js';
 
@@ -405,6 +410,8 @@ export function handleStartShift() {
     let newPotatoesToDeliverForNextShift = Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity());
     setActualPotatoesInStorage(newPotatoesToDeliverForNextShift);
     getElements().startShiftButton.innerHTML = 'Start Shift <br> (+ ' + selectARandomNumberOfSpudsForNextShift() + ' Potatoes)';
+
+    calculateForthcomingTotalInvestment();
     disableButtons(false);
 }
 
@@ -584,6 +591,8 @@ export function decrementCounter(counterId, value) {
 export function disableButtons(init) {
     let mainButtons;
     let bottomRowButtons;
+    let investmentCashComponent_DecrementButton = getElements().investmentCashComponent_DecrementButton;
+
     const pricesArrayMainButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), getPriceToImprovePotatoStorage(), getPriceToImproveFryerCapacity(), 0, 0, 0, 0, 0, 0, 0, 0];
     //const pricesArrayBottomRow = [getPriceToEnableDoublePeeling(), getPriceToEnableDoubleChipping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
 
@@ -595,12 +604,18 @@ export function disableButtons(init) {
     if (!init) {
         mainButtons = getElements().allMainButtons;
         bottomRowButtons = getElements().allBottomButtons;
+
         const spudCount = parseInt(getElements().subInnerDivMid1_2.innerHTML);
         const peeledCount = parseInt(getElements().peeledCount.innerHTML);
         const cutCount = parseInt(getElements().cutCount.innerHTML);
         const inFryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
         const readyToServeCount = parseInt(getElements().readyToServeCount.innerHTML);
         const customerCount = parseInt(getElements().customersWaitingCount.innerHTML);
+
+        if (!getShiftInProgress()) {
+            investmentCashComponent_DecrementButton.disabled = false;
+            investmentCashComponent_DecrementButton.classList.remove('disabled');
+        }
 
         mainButtons.forEach(button => {
             switch (button.id) {
@@ -697,6 +712,11 @@ export function disableButtons(init) {
                 default:
                     button.disabled = false;
                     break;
+            }
+
+            if (getShiftInProgress()) {
+                investmentCashComponent_DecrementButton.disabled = true;
+                investmentCashComponent_DecrementButton.classList.add('disabled');
             }
 
             if (button.disabled) {
