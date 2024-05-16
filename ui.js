@@ -463,6 +463,14 @@ export function createOverlay() {
     overlay.classList.add('overlay');
     overlay.id = 'overlay';
     overlay.style.display = "none";
+
+    const overlayText = document.createElement('div');
+    overlayText.id = 'overlayText';
+    overlayText.className = 'overlay-text';
+    overlayText.innerHTML = 'Congratulations, You Won!';
+    overlayText.style.display = 'none';
+
+    overlay.appendChild(overlayText);
     document.body.appendChild(overlay);
 
     return overlay;
@@ -497,7 +505,7 @@ export function writePopupText() {
     const popupContent = getElements().endOfShiftOrGamePopupContent;
 
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
-        popupTitle.innerHTML = `<div class="popup-title">Congratulations! You Won!!!</div>`;
+        popupTitle.innerHTML = `<div class="popup-title">Congratulations!!</div>`;
         //add total Earnings, Spendings, PotatoesPeeled, ChipsCut, ChipsWasted, CustomersServed for all game
         popupContent.innerHTML = `
     <div class="popup-content">
@@ -833,6 +841,19 @@ function initialiseInvestmentScreenText() {
 }
 
 export function triggerEndGameScreen() {
+    popupOverlay.style.opacity = '0';
+    popupOverlay.style.backgroundColor = 'black';
+    popupOverlay.style.transition = 'opacity 9s linear';
+    toggleOverlay(popupOverlay);
+    setTimeout(function() {
+        popupOverlay.style.opacity = '1';
+    }, 0);
+
+    setTimeout(function() {
+        document.getElementById('overlayText').style.display = 'block';
+        document.getElementById('overlayText').style.animation = 'bounce 10s infinite linear, fade 2s infinite, rainbow 4s infinite';
+    }, 9000);
+
     console.log("You won the game!");
 }
 

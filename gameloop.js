@@ -57,7 +57,7 @@ import {
     getCustomersServed,
     getCustomersWaiting,
     getCustomerTime,
-    getElements,
+    getElements, getFloatOnStockMarketUnlockedAndEndGameFlowStarted,
     getFryerCapacity,
     getFryTimeRemaining, getGameInProgress, getGrowthInvestment,
     getHeaterUpgradeBought, getInterestRateBaseValue, getInvestmentFundUnlocked,
@@ -339,22 +339,24 @@ function updateChipsCoolDownTimer(batchId) {
 }
 
 async function triggerWastingProcessForBatch(batchId) {
-    // console.log(`Batch ${batchId} - wasting process triggered`);
+    if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
+        // console.log(`Batch ${batchId} - wasting process triggered`);
 
-    while (getChipsReadyToServeQuantity()[batchId] > getZero()) {
-        // console.log(`Batch ${batchId} - wasting one chip ${getChipsReadyToServeQuantity()[batchId]} remaining in [${batchId}]th element`);
+        while (getChipsReadyToServeQuantity()[batchId] > getZero()) {
+            // console.log(`Batch ${batchId} - wasting one chip ${getChipsReadyToServeQuantity()[batchId]} remaining in [${batchId}]th element`);
 
-        if (getChipsReadyToServeQuantity()[batchId] === getZero()) {
-            // console.log(`Batch ${batchId} - shifting array, element [${batchId}] has no chips left`);
-            getChipsReadyToServeQuantity().splice(batchId, getJustDeleteTheOneElementFromArray());
-            clearInterval(batchTimers[batchId]);
-        } else {
-            await new Promise(resolve => setTimeout(resolve, getClockSpeed()));
-            // console.log(`Batch ${batchId} - going to waste a chip, ${getChipsReadyToServeQuantity()[batchId]} remaining`);
-            setChipsReadyToServeQuantity(batchId, getChipsReadyToServeQuantity()[batchId] - getStandardDecrementIncrementOfOne());
-            setChipsWastedThisShift(getChipsWastedThisShift() + getStandardDecrementIncrementOfOne());
-            // console.log(`Batch ${batchId} - A chip is wasted, ${getChipsReadyToServeQuantity()[batchId]} remaining in this batch`);
-            decrementCounter('readyToServeCount', getStandardDecrementIncrementOfOne());
+            if (getChipsReadyToServeQuantity()[batchId] === getZero()) {
+                // console.log(`Batch ${batchId} - shifting array, element [${batchId}] has no chips left`);
+                getChipsReadyToServeQuantity().splice(batchId, getJustDeleteTheOneElementFromArray());
+                clearInterval(batchTimers[batchId]);
+            } else {
+                await new Promise(resolve => setTimeout(resolve, getClockSpeed()));
+                // console.log(`Batch ${batchId} - going to waste a chip, ${getChipsReadyToServeQuantity()[batchId]} remaining`);
+                setChipsReadyToServeQuantity(batchId, getChipsReadyToServeQuantity()[batchId] - getStandardDecrementIncrementOfOne());
+                setChipsWastedThisShift(getChipsWastedThisShift() + getStandardDecrementIncrementOfOne());
+                // console.log(`Batch ${batchId} - A chip is wasted, ${getChipsReadyToServeQuantity()[batchId]} remaining in this batch`);
+                decrementCounter('readyToServeCount', getStandardDecrementIncrementOfOne());
+            }
         }
     }
 }
@@ -483,10 +485,6 @@ function checkPlayerRole() {
             changePlayerRole(getElements().playerRoleText, Role.SEVEN, 'text-bounce-animation', 'fade-text-animation');
         }
     }
-}
-
-function winGame() {
-
 }
 
 function updateInvestmentPlanData() {

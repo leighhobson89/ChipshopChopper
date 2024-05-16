@@ -175,13 +175,10 @@ import {
     setFloatOnStockMarketUnlockedAndEndGameFlowStarted,
     endOfShiftOrGamePopup,
     popupOverlay,
-    setOldCash,
     getPriceOfChips,
     setChipsWastedThisShift,
     getChipsWastedThisShift,
-    setCustomersWaitingBeforeEndOfShift,
     resetBatchTimers,
-    setGrowthInvestment,
     setChipsFriedThisShift,
     getEndGameCash,
     getEndGamePotatoes,
@@ -419,6 +416,7 @@ export function handleStartShift() {
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         setShiftInProgress(true);
         console.log("Started Final Shift!");
+        getElements().startShiftButton.style.display = 'none';
     } else {
         setShiftLengthTimerVariable(getShiftLength());
         setShiftInProgress(true);
