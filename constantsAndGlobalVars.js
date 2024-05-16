@@ -31,7 +31,6 @@ const INCREASE_FOOTFALL_DECREMENT = 2;
 const ZERO = 0;
 const ONE = 1;
 const PRICE_TO_FLOAT = 200000;
-const PRICE_TO_UNLOCK_INVESTMENT_FUND = 20000;
 const PRICE_TO_UNLOCK_AUTO_SHIFT_START = 2000;
 const MAX_RISK_INVESTMENT_MECHANIC = 21;
 const RISK_THRESHOLD = 2500;
@@ -113,6 +112,7 @@ export let shiftInProgress = false;
  let autoShiftStartUpgradeUnlocked = false;
  let autoShiftStatus = false;
  let promotionFlag = false;
+ let floatOnStockMarketUnlocked = false;
 
 //PRICES
  let priceToImprovePotatoStorage = 5;
@@ -128,6 +128,7 @@ export let shiftInProgress = false;
  let priceToImproveFryTimer = 500;
  let priceToDoubleSpudsMax = 500;
  let priceToIncreaseFootfall = 200;
+ let priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
 
 //AUTO SPEEDS
 let currentSpeedAutoPeeler = "N/A";
@@ -224,7 +225,7 @@ export function setElements() {
         autoCustomerServerUpgradeButton: document.getElementById('autoCustomerServerUpgradeButton'),
         fastFryerUpgradeButton: document.getElementById('fastFryerUpgradeButton'),
         potatoDeliveryDoublerButton: document.getElementById('potatoDeliveryDoublerButton'),
-        investmentFundUnlockButton: document.getElementById('investmentFundUnlockButton'),
+        investmentFundUnlockOrFloatButton: document.getElementById('investmentFundUnlockOrFloatButton'),
         investmentCashComponent: document.getElementById('investmentCashComponent'),
         investmentRiskComponent: document.getElementById('investmentRiskComponent'),
         investmentCashComponent_IncrementButton: document.getElementById('investmentCashComponent_IncrementButton'),
@@ -947,8 +948,12 @@ export function getRoleUpgrade(currentRole) {
     }
 }
 
-export function getPriceToUnlockInvestmentFund() {
-    return PRICE_TO_UNLOCK_INVESTMENT_FUND;
+export function getPriceToUnlockInvestmentFundOrFloatOnStockMarket() {
+    return priceToUnlockInvestmentFundOrFloatOnStockMarket;
+}
+
+export function setPriceToUnlockInvestmentFundToNowFloatOnStockMarket(value) {
+    priceToUnlockInvestmentFundOrFloatOnStockMarket = value;
 }
 
 export function getPriceToFloatOnStockMarket() {
@@ -1151,8 +1156,10 @@ export function setGrowthInvestment(value) {
     growthInvestment = value;
 }
 
+export function getFloatOnStockMarketUnlocked() {
+    return floatOnStockMarketUnlocked;
+}
 
-
-
-
-
+export function setFloatOnStockMarketUnlocked(value) {
+    floatOnStockMarketUnlocked = value;
+}

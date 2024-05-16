@@ -46,7 +46,7 @@ import {
     getPriceToImproveFryerCapacity,
     getPriceToImproveFryTimer,
     getPriceToImprovePotatoStorage,
-    getPriceToUnlockInvestmentFund,
+    getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
     getRoleUpgrade,
     getShiftCounter,
     getShiftInProgress,
@@ -237,7 +237,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     const bottomButtonDetails = [
         { id: 'twoHandedPeelingButton', name: `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'twoHandedChippingButton', name: `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`, upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'investmentFundUnlockButton', name: `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFund())}`, upgrade: 'true', repeatableUpgrade: 'false' },
+        { id: 'investmentFundUnlockOrFloatButton', name: `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'addStorageHeaterAutoShiftStartButton', name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
     ];
@@ -311,7 +311,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
     handleButtonClick(getElements().autoCustomerServerUpgradeButton.id, getPriceToImproveAutoCustomerServer());
     handleButtonClick(getElements().fastFryerUpgradeButton.id, getPriceToImproveFryTimer());
     handleButtonClick(getElements().potatoDeliveryDoublerButton.id, getPriceToDoubleSpudsMax());
-    handleButtonClick(getElements().investmentFundUnlockButton.id, getPriceToUnlockInvestmentFund());
+    handleButtonClick(getElements().investmentFundUnlockOrFloatButton.id, getPriceToUnlockInvestmentFundOrFloatOnStockMarket());
     handleButtonClick(getElements().customerFrequencyIncreaser.id, getPriceToIncreaseFootfall());
     handleButtonClick(getElements().investmentCashComponent_IncrementButton.id, getInvestmentCashIncrementDecrement());
     handleButtonClick(getElements().investmentCashComponent_DecrementButton.id, getInvestmentCashIncrementDecrement());
@@ -382,7 +382,7 @@ export function updateButtonStyle(buttonId, startStop) {
                     element.classList.add('disabled');
                 }
                 break;
-            case getElements().investmentFundUnlockButton.id:
+            case getElements().investmentFundUnlockOrFloatButton.id:
                 element.innerHTML = `Float on Stock Market<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}`;
                 element.classList.add('disabled');
                 break;
@@ -597,7 +597,7 @@ export function updateVisibleButtons() {
             getElements().customerFrequencyIncreaser.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && getElements().playerRoleText.innerHTML === (Role.SIX)) {
-            getElements().investmentFundUnlockButton.classList.remove('hidden-button');
+            getElements().investmentFundUnlockOrFloatButton.classList.remove('hidden-button');
         }
 
         if (getElements().playerRoleText.innerHTML === (Role.SIX) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.style.display === 'none') {
@@ -639,7 +639,7 @@ function createOptionScreenEventListeners() {
     getElements().debug1.addEventListener('click', function () {
         setDebugFlag(true);
         getElements().debug1.classList.add('debug-toggledOn');
-        let donation = 25000;
+        let donation = 200000;
         setCurrentCash(donation);
         getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
         console.log("$" + donation + " given (debug)");

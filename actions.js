@@ -147,7 +147,7 @@ import {
     setHeaterUpgradeBought,
     setInvestmentFundUnlocked,
     getInvestmentFundUnlocked,
-    getPriceToUnlockInvestmentFund,
+    getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
     getPriceToFloatOnStockMarket,
     getPriceToUnlockAutoShiftStart,
     setAutoShiftStartUpgradeUnlocked,
@@ -170,6 +170,9 @@ import {
     getHeaterUpgradeBought,
     setCurrentValueOfInvestment,
     getCurrentValueOfInvestment,
+    setPriceToUnlockInvestmentFundToNowFloatOnStockMarket,
+    getFloatOnStockMarketUnlocked,
+    setFloatOnStockMarketUnlocked,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -242,7 +245,7 @@ export function handleButtonClick(buttonId, value) {
             case getElements().potatoDeliveryDoublerButton.id:
                 handleDoubleMaxSpudsDelivery(buttonId);
                 break;
-            case getElements().investmentFundUnlockButton.id:
+            case getElements().investmentFundUnlockOrFloatButton.id:
                 handleInvestmentFundUnlockButton(buttonId);
                 break;
             case getElements().customerFrequencyIncreaser.id:
@@ -502,12 +505,19 @@ function handleDoubleMaxSpudsDelivery(buttonId) {
 function handleInvestmentFundUnlockButton(buttonId) {
     if (!getInvestmentFundUnlocked()) {
         setInvestmentFundUnlocked(true);
+    } else {
+        setFloatOnStockMarketUnlocked(true);
     }
-    setCurrentCash(getCurrentCash() - getPriceToUnlockInvestmentFund());
+    setCurrentCash(getCurrentCash() - getPriceToUnlockInvestmentFundOrFloatOnStockMarket());
     updateButtonStyle(buttonId, null);
-    updateStorageBinHeaterToAutoShiftStartButton();
-    hideDoublePeelerChipperAndShowInvestmentComponents();
-    // show buttons 17-20 (or better change it to be info fields to show investment mechanic data
+    if (!getFloatOnStockMarketUnlocked()) {
+        updateStorageBinHeaterToAutoShiftStartButton();
+        hideDoublePeelerChipperAndShowInvestmentComponents();
+        setUpFloatButton();
+    }
+    if (getFloatOnStockMarketUnlocked()) {
+        setupEndGameFlow();
+    }
 }
 
 function handleIncreaseFootfall(buttonId) {
@@ -725,11 +735,11 @@ export function disableButtons(init) {
                 case getElements().startShiftButton.id:
                     button.disabled = getShiftTime() > getZero();
                     break;
-                case getElements().investmentFundUnlockButton.id:
+                case getElements().investmentFundUnlockOrFloatButton.id:
                     if (getInvestmentFundUnlocked()) {
                         button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
                     } else {
-                        button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFund() || !getShiftInProgress();
+                        button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
                     }
                     break;
                 default:
@@ -953,4 +963,12 @@ function cleanUpArray(array) {
 
 function changeWithdrawInvestmentButtonText(value) {
     value ? getElements().withdrawInvestmentButton.innerHTML = 'Withdraw Now!' : getElements().withdrawInvestmentButton.innerHTML = 'Cannot Withdraw';
+}
+
+function setUpFloatButton() {
+    setPriceToUnlockInvestmentFundToNowFloatOnStockMarket(getPriceToFloatOnStockMarket());
+}
+
+function setupEndGameFlow() {
+    console.log("entering end game phase");
 }
