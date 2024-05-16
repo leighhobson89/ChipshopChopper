@@ -111,6 +111,7 @@ export let shiftInProgress = false;
  let investmentFundUnlockable = false;
  let autoShiftStartUpgradeUnlocked = false;
  let autoShiftStatus = false;
+ let promotionFlag = false;
 
 //PRICES
  let priceToImprovePotatoStorage = 5;
@@ -1131,6 +1132,14 @@ export function setInvestmentFundUnlockable(value) {
 
 export function getInterestRateBaseValue() {
     return INTEREST_RATE_BASE_VALUE;
+}
+
+export function getPromotionFlag() {
+    return promotionFlag;
+}
+
+export function setPromotionFlag(value) {
+    promotionFlag = value;
 }
 
 

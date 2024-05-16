@@ -66,7 +66,11 @@ import {
     getInvestmentCashIncrementDecrement,
     getInvestmentRiskIncrementDecrement,
     getAmountInvestmentCash,
-    getAmountInvestmentRisk, getCurrentValueOfInvestment, getInvestmentFundUnlockable
+    getAmountInvestmentRisk,
+    getCurrentValueOfInvestment,
+    getInvestmentFundUnlockable,
+    getPromotionFlag,
+    setPromotionFlag
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -498,6 +502,12 @@ export function writePopupText() {
         potatoesMessage += " (due to max storage reached)";
     }
 
+    let promotionMessage = "";
+    if (getPromotionFlag()) {
+        promotionMessage = `You were Promoted to ${getElements().playerRoleText.innerHTML}!`;
+        setPromotionFlag(false);
+    }
+
     popupContent.innerHTML = `
     <div class="popup-content">
         Your shift has ended!<br><br>
@@ -512,7 +522,9 @@ export function writePopupText() {
         Customer Walkouts: ${walkOuts}<br>
         Customers Still Waiting: ${getCustomersWaiting()}<br><br>
 
-        ${potatoesMessage}
+        ${potatoesMessage}<br><br>
+        
+        <span style="color: yellow;">${promotionMessage}</span>
     </div>`;
 
 }
@@ -610,6 +622,7 @@ function createOptionScreenEventListeners() {
 }
 
 export function changePlayerRole(element, newText, animation1, animation2) {
+    setPromotionFlag(true);
     element.classList.add(animation1);
     element.classList.add(animation2);
 
