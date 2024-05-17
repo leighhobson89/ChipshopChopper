@@ -90,7 +90,8 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     display: none; /* Initially hidden */
-    border: 2px white solid;
+    border: 4px white solid;
+    border-radius: 20px;
 }
 
 .top-section {

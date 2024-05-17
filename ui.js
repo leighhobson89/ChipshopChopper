@@ -109,7 +109,7 @@ export function createTitleScreen() {
     titleScreen.classList.add('title-screen');
 
     const title = document.createElement('h1');
-    title.innerHTML = 'Counter Game';
+    title.innerHTML = 'Chip Shop Imperium';
     title.classList.add('title');
 
     const options = document.createElement('div');
@@ -947,7 +947,7 @@ export function checkAndSetFlagCapOnUpgrades() {
         setFryerCapacityCapped(true);
         getElements().improveFryerCapacityButton.innerHTML = `Capped: ${getCapFryerCapacity()}`;
     }
-    if (getFryTimer() <= getCapFryerSpeed() + 1 && !getFryerSpeedCapped()) {
+    if (getFryTimer() <= getCapFryerSpeed() && !getFryerSpeedCapped()) {
         setFryerSpeedCapped(true);
         getElements().fastFryerUpgradeButton.innerHTML = `Capped: ${getCapFryerSpeed()}s`;
     }

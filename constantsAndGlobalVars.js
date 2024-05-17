@@ -13,7 +13,7 @@ const END_GAME_POTATOES = 8;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const SHIFT_LENGTH = 80; //120
+const SHIFT_LENGTH = 30; //120
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
@@ -64,14 +64,14 @@ const ROLE_GAME_WINNER = 1000000;
 //UPGRADE CAPS
 const CAP_AUTO_PEELER = 10;
 const CAP_AUTO_CHIPPER = 10;
-const CAP_AUTO_FRYER = 2.5;
-const CAP_AUTO_STORAGE_COLLECTOR = 2.5;
-const CAP_AUTO_CUSTOMER_SERVER = 2.5;
+const CAP_AUTO_FRYER = 0;
+const CAP_AUTO_STORAGE_COLLECTOR = 0;
+const CAP_AUTO_CUSTOMER_SERVER = 0;
 const CAP_POTATO_CAPACITY = 750;
 const CAP_FRYER_CAPACITY = 1500;
 const CAP_FRYER_SPEED = 2.5;
 const CAP_MAX_DELIVERY = 1280;
-const CAP_MAX_WAIT_CUSTOMER = 2;
+const CAP_MAX_WAIT_CUSTOMER = 0;
 
 export const endOfShiftOrGamePopupObject = createEndOfShiftOrGamePopup();
 export const endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
