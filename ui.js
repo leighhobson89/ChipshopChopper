@@ -70,7 +70,37 @@ import {
     getCurrentValueOfInvestment,
     getInvestmentFundUnlockable,
     getPromotionFlag,
-    setPromotionFlag, getGrowthInvestment, getFloatOnStockMarketUnlockedAndEndGameFlowStarted
+    setPromotionFlag,
+    getGrowthInvestment,
+    getFloatOnStockMarketUnlockedAndEndGameFlowStarted,
+    getCapMaxWaitCustomer,
+    getCapMaxDelivery,
+    getCapFryerSpeed,
+    getCapFryerCapacity,
+    getCapPotatoCapacity,
+    getCapAutoCustomerServer,
+    getCapAutoStorageCollector,
+    getCapAutoFryer,
+    getCapAutoChipper,
+    getCapAutoPeeler,
+    setMaxDeliveryCapped,
+    setMaxWaitCustomerCapped,
+    setFryerSpeedCapped,
+    setFryerCapacityCapped,
+    setPotatoCapacityCapped,
+    setAutoCustomerServerCapped,
+    setAutoPeelerCapped,
+    setAutoChipperCapped,
+    setAutoFryerCapped,
+    setAutoStorageCollectorCapped,
+    getMaxWaitCustomerCapped,
+    getMaxDeliveryCapped,
+    getFryerSpeedCapped,
+    getFryerCapacityCapped,
+    getPotatoCapacityCapped,
+    getAutoCustomerServerCapped,
+    getAutoStorageCollectorCapped,
+    getAutoFryerCapped, getAutoChipperCapped, getAutoPeelerCapped
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -659,7 +689,7 @@ function createOptionScreenEventListeners() {
     getElements().debug1.addEventListener('click', function () {
         setDebugFlag(true);
         getElements().debug1.classList.add('debug-toggledOn');
-        let donation = 200000;
+        let donation = 7200000;
         setCurrentCash(donation);
         getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
         console.log("$" + donation + " given (debug)");
@@ -887,3 +917,84 @@ export function hideButtonsReadyForEndGame() {
     getElements().bottomRowContainer.classList.add('end-game-position-start-shift-button');
 
 }
+
+export function checkAndSetFlagCapOnUpgrades() {
+    if (getCurrentSpeedAutoPeeler() >= getCapAutoPeeler() && !getAutoPeelerCapped()) {
+        setAutoPeelerCapped(true);
+        getElements().autoPeelerUpgradeButton.innerHTML = `Capped: ${getCapAutoPeeler()}/s`;
+    }
+    if (getCurrentSpeedAutoChipper() >= getCapAutoChipper() && !getAutoChipperCapped()) {
+        setAutoChipperCapped(true);
+        getElements().autoChipperUpgradeButton.innerHTML = `Capped: ${getCapAutoChipper()}/s`;
+    }
+    if (getCurrentSpeedAutoFryer() === getCapAutoFryer() && !getAutoFryerCapped()) {
+        setAutoFryerCapped(true);
+        getElements().autoFryerUpgradeButton.innerHTML = `Capped: ${getCapAutoFryer()}s<br> Ready in ${Math.floor(getCurrentSpeedAutoFryer())}s`;
+    }
+    if (getCurrentSpeedAutoStorageCollector() === getCapAutoStorageCollector() && !getAutoStorageCollectorCapped()) {
+        setAutoStorageCollectorCapped(true);
+        getElements().autoStorageCollectorUpgradeButton.innerHTML = `Capped: ${getCapAutoStorageCollector()}s<br> Ready in ${Math.floor(getCurrentSpeedAutoStorageCollector())}s`;
+    }
+    if (getCurrentSpeedAutoCustomerServer() === getCapAutoCustomerServer() && !getAutoCustomerServerCapped()) {
+        setAutoCustomerServerCapped(true);
+        getElements().autoCustomerServerUpgradeButton.innerHTML = `Capped: ${getCapAutoCustomerServer()}s<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s`;
+    }
+    if (getPotatoStorageQuantity() >= getCapPotatoCapacity() && !getPotatoCapacityCapped()) {
+        setPotatoCapacityCapped(true);
+        getElements().improvePotatoStorageButton.innerHTML = `Capped: ${getCapPotatoCapacity()}`;
+    }
+    if (getFryerCapacity() >= getCapFryerCapacity() && !getFryerCapacityCapped()) {
+        setFryerCapacityCapped(true);
+        getElements().improveFryerCapacityButton.innerHTML = `Capped: ${getCapFryerCapacity()}`;
+    }
+    if (getFryTimer() <= getCapFryerSpeed() + 1 && !getFryerSpeedCapped()) {
+        setFryerSpeedCapped(true);
+        getElements().fastFryerUpgradeButton.innerHTML = `Capped: ${getCapFryerSpeed()}s`;
+    }
+    if (getMaxSpudsDelivery() >= getCapMaxDelivery() && !getMaxDeliveryCapped()) {
+        setMaxDeliveryCapped(true);
+        getElements().potatoDeliveryDoublerButton.innerHTML = `Capped: ${getCapMaxDelivery()}`;
+    }
+    if (getCurrentMaxValueWaitForNewCustomer() <= getCapMaxWaitCustomer() && !getMaxWaitCustomerCapped()) {
+        setMaxWaitCustomerCapped(true);
+        getElements().customerFrequencyIncreaser.innerHTML = `Capped: ${getCapMaxWaitCustomer()}s`;
+    }
+}
+
+
+export function updateTextAndDisableButtonsForCappedUpgrades() {
+    if (getAutoPeelerCapped()) {
+        getElements().autoPeelerUpgradeButton.classList.add('capped');
+    }
+    if (getAutoChipperCapped()) {
+        getElements().autoChipperUpgradeButton.classList.add('capped');
+    }
+    if (getAutoFryerCapped()) {
+        getElements().autoFryerUpgradeButton.classList.add('capped');
+    }
+    if (getAutoStorageCollectorCapped()) {
+        getElements().autoStorageCollectorUpgradeButton.classList.add('capped');
+    }
+    if (getAutoCustomerServerCapped()) {
+        getElements().autoCustomerServerUpgradeButton.classList.add('capped');
+    }
+    if (getPotatoCapacityCapped()) {
+        getElements().improvePotatoStorageButton.classList.add('capped');
+    }
+    if (getFryerCapacityCapped()) {
+        getElements().improveFryerCapacityButton.classList.add('capped');
+    }
+    if (getFryerSpeedCapped()) {
+        getElements().fastFryerUpgradeButton.classList.add('capped');
+    }
+    if (getMaxDeliveryCapped()) {
+        getElements().potatoDeliveryDoublerButton.classList.add('capped');
+    }
+    if (getMaxWaitCustomerCapped()) {
+        getElements().customerFrequencyIncreaser.classList.add('capped');
+    }
+}
+
+
+
+

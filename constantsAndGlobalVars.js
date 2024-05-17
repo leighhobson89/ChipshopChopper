@@ -13,7 +13,7 @@ const END_GAME_POTATOES = 8;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const SHIFT_LENGTH = 8; //120
+const SHIFT_LENGTH = 80; //120
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
@@ -60,6 +60,18 @@ const ROLE_FIVE_UPGRADE = 1000;
 const ROLE_SIX_UPGRADE = 10000;
 const ROLE_SEVEN_UPGRADE = 100000;
 const ROLE_GAME_WINNER = 1000000;
+
+//UPGRADE CAPS
+const CAP_AUTO_PEELER = 10;
+const CAP_AUTO_CHIPPER = 10;
+const CAP_AUTO_FRYER = 2.5;
+const CAP_AUTO_STORAGE_COLLECTOR = 2.5;
+const CAP_AUTO_CUSTOMER_SERVER = 2.5;
+const CAP_POTATO_CAPACITY = 750;
+const CAP_FRYER_CAPACITY = 1500;
+const CAP_FRYER_SPEED = 2.5;
+const CAP_MAX_DELIVERY = 1280;
+const CAP_MAX_WAIT_CUSTOMER = 2;
 
 export const endOfShiftOrGamePopupObject = createEndOfShiftOrGamePopup();
 export const endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
@@ -116,6 +128,16 @@ export let shiftInProgress = false;
  let autoShiftStatus = false;
  let promotionFlag = false;
  let floatOnStockMarketUnlocked = false;
+ let autoPeelerCapped = false;
+ let autoChipperCapped = false;
+ let autoFryerCapped = false;
+ let autoStorageCollectorCapped = false;
+ let autoCustomerServerCapped = false;
+ let potatoCapacityCapped = false;
+ let fryerCapacityCapped = false;
+ let fryerSpeedCapped = false;
+ let maxDeliveryCapped = false;
+ let maxWaitCustomerCapped = false;
 
 //PRICES
  let priceToImprovePotatoStorage = 5;
@@ -1177,4 +1199,115 @@ export function getEndGamePotatoes() {
 
 export function getEndGameFryTimer() {
     return END_GAME_FRY_TIMER;
+}
+
+export function getCapAutoPeeler() {
+    return CAP_AUTO_PEELER;
+}
+
+export function getCapAutoChipper() {
+    return CAP_AUTO_CHIPPER;
+}
+
+export function getCapAutoFryer() {
+    return CAP_AUTO_FRYER;
+}
+
+export function getCapAutoStorageCollector() {
+    return CAP_AUTO_STORAGE_COLLECTOR;
+}
+
+export function getCapAutoCustomerServer() {
+    return CAP_AUTO_CUSTOMER_SERVER;
+}
+
+export function getCapPotatoCapacity() {
+    return CAP_POTATO_CAPACITY;
+}
+
+export function getCapFryerCapacity() {
+    return CAP_FRYER_CAPACITY;
+}
+
+export function getCapFryerSpeed() {
+    return CAP_FRYER_SPEED;
+}
+
+export function getCapMaxDelivery() {
+    return CAP_MAX_DELIVERY;
+}
+
+export function getCapMaxWaitCustomer() {
+    return CAP_MAX_WAIT_CUSTOMER;
+}
+
+export function setAutoPeelerCapped(value) {
+     autoPeelerCapped = value;
+}
+export function setAutoChipperCapped(value) {
+    autoChipperCapped = value;
+}
+export function setAutoFryerCapped(value) {
+    autoFryerCapped = value;
+}
+export function setAutoStorageCollectorCapped(value) {
+    autoStorageCollectorCapped = value;
+}
+export function setAutoCustomerServerCapped(value) {
+    autoCustomerServerCapped = value;
+}
+export function setPotatoCapacityCapped(value) {
+    potatoCapacityCapped = value;
+}
+export function setFryerCapacityCapped(value) {
+    fryerCapacityCapped = value;
+}
+export function setFryerSpeedCapped(value) {
+    fryerSpeedCapped = value;
+}
+export function setMaxDeliveryCapped(value) {
+    maxDeliveryCapped = value;
+}
+export function setMaxWaitCustomerCapped(value) {
+    maxWaitCustomerCapped = value;
+}
+
+export function getAutoPeelerCapped() {
+    return autoPeelerCapped;
+}
+
+export function getAutoChipperCapped() {
+    return autoChipperCapped;
+}
+
+export function getAutoFryerCapped() {
+    return autoFryerCapped;
+}
+
+export function getAutoStorageCollectorCapped() {
+    return autoStorageCollectorCapped;
+}
+
+export function getAutoCustomerServerCapped() {
+    return autoCustomerServerCapped;
+}
+
+export function getPotatoCapacityCapped() {
+    return potatoCapacityCapped;
+}
+
+export function getFryerCapacityCapped() {
+    return fryerCapacityCapped;
+}
+
+export function getFryerSpeedCapped() {
+    return fryerSpeedCapped;
+}
+
+export function getMaxDeliveryCapped() {
+    return maxDeliveryCapped;
+}
+
+export function getMaxWaitCustomerCapped() {
+    return maxWaitCustomerCapped;
 }

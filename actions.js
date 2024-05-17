@@ -676,56 +676,58 @@ export function disableButtons(init) {
         }
 
         mainButtons.forEach(button => {
-            switch (button.id) {
-                case getElements().peelPotatoButton.id:
-                    button.disabled = spudCount <= getZero() || !getShiftInProgress();
-                    break;
-                case getElements().cutChipsButton.id:
-                    button.disabled = peeledCount <= getZero() || !getShiftInProgress();
-                    break;
-                case getElements().fryChipsButton.id:
-                    checkIfChipsStillInFryer();
-                    button.disabled = !getShiftInProgress() || (cutCount <= getZero() && !getChipsFrying());
-                    break;
-                case getElements().servingStorageButton.id:
-                    button.disabled = inFryerCount <= getZero() || !getShiftInProgress();
-                    break;
-                case getElements().serveCustomerButton.id:
-                    button.disabled = customerCount <= getZero() || readyToServeCount < getPortionSize() || !getShiftInProgress();
-                    break;
-                case getElements().improvePotatoStorageButton.id:
-                    button.disabled = getCurrentCash() < getPriceToImprovePotatoStorage();
-                    break;
-                case getElements().autoPeelerUpgradeButton.id:
-                    button.disabled = getCurrentCash() < getPriceToImproveAutoPeeler();
-                    break;
-                case getElements().autoChipperUpgradeButton.id:
-                    button.disabled = getCurrentCash() < getPriceToImproveAutoChipper();
-                    break;
-                case getElements().autoFryerUpgradeButton.id:
-                    button.disabled = getCurrentCash() < getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut();
-                    break;
-                case getElements().autoStorageCollectorUpgradeButton.id:
-                    button.disabled = getCurrentCash() < getPriceToImproveAutoMoverFromFryerToStorage();
-                    break;
-                case getElements().autoCustomerServerUpgradeButton.id:
-                    button.disabled = getCurrentCash() < getPriceToImproveAutoCustomerServer();
-                    break;
-                case getElements().improveFryerCapacityButton.id:
-                    button.disabled = getCurrentCash() < getPriceToImproveFryerCapacity();
-                    break;
-                case getElements().fastFryerUpgradeButton.id:
-                    button.disabled = getCurrentCash() < getPriceToImproveFryTimer();
-                    break;
-                case getElements().potatoDeliveryDoublerButton.id:
-                    button.disabled = getCurrentCash() < getPriceToDoubleSpudsMax();
-                    break;
-                case getElements().customerFrequencyIncreaser.id:
-                    button.disabled = getCurrentCash() < getPriceToIncreaseFootfall();
-                    break;
-                default:
-                    button.disabled = false;
-                    break;
+            if (!button.classList.contains('capped')) {
+                switch (button.id) {
+                    case getElements().peelPotatoButton.id:
+                        button.disabled = spudCount <= getZero() || !getShiftInProgress();
+                        break;
+                    case getElements().cutChipsButton.id:
+                        button.disabled = peeledCount <= getZero() || !getShiftInProgress();
+                        break;
+                    case getElements().fryChipsButton.id:
+                        checkIfChipsStillInFryer();
+                        button.disabled = !getShiftInProgress() || (cutCount <= getZero() && !getChipsFrying());
+                        break;
+                    case getElements().servingStorageButton.id:
+                        button.disabled = inFryerCount <= getZero() || !getShiftInProgress();
+                        break;
+                    case getElements().serveCustomerButton.id:
+                        button.disabled = customerCount <= getZero() || readyToServeCount < getPortionSize() || !getShiftInProgress();
+                        break;
+                    case getElements().improvePotatoStorageButton.id:
+                        button.disabled = getCurrentCash() < getPriceToImprovePotatoStorage();
+                        break;
+                    case getElements().autoPeelerUpgradeButton.id:
+                        button.disabled = getCurrentCash() < getPriceToImproveAutoPeeler();
+                        break;
+                    case getElements().autoChipperUpgradeButton.id:
+                        button.disabled = getCurrentCash() < getPriceToImproveAutoChipper();
+                        break;
+                    case getElements().autoFryerUpgradeButton.id:
+                        button.disabled = getCurrentCash() < getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut();
+                        break;
+                    case getElements().autoStorageCollectorUpgradeButton.id:
+                        button.disabled = getCurrentCash() < getPriceToImproveAutoMoverFromFryerToStorage();
+                        break;
+                    case getElements().autoCustomerServerUpgradeButton.id:
+                        button.disabled = getCurrentCash() < getPriceToImproveAutoCustomerServer();
+                        break;
+                    case getElements().improveFryerCapacityButton.id:
+                        button.disabled = getCurrentCash() < getPriceToImproveFryerCapacity();
+                        break;
+                    case getElements().fastFryerUpgradeButton.id:
+                        button.disabled = getCurrentCash() < getPriceToImproveFryTimer();
+                        break;
+                    case getElements().potatoDeliveryDoublerButton.id:
+                        button.disabled = getCurrentCash() < getPriceToDoubleSpudsMax();
+                        break;
+                    case getElements().customerFrequencyIncreaser.id:
+                        button.disabled = getCurrentCash() < getPriceToIncreaseFootfall();
+                        break;
+                    default:
+                        button.disabled = false;
+                        break;
+                }
             }
             if (button.disabled) {
                 button.classList.add('disabled');
@@ -735,65 +737,69 @@ export function disableButtons(init) {
         });
 
         bottomRowButtons.forEach(button => {
-            switch (button.id) {
-                case getElements().twoHandedPeelingButton.id:
-                    if (!checkIfNonRepeatableUpgradePurchased(button, 'peeler')) {
-                        button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
-                    }
-                    break;
-                case getElements().twoHandedChippingButton.id:
-                    if (!checkIfNonRepeatableUpgradePurchased(button, 'chipper')) {
-                        button.disabled = getCurrentCash() < getPriceToEnableDoubleChipping();
-                    }
-                    break;
-                case getElements().addStorageHeaterAutoShiftStartButton.id:
-                    if (!getHeaterUpgradeBought()) {
-                        if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
-                            button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+            if (!button.classList.contains('capped')) {
+                switch (button.id) {
+                    case getElements().twoHandedPeelingButton.id:
+                        if (!checkIfNonRepeatableUpgradePurchased(button, 'peeler')) {
+                            button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
                         }
-                    } else {
-                        if (!checkIfNonRepeatableUpgradePurchased(button, 'autoShift')) {
-                            button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
+                        break;
+                    case getElements().twoHandedChippingButton.id:
+                        if (!checkIfNonRepeatableUpgradePurchased(button, 'chipper')) {
+                            button.disabled = getCurrentCash() < getPriceToEnableDoubleChipping();
                         }
-                    }
-                    break;
-                case getElements().startShiftButton.id:
-                    button.disabled = getShiftTime() > getZero();
-                    break;
-                case getElements().investmentFundUnlockOrFloatButton.id:
-                    if (getInvestmentFundUnlocked()) {
-                        button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
-                    } else {
-                        button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
-                    }
-                    break;
-                default:
-                    button.disabled = false;
-                    break;
-            }
+                        break;
+                    case getElements().addStorageHeaterAutoShiftStartButton.id:
+                        if (!getHeaterUpgradeBought()) {
+                            if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
+                                button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+                            }
+                        } else {
+                            if (!checkIfNonRepeatableUpgradePurchased(button, 'autoShift')) {
+                                button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
+                            }
+                        }
+                        break;
+                    case getElements().startShiftButton.id:
+                        button.disabled = getShiftTime() > getZero();
+                        break;
+                    case getElements().investmentFundUnlockOrFloatButton.id:
+                        if (getInvestmentFundUnlocked()) {
+                            button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
+                        } else {
+                            button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
+                        }
+                        break;
+                    default:
+                        button.disabled = false;
+                        break;
+                }
 
-            if (getShiftInProgress()) {
-                investmentCashComponent_DecrementButton.disabled = true;
-                investmentCashComponent_DecrementButton.classList.add('disabled');
-                investmentRiskComponent_DecrementButton.disabled = true;
-                investmentRiskComponent_DecrementButton.classList.add('disabled');
-                withdrawInvestmentButton.disabled = true;
-                withdrawInvestmentButton.classList.add('disabled');
-                changeWithdrawInvestmentButtonText(false);
-            }
+                if (getShiftInProgress()) {
+                    investmentCashComponent_DecrementButton.disabled = true;
+                    investmentCashComponent_DecrementButton.classList.add('disabled');
+                    investmentRiskComponent_DecrementButton.disabled = true;
+                    investmentRiskComponent_DecrementButton.classList.add('disabled');
+                    withdrawInvestmentButton.disabled = true;
+                    withdrawInvestmentButton.classList.add('disabled');
+                    changeWithdrawInvestmentButtonText(false);
+                }
 
-            if (button.disabled) {
-                button.classList.add('disabled');
-            } else {
-                button.classList.remove('disabled');
+                if (button.disabled) {
+                    button.classList.add('disabled');
+                } else {
+                    button.classList.remove('disabled');
+                }
             }
         });
     } else if (getGameInProgress() && getShiftCounter() > getZero()) {
         mainButtons.forEach(button => {
-            if (!checkIfNonRepeatableUpgradePurchased(button)) {
-                if (!checkIfRepeatableUpgrade(button)) {
-                    button.disabled = true;
-                    button.classList.add('disabled');
+            if (!button.classList.contains('capped')) {
+                if (!checkIfNonRepeatableUpgradePurchased(button)) {
+                    if (!checkIfRepeatableUpgrade(button)) {
+                        button.disabled = true;
+                        button.classList.add('disabled');
+                    }
                 }
             }
         });
@@ -808,10 +814,12 @@ export function disableButtons(init) {
 function disableButtonsHelper(buttons, pricesArray) {
     for (let i = 0; i < buttons.length; i++) {
         const button = buttons[i];
-        if (button.id !== getElements().startShiftButton.id && !checkIfNonRepeatableUpgradePurchased(button)) {
-            if (getCurrentCash() < pricesArray[i] || pricesArray[i] === getZero()) {
-                button.disabled = true;
-                button.classList.add('disabled');
+        if (!button.classList.contains('capped')) {
+            if (button.id !== getElements().startShiftButton.id && !checkIfNonRepeatableUpgradePurchased(button)) {
+                if (getCurrentCash() < pricesArray[i] || pricesArray[i] === getZero()) {
+                    button.disabled = true;
+                    button.classList.add('disabled');
+                }
             }
         }
     }

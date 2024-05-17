@@ -268,7 +268,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
 .investment-withdraw-button.disabled,
 .investmentComponent-button.disabled,
 #investmentCashComponent_DecrementButton.disabled,
-#investmentRiskComponent_DecrementButton.disabled {
+#investmentRiskComponent_DecrementButton.disabled,
+.capped {
     background-color: grey;
     color: black;
     pointer-events: none;

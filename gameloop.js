@@ -1,10 +1,10 @@
 import {
-    changePlayerRole,
+    changePlayerRole, checkAndSetFlagCapOnUpgrades,
     createGameWindow,
     createTitleScreen, formatToCashNotation,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
-    updateButtonStyle,
+    updateButtonStyle, updateTextAndDisableButtonsForCappedUpgrades,
     updateVisibleButtons,
     writePopupText
 } from './ui.js';
@@ -67,7 +67,7 @@ import {
     getOne,
     getOneForTimeDiff,
     getPeelerUpgradeBought,
-    getPortionSize,
+    getPortionSize, getPotatoStorageQuantity,
     getPriceOfChips,
     getQuantityOfChipsFrying, getRiskAdjustmentCoefficient, getRiskThreshold,
     getRoleUpgrade,
@@ -135,6 +135,8 @@ function gameLoop() {
     if (getInvestmentFundUnlocked()) {
         updateInvestmentPlanData();
     }
+    checkAndSetFlagCapOnUpgrades();
+    updateTextAndDisableButtonsForCappedUpgrades();
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
@@ -194,6 +196,7 @@ function updateShiftCountDown() {
                     }
                     setAutoChipperCounter(getZero());
                 }
+                console.log(getAutoFryerCounter());
                 if (
                     getAutoFryerBought() &&
                     (!getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
