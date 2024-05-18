@@ -638,6 +638,7 @@ export function decrementCounter(counterId, value) {
 }
 
 export function disableButtons(init) {
+    console.log("end? " + getFloatOnStockMarketUnlockedAndEndGameFlowStarted());
     let mainButtons;
     let bottomRowButtons;
     let investmentCashComponent_DecrementButton = getElements().investmentCashComponent_DecrementButton;
@@ -761,7 +762,7 @@ export function disableButtons(init) {
                         }
                         break;
                     case getElements().startShiftButton.id:
-                        button.disabled = getShiftTime() > getZero();
+                        button.disabled = getShiftTime() > getZero() && !getFloatOnStockMarketUnlockedAndEndGameFlowStarted();
                         break;
                     case getElements().investmentFundUnlockOrFloatButton.id:
                         if (getInvestmentFundUnlocked()) {

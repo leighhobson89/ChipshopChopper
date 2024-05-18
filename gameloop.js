@@ -173,7 +173,7 @@ function updateCustomerCountdown() {
 }
 
 function updateShiftCountDown() {
-    if (getShiftInProgress()) {
+    if (getShiftInProgress() && !getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         const now = new Date().getTime();
         const timeDiffSecondsShift = (now - lastShiftUpdateTime) / getClockSpeed();
         const timeDiffSecondsAutoUpgrades = (now - lastAutoUpgradesUpdateTime) / getAutoUpgradesClockSpeed();
@@ -287,6 +287,8 @@ function updateShiftCountDown() {
                 lastShiftUpdateTime = now;
             }
         }
+    } else if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
+        disableButtons(false);
     } else {
         disableButtons(true);
         if (getAutoShiftStatus()) {
