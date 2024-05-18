@@ -638,7 +638,6 @@ export function decrementCounter(counterId, value) {
 }
 
 export function disableButtons(init) {
-    console.log("end? " + getFloatOnStockMarketUnlockedAndEndGameFlowStarted());
     let mainButtons;
     let bottomRowButtons;
     let investmentCashComponent_DecrementButton = getElements().investmentCashComponent_DecrementButton;
