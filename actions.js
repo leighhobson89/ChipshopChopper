@@ -740,22 +740,22 @@ export function disableButtons(init) {
             if (!button.classList.contains('capped')) {
                 switch (button.id) {
                     case getElements().twoHandedPeelingButton.id:
-                        if (!checkIfNonRepeatableUpgradePurchased(button, 'peeler')) {
+                        if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
                             button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
                         }
                         break;
                     case getElements().twoHandedChippingButton.id:
-                        if (!checkIfNonRepeatableUpgradePurchased(button, 'chipper')) {
+                        if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
                             button.disabled = getCurrentCash() < getPriceToEnableDoubleChipping();
                         }
                         break;
                     case getElements().addStorageHeaterAutoShiftStartButton.id:
                         if (!getHeaterUpgradeBought()) {
-                            if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
+                            if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
                                 button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
                             }
                         } else {
-                            if (!checkIfNonRepeatableUpgradePurchased(button, 'autoShift')) {
+                            if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
                                 button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
                             }
                         }
@@ -815,7 +815,7 @@ function disableButtonsHelper(buttons, pricesArray) {
     for (let i = 0; i < buttons.length; i++) {
         const button = buttons[i];
         if (!button.classList.contains('capped')) {
-            if (button.id !== getElements().startShiftButton.id && !checkIfNonRepeatableUpgradePurchased(button)) {
+            if (button.id !== getElements().startShiftButton.id && !checkIfNonRepeatableUpgradePurchased(button, null)) {
                 if (getCurrentCash() < pricesArray[i] || pricesArray[i] === getZero()) {
                     button.disabled = true;
                     button.classList.add('disabled');
