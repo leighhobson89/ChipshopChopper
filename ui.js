@@ -100,7 +100,7 @@ import {
     getPotatoCapacityCapped,
     getAutoCustomerServerCapped,
     getAutoStorageCollectorCapped,
-    getAutoFryerCapped, getAutoChipperCapped, getAutoPeelerCapped
+    getAutoFryerCapped, getAutoChipperCapped, getAutoPeelerCapped, resetAllVariables
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -120,19 +120,18 @@ export function createTitleScreen() {
     resumeGameWindow.classList.add('debugs');
     resumeGameWindow.id = 'resumeGameWindow';
 
-    // Define the option names and their initial colors
     const optionInfo = [
-        { name: 'New Game', color: '#007bff' },    // Blue
-        { name: 'Load Game', color: '#007bff' },   // Blue
-        { name: 'Help', color: '#007bff' },        // Blue
-        { name: 'Toggle Sound', color: '#00cc00' } // Green
+        { name: 'New Game'},
+        { name: 'Save Game'},
+        { name: 'Load Game'},
+        { name: 'Help'},
+        { name: 'Toggle Sound', color: '#00cc00' } // Hidden at moment
     ];
 
     const debugInfo = [
         { name: 'Give $10000', color: 'Black' },
     ];
 
-    // Create and append clickable options
     for (let i = 0; i < optionInfo.length; i++) {
         const option = document.createElement('div');
         option.innerHTML = optionInfo[i].name;
@@ -698,16 +697,21 @@ export function updateVisibleButtons() {
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function () {
         setGameInProgress(initialiseNewGame());
-        //console.log("gameInProgress after clicking new game =" + getGameInProgress());
+        if (getElements().option1.innerHTML === 'Click again to start a New Game...') {
+            //resetAllVariables();
+        }
         updateVisibleButtons(); //for debug if money given
     });
     getElements().option2.addEventListener('click', function () {
-        // Add functionality for other options as needed
+        // Add functionality for save game
     });
     getElements().option3.addEventListener('click', function () {
-        // Add functionality for other options as needed
+        // Add functionality for load game
     });
     getElements().option4.addEventListener('click', function () {
+        // Add functionality for help
+    });
+    getElements().option5.addEventListener('click', function () {
         toggleSound();
     });
     getElements().resumeGameButton.addEventListener('click', function () {
@@ -1027,7 +1031,6 @@ export function updateTextAndDisableButtonsForCappedUpgrades() {
         getElements().customerFrequencyIncreaser.classList.add('capped');
     }
 }
-
 
 
 

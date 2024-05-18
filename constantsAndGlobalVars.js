@@ -206,6 +206,7 @@ export function setElements() {
         option2: document.getElementById('option2'),
         option3: document.getElementById('option3'),
         option4: document.getElementById('option4'),
+        option5: document.getElementById('option4'),
         bottomRowContainer: document.getElementById('bottomRowContainer'),
         mainButtonContainer: document.getElementById('mainButtonContainer'),
         fryChipsButton: document.getElementById('fryChipsButton'),
@@ -1314,4 +1315,116 @@ export function getMaxDeliveryCapped() {
 
 export function getMaxWaitCustomerCapped() {
     return maxWaitCustomerCapped;
+}
+
+export function resetAllVariables() { ///needs work
+    // GLOBAL VARIABLES
+    currentMaxValueWaitForNewCustomer = 10;
+    nextMaxValueWaitForNewCustomer = 8;
+    multipleForHeaterEffectOnCoolDown = 1;
+    customerTime = 0;
+    shiftTimeRemaining = 0;
+    fryTimer = 15;
+    fryTimeRemaining = 0;
+    coolDownTimeRemaining = 0;
+    shiftCounter = 0;
+    customersServed = 0;
+    currentCash = 0;
+    quantityFrying = 0;
+    spudsToAddToShift = 0;
+    maxSpudsDelivery = 80;
+    actualPotatoesInStorage = 100;
+    potatoStorage = 200;
+    cutChipsRate = 1;
+    peelPotatoesRate = 1;
+    chipsReadyToServeQuantity = [];
+    fryerCapacity = 100;
+    autoFryerEfficiency = 0.5;
+    amountInvestmentCash = 0;
+    amountInvestmentRisk = 0;
+    investmentCashIncrementDecrement = 1000;
+    investmentRiskIncrementDecrement = 1;
+    currentValueOfInvestment = 0;
+    currentRiskLevel = 0;
+    growthInvestment = 0;
+
+    // FLAGS
+    gameInProgress = false;
+    shiftInProgress = false;
+    chipsFrying = false;
+    peelerUpgradeBought = false;
+    chipperUpgradeBought = false;
+    heaterUpgradeBought = false;
+    autoPeelerBought = false;
+    autoChipperBought = false;
+    autoFryerBought = false;
+    autoStorageCollectorBought = false;
+    autoCustomerServerBought = false;
+    improveFryTimerBought = false;
+    doubleMaxSpudsDeliveryBought = false;
+    investmentFundUnlocked = false;
+    investmentFundUnlockable = false;
+    autoShiftStartUpgradeUnlocked = false;
+    autoShiftStatus = false;
+    promotionFlag = false;
+    floatOnStockMarketUnlocked = false;
+    autoPeelerCapped = false;
+    autoChipperCapped = false;
+    autoFryerCapped = false;
+    autoStorageCollectorCapped = false;
+    autoCustomerServerCapped = false;
+    potatoCapacityCapped = false;
+    fryerCapacityCapped = false;
+    fryerSpeedCapped = false;
+    maxDeliveryCapped = false;
+    maxWaitCustomerCapped = false;
+
+    // PRICES
+    priceToImprovePotatoStorage = 5;
+    priceToEnableDoubleChipping = 6;
+    priceToEnableDoublePeeling = 4;
+    priceToImproveFryerCapacity = 7;
+    priceToAddStorageHeater = 8;
+    priceToImproveAutoPeeler = 100;
+    priceToImproveAutoChipper = 100;
+    priceToImproveAutoFryer = 150;
+    priceToImproveAutoStorageCollector = 200;
+    priceToImproveAutoCustomerServer = 300;
+    priceToImproveFryTimer = 500;
+    priceToDoubleSpudsMax = 500;
+    priceToIncreaseFootfall = 200;
+    priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
+
+    // AUTO SPEEDS
+    currentSpeedAutoPeeler = "N/A";
+    nextSpeedAutoPeeler = 1;
+    currentSpeedAutoChipper = "N/A";
+    nextSpeedAutoChipper = 1;
+    currentSpeedAutoFryer = "N/A";
+    nextSpeedAutoFryer = 30;
+    currentSpeedAutoStorageCollector = "N/A";
+    nextSpeedAutoStorageCollector = 30;
+    currentSpeedAutoCustomerServer = "N/A";
+    nextSpeedAutoCustomerServer = 30;
+    currentSpeedFryTimer = "N/A";
+    nextSpeedFryTimer = 12.5;
+    currentMaxSpudsDelivery = maxSpudsDelivery;
+    nextMaxSpudsDelivery = 160;
+
+    autoPeelerCounter = 0;
+    autoChipperCounter = 0;
+    autoFryerCounter = 30;
+    autoStorageCollectorCounter = 30;
+    autoCustomerServerCounter = 30;
+
+    // STATS
+    oldCash = 0;
+    potatoesPeeledThisShift = 0;
+    chipsCutThisShift = 0;
+    chipsFriedThisShift = 0;
+    customersWaitingAtEndOfShift = 0;
+    customersWaiting = 0;
+    chipsWastedThisShift = 0;
+
+    batchTimers = {};
 }

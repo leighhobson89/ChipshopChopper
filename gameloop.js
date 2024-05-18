@@ -114,7 +114,7 @@ function main() {
     document.addEventListener('titleScreenCreated', setElements);
     const titleScreenCreatedEvent = new Event('titleScreenCreated');
     createTitleScreen();
-    document.getElementById('option4').style.display = 'none'; //HIDE SOUND OPTION
+    document.getElementById('option5').style.display = 'none'; //HIDE SOUND OPTION
     createGameWindow(titleScreenCreatedEvent);
 
     gameLoop();
