@@ -107,10 +107,29 @@ import {initialiseNewGame} from "./gameloop.js";
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
     titleScreen.classList.add('title-screen');
+    titleScreen.id = 'titleScreen';
 
-    const title = document.createElement('h1');
-    title.innerHTML = 'Chip Shop Imperium';
-    title.classList.add('title');
+    const header = document.createElement('div');
+    header.classList.add('header');
+
+    const left = document.createElement('div');
+    left.classList.add('header-left');
+
+    const title = document.createElement('div');
+    title.classList.add('header-title');
+
+    const titleText = document.createElement('div');
+    titleText.innerHTML = 'Chip Shop Imperium';
+    titleText.classList.add('title');
+    title.appendChild(titleText);
+
+    const clock = document.createElement('div');
+    clock.classList.add('header-clock');
+    clock.id = 'clock';
+
+    header.appendChild(left);
+    header.appendChild(title);
+    header.appendChild(clock);
 
     const options = document.createElement('div');
     options.classList.add('options');
@@ -121,15 +140,15 @@ export function createTitleScreen() {
     resumeGameWindow.id = 'resumeGameWindow';
 
     const optionInfo = [
-        { name: 'New Game'},
-        { name: 'Save Game'},
-        { name: 'Load Game'},
-        { name: 'Help'},
-        { name: 'Toggle Sound', color: '#00cc00' } // Hidden at moment
+        {name: 'New Game'},
+        {name: 'Save Game'},
+        {name: 'Load Game'},
+        {name: 'Help'},
+        {name: 'Toggle Sound', color: '#00cc00'} // Hidden at moment
     ];
 
     const debugInfo = [
-        { name: 'Give $10000', color: 'Black' },
+        {name: 'Give $10000', color: 'Black'},
     ];
 
     for (let i = 0; i < optionInfo.length; i++) {
@@ -157,13 +176,13 @@ export function createTitleScreen() {
         resumeGameWindow.appendChild(debug);
     }
 
-    titleScreen.appendChild(title);
+    titleScreen.appendChild(header);
     titleScreen.appendChild(options);
     titleScreen.appendChild(resumeGameWindow);
 
     document.body.appendChild(titleScreen);
-}
 
+}
 export function createGameWindow(titleScreenCreatedEvent) {
     const gameWindow = document.createElement('div');
     gameWindow.classList.add('game-window');
@@ -339,9 +358,9 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
     gameWindow.appendChild(bottomSectionContainer);
 
-    document.body.appendChild(gameWindow);
-
     hideUpgradeButtonsGameStart(bottomSectionContainer);
+
+    document.getElementById('titleScreen').appendChild(gameWindow);
 
     document.dispatchEvent(titleScreenCreatedEvent);
     disableButtons(true);

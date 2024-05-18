@@ -238,7 +238,7 @@ export function setElements() {
         subInnerDivMid3_2: document.getElementById('subInnerDivMid3_2'),
         endOfShiftOrGamePopupTitle: document.getElementById('endOfShiftOrGamePopupTitle'),
         endOfShiftOrGamePopupContent: document.getElementById('endOfShiftOrGamePopupContent'),
-        clock: document.querySelector('.clock'),
+        clock: document.getElementById('clock'),
         customerFrequencyIncreaser: document.getElementById('customerFrequencyIncreaser'),
         allBottomButtons: document.querySelectorAll('.action-button-bottom-row'),
         allMainButtons: document.querySelectorAll('.action-button-main'),
@@ -273,6 +273,7 @@ export function setElements() {
         customersServedCount: document.getElementById('customersServedCount'),
         menuButtonDiv: document.getElementById('menuButtonDiv'),
         menuButton: document.getElementById('menuButton'),
+        titleScreen: document.getElementById('titleScreen'),
       };
 }
 

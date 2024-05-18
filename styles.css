@@ -2,20 +2,43 @@ body {
     background-color: #1a1a1a;
     color: #fff;
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
     user-select: none;
+    display: block;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
 }
 
-.clock {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+.header {
+    display: flex;
+    width: 100%;
+}
+
+.header-left {
+    width: 10%;
+}
+
+.header-title {
+    display: flex;
+    width: 80%;
+    text-align: center;
+    justify-content: center;
+    align-items: start;
+    font-weight: bold;
+    font-size: 4em;
+}
+
+.header-clock {
+    display: flex;
+    width: 10%;
+    text-align: center;
+    align-items: center;
     font-size: 24px;
 }
 
 .title-screen {
     text-align: center;
+    width: 100%;
 }
 
 .title {
@@ -424,8 +447,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
     font-weight: bold;
     justify-content: center;
     align-items: center;
-
 }
+
 .popup-continue-button:hover {
     background-color: chartreuse;
     color: forestgreen;
@@ -546,7 +569,6 @@ div[id^="subInnerDivMid"][id$='_2'] {
     justify-content: center;
     text-align: center;
     font-weight: bold;
-
 }
 
 .investment-data-grid .top-row {
@@ -579,7 +601,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
 .end-game-position-start-shift-button {
     display: flex;
     justify-content: flex-end;
-    font-size: 4em; !important;
+    font-size: 4em !important;
 }
 
 .overlay-text {
@@ -649,4 +671,3 @@ div[id^="subInnerDivMid"][id$='_2'] {
 .sub-inner-div-topDivRow1-side-by-side {
     display: flex;
 }
-
