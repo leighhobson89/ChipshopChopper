@@ -242,7 +242,8 @@ export function setElements() {
         allBottomButtons: document.querySelectorAll('.action-button-bottom-row'),
         allMainButtons: document.querySelectorAll('.action-button-main'),
         debug1: document.getElementById('debug1'),
-        debugsWindow: document.getElementById('debugsWindow'),
+        resumeGameWindow: document.getElementById('resumeGameWindow'),
+        resumeGameButton: document.getElementById('resumeGameButton'),
         autoPeelerUpgradeButton: document.getElementById('autoPeelerUpgradeButton'),
         autoChipperUpgradeButton: document.getElementById('autoChipperUpgradeButton'),
         autoFryerUpgradeButton: document.getElementById('autoFryerUpgradeButton'),
@@ -268,6 +269,9 @@ export function setElements() {
         investmentDataScreenBottomRowColumn3: document.getElementById('investmentDataScreenBottomRowColumn3'),
         investmentDataScreenBottomRowColumn4: document.getElementById('investmentDataScreenBottomRowColumn4'),
         withdrawInvestmentButton: document.getElementById('withdrawInvestmentButton'),
+        customersServedCount: document.getElementById('customersServedCount'),
+        menuButtonDiv: document.getElementById('menuButtonDiv'),
+        menuButton: document.getElementById('menuButton'),
       };
 }
 
@@ -325,7 +329,7 @@ export function getShiftInProgress() {
 
 export function setCustomersServed(value) {
     customersServed = value;
-    document.getElementById('subInnerDiv3_2').innerHTML = value;
+    document.getElementById('customersServedCount').innerHTML = value;
 }
 
 export function getCustomersServed() {

@@ -111,10 +111,10 @@ let lastFryingUpdateTime = new Date().getTime();
 let lastAutoUpgradesUpdateTime = new Date().getTime();
 
 function main() {
-
     document.addEventListener('titleScreenCreated', setElements);
     const titleScreenCreatedEvent = new Event('titleScreenCreated');
     createTitleScreen();
+    document.getElementById('option4').style.display = 'none'; //HIDE SOUND OPTION
     createGameWindow(titleScreenCreatedEvent);
 
     gameLoop();
@@ -370,10 +370,11 @@ export function initialiseNewGame() {
     if (getGameInProgress()) {
         return askUserToConfirmRestart();
     } else {
+        getElements().resumeGameButton.classList.remove('option-disabled');
         getElements().option1.innerHTML = "New Game";
         getElements().optionsWindow.style.display = 'none';
         //debug
-        getElements().debugsWindow.style.display = 'none';
+        getElements().resumeGameWindow.style.display = 'none';
         //
         createRandomCustomerTime();
         getElements().gameWindow.style.display = "block";

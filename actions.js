@@ -206,6 +206,9 @@ export function handleButtonClick(buttonId, value) {
 
     button.addEventListener('click', () => {
         switch (buttonId) {
+            case getElements().menuButton.id:
+                toggleMenu(getElements().gameWindow.style.display === 'block');
+                break;
             case getElements().peelPotatoButton.id:
                 handlePeelPotato(element);
                 break;
@@ -1054,4 +1057,24 @@ function setupEndGameFlow() {
 
     setCurrentMaxValueWaitForNewCustomer(getEndGameCash()); //sets it to 999998 so player can't get any other customers arrive
     setNextMaxValueWaitForNewCustomer(getEndGameCash());
+}
+
+export function toggleMenu(inGame) {
+    switch(inGame) {
+        case true:
+            getElements().optionsWindow.style.display = 'flex';
+            //debug
+            getElements().resumeGameWindow.style.display = 'flex';
+            //
+            getElements().gameWindow.style.display = "none";
+            break;
+        case false:
+            getElements().option1.innerHTML = "New Game";
+            getElements().optionsWindow.style.display = 'none';
+            //debug
+            getElements().resumeGameWindow.style.display = 'none';
+            //
+            getElements().gameWindow.style.display = "block";
+            break;
+    }
 }

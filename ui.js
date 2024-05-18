@@ -1,4 +1,4 @@
-import {disableButtons, handleButtonClick} from './actions.js';
+import {disableButtons, handleButtonClick, toggleMenu} from './actions.js';
 import {
     debugFlag,
     endOfShiftOrGamePopup,
@@ -116,9 +116,9 @@ export function createTitleScreen() {
     options.classList.add('options');
     options.id = 'optionsWindow';
 
-    const debugs = document.createElement('div');
-    debugs.classList.add('debugs');
-    debugs.id = 'debugsWindow';
+    const resumeGameWindow = document.createElement('div');
+    resumeGameWindow.classList.add('debugs');
+    resumeGameWindow.id = 'resumeGameWindow';
 
     // Define the option names and their initial colors
     const optionInfo = [
@@ -128,9 +128,8 @@ export function createTitleScreen() {
         { name: 'Toggle Sound', color: '#00cc00' } // Green
     ];
 
-    // Define the option names and their initial colors
     const debugInfo = [
-        { name: 'Give $10000', color: 'Black' },    // Blue
+        { name: 'Give $10000', color: 'Black' },
     ];
 
     // Create and append clickable options
@@ -143,17 +142,25 @@ export function createTitleScreen() {
         options.appendChild(option);
     }
 
+    const resumeGameButton = document.createElement('div');
+    resumeGameButton.innerHTML = 'Resume Game';
+    resumeGameButton.classList.add('option');
+    resumeGameButton.classList.add('option-resume-game');
+    resumeGameButton.classList.add('option-disabled');
+    resumeGameButton.id = `resumeGameButton`;
+    resumeGameWindow.appendChild(resumeGameButton);
+
     for (let i = 0; i < debugInfo.length; i++) {
         const debug = document.createElement('div');
         debug.innerHTML = debugInfo[i].name;
         debug.classList.add('debug');
         debug.id = `debug${i + 1}`;
-        debugs.appendChild(debug);
+        resumeGameWindow.appendChild(debug);
     }
 
     titleScreen.appendChild(title);
     titleScreen.appendChild(options);
-    titleScreen.appendChild(debugs);
+    titleScreen.appendChild(resumeGameWindow);
 
     document.body.appendChild(titleScreen);
 }
@@ -185,6 +192,27 @@ export function createGameWindow(titleScreenCreatedEvent) {
                 const subInnerDiv = document.createElement('div');
                 subInnerDiv.classList.add('sub-inner-div-topDivRow1');
                 subInnerDiv.id = `subInnerDiv${i}_${j}`;
+
+                if (i === 3 && j ===2) {
+                    subInnerDiv.classList.add('sub-inner-div-topDivRow1-side-by-side');
+
+                    const div1 = document.createElement('div');
+                    div1.id = 'customersServedCount';
+                    div1.classList.add('customerServedCountDiv');
+                    subInnerDiv.appendChild(div1);
+
+                    const div2 = document.createElement('div');
+                    div2.id = 'menuButtonDiv';
+                    div2.classList.add('menuButtonDiv');
+                    subInnerDiv.appendChild(div2);
+
+                    const menuButton = document.createElement('button');
+                    menuButton.id = "menuButton";
+                    menuButton.classList.add('menu-button');
+                    menuButton.innerText = 'Menu';
+
+                    div2.appendChild(menuButton);
+                }
 
                 innerDiv.appendChild(subInnerDiv);
             }
@@ -323,6 +351,8 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
     writeTextInSections(mainButtonDetails);
 
+    handleButtonClick(getElements().menuButton.id, null);
+
     handleButtonClick(getElements().startShiftButton.id, null);
     handleButtonClick(getElements().peelPotatoButton.id, getElements().peeledCount.id);
     handleButtonClick(getElements().cutChipsButton.id, getElements().cutCount.id);
@@ -357,7 +387,7 @@ export function writeTextInSections(buttonDetails) {
     getElements().subInnerDiv1_2.innerHTML = "Start Shift";
 
     getElements().subInnerDiv3_1.innerHTML = 'Served:';
-    getElements().subInnerDiv3_2.innerHTML = "0";
+    getElements().customersServedCount.innerHTML = "0";
 
     getElements().subInnerDivMid1_1.innerHTML = 'Potatoes:';
     getElements().subInnerDivMid1_2.innerHTML = "0/" + getPotatoStorageQuantity().toString();
@@ -679,6 +709,9 @@ function createOptionScreenEventListeners() {
     });
     getElements().option4.addEventListener('click', function () {
         toggleSound();
+    });
+    getElements().resumeGameButton.addEventListener('click', function () {
+        toggleMenu(getElements().gameWindow.style.display === 'block');
     });
     popupContinueButton.addEventListener('click', function() {
         toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
