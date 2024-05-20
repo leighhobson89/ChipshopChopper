@@ -79,6 +79,8 @@ export const popupContinueButton = endOfShiftOrGamePopupObject.continueButton;
 export const popupOverlay = createOverlay();
 
  //GLOBAL VARIABLES
+ let initialStateMainButtons;
+ let initialStateBottomRowButtons;
  let currentMaxValueWaitForNewCustomer = 10;
  let nextMaxValueWaitForNewCustomer = 8;
  let multipleForHeaterEffectOnCoolDown = 1;
@@ -209,25 +211,9 @@ export function setElements() {
         option5: document.getElementById('option4'),
         bottomRowContainer: document.getElementById('bottomRowContainer'),
         mainButtonContainer: document.getElementById('mainButtonContainer'),
-        fryChipsButton: document.getElementById('fryChipsButton'),
-        customersWaitingCount: document.getElementById('customersWaitingCount'),
-        readyToServeCount: document.getElementById('readyToServeCount'),
         optionsWindow: document.getElementById('optionsWindow'),
         gameWindow: document.getElementById('gameWindow'),
-        improvePotatoStorageButton: document.getElementById('improvePotatoStorageButton'),
-        twoHandedPeelingButton: document.getElementById('twoHandedPeelingButton'),
-        twoHandedChippingButton: document.getElementById('twoHandedChippingButton'),
-        improveFryerCapacityButton: document.getElementById('improveFryerCapacityButton'),
-        addStorageHeaterAutoShiftStartButton: document.getElementById('addStorageHeaterAutoShiftStartButton'),
-        peeledCount: document.getElementById('peeledCount'),
-        cutCount: document.getElementById('cutCount'),
-        chuckedInFryerCount: document.getElementById('chuckedInFryerCount'),
-        startShiftButton: document.getElementById('startShiftButton'),
-        peelPotatoButton: document.getElementById('peelPotatoButton'),
-        cutChipsButton: document.getElementById('cutChipsButton'),
-        servingStorageButton: document.getElementById('servingStorageButton'),
-        serveCustomerButton: document.getElementById('serveCustomerButton'),
-        playerRoleText: document.getElementById('playerRoleText'),
+
         subInnerDiv1_1: document.getElementById('subInnerDiv1_1'),
         subInnerDiv1_2: document.getElementById('subInnerDiv1_2'),
         subInnerDiv3_1: document.getElementById('subInnerDiv3_1'),
@@ -236,6 +222,26 @@ export function setElements() {
         subInnerDivMid1_2: document.getElementById('subInnerDivMid1_2'),
         subInnerDivMid3_1: document.getElementById('subInnerDivMid3_1'),
         subInnerDivMid3_2: document.getElementById('subInnerDivMid3_2'),
+        playerRoleText: document.getElementById('playerRoleText'),
+
+        peeledCount: document.getElementById('peeledCount'),
+        cutCount: document.getElementById('cutCount'),
+        chuckedInFryerCount: document.getElementById('chuckedInFryerCount'),
+        customersWaitingCount: document.getElementById('customersWaitingCount'),
+        readyToServeCount: document.getElementById('readyToServeCount'),
+        customersServedCount: document.getElementById('customersServedCount'),
+
+        improvePotatoStorageButton: document.getElementById('improvePotatoStorageButton'),
+        twoHandedPeelingButton: document.getElementById('twoHandedPeelingButton'),
+        twoHandedChippingButton: document.getElementById('twoHandedChippingButton'),
+        improveFryerCapacityButton: document.getElementById('improveFryerCapacityButton'),
+        addStorageHeaterAutoShiftStartButton: document.getElementById('addStorageHeaterAutoShiftStartButton'),
+        startShiftButton: document.getElementById('startShiftButton'),
+        peelPotatoButton: document.getElementById('peelPotatoButton'),
+        cutChipsButton: document.getElementById('cutChipsButton'),
+        fryChipsButton: document.getElementById('fryChipsButton'),
+        servingStorageButton: document.getElementById('servingStorageButton'),
+        serveCustomerButton: document.getElementById('serveCustomerButton'),
         endOfShiftOrGamePopupTitle: document.getElementById('endOfShiftOrGamePopupTitle'),
         endOfShiftOrGamePopupContent: document.getElementById('endOfShiftOrGamePopupContent'),
         clock: document.getElementById('clock'),
@@ -270,10 +276,10 @@ export function setElements() {
         investmentDataScreenBottomRowColumn3: document.getElementById('investmentDataScreenBottomRowColumn3'),
         investmentDataScreenBottomRowColumn4: document.getElementById('investmentDataScreenBottomRowColumn4'),
         withdrawInvestmentButton: document.getElementById('withdrawInvestmentButton'),
-        customersServedCount: document.getElementById('customersServedCount'),
         menuButtonDiv: document.getElementById('menuButtonDiv'),
         menuButton: document.getElementById('menuButton'),
         titleScreen: document.getElementById('titleScreen'),
+        bottomSectionContainer: document.getElementById('bottomSectionContainer'),
       };
 }
 
@@ -1428,4 +1434,48 @@ export function resetAllVariables() { ///needs work
     chipsWastedThisShift = 0;
 
     batchTimers = {};
+}
+
+export function resetUiButtonElements(buttonDetails) {
+    buttonDetails.forEach(button => {
+        let element = document.getElementById(button.id);
+        if (element) {
+            element.innerHTML = button.name;
+        }
+    });
+}
+
+export function resetCounterUiElements() {
+    getElements().peeledCount.innerHTML = '0';
+    getElements().cutCount.innerHTML = '0';
+    getElements().chuckedInFryerCount.innerHTML = '0';
+    getElements().readyToServeCount.innerHTML = '0';
+    getElements().customersWaitingCount.innerHTML = '0';
+    getElements().customersServedCount.innerHTML = '0';
+    getElements().playerRoleText.innerHTML = Role.ONE;
+
+    getElements().subInnerDiv1_2.innerHTML = "Start Shift";
+
+    getElements().subInnerDivMid1_2.innerHTML = ('0/' + getPotatoStorageQuantity().toString());
+    getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getStartingCash());
+
+    getElements().investmentDataScreenBottomRowColumn1.innerHTML = formatToCashNotation(getAmountInvestmentCash());
+    getElements().investmentDataScreenBottomRowColumn2.innerHTML = getAmountInvestmentRisk() + "%";
+    getElements().investmentDataScreenBottomRowColumn3.innerHTML = formatToCashNotation(getCurrentValueOfInvestment());
+}
+
+export function getInitialStateMainButtons() {
+    return initialStateMainButtons;
+}
+
+export function setInitialStateMainButtons(value) {
+    initialStateMainButtons = value;
+}
+
+export function getInitialStateBottomRowButtons() {
+    return initialStateBottomRowButtons;
+}
+
+export function setInitialStateBottomRowButtons(value) {
+    initialStateBottomRowButtons = value;
 }

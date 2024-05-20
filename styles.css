@@ -358,7 +358,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .hidden-button {
-    visibility: hidden;
+    visibility: hidden !important;
 }
 
 .counter-columns {

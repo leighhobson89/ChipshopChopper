@@ -100,7 +100,17 @@ import {
     getPotatoCapacityCapped,
     getAutoCustomerServerCapped,
     getAutoStorageCollectorCapped,
-    getAutoFryerCapped, getAutoChipperCapped, getAutoPeelerCapped, resetAllVariables
+    getAutoFryerCapped,
+    getAutoChipperCapped,
+    getAutoPeelerCapped,
+    resetAllVariables,
+    gameInProgress,
+    getGameInProgress,
+    resetUiButtonElements,
+    setInitialStateMainButtons,
+    setInitialStateBottomRowButtons,
+    getInitialStateMainButtons,
+    getInitialStateBottomRowButtons, resetCounterUiElements
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -286,12 +296,13 @@ export function createGameWindow(titleScreenCreatedEvent) {
 
     const bottomSectionContainer = document.createElement('div');
     bottomSectionContainer.classList.add('bottom-section-container');
+    bottomSectionContainer.id = 'bottomSectionContainer';
 
     const bottomRowContainer = document.createElement('div');
     bottomRowContainer.classList.add('bottom-row-container');
     bottomRowContainer.id = 'bottomRowContainer';
 
-    const mainButtonDetails = [
+    let mainButtonDetails = [
         { id: 'peelPotatoButton', name: 'Peel Potato', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'cutChipsButton', name: 'Cut Chips', upgrade: 'false', repeatableUpgrade: 'false' },
         { id: 'fryChipsButton', name: `Fry Chips<br> (Capacity: ${getFryerCapacity()})`, upgrade: 'false', repeatableUpgrade: 'false' },
@@ -310,13 +321,16 @@ export function createGameWindow(titleScreenCreatedEvent) {
         { id: 'investmentDataScreenButton', name: `Investment Data Screen Placeholder`, upgrade: 'false', repeatableUpgrade: 'false' },
     ];
 
-    const bottomButtonDetails = [
+    let bottomButtonDetails = [
         { id: 'twoHandedPeelingButton', name: `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'twoHandedChippingButton', name: `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'investmentFundUnlockOrFloatButton', name: `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'addStorageHeaterAutoShiftStartButton', name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`, upgrade: 'true', repeatableUpgrade: 'false' },
         { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
     ];
+
+    setInitialStateMainButtons(mainButtonDetails);
+    setInitialStateBottomRowButtons(bottomButtonDetails);
 
     createInvestmentComponents(bottomRowContainer);
     createInvestmentDataScreen(mainButtonContainer);
@@ -426,6 +440,16 @@ export function hideUpgradeButtonsGameStart(bottomButtonsContainer) {
     bottomButtonsContainer.querySelectorAll('.action-button-bottom-row:not(:last-child)').forEach(button => {
         button.classList.add('hidden-button');
     });
+
+    if (document.getElementById('option1').innerHTML === 'Click again to start a New Game...') {
+        getElements().autoPeelerUpgradeButton.classList.add('hidden-button');
+        getElements().investmentDataScreen.classList.add('hidden-button');
+        getElements().investmentDataScreenButton.classList.add('hidden-button');
+        getElements().investmentCashComponent.classList.add('hidden-button');
+        getElements().investmentRiskComponent.classList.add('hidden-button');
+
+        getElements().withdrawInvestmentButton.classList.add('hidden-button');
+    }
 }
 
 export function toggleSound() {
@@ -715,10 +739,16 @@ export function updateVisibleButtons() {
 
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function () {
-        setGameInProgress(initialiseNewGame());
         if (getElements().option1.innerHTML === 'Click again to start a New Game...') {
-            //resetAllVariables();
+            resetAllVariables();
+            resetCounterUiElements();
+            resetUiButtonElements(getInitialStateMainButtons());
+            resetUiButtonElements(getInitialStateBottomRowButtons());
+            hideUpgradeButtonsGameStart(getElements().bottomSectionContainer);
+            toggleMenu(false);
+            disableButtons(true);
         }
+        setGameInProgress(initialiseNewGame());
         updateVisibleButtons(); //for debug if money given
     });
     getElements().option2.addEventListener('click', function () {
