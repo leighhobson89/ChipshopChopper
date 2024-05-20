@@ -215,7 +215,6 @@ function updateShiftCountDown() {
                     }
                     setAutoChipperCounter(getZero());
                 }
-                console.log(getAutoFryerCounter());
                 if (
                     getAutoFryerBought() &&
                     (!getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&

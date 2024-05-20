@@ -1,4 +1,4 @@
-import {disableButtons, handleButtonClick, toggleMenu} from './actions.js';
+import {disableButtons, handleButtonClick, loadGame, saveGame, toggleMenu} from './actions.js';
 import {
     debugFlag,
     endOfShiftOrGamePopup,
@@ -108,7 +108,7 @@ import {
     setInitialStateMainButtons,
     setInitialStateBottomRowButtons,
     getInitialStateMainButtons,
-    getInitialStateBottomRowButtons, resetCounterUiElements
+    getInitialStateBottomRowButtons, resetCounterUiElements, captureGameStatusForSaving
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -750,10 +750,10 @@ function createOptionScreenEventListeners() {
         updateVisibleButtons(); //for debug if money given
     });
     getElements().option2.addEventListener('click', function () {
-        // Add functionality for save game
+        saveGame();
     });
     getElements().option3.addEventListener('click', function () {
-        // Add functionality for load game
+        loadGame();
     });
     getElements().option4.addEventListener('click', function () {
         // Add functionality for help

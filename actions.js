@@ -182,7 +182,7 @@ import {
     setChipsFriedThisShift,
     getEndGameCash,
     getEndGamePotatoes,
-    getEndGameFryTimer,
+    getEndGameFryTimer, captureGameStatusForSaving,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -1079,4 +1079,83 @@ export function toggleMenu(inGame) {
             getElements().gameWindow.style.display = "block";
             break;
     }
+}
+
+export function saveGame() {
+    // Capture the game state
+    const gameState = captureGameStatusForSaving();
+
+    // Serialize the game state object into a string
+    const serializedGameState = JSON.stringify(gameState);
+
+    // Create a blob containing the serialized game state
+    const blob = new Blob([serializedGameState], { type: 'text/plain' });
+
+    // Create a URL for the blob
+    const url = URL.createObjectURL(blob);
+
+    // Create a link element
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ChipShopSave_${getCurrentTimestamp()}.txt`; // Adjust filename as needed
+    a.style.display = 'none';
+
+    // Append the link to the document body
+    document.body.appendChild(a);
+
+    // Trigger a click on the link to start the download
+    a.click();
+
+    // Clean up
+    URL.revokeObjectURL(url);
+    a.remove();
+
+    // Inform the player that the game has been saved
+    alert("Game saved successfully!");
+}
+
+function getCurrentTimestamp() {
+    const now = new Date();
+    return `${now.getFullYear()}_${padZero(now.getMonth() + 1)}_${padZero(now.getDate())}_${padZero(now.getHours())}_${padZero(now.getMinutes())}_${padZero(now.getSeconds())}`;
+}
+
+function padZero(num) {
+    return num.toString().padStart(2, '0');
+}
+
+export function loadGame() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.txt';
+
+    input.addEventListener('change', handleFileSelect);
+    input.click();
+}
+
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const gameState = JSON.parse(e.target.result);
+
+            toggleMenu(false);
+            restoreGameStatus(gameState);
+
+            alert('Game loaded successfully!');
+        } catch (error) {
+            console.error('Error loading game:', error);
+            alert('Error loading game. Please make sure the file contains valid game data.');
+        }
+    };
+
+    reader.readAsText(file);
+}
+
+function restoreGameStatus(gameState) {
+    console.log(gameState);
 }
