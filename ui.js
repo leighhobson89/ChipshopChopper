@@ -108,7 +108,11 @@ import {
     setInitialStateMainButtons,
     setInitialStateBottomRowButtons,
     getInitialStateMainButtons,
-    getInitialStateBottomRowButtons, resetCounterUiElements, captureGameStatusForSaving
+    getInitialStateBottomRowButtons,
+    resetCounterUiElements,
+    captureGameStatusForSaving,
+    getStateLoading,
+    setStateLoading
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -152,7 +156,7 @@ export function createTitleScreen() {
         {name: 'Save Game'},
         {name: 'Load Game'},
         {name: 'Help'},
-        {name: 'Toggle Sound', color: '#00cc00'} // Hidden at moment
+        {name: 'Toggle Sound', color: '#00cc00'}
     ];
 
     const debugInfo = [
@@ -681,7 +685,7 @@ export function writePopupText() {
 }
 
 export function updateVisibleButtons() {
-    if (!getShiftInProgress() && (getShiftCounter() > getZero() || debugFlag)) {
+    if (!getShiftInProgress() && (getShiftCounter() > getZero() || debugFlag || getStateLoading())) {
         //manual phase upgrades
         if (getCurrentCash() >= getPriceToImprovePotatoStorage()) {
             getElements().improvePotatoStorageButton.classList.remove('hidden-button');
@@ -753,7 +757,10 @@ function createOptionScreenEventListeners() {
         saveGame();
     });
     getElements().option3.addEventListener('click', function () {
+        setStateLoading(true);
         loadGame();
+        updateVisibleButtons();
+        setStateLoading(false);
     });
     getElements().option4.addEventListener('click', function () {
         // Add functionality for help

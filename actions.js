@@ -182,7 +182,7 @@ import {
     setChipsFriedThisShift,
     getEndGameCash,
     getEndGamePotatoes,
-    getEndGameFryTimer, captureGameStatusForSaving,
+    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -1154,8 +1154,4 @@ function handleFileSelect(event) {
     };
 
     reader.readAsText(file);
-}
-
-function restoreGameStatus(gameState) {
-    console.log(gameState);
 }
