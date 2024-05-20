@@ -104,8 +104,6 @@ import {
     getAutoChipperCapped,
     getAutoPeelerCapped,
     resetAllVariables,
-    gameInProgress,
-    getGameInProgress,
     resetUiButtonElements,
     setInitialStateMainButtons,
     setInitialStateBottomRowButtons,
