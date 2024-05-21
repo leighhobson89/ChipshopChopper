@@ -1,4 +1,10 @@
-import {createEndOfShiftOrGamePopup, createOverlay, formatToCashNotation} from './ui.js';
+import {
+    createEndOfShiftOrGamePopup,
+    createOverlay,
+    formatToCashNotation,
+    hideDoublePeelerChipperAndShowInvestmentComponents
+} from './ui.js';
+import {disableButtons} from "./actions.js";
 
 //DEBUG
 export let debugFlag = false;
@@ -1484,6 +1490,8 @@ export function setInitialStateBottomRowButtons(value) {
 export function captureGameStatusForSaving() {
     let gameState = {};
 
+
+
     // Game variables
     gameState.currentMaxValueWaitForNewCustomer = currentMaxValueWaitForNewCustomer;
     gameState.nextMaxValueWaitForNewCustomer = nextMaxValueWaitForNewCustomer;
@@ -1610,6 +1618,8 @@ export function captureGameStatusForSaving() {
     };
 
     gameState.batchTimers = batchTimers;
+
+    captureButtonStates(gameState);
 
     console.log(gameState);
 
@@ -1746,6 +1756,8 @@ export function restoreGameStatus(gameState) {
     //matches capture
 
     batchTimers = gameState.batchTimers;
+
+    restoreButtonStates(gameState);
 }
 
 export function getStateLoading() {
@@ -1755,3 +1767,59 @@ export function getStateLoading() {
 export function setStateLoading(value) {
     stateLoading = value;
 }
+
+export function captureButtonStates(gameState) {
+    const captureButtons = (containerId) => {
+        const container = document.getElementById(containerId);
+        const buttons = Array.from(container.children);
+
+        const visibleButtons = buttons.filter(button => !button.classList.contains('hidden-button')).map(button => ({
+            id: button.id,
+            text: button.innerHTML
+        }));
+
+        const disabledButtons = buttons.filter(button => button.disabled).map(button => button.id);
+
+        return { visibleButtons, disabledButtons };
+    };
+
+    gameState.mainButtonContainer = captureButtons(getElements().mainButtonContainer.id);
+    gameState.bottomButtonContainer = captureButtons(getElements().bottomRowContainer.id);
+}
+
+export function restoreButtonStates(gameState) {
+
+    const restoreButtons = (containerId, buttonState) => {
+        const container = document.getElementById(containerId);
+
+        buttonState.visibleButtons.forEach(button => {
+            const element = document.getElementById(button.id);
+            if (element) {
+                element.innerHTML = button.text;
+                element.classList.remove('hidden-button');
+                if (element.innerHTML.includes('PURCHASED')) {
+                    element.classList.add('non-repeatable-upgrade-purchased');
+                }
+            }
+        });
+
+        disableButtons(false);
+    };
+
+    if (gameState.mainButtonContainer) {
+        restoreButtons('mainButtonContainer', gameState.mainButtonContainer);
+    }
+
+    if (gameState.bottomButtonContainer) {
+        restoreButtons('bottomButtonContainer', gameState.bottomButtonContainer);
+    }
+
+    if (getInvestmentFundUnlockable()) {
+        getElements().investmentDataScreen.style.display = 'flex';
+        getElements().mainButtonContainer.replaceChild(getElements().investmentDataScreen, getElements().investmentDataScreenButton);
+    }
+    if (getInvestmentFundUnlocked()) {
+        hideDoublePeelerChipperAndShowInvestmentComponents();
+    }
+}
+
