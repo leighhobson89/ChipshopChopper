@@ -110,7 +110,6 @@ import {
     getInitialStateMainButtons,
     getInitialStateBottomRowButtons,
     resetCounterUiElements,
-    captureGameStatusForSaving,
     getStateLoading,
     setStateLoading
 } from './constantsAndGlobalVars.js';

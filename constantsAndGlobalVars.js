@@ -1577,6 +1577,21 @@ export function captureGameStatusForSaving() {
     gameState.currentMaxSpudsDelivery = currentMaxSpudsDelivery;
     gameState.nextMaxSpudsDelivery = nextMaxSpudsDelivery;
 
+    gameState.autoPeelerCounter = autoPeelerCounter;
+    gameState.autoPeelerCounter = autoChipperCounter;
+    gameState.autoFryerCounter = autoFryerCounter;
+    gameState.autoStorageCollectorCounter = autoStorageCollectorCounter;
+    gameState.autoCustomerServerCounter = autoCustomerServerCounter;
+
+//STATS
+    gameState.oldCash = oldCash;
+    gameState.potatoesPeeledThisShift = potatoesPeeledThisShift;
+    gameState.chipsCutThisShift = chipsCutThisShift;
+    gameState.chipsFriedThisShift = chipsFriedThisShift;
+    gameState.customersWaitingAtEndOfShift = customersWaitingAtEndOfShift;
+    gameState.customersWaiting = customersWaiting;
+    gameState.chipsWastedThisShift = chipsWastedThisShift;
+
     // UI elements
     gameState.uiElements = {
         peeledCount: getElements().peeledCount.innerHTML,
@@ -1593,6 +1608,8 @@ export function captureGameStatusForSaving() {
         investmentDataScreenBottomRowColumn2: getElements().investmentDataScreenBottomRowColumn2.innerHTML,
         investmentDataScreenBottomRowColumn3: getElements().investmentDataScreenBottomRowColumn3.innerHTML
     };
+
+    gameState.batchTimers = batchTimers;
 
     console.log(gameState);
 
@@ -1629,6 +1646,7 @@ export function restoreGameStatus(gameState) {
     currentValueOfInvestment = gameState.currentValueOfInvestment;
     currentRiskLevel = gameState.currentRiskLevel;
     growthInvestment = gameState.growthInvestment;
+    //matches capture
 
     // Flags
     gameInProgress = true;
@@ -1660,6 +1678,7 @@ export function restoreGameStatus(gameState) {
     fryerSpeedCapped = gameState.fryerSpeedCapped;
     maxDeliveryCapped = gameState.maxDeliveryCapped;
     maxWaitCustomerCapped = gameState.maxWaitCustomerCapped;
+    //matches capture
 
     // Prices
     priceToImprovePotatoStorage = gameState.priceToImprovePotatoStorage;
@@ -1676,6 +1695,7 @@ export function restoreGameStatus(gameState) {
     priceToDoubleSpudsMax = gameState.priceToDoubleSpudsMax;
     priceToIncreaseFootfall = gameState.priceToIncreaseFootfall;
     priceToUnlockInvestmentFundOrFloatOnStockMarket = gameState.priceToUnlockInvestmentFundOrFloatOnStockMarket;
+    //matches capture
 
     // Auto speeds
     currentSpeedAutoPeeler = gameState.currentSpeedAutoPeeler;
@@ -1692,6 +1712,22 @@ export function restoreGameStatus(gameState) {
     nextSpeedFryTimer = gameState.nextSpeedFryTimer;
     currentMaxSpudsDelivery = gameState.currentMaxSpudsDelivery;
     nextMaxSpudsDelivery = gameState.nextMaxSpudsDelivery;
+    //matches capture
+
+    autoPeelerCounter = gameState.autoPeelerCounter;
+    autoChipperCounter = gameState.autoPeelerCounter;
+    autoFryerCounter = gameState.autoFryerCounter;
+    autoStorageCollectorCounter = gameState.autoStorageCollectorCounter;
+    autoCustomerServerCounter = gameState.autoCustomerServerCounter;
+
+//STATS
+    oldCash = gameState.oldCash;
+    potatoesPeeledThisShift = gameState.potatoesPeeledThisShift;
+    chipsCutThisShift = gameState.chipsCutThisShift;
+    chipsFriedThisShift = gameState.chipsFriedThisShift;
+    customersWaitingAtEndOfShift = gameState.customersWaitingAtEndOfShift;
+    customersWaiting = gameState.customersWaiting;
+    chipsWastedThisShift = gameState.chipsWastedThisShift;
 
     // UI elements
     getElements().peeledCount.innerHTML = gameState.uiElements.peeledCount;
@@ -1707,6 +1743,9 @@ export function restoreGameStatus(gameState) {
     getElements().investmentDataScreenBottomRowColumn1.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn1;
     getElements().investmentDataScreenBottomRowColumn2.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn2;
     getElements().investmentDataScreenBottomRowColumn3.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn3;
+    //matches capture
+
+    batchTimers = gameState.batchTimers;
 }
 
 export function getStateLoading() {
