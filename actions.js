@@ -1028,7 +1028,7 @@ function setupEndGameFlow() {
     setFryTimer(getEndGameFryTimer());
 
     for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
-        clearInterval(batchTimers[i]);  //kill all timers end of shift
+        clearInterval(batchTimers[i]);
         setChipsWastedThisShift(getChipsWastedThisShift() + getChipsReadyToServeQuantity()[i]);
     }
 

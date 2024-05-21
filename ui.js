@@ -758,7 +758,6 @@ function createOptionScreenEventListeners() {
     getElements().option3.addEventListener('click', function () {
         setStateLoading(true);
         loadGame();
-        updateVisibleButtons();
         setStateLoading(false);
     });
     getElements().option4.addEventListener('click', function () {
