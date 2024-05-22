@@ -271,6 +271,7 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case getElements().investmentCashComponent_IncrementButton.id:
                 handleIncreaseCashInvested();
+                console.log("cash invested initialised");
                 break;
             case getElements().investmentCashComponent_DecrementButton.id:
                 handleDecreaseCashInvested();
@@ -557,6 +558,7 @@ function handleIncreaseFootfall(buttonId) {
 }
 
 function handleIncreaseCashInvested() {
+    console.log("cash invested clicked");
     if (getCurrentCash() >= getInvestmentCashIncrementDecrement()) {
         setCurrentCash(getCurrentCash() - getInvestmentCashIncrementDecrement());
         setAmountInvestmentCash(getAmountInvestmentCash() + getInvestmentCashIncrementDecrement());
@@ -1082,35 +1084,21 @@ export function toggleMenu(inGame) {
 }
 
 export function saveGame() {
-    // Capture the game state
     const gameState = captureGameStatusForSaving();
-
-    // Serialize the game state object into a string
     const serializedGameState = JSON.stringify(gameState);
-
-    // Create a blob containing the serialized game state
     const blob = new Blob([serializedGameState], { type: 'text/plain' });
-
-    // Create a URL for the blob
     const url = URL.createObjectURL(blob);
-
-    // Create a link element
     const a = document.createElement('a');
     a.href = url;
-    a.download = `ChipShopSave_${getCurrentTimestamp()}.txt`; // Adjust filename as needed
+    a.download = `ChipShopSave_${getCurrentTimestamp()}.txt`;
     a.style.display = 'none';
 
-    // Append the link to the document body
     document.body.appendChild(a);
-
-    // Trigger a click on the link to start the download
     a.click();
 
-    // Clean up
     URL.revokeObjectURL(url);
     a.remove();
 
-    // Inform the player that the game has been saved
     alert("Game saved successfully!");
 }
 

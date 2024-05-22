@@ -1,3 +1,5 @@
+// noinspection JSCheckFunctionSignatures
+
 import {
     createEndOfShiftOrGamePopup,
     createOverlay,
@@ -1490,8 +1492,6 @@ export function setInitialStateBottomRowButtons(value) {
 export function captureGameStatusForSaving() {
     let gameState = {};
 
-
-
     // Game variables
     gameState.currentMaxValueWaitForNewCustomer = currentMaxValueWaitForNewCustomer;
     gameState.nextMaxValueWaitForNewCustomer = nextMaxValueWaitForNewCustomer;
@@ -1794,7 +1794,6 @@ export function captureButtonStates(gameState) {
 export function restoreButtonStates(gameState) {
 
     const restoreButtons = (containerId, buttonState) => {
-        const container = document.getElementById(containerId);
 
         buttonState.visibleButtons.forEach(button => {
             const element = document.getElementById(button.id);

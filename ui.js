@@ -385,7 +385,6 @@ export function createGameWindow(titleScreenCreatedEvent) {
     writeTextInSections(mainButtonDetails);
 
     handleButtonClick(getElements().menuButton.id, null);
-
     handleButtonClick(getElements().startShiftButton.id, null);
     handleButtonClick(getElements().peelPotatoButton.id, getElements().peeledCount.id);
     handleButtonClick(getElements().cutChipsButton.id, getElements().cutCount.id);
