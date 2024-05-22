@@ -515,10 +515,10 @@ function updateInvestmentPlanData() {
     getElements().investmentDataScreenBottomRowColumn1.innerHTML = formatToCashNotation(getAmountInvestmentCash());
     getElements().investmentDataScreenBottomRowColumn2.innerHTML = getAmountInvestmentRisk() + "%";
     getElements().investmentDataScreenBottomRowColumn3.innerHTML = formatToCashNotation(getCurrentValueOfInvestment());
-    // console.log(getElements().investmentDataScreenBottomRowColumn3);
-    // console.log(getCurrentValueOfInvestment());
-    // console.log('Cash Invested:' + getAmountInvestmentCash());
-    // console.log('Risk:' + getAmountInvestmentRisk());
+    console.log(getElements().investmentDataScreenBottomRowColumn3);
+    console.log(getCurrentValueOfInvestment());
+    console.log('Cash Invested:' + getAmountInvestmentCash());
+    console.log('Risk:' + getAmountInvestmentRisk());
 }
 
 function incrementRiskValue() {
@@ -593,5 +593,16 @@ export function calculateForthcomingTotalInvestment() {
             setGrowthInvestment(getGrowthInvestment() + valueToIncreaseThisSecond);
             setCurrentValueOfInvestment(newValueOfInvestment);
         }
+    }
+}
+
+export function pauseRestartGame(pausingNow) {
+    switch(pausingNow) {
+        case true:
+            console.log("should pause timers here when implemented");
+            break;
+        case false:
+            console.log("should restore timers here when implemented");
+            break;
     }
 }

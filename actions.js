@@ -186,7 +186,7 @@ import {
 } from './constantsAndGlobalVars.js';
 
 import {
-    calculateForthcomingTotalInvestment,
+    calculateForthcomingTotalInvestment, pauseRestartGame,
     startBatchTimer, wasteChipsStillInFryerOrFryingAtEndOfShift
 } from './gameloop.js';
 
@@ -271,7 +271,6 @@ export function handleButtonClick(buttonId, value) {
                 break;
             case getElements().investmentCashComponent_IncrementButton.id:
                 handleIncreaseCashInvested();
-                console.log("cash invested initialised");
                 break;
             case getElements().investmentCashComponent_DecrementButton.id:
                 handleDecreaseCashInvested();
@@ -558,7 +557,6 @@ function handleIncreaseFootfall(buttonId) {
 }
 
 function handleIncreaseCashInvested() {
-    console.log("cash invested clicked");
     if (getCurrentCash() >= getInvestmentCashIncrementDecrement()) {
         setCurrentCash(getCurrentCash() - getInvestmentCashIncrementDecrement());
         setAmountInvestmentCash(getAmountInvestmentCash() + getInvestmentCashIncrementDecrement());
@@ -1071,6 +1069,7 @@ export function toggleMenu(inGame) {
             getElements().resumeGameWindow.style.display = 'flex';
             //
             getElements().gameWindow.style.display = "none";
+            pauseRestartGame(true);
             break;
         case false:
             getElements().option1.innerHTML = "New Game";
@@ -1129,12 +1128,16 @@ function handleFileSelect(event) {
     const reader = new FileReader();
     reader.onload = function (e) {
         try {
-            const gameState = JSON.parse(e.target.result);
+            const result = e.target.result;
 
-            toggleMenu(false);
-            restoreGameStatus(gameState);
+            if (typeof result === 'string') {
+                const gameState = JSON.parse(result);
 
-            alert('Game loaded successfully!');
+                toggleMenu(false);
+                restoreGameStatus(gameState);
+
+                alert('Game loaded successfully!');
+            }
         } catch (error) {
             console.error('Error loading game:', error);
             alert('Error loading game. Please make sure the file contains valid game data.');
@@ -1143,3 +1146,4 @@ function handleFileSelect(event) {
 
     reader.readAsText(file);
 }
+
