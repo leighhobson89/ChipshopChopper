@@ -950,7 +950,6 @@ function initialiseInvestmentScreenText() {
         'investmentDataScreenBottomRowColumn3',
     ];
 
-    // Loop through the keys and set innerHTML for each element
     keys.forEach((key, index) => {
         const element = elements[key];
         if (element) {

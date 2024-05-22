@@ -1775,10 +1775,14 @@ export function captureButtonStates(gameState) {
 
         const visibleButtons = buttons.filter(button => !button.classList.contains('hidden-button')).map(button => ({
             id: button.id,
-            text: button.innerHTML
+            text: button.innerHTML,
+            classes: Array.from(button.classList)
         }));
 
-        const disabledButtons = buttons.filter(button => button.disabled).map(button => button.id);
+        const disabledButtons = buttons.filter(button => button.disabled).map(button => ({
+            id: button.id,
+            classes: Array.from(button.classList)
+        }));
 
         return { visibleButtons, disabledButtons };
     };
@@ -1796,10 +1800,18 @@ export function restoreButtonStates(gameState) {
             const element = document.getElementById(button.id);
             if (element) {
                 element.innerHTML = button.text;
+                element.className = '';
+                button.classes.forEach(cls => element.classList.add(cls));
                 element.classList.remove('hidden-button');
-                if (element.innerHTML.includes('PURCHASED')) {
-                    element.classList.add('non-repeatable-upgrade-purchased');
-                }
+            }
+        });
+
+        buttonState.disabledButtons.forEach(button => {
+            const element = document.getElementById(button.id);
+            if (element) {
+                element.disabled = true;
+                element.className = '';
+                button.classes.forEach(cls => element.classList.add(cls));
             }
         });
 
