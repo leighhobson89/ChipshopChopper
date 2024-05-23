@@ -1296,17 +1296,7 @@ function handleFileSelect(event) {
 
             if (typeof result === 'string') {
                 const gameState = JSON.parse(result);
-
-                toggleMenu(false);
-                getElements().investmentCashComponent.remove();
-                getElements().investmentRiskComponent.remove();
-                getElements().investmentDataScreen.remove();
-                createInvestmentComponents(document.getElementById('bottomRowContainer'));
-                createInvestmentDataScreen(document.getElementById('mainButtonContainer'));
-                initialiseInvestmentScreenText();
-                restoreGameStatus(gameState);
-                setElements();
-
+                initialiseLoadedGame(gameState);
                 alert('Game loaded successfully!');
             }
         } catch (error) {
@@ -1316,5 +1306,17 @@ function handleFileSelect(event) {
     };
 
     reader.readAsText(file);
+}
+
+function initialiseLoadedGame(gameState) {
+    toggleMenu(false);
+    getElements().investmentCashComponent.remove();
+    getElements().investmentRiskComponent.remove();
+    getElements().investmentDataScreen.remove();
+    createInvestmentComponents(document.getElementById('bottomRowContainer'));
+    createInvestmentDataScreen(document.getElementById('mainButtonContainer'));
+    initialiseInvestmentScreenText();
+    restoreGameStatus(gameState);
+    setElements();
 }
 
