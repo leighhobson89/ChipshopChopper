@@ -298,6 +298,9 @@ export function handleButtonClick(buttonId, value) {
         if (getInvestmentFundUnlocked()) {
             switch (buttonId) {
                 case getElements().menuButton.id:
+                    if (getGameInProgress() && getElements().option2.classList.contains('option-disabled')) {
+                        getElements().option2.classList.remove('option-disabled');
+                    }
                     toggleMenu(getElements().gameWindow.style.display === 'block');
                     break;
                 case getElements().peelPotatoButton.id:
