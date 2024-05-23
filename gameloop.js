@@ -138,7 +138,7 @@ function main() {
     createGameWindow(titleScreenCreatedEvent);
 
     if (getGameInProgress()) {
-        setInterval(() => saveGame(false), getAutoSaveInterval()); //autosave
+        setInterval(() => saveGame(false), getAutoSaveInterval()); //auto save
     }
 
     gameLoop();

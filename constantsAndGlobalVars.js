@@ -111,7 +111,7 @@ export const popupOverlay = createOverlay();
  let peelPotatoesRate = 1;
  let chipsReadyToServeQuantity = [];
  let fryerCapacity = 100;
- let autoFryerEfficiency = 0.5;
+ let autoFryerEfficiency = 1; //not a game option but can tweak between 0 and 1 for % of fryer capacity used by autoFryer
  let amountInvestmentCash = 0;
  let amountInvestmentRisk = 0;
  let investmentCashIncrementDecrement = 1000;
@@ -938,9 +938,9 @@ export function getAutoFryerEfficiency() {
     return autoFryerEfficiency;
 }
 
-export function setAutoFryerEfficiency(value) {
-    autoFryerEfficiency = value;
-}
+// export function setAutoFryerEfficiency(value) {
+//     autoFryerEfficiency = value;
+// }
 
 export function getAutoPeelerCounter() {
     return autoPeelerCounter;

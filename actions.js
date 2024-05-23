@@ -182,7 +182,7 @@ import {
     setChipsFriedThisShift,
     getEndGameCash,
     getEndGamePotatoes,
-    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements, gameInProgress,
+    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements,
 } from './constantsAndGlobalVars.js';
 
 import {
