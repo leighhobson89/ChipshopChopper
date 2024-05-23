@@ -266,7 +266,8 @@ export function handleButtonClick(buttonId, value) {
                     break;
                 case getElements().investmentFundUnlockOrFloatButton.id:
                     handleInvestmentFundUnlockButton(buttonId);
-                    break;
+                    disableButtons(false);
+                    return;
                 case getElements().customerFrequencyIncreaser.id:
                     handleIncreaseFootfall(buttonId);
                     break;
