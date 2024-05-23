@@ -182,7 +182,7 @@ import {
     setChipsFriedThisShift,
     getEndGameCash,
     getEndGamePotatoes,
-    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements, getInvestmentFundUnlockable,
+    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -836,7 +836,7 @@ export function disableButtons(init) {
 
         bottomRowButtons.forEach(button => {
             if (!button.classList.contains('capped')) {
-                if (!getInvestmentFundUnlockable()) {
+                if (!getInvestmentFundUnlocked()) {
                     switch (button.id) {
                         case getElements().twoHandedPeelingButton.id:
                             if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
