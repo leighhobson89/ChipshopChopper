@@ -182,7 +182,7 @@ import {
     setChipsFriedThisShift,
     getEndGameCash,
     getEndGamePotatoes,
-    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements,
+    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements, gameInProgress,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -209,6 +209,9 @@ export function handleButtonClick(buttonId, value) {
         if (!getInvestmentFundUnlocked()) {
             switch (buttonId) {
                 case getElements().menuButton.id:
+                    if (getGameInProgress() && getElements().option2.classList.contains('option-disabled')) {
+                        getElements().option2.classList.remove('option-disabled');
+                    }
                     toggleMenu(getElements().gameWindow.style.display === 'block');
                     break;
                 case getElements().peelPotatoButton.id:
@@ -1246,14 +1249,18 @@ export function toggleMenu(inGame) {
     }
 }
 
-export function saveGame() {
+export function saveGame(isManualSave) {
     const gameState = captureGameStatusForSaving();
     const serializedGameState = JSON.stringify(gameState);
     const blob = new Blob([serializedGameState], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
+
+    // Generate the filename with "AUTO_" prefix for auto save
+    const timestamp = getCurrentTimestamp();
+    const prefix = isManualSave ? "" : "AUTO_";
     a.href = url;
-    a.download = `ChipShopSave_${getCurrentTimestamp()}.txt`;
+    a.download = `${prefix}ChipShopSave_${timestamp}.txt`;
     a.style.display = 'none';
 
     document.body.appendChild(a);
@@ -1262,7 +1269,9 @@ export function saveGame() {
     URL.revokeObjectURL(url);
     a.remove();
 
-    alert("Game saved successfully!");
+    if (isManualSave) {
+        alert("Game saved successfully!");
+    }
 }
 
 function getCurrentTimestamp() {

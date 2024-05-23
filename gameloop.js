@@ -21,7 +21,7 @@ import {
     handleServingStorage,
     handleStartShift,
     incrementCustomersWaiting,
-    peelPotato,
+    peelPotato, saveGame,
     serveCustomer
 } from './actions.js';
 
@@ -40,7 +40,7 @@ import {
     getAutoFryerCounter,
     getAutoFryerEfficiency,
     getAutoPeelerBought,
-    getAutoPeelerCounter,
+    getAutoPeelerCounter, getAutoSaveInterval,
     getAutoShiftStatus,
     getAutoStorageCollectorBought,
     getAutoStorageCollectorCounter,
@@ -135,8 +135,11 @@ function main() {
     document.addEventListener('titleScreenCreated', setElements);
     const titleScreenCreatedEvent = new Event('titleScreenCreated');
     createTitleScreen();
-    document.getElementById('option5').style.display = 'none'; //HIDE SOUND OPTION
     createGameWindow(titleScreenCreatedEvent);
+
+    if (getGameInProgress()) {
+        setInterval(() => saveGame(false), getAutoSaveInterval()); //autosave
+    }
 
     gameLoop();
 }

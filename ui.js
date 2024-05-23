@@ -193,6 +193,8 @@ export function createTitleScreen() {
 
     document.body.appendChild(titleScreen);
 
+    document.getElementById('option2').classList.add('option-disabled'); //DISABLE SAVE GAME FOR FIRST OPEN OF GAME OR BROWSER REFRESH
+    document.getElementById('option5').style.display = 'none'; //HIDE SOUND OPTION
 }
 export function createGameWindow(titleScreenCreatedEvent) {
     const gameWindow = document.createElement('div');
@@ -752,7 +754,7 @@ function createOptionScreenEventListeners() {
         updateVisibleButtons(); //for debug if money given
     });
     getElements().option2.addEventListener('click', function () {
-        saveGame();
+        saveGame(true);
     });
     getElements().option3.addEventListener('click', function () {
         setStateLoading(true);

@@ -16,6 +16,7 @@ export let stateLoading = false;
 let elements;
 
 //CONSTANTS
+const AUTO_SAVE_INTERVAL = 5 * 60 * 1000; //change first integer for mins e.g. 5 for 5 mins
 const END_GAME_FRY_TIMER = 15;
 const END_GAME_CASH = 999998;
 const END_GAME_POTATOES = 8;
@@ -1832,5 +1833,9 @@ export function restoreButtonStates(gameState) {
     if (getInvestmentFundUnlocked()) {
         hideDoublePeelerChipperAndShowInvestmentComponents();
     }
+}
+
+export function getAutoSaveInterval() {
+    return AUTO_SAVE_INTERVAL;
 }
 
