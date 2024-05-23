@@ -182,7 +182,7 @@ import {
     setChipsFriedThisShift,
     getEndGameCash,
     getEndGamePotatoes,
-    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus,
+    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -205,88 +205,170 @@ export function handleButtonClick(buttonId, value) {
     const element = getElements()[value];
 
     button.addEventListener('click', () => {
-        switch (buttonId) {
-            case getElements().menuButton.id:
-                toggleMenu(getElements().gameWindow.style.display === 'block');
-                break;
-            case getElements().peelPotatoButton.id:
-                handlePeelPotato(element);
-                break;
-            case getElements().cutChipsButton.id:
-                handleCutChips(element);
-                break;
-            case getElements().fryChipsButton.id:
-                handleFryChips(buttonId);
-                break;
-            case getElements().servingStorageButton.id:
-                handleServingStorage();
-                break;
-            case getElements().serveCustomerButton.id:
-                handleServeCustomer();
-                break;
-            case getElements().improvePotatoStorageButton.id:
-                handleImprovePotatoStorage(buttonId);
-                break;
-            case getElements().twoHandedPeelingButton.id:
-                handleTwoHandedPeeling(button, buttonId);
-                break;
-            case getElements().twoHandedChippingButton.id:
-                handleTwoHandedChipping(button, buttonId);
-                break;
-            case getElements().improveFryerCapacityButton.id:
-                handleImproveFryerCapacity(buttonId);
-                break;
-            case getElements().addStorageHeaterAutoShiftStartButton.id:
-                handleAddStorageHeater(button, buttonId);
-                break;
-            case getElements().startShiftButton.id:
-                handleStartShift();
-                break;
-            case getElements().autoPeelerUpgradeButton.id:
-                handleAutoPeeler(buttonId);
-                break;
-            case getElements().autoChipperUpgradeButton.id:
-                handleAutoChipper(buttonId);
-                break;
-            case getElements().autoFryerUpgradeButton.id:
-                handleAutoFryer(buttonId);
-                break;
-            case getElements().autoStorageCollectorUpgradeButton.id:
-                handleAutoStorageCollector(buttonId);
-                break;
-            case getElements().autoCustomerServerUpgradeButton.id:
-                handleAutoCustomerServer(buttonId);
-                break;
-            case getElements().fastFryerUpgradeButton.id:
-                handleImproveFryTimer(buttonId);
-                break;
-            case getElements().potatoDeliveryDoublerButton.id:
-                handleDoubleMaxSpudsDelivery(buttonId);
-                break;
-            case getElements().investmentFundUnlockOrFloatButton.id:
-                handleInvestmentFundUnlockButton(buttonId);
-                break;
-            case getElements().customerFrequencyIncreaser.id:
-                handleIncreaseFootfall(buttonId);
-                break;
-            case getElements().investmentCashComponent_IncrementButton.id:
-                handleIncreaseCashInvested();
-                break;
-            case getElements().investmentCashComponent_DecrementButton.id:
-                handleDecreaseCashInvested();
-                break;
-            case getElements().investmentRiskComponent_IncrementButton.id:
-                handleIncreaseRiskAmount();
-                break;
-            case getElements().investmentRiskComponent_DecrementButton.id:
-                handleDecreaseRiskAmount();
-                break;
-            case getElements().withdrawInvestmentButton.id:
-                handleWithDrawNowButton();
-                break;
-            default:
-                break;
+        if (!getInvestmentFundUnlocked()) {
+            switch (buttonId) {
+                case getElements().menuButton.id:
+                    toggleMenu(getElements().gameWindow.style.display === 'block');
+                    break;
+                case getElements().peelPotatoButton.id:
+                    handlePeelPotato(element);
+                    break;
+                case getElements().cutChipsButton.id:
+                    handleCutChips(element);
+                    break;
+                case getElements().fryChipsButton.id:
+                    handleFryChips(buttonId);
+                    break;
+                case getElements().servingStorageButton.id:
+                    handleServingStorage();
+                    break;
+                case getElements().serveCustomerButton.id:
+                    handleServeCustomer();
+                    break;
+                case getElements().improvePotatoStorageButton.id:
+                    handleImprovePotatoStorage(buttonId);
+                    break;
+                case getElements().twoHandedPeelingButton.id:
+                    handleTwoHandedPeeling(button, buttonId);
+                    break;
+                case getElements().twoHandedChippingButton.id:
+                    handleTwoHandedChipping(button, buttonId);
+                    break;
+                case getElements().improveFryerCapacityButton.id:
+                    handleImproveFryerCapacity(buttonId);
+                    break;
+                case getElements().addStorageHeaterAutoShiftStartButton.id:
+                    handleAddStorageHeater(button, buttonId);
+                    break;
+                case getElements().startShiftButton.id:
+                    handleStartShift();
+                    break;
+                case getElements().autoPeelerUpgradeButton.id:
+                    handleAutoPeeler(buttonId);
+                    break;
+                case getElements().autoChipperUpgradeButton.id:
+                    handleAutoChipper(buttonId);
+                    break;
+                case getElements().autoFryerUpgradeButton.id:
+                    handleAutoFryer(buttonId);
+                    break;
+                case getElements().autoStorageCollectorUpgradeButton.id:
+                    handleAutoStorageCollector(buttonId);
+                    break;
+                case getElements().autoCustomerServerUpgradeButton.id:
+                    handleAutoCustomerServer(buttonId);
+                    break;
+                case getElements().fastFryerUpgradeButton.id:
+                    handleImproveFryTimer(buttonId);
+                    break;
+                case getElements().potatoDeliveryDoublerButton.id:
+                    handleDoubleMaxSpudsDelivery(buttonId);
+                    break;
+                case getElements().investmentFundUnlockOrFloatButton.id:
+                    handleInvestmentFundUnlockButton(buttonId);
+                    break;
+                case getElements().customerFrequencyIncreaser.id:
+                    handleIncreaseFootfall(buttonId);
+                    break;
+                case getElements().investmentCashComponent_IncrementButton.id:
+                    handleIncreaseCashInvested();
+                    break;
+                case getElements().investmentCashComponent_DecrementButton.id:
+                    handleDecreaseCashInvested();
+                    break;
+                case getElements().investmentRiskComponent_IncrementButton.id:
+                    handleIncreaseRiskAmount();
+                    break;
+                case getElements().investmentRiskComponent_DecrementButton.id:
+                    handleDecreaseRiskAmount();
+                    break;
+                case getElements().withdrawInvestmentButton.id:
+                    handleWithDrawNowButton();
+                    break;
+                default:
+                    break;
+            }
         }
+
+        if (getInvestmentFundUnlocked()) {
+            switch (buttonId) {
+                case getElements().menuButton.id:
+                    toggleMenu(getElements().gameWindow.style.display === 'block');
+                    break;
+                case getElements().peelPotatoButton.id:
+                    handlePeelPotato(element);
+                    break;
+                case getElements().cutChipsButton.id:
+                    handleCutChips(element);
+                    break;
+                case getElements().fryChipsButton.id:
+                    handleFryChips(buttonId);
+                    break;
+                case getElements().servingStorageButton.id:
+                    handleServingStorage();
+                    break;
+                case getElements().serveCustomerButton.id:
+                    handleServeCustomer();
+                    break;
+                case getElements().improvePotatoStorageButton.id:
+                    handleImprovePotatoStorage(buttonId);
+                    break;
+                case getElements().improveFryerCapacityButton.id:
+                    handleImproveFryerCapacity(buttonId);
+                    break;
+                case getElements().addStorageHeaterAutoShiftStartButton.id:
+                    handleAddStorageHeater(button, buttonId);
+                    break;
+                case getElements().startShiftButton.id:
+                    handleStartShift();
+                    break;
+                case getElements().autoPeelerUpgradeButton.id:
+                    handleAutoPeeler(buttonId);
+                    break;
+                case getElements().autoChipperUpgradeButton.id:
+                    handleAutoChipper(buttonId);
+                    break;
+                case getElements().autoFryerUpgradeButton.id:
+                    handleAutoFryer(buttonId);
+                    break;
+                case getElements().autoStorageCollectorUpgradeButton.id:
+                    handleAutoStorageCollector(buttonId);
+                    break;
+                case getElements().autoCustomerServerUpgradeButton.id:
+                    handleAutoCustomerServer(buttonId);
+                    break;
+                case getElements().fastFryerUpgradeButton.id:
+                    handleImproveFryTimer(buttonId);
+                    break;
+                case getElements().potatoDeliveryDoublerButton.id:
+                    handleDoubleMaxSpudsDelivery(buttonId);
+                    break;
+                case getElements().investmentFundUnlockOrFloatButton.id:
+                    handleInvestmentFundUnlockButton(buttonId);
+                    break;
+                case getElements().customerFrequencyIncreaser.id:
+                    handleIncreaseFootfall(buttonId);
+                    break;
+                case getElements().investmentCashComponent_IncrementButton.id:
+                    handleIncreaseCashInvested();
+                    break;
+                case getElements().investmentCashComponent_DecrementButton.id:
+                    handleDecreaseCashInvested();
+                    break;
+                case getElements().investmentRiskComponent_IncrementButton.id:
+                    handleIncreaseRiskAmount();
+                    break;
+                case getElements().investmentRiskComponent_DecrementButton.id:
+                    handleDecreaseRiskAmount();
+                    break;
+                case getElements().withdrawInvestmentButton.id:
+                    handleWithDrawNowButton();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         disableButtons(false);
     });
 }
@@ -746,41 +828,72 @@ export function disableButtons(init) {
 
         bottomRowButtons.forEach(button => {
             if (!button.classList.contains('capped')) {
-                switch (button.id) {
-                    case getElements().twoHandedPeelingButton.id:
-                        if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                            button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
-                        }
-                        break;
-                    case getElements().twoHandedChippingButton.id:
-                        if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                            button.disabled = getCurrentCash() < getPriceToEnableDoubleChipping();
-                        }
-                        break;
-                    case getElements().addStorageHeaterAutoShiftStartButton.id:
-                        if (!getHeaterUpgradeBought()) {
+                if (!getInvestmentFundUnlocked()) {
+                    switch (button.id) {
+                        case getElements().twoHandedPeelingButton.id:
                             if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+                                button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
                             }
-                        } else {
+                            break;
+                        case getElements().twoHandedChippingButton.id:
                             if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
+                                button.disabled = getCurrentCash() < getPriceToEnableDoubleChipping();
                             }
-                        }
-                        break;
-                    case getElements().startShiftButton.id:
-                        button.disabled = getShiftTime() > getZero() && !getFloatOnStockMarketUnlockedAndEndGameFlowStarted();
-                        break;
-                    case getElements().investmentFundUnlockOrFloatButton.id:
-                        if (getInvestmentFundUnlocked()) {
-                            button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
-                        } else {
-                            button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
-                        }
-                        break;
-                    default:
-                        button.disabled = false;
-                        break;
+                            break;
+                        case getElements().addStorageHeaterAutoShiftStartButton.id:
+                            if (!getHeaterUpgradeBought()) {
+                                if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
+                                    button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+                                }
+                            } else {
+                                if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
+                                    button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
+                                }
+                            }
+                            break;
+                        case getElements().startShiftButton.id:
+                            button.disabled = getShiftTime() > getZero() && !getFloatOnStockMarketUnlockedAndEndGameFlowStarted();
+                            break;
+                        case getElements().investmentFundUnlockOrFloatButton.id:
+                            if (getInvestmentFundUnlocked()) {
+                                button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
+                            } else {
+                                button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
+                            }
+                            break;
+                        default:
+                            button.disabled = false;
+                            break;
+                    }
+                }
+
+                if (getInvestmentFundUnlocked()) {
+                    switch (button.id) {
+                        case getElements().addStorageHeaterAutoShiftStartButton.id:
+                            if (!getHeaterUpgradeBought()) {
+                                if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
+                                    button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+                                }
+                            } else {
+                                if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
+                                    button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
+                                }
+                            }
+                            break;
+                        case getElements().startShiftButton.id:
+                            button.disabled = getShiftTime() > getZero() && !getFloatOnStockMarketUnlockedAndEndGameFlowStarted();
+                            break;
+                        case getElements().investmentFundUnlockOrFloatButton.id:
+                            if (getInvestmentFundUnlocked()) {
+                                button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
+                            } else {
+                                button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
+                            }
+                            break;
+                        default:
+                            button.disabled = false;
+                            break;
+                    }
                 }
 
                 if (getShiftInProgress()) {
@@ -876,46 +989,88 @@ function selectARandomNumberOfSpudsForNextShift() {
 }
 
 function calculateAndSetNewPriceOfUpgrade(buttonId) {
-    switch (buttonId) {
-        //Manual Upgrades
-        case getElements().improvePotatoStorageButton.id:
-            setPriceToImprovePotatoStorage(getPriceToImprovePotatoStorage() * getMultipleForImprovePotatoStorage());
-            return getPriceToImprovePotatoStorage();
-        case getElements().twoHandedPeelingButton.id:
-            return getPriceToEnableDoublePeeling();
-        case getElements().twoHandedChippingButton.id:
-            return getPriceToEnableDoubleChipping();
-        case getElements().improveFryerCapacityButton.id:
-            setPriceToImproveFryerCapacity(getPriceToImproveFryerCapacity() * getMultipleForImproveFryerCapacity());
-            return getPriceToImproveFryerCapacity();
-        case getElements().addStorageHeaterAutoShiftStartButton.id:
-            return getPriceToAddStorageHeater();
+    if (!getInvestmentFundUnlocked()) {
+        switch (buttonId) {
+            //Manual Upgrades
+            case getElements().improvePotatoStorageButton.id:
+                setPriceToImprovePotatoStorage(getPriceToImprovePotatoStorage() * getMultipleForImprovePotatoStorage());
+                return getPriceToImprovePotatoStorage();
+            case getElements().twoHandedPeelingButton.id:
+                return getPriceToEnableDoublePeeling();
+            case getElements().twoHandedChippingButton.id:
+                return getPriceToEnableDoubleChipping();
+            case getElements().improveFryerCapacityButton.id:
+                setPriceToImproveFryerCapacity(getPriceToImproveFryerCapacity() * getMultipleForImproveFryerCapacity());
+                return getPriceToImproveFryerCapacity();
+            case getElements().addStorageHeaterAutoShiftStartButton.id:
+                return getPriceToAddStorageHeater();
             //Auto Upgrades
-        case getElements().autoPeelerUpgradeButton.id:
-            setPriceToImproveAutoPeeler(getPriceToImproveAutoPeeler() * getMultipleForImproveAutoPeeler());
-            return getPriceToImproveAutoPeeler();
-        case getElements().autoChipperUpgradeButton.id:
-            setPriceToImproveAutoChipper(getPriceToImproveAutoChipper() * getMultipleForImproveAutoChipper());
-            return getPriceToImproveAutoChipper();
-        case getElements().autoFryerUpgradeButton.id:
-            setPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut() * getMultipleForImproveAutoFryer());
-            return getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut();
-        case getElements().autoStorageCollectorUpgradeButton.id:
-            setPriceToImproveAutoMoverFromFryerToStorage(getPriceToImproveAutoMoverFromFryerToStorage() * getMultipleForImproveAutoStorageCollector());
-            return getPriceToImproveAutoMoverFromFryerToStorage();
-        case getElements().autoCustomerServerUpgradeButton.id:
-            setPriceToImproveAutoCustomerServer(getPriceToImproveAutoCustomerServer() * getMultipleForImproveAutoCustomerServer());
-            return getPriceToImproveAutoCustomerServer();
+            case getElements().autoPeelerUpgradeButton.id:
+                setPriceToImproveAutoPeeler(getPriceToImproveAutoPeeler() * getMultipleForImproveAutoPeeler());
+                return getPriceToImproveAutoPeeler();
+            case getElements().autoChipperUpgradeButton.id:
+                setPriceToImproveAutoChipper(getPriceToImproveAutoChipper() * getMultipleForImproveAutoChipper());
+                return getPriceToImproveAutoChipper();
+            case getElements().autoFryerUpgradeButton.id:
+                setPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut() * getMultipleForImproveAutoFryer());
+                return getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut();
+            case getElements().autoStorageCollectorUpgradeButton.id:
+                setPriceToImproveAutoMoverFromFryerToStorage(getPriceToImproveAutoMoverFromFryerToStorage() * getMultipleForImproveAutoStorageCollector());
+                return getPriceToImproveAutoMoverFromFryerToStorage();
+            case getElements().autoCustomerServerUpgradeButton.id:
+                setPriceToImproveAutoCustomerServer(getPriceToImproveAutoCustomerServer() * getMultipleForImproveAutoCustomerServer());
+                return getPriceToImproveAutoCustomerServer();
             //Third Phase Upgrades
-        case getElements().fastFryerUpgradeButton.id:
-            setPriceToImproveFryTimer(getPriceToImproveFryTimer() * getMultipleForImproveFryTimer());
-            return getPriceToImproveFryTimer();
-        case getElements().potatoDeliveryDoublerButton.id:
-            setPriceToDoubleSpudsMax(getPriceToDoubleSpudsMax() * getMultipleForMaxSpudsUpgrade());
-            return getPriceToDoubleSpudsMax();
-        case getElements().customerFrequencyIncreaser.id:
-            setPriceToIncreaseFootfall(getPriceToIncreaseFootfall() * getMultipleForIncreaseFootfallUpgrade());
-            return getPriceToIncreaseFootfall();
+            case getElements().fastFryerUpgradeButton.id:
+                setPriceToImproveFryTimer(getPriceToImproveFryTimer() * getMultipleForImproveFryTimer());
+                return getPriceToImproveFryTimer();
+            case getElements().potatoDeliveryDoublerButton.id:
+                setPriceToDoubleSpudsMax(getPriceToDoubleSpudsMax() * getMultipleForMaxSpudsUpgrade());
+                return getPriceToDoubleSpudsMax();
+            case getElements().customerFrequencyIncreaser.id:
+                setPriceToIncreaseFootfall(getPriceToIncreaseFootfall() * getMultipleForIncreaseFootfallUpgrade());
+                return getPriceToIncreaseFootfall();
+        }
+    }
+
+    if (getInvestmentFundUnlocked()) {
+        switch (buttonId) {
+            //Manual Upgrades
+            case getElements().improvePotatoStorageButton.id:
+                setPriceToImprovePotatoStorage(getPriceToImprovePotatoStorage() * getMultipleForImprovePotatoStorage());
+                return getPriceToImprovePotatoStorage();
+            case getElements().improveFryerCapacityButton.id:
+                setPriceToImproveFryerCapacity(getPriceToImproveFryerCapacity() * getMultipleForImproveFryerCapacity());
+                return getPriceToImproveFryerCapacity();
+            case getElements().addStorageHeaterAutoShiftStartButton.id:
+                return getPriceToAddStorageHeater();
+            //Auto Upgrades
+            case getElements().autoPeelerUpgradeButton.id:
+                setPriceToImproveAutoPeeler(getPriceToImproveAutoPeeler() * getMultipleForImproveAutoPeeler());
+                return getPriceToImproveAutoPeeler();
+            case getElements().autoChipperUpgradeButton.id:
+                setPriceToImproveAutoChipper(getPriceToImproveAutoChipper() * getMultipleForImproveAutoChipper());
+                return getPriceToImproveAutoChipper();
+            case getElements().autoFryerUpgradeButton.id:
+                setPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut() * getMultipleForImproveAutoFryer());
+                return getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut();
+            case getElements().autoStorageCollectorUpgradeButton.id:
+                setPriceToImproveAutoMoverFromFryerToStorage(getPriceToImproveAutoMoverFromFryerToStorage() * getMultipleForImproveAutoStorageCollector());
+                return getPriceToImproveAutoMoverFromFryerToStorage();
+            case getElements().autoCustomerServerUpgradeButton.id:
+                setPriceToImproveAutoCustomerServer(getPriceToImproveAutoCustomerServer() * getMultipleForImproveAutoCustomerServer());
+                return getPriceToImproveAutoCustomerServer();
+            //Third Phase Upgrades
+            case getElements().fastFryerUpgradeButton.id:
+                setPriceToImproveFryTimer(getPriceToImproveFryTimer() * getMultipleForImproveFryTimer());
+                return getPriceToImproveFryTimer();
+            case getElements().potatoDeliveryDoublerButton.id:
+                setPriceToDoubleSpudsMax(getPriceToDoubleSpudsMax() * getMultipleForMaxSpudsUpgrade());
+                return getPriceToDoubleSpudsMax();
+            case getElements().customerFrequencyIncreaser.id:
+                setPriceToIncreaseFootfall(getPriceToIncreaseFootfall() * getMultipleForIncreaseFootfallUpgrade());
+                return getPriceToIncreaseFootfall();
+        }
     }
 }
 
@@ -1142,6 +1297,7 @@ function handleFileSelect(event) {
 
                 toggleMenu(false);
                 restoreGameStatus(gameState);
+                setElements();
 
                 alert('Game loaded successfully!');
             }
