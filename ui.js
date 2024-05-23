@@ -804,7 +804,7 @@ export function hideDoublePeelerChipperAndShowInvestmentComponents() {
     getElements().investmentRiskComponent.style.display = 'flex';
 }
 
-function createInvestmentComponents(bottomRowContainer) {
+export function createInvestmentComponents(bottomRowContainer) {
     const investmentCashComponent = document.createElement('div');
     investmentCashComponent.id = 'investmentCashComponent';
     investmentCashComponent.style.display = 'none';
@@ -886,7 +886,7 @@ function createInvestmentComponents(bottomRowContainer) {
     investmentRiskComponent_DecrementButton.innerHTML = `-1% Risk`;
 }
 
-function createInvestmentDataScreen(mainButtonContainer) {
+export function createInvestmentDataScreen(mainButtonContainer) {
 
     const investmentDataScreen = document.createElement('div');
     investmentDataScreen.id = 'investmentDataScreen';
@@ -926,7 +926,7 @@ function createInvestmentDataScreen(mainButtonContainer) {
     mainButtonContainer.appendChild(investmentDataScreen);
 }
 
-function initialiseInvestmentScreenText() {
+export function initialiseInvestmentScreenText() {
     const elements = getElements();
 
     const strings = [

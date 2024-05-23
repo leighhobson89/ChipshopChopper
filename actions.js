@@ -191,8 +191,9 @@ import {
 } from './gameloop.js';
 
 import {
+    createInvestmentComponents, createInvestmentDataScreen,
     formatToCashNotation, hideButtonsReadyForEndGame,
-    hideDoublePeelerChipperAndShowInvestmentComponents,
+    hideDoublePeelerChipperAndShowInvestmentComponents, initialiseInvestmentScreenText,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
     triggerEndGameScreen,
@@ -1297,6 +1298,12 @@ function handleFileSelect(event) {
                 const gameState = JSON.parse(result);
 
                 toggleMenu(false);
+                getElements().investmentCashComponent.remove();
+                getElements().investmentRiskComponent.remove();
+                getElements().investmentDataScreen.remove();
+                createInvestmentComponents(document.getElementById('bottomRowContainer'));
+                createInvestmentDataScreen(document.getElementById('mainButtonContainer'));
+                initialiseInvestmentScreenText();
                 restoreGameStatus(gameState);
                 setElements();
 
