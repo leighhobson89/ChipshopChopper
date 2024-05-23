@@ -1279,11 +1279,11 @@ export function loadGame() {
     input.type = 'file';
     input.accept = '.txt';
 
-    input.addEventListener('change', handleFileSelect);
+    input.addEventListener('change', handleFileSelectAndInitialiseLoadedGame);
     input.click();
 }
 
-function handleFileSelect(event) {
+function handleFileSelectAndInitialiseLoadedGame(event) {
     const file = event.target.files[0];
     if (!file) {
         return;
