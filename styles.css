@@ -307,6 +307,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     font-weight: bold;
 }
 
+.menu-button.disabled,
 .action-button-main.disabled,
 .action-button-bottom-row.disabled,
 .investment-withdraw-button.disabled,

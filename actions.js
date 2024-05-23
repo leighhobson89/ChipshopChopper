@@ -186,7 +186,7 @@ import {
 } from './constantsAndGlobalVars.js';
 
 import {
-    calculateForthcomingTotalInvestment, pauseRestartGame,
+    calculateForthcomingTotalInvestment,
     startBatchTimer, wasteChipsStillInFryerOrFryingAtEndOfShift
 } from './gameloop.js';
 
@@ -667,6 +667,8 @@ export function disableButtons(init) {
         const customerCount = parseInt(getElements().customersWaitingCount.innerHTML);
 
         if (!getShiftInProgress()) {
+            getElements().menuButton.disabled = false;
+            getElements().menuButton.classList.remove('disabled');
             investmentCashComponent_DecrementButton.disabled = false;
             investmentCashComponent_DecrementButton.classList.remove('disabled');
             investmentRiskComponent_DecrementButton.disabled = false;
@@ -676,6 +678,9 @@ export function disableButtons(init) {
                 withdrawInvestmentButton.classList.remove('disabled');
                 changeWithdrawInvestmentButtonText(true);
             }
+        } else {
+            getElements().menuButton.disabled = true;
+            getElements().menuButton.classList.add('disabled');
         }
 
         mainButtons.forEach(button => {
@@ -779,6 +784,7 @@ export function disableButtons(init) {
                 }
 
                 if (getShiftInProgress()) {
+
                     investmentCashComponent_DecrementButton.disabled = true;
                     investmentCashComponent_DecrementButton.classList.add('disabled');
                     investmentRiskComponent_DecrementButton.disabled = true;
@@ -799,7 +805,7 @@ export function disableButtons(init) {
         mainButtons.forEach(button => {
             if (!button.classList.contains('capped')) {
                 if (!checkIfNonRepeatableUpgradePurchased(button)) {
-                    if (!checkIfRepeatableUpgrade(button)) {
+                    if (!checkIfRepeatableUpgrade(button) || button.id === 'menuButton') {
                         button.disabled = true;
                         button.classList.add('disabled');
                     }
@@ -813,6 +819,8 @@ export function disableButtons(init) {
         disableButtonsHelper(mainButtons, pricesArrayMainButtons);
         getElements().startShiftButton.disabled = false;
         getElements().startShiftButton.classList.remove('disabled');
+
+
     }
 }
 
@@ -1069,7 +1077,6 @@ export function toggleMenu(inGame) {
             getElements().resumeGameWindow.style.display = 'flex';
             //
             getElements().gameWindow.style.display = "none";
-            pauseRestartGame(true);
             break;
         case false:
             getElements().option1.innerHTML = "New Game";

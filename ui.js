@@ -113,7 +113,7 @@ import {
     getStateLoading,
     setStateLoading
 } from './constantsAndGlobalVars.js';
-import {initialiseNewGame, pauseRestartGame} from "./gameloop.js";
+import {initialiseNewGame} from "./gameloop.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -767,7 +767,6 @@ function createOptionScreenEventListeners() {
     });
     getElements().resumeGameButton.addEventListener('click', function () {
         toggleMenu(getElements().gameWindow.style.display === 'block');
-        pauseRestartGame(false);
     });
     popupContinueButton.addEventListener('click', function() {
         toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);

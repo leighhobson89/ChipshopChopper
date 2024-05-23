@@ -595,14 +595,3 @@ export function calculateForthcomingTotalInvestment() {
         }
     }
 }
-
-export function pauseRestartGame(pausingNow) {
-    switch(pausingNow) {
-        case true:
-            console.log("should pause timers here when implemented");
-            break;
-        case false:
-            console.log("should restore timers here when implemented");
-            break;
-    }
-}
