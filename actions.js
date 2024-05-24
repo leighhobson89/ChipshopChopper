@@ -940,8 +940,6 @@ export function disableButtons(init) {
         disableButtonsHelper(mainButtons, pricesArrayMainButtons);
         getElements().startShiftButton.disabled = false;
         getElements().startShiftButton.classList.remove('disabled');
-
-
     }
 }
 

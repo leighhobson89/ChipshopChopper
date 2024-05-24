@@ -126,6 +126,9 @@ import {
     TIMER_CORRECTION_COEFFICIENT,
 } from './constantsAndGlobalVars.js';
 
+let autoSaveInterval;
+let nextAutoSaveTime;
+
 let lastShiftUpdateTime = new Date().getTime();
 let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
@@ -133,13 +136,16 @@ let lastAutoUpgradesUpdateTime = new Date().getTime();
 
 function main() {
     document.addEventListener('titleScreenCreated', setElements);
+    autoSaveInterval = getAutoSaveInterval();
+    nextAutoSaveTime = Date.now() + autoSaveInterval;
     const titleScreenCreatedEvent = new Event('titleScreenCreated');
     createTitleScreen();
     createGameWindow(titleScreenCreatedEvent);
 
-    if (getGameInProgress()) {
-        setInterval(() => saveGame(false), getAutoSaveInterval()); //auto save
-    }
+    setInterval(() => {
+        saveGame(false);
+        nextAutoSaveTime = Date.now() + autoSaveInterval; // Update the next auto-save time after each save
+    }, autoSaveInterval);
 
     gameLoop();
 }
@@ -149,6 +155,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function gameLoop() {
+
+    // uncomment to log auto save time remaining
+    // if (getGameInProgress()) {
+    //     setInterval(() => {
+    //         const currentTime = Date.now();
+    //         const timeLeft = nextAutoSaveTime - currentTime;
+    //         console.log(`Time left until next auto-save: ${timeLeft} ms`);
+    //     }, 1000); // Update the log every second (1000 ms)
+    // }
+
     setGameInProgress(!!getGameInProgress());
     updateClock();
     updateCustomerCountdown();
@@ -495,7 +511,7 @@ function checkPlayerRole() {
             changePlayerRole(getElements().playerRoleText, Role.THREE, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.THREE && getAutoPeelerBought() && getAutoChipperBought() && getAutoFryerBought() && getAutoStorageCollectorBought() && getAutoCustomerServerBought()) {
-        if (getFryerCapacity() >= 300 && getHeaterUpgradeBought()) {
+        if (getFryerCapacity() >= 200 && getHeaterUpgradeBought()) {
             changePlayerRole(getElements().playerRoleText, Role.FOUR, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === Role.FOUR) {

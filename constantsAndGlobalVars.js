@@ -23,7 +23,7 @@ const END_GAME_POTATOES = 8;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const SHIFT_LENGTH = 30; //120
+const SHIFT_LENGTH = 45; //120
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
@@ -31,7 +31,7 @@ const STARTING_CASH = 0;
 const MIN_SPUDS_DELIVERY = 20;
 const UPGRADE_MAX_SPUDS_DELIVERY_INCREMENT = 2;
 const UPGRADE_POTATO_STORAGE_QUANTITY = 50;
-const UPGRADE_FRYER_CAPACITY_AMOUNT = 200;
+const UPGRADE_FRYER_CAPACITY_AMOUNT = 100;
 const NUMBER_OF_CHIPS_FROM_POTATO = 5;
 const COOL_DOWN_TIMER = 20;
 const STANDARD_DECREMENT_INCREMENT = 1;
@@ -54,15 +54,15 @@ const INTEREST_RATE_BASE_VALUE = 1.2; //
 //UPGRADE PRICE MULTIPLIER CONSTANTS
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
 const MULTIPLE_FOR_UPGRADE_DOUBLE_CHOPPER = 2;
-const MULTIPLE_FOR_IMPROVE_POTATO_STORAGE = 2;
-const MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY = 4;
-const MULTIPLE_FOR_IMPROVE_AUTO_PEELER = 2;
-const MULTIPLE_FOR_IMPROVE_AUTO_CHIPPER = 2;
-const MULTIPLE_FOR_IMPROVE_AUTO_FRYER = 2;
-const MULTIPLE_FOR_IMPROVE_AUTO_STORAGE_COLLECTOR = 2;
-const MULTIPLE_FOR_IMPROVE_AUTO_CUSTOMER_SERVER = 2;
-const MULTIPLE_FOR_IMPROVE_FRY_TIMER = 4;
-const MULTIPLE_FOR_MAX_SPUDS_UPGRADE = 4;
+const MULTIPLE_FOR_IMPROVE_POTATO_STORAGE = 1.2;
+const MULTIPLE_FOR_IMPROVE_FRYER_CAPACITY = 1.6;
+const MULTIPLE_FOR_IMPROVE_AUTO_PEELER = 1.2;
+const MULTIPLE_FOR_IMPROVE_AUTO_CHIPPER = 1.2;
+const MULTIPLE_FOR_IMPROVE_AUTO_FRYER = 1.2;
+const MULTIPLE_FOR_IMPROVE_AUTO_STORAGE_COLLECTOR = 1.2;
+const MULTIPLE_FOR_IMPROVE_AUTO_CUSTOMER_SERVER = 1.2;
+const MULTIPLE_FOR_IMPROVE_FRY_TIMER = 2;
+const MULTIPLE_FOR_MAX_SPUDS_UPGRADE = 2;
 const MULTIPLE_FOR_INCREASE_FOOTFALL_UPGRADE = 2;
 
 //ROLE UPGRADE AMOUNTS
@@ -152,19 +152,19 @@ export let shiftInProgress = false;
  let maxWaitCustomerCapped = false;
 
 //PRICES
- let priceToImprovePotatoStorage = 5;
- let priceToEnableDoubleChipping = 6;
- let priceToEnableDoublePeeling = 4;
- let priceToImproveFryerCapacity = 7;
- let priceToAddStorageHeater = 8;
- let priceToImproveAutoPeeler = 100;
- let priceToImproveAutoChipper = 100;
- let priceToImproveAutoFryer = 150;
- let priceToImproveAutoStorageCollector = 200;
- let priceToImproveAutoCustomerServer = 300;
- let priceToImproveFryTimer = 500;
+ let priceToImprovePotatoStorage = 20;
+ let priceToEnableDoubleChipping = 40;
+ let priceToEnableDoublePeeling = 40;
+ let priceToImproveFryerCapacity = 50;
+ let priceToAddStorageHeater = 60;
+ let priceToImproveAutoPeeler = 50;
+ let priceToImproveAutoChipper = 50;
+ let priceToImproveAutoFryer = 60;
+ let priceToImproveAutoStorageCollector = 60;
+ let priceToImproveAutoCustomerServer = 140;
+ let priceToImproveFryTimer = 300;
  let priceToDoubleSpudsMax = 500;
- let priceToIncreaseFootfall = 200;
+ let priceToIncreaseFootfall = 100;
  let priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
 
 //AUTO SPEEDS
