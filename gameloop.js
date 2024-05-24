@@ -259,6 +259,7 @@ function updateShiftCountDown() {
                     updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoStorageCollector()));
                     updateButtonClass(getElements().autoStorageCollectorUpgradeButton, getCurrentSpeedAutoStorageCollector());
                     handleServingStorage();
+                    disableButtons(false);
                 }
 
                 if (
