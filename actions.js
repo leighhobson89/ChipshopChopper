@@ -855,7 +855,7 @@ export function disableButtons(init) {
                                 }
                             } else {
                                 if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                    button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
+                                  button.disabled = (getCurrentCash() < getPriceToUnlockAutoShiftStart() && getInvestmentFundUnlocked());
                                 }
                             }
                             break;
@@ -905,11 +905,11 @@ export function disableButtons(init) {
                 }
 
                 if (getShiftInProgress()) {
-
                     investmentCashComponent_DecrementButton.disabled = true;
                     investmentCashComponent_DecrementButton.classList.add('disabled');
                     investmentRiskComponent_DecrementButton.disabled = true;
                     investmentRiskComponent_DecrementButton.classList.add('disabled');
+
                     withdrawInvestmentButton.disabled = true;
                     withdrawInvestmentButton.classList.add('disabled');
                     changeWithdrawInvestmentButtonText(false);

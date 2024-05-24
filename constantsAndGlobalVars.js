@@ -163,7 +163,7 @@ export let shiftInProgress = false;
  let priceToImproveAutoStorageCollector = 60;
  let priceToImproveAutoCustomerServer = 140;
  let priceToImproveFryTimer = 300;
- let priceToDoubleSpudsMax = 500;
+ let priceToDoubleSpudsMax = 300;
  let priceToIncreaseFootfall = 100;
  let priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
 
@@ -1723,7 +1723,6 @@ export function restoreGameStatus(gameState) {
     nextSpeedFryTimer = gameState.nextSpeedFryTimer;
     currentMaxSpudsDelivery = gameState.currentMaxSpudsDelivery;
     nextMaxSpudsDelivery = gameState.nextMaxSpudsDelivery;
-    //matches capture
 
     autoPeelerCounter = gameState.autoPeelerCounter;
     autoChipperCounter = gameState.autoPeelerCounter;
@@ -1754,7 +1753,6 @@ export function restoreGameStatus(gameState) {
     getElements().investmentDataScreenBottomRowColumn1.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn1;
     getElements().investmentDataScreenBottomRowColumn2.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn2;
     getElements().investmentDataScreenBottomRowColumn3.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn3;
-    //matches capture
 
     batchTimers = gameState.batchTimers;
 
