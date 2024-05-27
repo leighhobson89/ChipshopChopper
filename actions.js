@@ -182,7 +182,7 @@ import {
     setChipsFriedThisShift,
     getEndGameCash,
     getEndGamePotatoes,
-    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements,
+    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements, setPauseAutoSaveCountdown,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -213,6 +213,7 @@ export function handleButtonClick(buttonId, value) {
                         getElements().option2.classList.remove('option-disabled');
                     }
                     toggleMenu(getElements().gameWindow.style.display === 'block');
+                    setPauseAutoSaveCountdown(true);
                     break;
                 case getElements().peelPotatoButton.id:
                     handlePeelPotato(element);
@@ -302,6 +303,7 @@ export function handleButtonClick(buttonId, value) {
                         getElements().option2.classList.remove('option-disabled');
                     }
                     toggleMenu(getElements().gameWindow.style.display === 'block');
+                    setPauseAutoSaveCountdown(true);
                     break;
                 case getElements().peelPotatoButton.id:
                     handlePeelPotato(element);
@@ -1320,6 +1322,7 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
 
 function initialiseLoadedGame(gameState) {
     toggleMenu(false);
+    setPauseAutoSaveCountdown(false);
     getElements().investmentCashComponent.remove();
     getElements().investmentRiskComponent.remove();
     getElements().investmentDataScreen.remove();

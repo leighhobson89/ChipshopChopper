@@ -78,7 +78,7 @@ import {
     getMultipleForHeaterEffectOnCoolDown,
     getNumberOfChipsFromPotato,
     getOne,
-    getOneForTimeDiff,
+    getOneForTimeDiff, getPauseAutoSaveCountdown,
     getPeelerUpgradeBought,
     getPortionSize,
     getPriceOfChips,
@@ -143,9 +143,18 @@ function main() {
     createGameWindow(titleScreenCreatedEvent);
 
     setInterval(() => {
-        saveGame(false);
-        nextAutoSaveTime = Date.now() + autoSaveInterval; // Update the next auto-save time after each save
-    }, autoSaveInterval);
+        // console.log("Pause autosave timer state (true = paused):" + getPauseAutoSaveCountdown());
+        if (!getPauseAutoSaveCountdown()) {
+            // console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
+            if (nextAutoSaveTime <= Date.now()) {
+                saveGame(false);
+                nextAutoSaveTime = Date.now() + autoSaveInterval;
+            }
+        } else {
+            // console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
+            nextAutoSaveTime += 1000;
+        }
+    }, 1000);
 
     gameLoop();
 }
@@ -155,15 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function gameLoop() {
-
-    // uncomment to log auto save time remaining
-    // if (getGameInProgress()) {
-    //     setInterval(() => {
-    //         const currentTime = Date.now();
-    //         const timeLeft = nextAutoSaveTime - currentTime;
-    //         console.log(`Time left until next auto-save: ${timeLeft} ms`);
-    //     }, 1000); // Update the log every second (1000 ms)
-    // }
 
     setGameInProgress(!!getGameInProgress());
     updateClock();

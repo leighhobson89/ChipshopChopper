@@ -121,6 +121,7 @@ export const popupOverlay = createOverlay();
  let growthInvestment = 0;
 
  //FLAGS
+export let pauseAutoSaveCountdown = true;
 export let gameInProgress = false;
 export let shiftInProgress = false;
  let chipsFrying = false;
@@ -1837,3 +1838,10 @@ export function getAutoSaveInterval() {
     return AUTO_SAVE_INTERVAL;
 }
 
+export function getPauseAutoSaveCountdown() {
+    return pauseAutoSaveCountdown;
+}
+
+export function setPauseAutoSaveCountdown(value) {
+    pauseAutoSaveCountdown = value;
+}

@@ -111,7 +111,7 @@ import {
     getInitialStateBottomRowButtons,
     resetCounterUiElements,
     getStateLoading,
-    setStateLoading
+    setStateLoading, setPauseAutoSaveCountdown
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -752,6 +752,7 @@ function createOptionScreenEventListeners() {
         }
         setGameInProgress(initialiseNewGame());
         updateVisibleButtons(); //for debug if money given
+        setPauseAutoSaveCountdown(false);
     });
     getElements().option2.addEventListener('click', function () {
         saveGame(true);
@@ -769,6 +770,7 @@ function createOptionScreenEventListeners() {
     });
     getElements().resumeGameButton.addEventListener('click', function () {
         toggleMenu(getElements().gameWindow.style.display === 'block');
+        setPauseAutoSaveCountdown(false);
     });
     popupContinueButton.addEventListener('click', function() {
         toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
