@@ -143,7 +143,7 @@ function main() {
     createGameWindow(titleScreenCreatedEvent);
 
     setInterval(() => {
-        // console.log("Pause autosave timer state (true = paused):" + getPauseAutoSaveCountdown());
+        // console.log("Pause auto save timer state (true = paused):" + getPauseAutoSaveCountdown());
         if (!getPauseAutoSaveCountdown()) {
             // console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
             if (nextAutoSaveTime <= Date.now()) {
