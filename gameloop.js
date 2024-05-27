@@ -143,15 +143,15 @@ function main() {
     createGameWindow(titleScreenCreatedEvent);
 
     setInterval(() => {
-        // console.log("Pause auto save timer state (true = paused):" + getPauseAutoSaveCountdown());
+        //console.log("Pause auto save timer state (true = paused):" + getPauseAutoSaveCountdown());
         if (!getPauseAutoSaveCountdown()) {
-            // console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
+            //console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
             if (nextAutoSaveTime <= Date.now()) {
                 saveGame(false);
                 nextAutoSaveTime = Date.now() + autoSaveInterval;
             }
         } else {
-            // console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
+            //console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
             nextAutoSaveTime += 1000;
         }
     }, 1000);
