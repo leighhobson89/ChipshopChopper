@@ -1495,6 +1495,12 @@ export function captureGameStatusForSaving() {
     let gameState = {};
 
     // Game variables
+    gameState.autoPeelerEnabledState = getElements().autoPeelerUpgradeButton.classList.contains('autoUpgradeEnabled');
+    gameState.autoChipperEnabledState = getElements().autoChipperUpgradeButton.classList.contains('autoUpgradeEnabled');
+    gameState.autoFryerEnabledState = getElements().autoFryerUpgradeButton.classList.contains('autoUpgradeEnabled');
+    gameState.autoStorageCollectorEnabledState = getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled');
+    gameState.autoCustomerServerEnabledState = getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled');
+
     gameState.currentMaxValueWaitForNewCustomer = currentMaxValueWaitForNewCustomer;
     gameState.nextMaxValueWaitForNewCustomer = nextMaxValueWaitForNewCustomer;
     gameState.multipleForHeaterEffectOnCoolDown = multipleForHeaterEffectOnCoolDown;
@@ -1629,6 +1635,8 @@ export function captureGameStatusForSaving() {
 }
 
 export function restoreGameStatus(gameState) {
+    addAutoUpgradeEnabledStates(gameState);
+
     // Game variables
     currentMaxValueWaitForNewCustomer = gameState.currentMaxValueWaitForNewCustomer;
     nextMaxValueWaitForNewCustomer = gameState.nextMaxValueWaitForNewCustomer;
@@ -1844,4 +1852,41 @@ export function getPauseAutoSaveCountdown() {
 
 export function setPauseAutoSaveCountdown(value) {
     pauseAutoSaveCountdown = value;
+}
+
+function addAutoUpgradeEnabledStates(gameState) {
+    getElements().autoPeelerUpgradeButton.querySelector('input').checked = gameState.autoPeelerEnabledState;
+    if (gameState.autoPeelerEnabledState) {
+        getElements().autoPeelerUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoPeelerUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
+
+    getElements().autoChipperUpgradeButton.querySelector('input').checked = gameState.autoChipperEnabledState;
+    if (gameState.autoChipperEnabledState) {
+        getElements().autoChipperUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoChipperUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
+
+    getElements().autoFryerUpgradeButton.querySelector('input').checked = gameState.autoFryerEnabledState;
+    if (gameState.autoFryerEnabledState) {
+        getElements().autoFryerUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoFryerUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
+
+    getElements().autoStorageCollectorUpgradeButton.querySelector('input').checked = gameState.autoStorageCollectorEnabledState;
+    if (gameState.autoStorageCollectorEnabledState) {
+        getElements().autoStorageCollectorUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoStorageCollectorUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
+
+    getElements().autoCustomerServerUpgradeButton.querySelector('input').checked = gameState.autoCustomerServerEnabledState;
+    if (gameState.autoCustomerServerEnabledState) {
+        getElements().autoCustomerServerUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoCustomerServerUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
 }

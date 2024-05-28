@@ -473,7 +473,6 @@ function checkAutoUpgradeButtonsAndUpdateTheirCountDownTime() {
 
 function updateButtonCountdownText(buttonElement, action, resetElementSpeed, state) {
     if (!state) {
-        addCheckbox(buttonElement, state);
         return;
     }
     const regex = /Ready in (\d+)s/;
@@ -495,6 +494,7 @@ function updateButtonCountdownText(buttonElement, action, resetElementSpeed, sta
             buttonElement.innerHTML = buttonElement.innerHTML.replace(regex, `Ready in ${resetElementSpeed}s`);
         }
     }
+    buttonElement.querySelector('input').remove();
     addCheckbox(buttonElement, state);
     return newValue;
 }
