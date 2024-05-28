@@ -222,13 +222,13 @@ function updateShiftCountDown() {
                 setAutoPeelerCounter(getAutoPeelerCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
                 setAutoChipperCounter(getAutoChipperCounter() + (getClockSpeed() / getAutoUpgradesClockSpeed()));
 
-                if (getAutoPeelerBought() && (getAutoPeelerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoPeeler())) {
+                if (getAutoPeelerBought() && (getAutoPeelerCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoPeeler()) && getElements().autoPeelerUpgradeButton.classList.contains('autoUpgradeEnabled')) {
                     if (getActualPotatoesInStorage() > getZero()) {
                         peelPotato(getElements().peeledCount, getOne());
                     }
                     setAutoPeelerCounter(getZero());
                 }
-                if (getAutoChipperBought() && (getAutoChipperCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoChipper())) {
+                if (getAutoChipperBought() && (getAutoChipperCounter() * TIMER_CORRECTION_COEFFICIENT) >= (getClockSpeed() / getCurrentSpeedAutoChipper()) && getElements().autoChipperUpgradeButton.classList.contains('autoUpgradeEnabled')) {
                     if (parseInt(getElements().peeledCount.innerHTML) > getZero()) {
                         cutChips(getNumberOfChipsFromPotato(), getOne());
                     }

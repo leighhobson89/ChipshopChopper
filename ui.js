@@ -1094,13 +1094,11 @@ export function addCheckbox(button, state) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.classList.add('button-checkbox');
-    if (state) {
-        checkbox.checked = true;
-    }
+
+    checkbox.checked = state;
 
     checkbox.addEventListener('click', function(event) {
         event.stopPropagation();
-        console.log (checkbox.checked);
         if (!checkbox.checked) {
             button.classList.remove('autoUpgradeEnabled');
         } else {
