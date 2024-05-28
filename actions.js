@@ -550,10 +550,12 @@ function handleAutoPeeler(buttonId) {
     setCurrentSpeedAutoPeeler(getNextSpeedAutoPeeler());
     setNextSpeedAutoPeeler(getCurrentSpeedAutoPeeler() + getStandardDecrementIncrementOfOne());
 
+    console.log(getElements()[buttonId].querySelector('input'));
+    const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
     const button = getElements()[buttonId];
     button.innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()}/s)<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
 
-    addCheckbox(button);
+    addCheckbox(button, upgradeEnabledState);
 }
 
 function handleAutoChipper(buttonId) {
@@ -564,8 +566,9 @@ function handleAutoChipper(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoChipper(getNextSpeedAutoChipper());
     setNextSpeedAutoChipper(getCurrentSpeedAutoChipper() + getStandardDecrementIncrementOfOne());
+    const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
     getElements()[buttonId].innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()}/s)<br>${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
-    addCheckbox(getElements()[buttonId]);
+    addCheckbox(getElements()[buttonId], upgradeEnabledState);
 }
 
 function handleAutoFryer(buttonId) {
@@ -577,8 +580,9 @@ function handleAutoFryer(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
     setNextSpeedAutoFryer(getCurrentSpeedAutoFryer() - getAutoFryerUpgradeDecrement());
+    const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
     getElements()[buttonId].innerHTML = `Auto Fryer (${getCurrentSpeedAutoFryer()}s)<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoFryer())}s`;
-    addCheckbox(getElements()[buttonId]);
+    addCheckbox(getElements()[buttonId], upgradeEnabledState);
 }
 
 function handleAutoStorageCollector(buttonId) {
@@ -590,8 +594,9 @@ function handleAutoStorageCollector(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoStorageCollector(getNextSpeedAutoStorageCollector());
     setNextSpeedAutoStorageCollector(getCurrentSpeedAutoStorageCollector() - getAutoStorageCollectorUpgradeDecrement());
+    const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
     getElements()[buttonId].innerHTML = `Auto Collect (${getCurrentSpeedAutoStorageCollector()}s)<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoStorageCollector())}s`;
-    addCheckbox(getElements()[buttonId]);
+    addCheckbox(getElements()[buttonId], upgradeEnabledState);
 }
 
 function handleAutoCustomerServer(buttonId) {
@@ -602,8 +607,9 @@ function handleAutoCustomerServer(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoCustomerServer(getNextSpeedAutoCustomerServer());
     setNextSpeedAutoCustomerServer(getCurrentSpeedAutoCustomerServer() - getAutoCustomerServerUpgradeDecrement());
+    const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
     getElements()[buttonId].innerHTML = `Auto Server (${getCurrentSpeedAutoCustomerServer()}s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s`;
-    addCheckbox(getElements()[buttonId]);
+    addCheckbox(getElements()[buttonId], upgradeEnabledState);
 }
 
 function handleImproveFryTimer(buttonId) {

@@ -234,6 +234,10 @@ div[id^="subInnerDivMid"][id$='_2'] {
     align-self: end;
 }
 
+.second-row-main-buttons > input {
+    pointer-events: auto;
+}
+
 .button-checkbox::after {
     content: '';
     position: absolute;
@@ -245,6 +249,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
     left: 2px;
     transition: all 0.3s;
     z-index: 1000;
+    justify-self: end;
+    align-self: end;
 }
 
 .button-checkbox:checked {
@@ -287,6 +293,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     align-items: center;
     bottom: 5px;
     right: 2px;
+    z-index: 999;
 }
 
 .third-row-main-buttons {

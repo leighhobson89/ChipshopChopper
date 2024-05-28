@@ -349,7 +349,6 @@ export function createGameWindow(titleScreenCreatedEvent) {
             button.style.height = '40px';
         } else if (i >= 5 && i <= 9) {
             button.classList.add('second-row-main-buttons');
-            button.classList.add('autoUpgradeDisabled'); // Initially disabled
             button.style.height = '60px';
         } else if (i >= 10 && i <= 14) {
             button.classList.add('third-row-main-buttons');
@@ -1091,17 +1090,21 @@ export function updateTextAndDisableButtonsForCappedUpgrades() {
     }
 }
 
-export function addCheckbox(button) {
+export function addCheckbox(button, state) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.classList.add('button-checkbox');
+    if (state) {
+        checkbox.checked = true;
+    }
 
-    // Add event listeners to the checkbox
-    checkbox.addEventListener('change', function(event) {
-        if (checkbox.checked) {
-            button.classList.remove('autoUpgradeDisabled');
+    checkbox.addEventListener('click', function(event) {
+        event.stopPropagation();
+        console.log (checkbox.checked);
+        if (!checkbox.checked) {
+            button.classList.remove('autoUpgradeEnabled');
         } else {
-            button.classList.add('autoUpgradeDisabled');
+            button.classList.add('autoUpgradeEnabled');
         }
     });
 
