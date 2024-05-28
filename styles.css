@@ -220,6 +220,43 @@ div[id^="subInnerDivMid"][id$='_2'] {
     height: 18%;
 }
 
+.button-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 12px;
+    background-color: #ccc;
+    border-radius: 34px;
+    position: absolute;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.button-checkbox::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.button-checkbox:checked {
+    background-color: #4CAF50;
+}
+
+.button-checkbox:checked::after {
+    transform: translateX(8px);
+}
+
+.action-button-main {
+    z-index: 0;
+}
+
 .action-button-main,
 .action-button-bottom-row,
 .investment-withdraw-button,

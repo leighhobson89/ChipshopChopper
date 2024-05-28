@@ -344,12 +344,12 @@ export function createGameWindow(titleScreenCreatedEvent) {
         button.innerHTML = mainButtonDetails[i].name;
         button.classList.add('action-button-main');
 
-        // Determine the class and height based on button position
         if (i <= 4) {
             button.classList.add('first-row-main-buttons');
             button.style.height = '40px';
         } else if (i >= 5 && i <= 9) {
             button.classList.add('second-row-main-buttons');
+            button.classList.add('autoUpgradeDisabled'); // Initially disabled
             button.style.height = '60px';
         } else if (i >= 10 && i <= 14) {
             button.classList.add('third-row-main-buttons');
@@ -432,6 +432,11 @@ export function writeTextInSections(buttonDetails) {
     buttonDetails.forEach(buttonInfo => {
         const button = getElements()[buttonInfo.id];
         button.innerHTML = buttonInfo.name;
+
+        if (button.classList.contains('second-row-main-buttons')) {
+            // Create and append checkbox
+            addCheckbox(button);
+        }
     });
 }
 
@@ -1084,6 +1089,24 @@ export function updateTextAndDisableButtonsForCappedUpgrades() {
     if (getMaxWaitCustomerCapped()) {
         getElements().customerFrequencyIncreaser.classList.add('capped');
     }
+}
+
+export function addCheckbox(button) {
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.classList.add('button-checkbox');
+    checkbox.classList.add('bottom-right');
+
+    // Add event listeners to the checkbox
+    checkbox.addEventListener('change', function(event) {
+        if (checkbox.checked) {
+            button.classList.remove('autoUpgradeDisabled');
+        } else {
+            button.classList.add('autoUpgradeDisabled');
+        }
+    });
+
+    button.appendChild(checkbox);
 }
 
 

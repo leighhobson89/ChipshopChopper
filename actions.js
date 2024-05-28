@@ -191,6 +191,7 @@ import {
 } from './gameloop.js';
 
 import {
+    addCheckbox,
     createInvestmentComponents, createInvestmentDataScreen,
     formatToCashNotation, hideButtonsReadyForEndGame,
     hideDoublePeelerChipperAndShowInvestmentComponents, initialiseInvestmentScreenText,
@@ -548,7 +549,11 @@ function handleAutoPeeler(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoPeeler(getNextSpeedAutoPeeler());
     setNextSpeedAutoPeeler(getCurrentSpeedAutoPeeler() + getStandardDecrementIncrementOfOne());
-    getElements()[buttonId].innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()}/s)<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+
+    const button = getElements()[buttonId];
+    button.innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()}/s)<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+
+    addCheckbox(button);
 }
 
 function handleAutoChipper(buttonId) {
@@ -560,6 +565,7 @@ function handleAutoChipper(buttonId) {
     setCurrentSpeedAutoChipper(getNextSpeedAutoChipper());
     setNextSpeedAutoChipper(getCurrentSpeedAutoChipper() + getStandardDecrementIncrementOfOne());
     getElements()[buttonId].innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()}/s)<br>${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+    addCheckbox(getElements()[buttonId]);
 }
 
 function handleAutoFryer(buttonId) {
@@ -572,6 +578,7 @@ function handleAutoFryer(buttonId) {
     setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
     setNextSpeedAutoFryer(getCurrentSpeedAutoFryer() - getAutoFryerUpgradeDecrement());
     getElements()[buttonId].innerHTML = `Auto Fryer (${getCurrentSpeedAutoFryer()}s)<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoFryer())}s`;
+    addCheckbox(getElements()[buttonId]);
 }
 
 function handleAutoStorageCollector(buttonId) {
@@ -584,6 +591,7 @@ function handleAutoStorageCollector(buttonId) {
     setCurrentSpeedAutoStorageCollector(getNextSpeedAutoStorageCollector());
     setNextSpeedAutoStorageCollector(getCurrentSpeedAutoStorageCollector() - getAutoStorageCollectorUpgradeDecrement());
     getElements()[buttonId].innerHTML = `Auto Collect (${getCurrentSpeedAutoStorageCollector()}s)<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoStorageCollector())}s`;
+    addCheckbox(getElements()[buttonId]);
 }
 
 function handleAutoCustomerServer(buttonId) {
@@ -595,6 +603,7 @@ function handleAutoCustomerServer(buttonId) {
     setCurrentSpeedAutoCustomerServer(getNextSpeedAutoCustomerServer());
     setNextSpeedAutoCustomerServer(getCurrentSpeedAutoCustomerServer() - getAutoCustomerServerUpgradeDecrement());
     getElements()[buttonId].innerHTML = `Auto Server (${getCurrentSpeedAutoCustomerServer()}s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s`;
+    addCheckbox(getElements()[buttonId]);
 }
 
 function handleImproveFryTimer(buttonId) {
