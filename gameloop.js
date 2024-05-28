@@ -1,4 +1,5 @@
 import {
+    addCheckbox,
     changePlayerRole,
     checkAndSetFlagCapOnUpgrades,
     createGameWindow,
@@ -241,7 +242,7 @@ function updateShiftCountDown() {
                     getAutoFryerCounter() === getZero()
                 ) {
                     if (parseInt(getElements().cutCount.innerHTML) > getZero()) {
-                        updateButtonCountdownText(getElements().autoFryerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoFryer()));
+                        updateButtonCountdownText(getElements().autoFryerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoFryer()), getElements().autoFryerUpgradeButton.classList.contains('autoUpgradeEnabled'));
                         updateButtonClass(getElements().autoFryerUpgradeButton, getCurrentSpeedAutoFryer());
                         let transferQuantity = Math.min(parseInt(getElements().cutCount.innerHTML), (getFryerCapacity() * getAutoFryerEfficiency()));
                         setQuantityOfChipsFrying(transferQuantity);
@@ -256,7 +257,7 @@ function updateShiftCountDown() {
                     (getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
                     getAutoStorageCollectorCounter() === getZero()
                 )){
-                    updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoStorageCollector()));
+                    updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoStorageCollector()), getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled'));
                     updateButtonClass(getElements().autoStorageCollectorUpgradeButton, getCurrentSpeedAutoStorageCollector());
                     handleServingStorage();
                     disableButtons(false);
@@ -268,7 +269,7 @@ function updateShiftCountDown() {
                     getCustomersWaiting() > 0 &&
                     parseInt(getElements().readyToServeCount.innerHTML) >= getPortionSize()
                 ){
-                    updateButtonCountdownText(getElements().autoCustomerServerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoCustomerServer()));
+                    updateButtonCountdownText(getElements().autoCustomerServerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoCustomerServer()), getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled'));
                     updateButtonClass(getElements().autoCustomerServerUpgradeButton, getCurrentSpeedAutoCustomerServer());
                     setAutoCustomerServerCounter(1);
                     serveCustomer();
@@ -450,19 +451,19 @@ function selectHowManyCustomersLeftAfterWalkOutAtShiftEnd() {
 
 function checkAutoUpgradeButtonsAndUpdateTheirCountDownTime() {
     if (getAutoFryerBought()) {
-        let value = updateButtonCountdownText(getElements().autoFryerUpgradeButton, 'countDown', null);
+        let value = updateButtonCountdownText(getElements().autoFryerUpgradeButton, 'countDown', null, getElements().autoFryerUpgradeButton.classList.contains('autoUpgradeEnabled'));
         setAutoFryerCounter(value);
         updateButtonClass(getElements().autoFryerUpgradeButton, value);
     }
     if (getAutoStorageCollectorBought()) {
-        let value = updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'countDown', null);
+        let value = updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'countDown', null, getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled'));
         setAutoStorageCollectorCounter(value);
         if(!getElements().fryChipsButton.classList.contains('action-button-main-flashing')) {
             updateButtonClass(getElements().autoStorageCollectorUpgradeButton, value);
         }
     }
     if (getAutoCustomerServerBought()) {
-        let value = updateButtonCountdownText(getElements().autoCustomerServerUpgradeButton, 'countDown', null);
+        let value = updateButtonCountdownText(getElements().autoCustomerServerUpgradeButton, 'countDown', null, getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled'));
         setAutoCustomerServerCounter(value);
         if (parseInt(getElements().readyToServeCount.innerHTML) < getPortionSize() || getCustomersWaiting() <= getZero()) {
             updateButtonClass(getElements().autoCustomerServerUpgradeButton, value);
@@ -470,7 +471,11 @@ function checkAutoUpgradeButtonsAndUpdateTheirCountDownTime() {
     }
 }
 
-function updateButtonCountdownText(buttonElement, action, resetElementSpeed) {
+function updateButtonCountdownText(buttonElement, action, resetElementSpeed, state) {
+    if (!state) {
+        addCheckbox(buttonElement, state);
+        return;
+    }
     const regex = /Ready in (\d+)s/;
     const match = buttonElement.innerHTML.match(regex);
     let newValue;
@@ -490,6 +495,7 @@ function updateButtonCountdownText(buttonElement, action, resetElementSpeed) {
             buttonElement.innerHTML = buttonElement.innerHTML.replace(regex, `Ready in ${resetElementSpeed}s`);
         }
     }
+    addCheckbox(buttonElement, state);
     return newValue;
 }
 

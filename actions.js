@@ -589,11 +589,7 @@ function handleAutoFryer(buttonId) {
     setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
     setNextSpeedAutoFryer(getCurrentSpeedAutoFryer() - getAutoFryerUpgradeDecrement());
 
-    const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
-
     button.innerHTML = `Auto Fryer (${getCurrentSpeedAutoFryer()}s)<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoFryer())}s`;
-
-    addCheckbox(button, upgradeEnabledState);
 }
 
 function handleAutoStorageCollector(buttonId) {
