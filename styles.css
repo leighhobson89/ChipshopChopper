@@ -230,6 +230,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
     cursor: pointer;
     transition: all 0.3s;
     z-index: 1000;
+    justify-self: end;
+    align-self: end;
 }
 
 .button-checkbox::after {
@@ -280,6 +282,11 @@ div[id^="subInnerDivMid"][id$='_2'] {
 
 .second-row-main-buttons {
     min-height: 60px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    bottom: 5px;
+    right: 2px;
 }
 
 .third-row-main-buttons {

@@ -1095,7 +1095,6 @@ export function addCheckbox(button) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.classList.add('button-checkbox');
-    checkbox.classList.add('bottom-right');
 
     // Add event listeners to the checkbox
     checkbox.addEventListener('change', function(event) {
