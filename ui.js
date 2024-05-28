@@ -1060,18 +1060,23 @@ export function checkAndSetFlagCapOnUpgrades() {
 export function updateTextAndDisableButtonsForCappedUpgrades() {
     if (getAutoPeelerCapped()) {
         getElements().autoPeelerUpgradeButton.classList.add('capped');
+        addCheckbox(getElements().autoPeelerUpgradeButton, getElements().autoPeelerUpgradeButton.classList.contains('autoUpgradeEnabled'));
     }
     if (getAutoChipperCapped()) {
         getElements().autoChipperUpgradeButton.classList.add('capped');
+        addCheckbox(getElements().autoChipperUpgradeButton, getElements().autoChipperUpgradeButton.classList.contains('autoUpgradeEnabled'));
     }
     if (getAutoFryerCapped()) {
         getElements().autoFryerUpgradeButton.classList.add('capped');
+        addCheckbox(getElements().autoFryerUpgradeButton, getElements().autoFryerUpgradeButton.classList.contains('autoUpgradeEnabled'));
     }
     if (getAutoStorageCollectorCapped()) {
         getElements().autoStorageCollectorUpgradeButton.classList.add('capped');
+        addCheckbox(getElements().autoStorageCollectorUpgradeButton, getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled'));
     }
     if (getAutoCustomerServerCapped()) {
         getElements().autoCustomerServerUpgradeButton.classList.add('capped');
+        addCheckbox(getElements().autoCustomerServerUpgradeButton, getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled'));
     }
     if (getPotatoCapacityCapped()) {
         getElements().improvePotatoStorageButton.classList.add('capped');
