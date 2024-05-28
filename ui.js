@@ -611,26 +611,23 @@ export function writePopupText() {
     let nextShiftPotatoes = Math.min(totalPotatoes, storageQuantity);
     const popupTitle = getElements().endOfShiftOrGamePopupTitle;
     const popupContent = getElements().endOfShiftOrGamePopupContent;
+    const popupButton = getElements().endOfShiftOrGamePopupButton;
 
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
-        popupTitle.innerHTML = `<div class="popup-title">Congratulations!!</div>`;
-        //add total Earnings, Spendings, PotatoesPeeled, ChipsCut, ChipsWasted, CustomersServed for all game
+        popupTitle.innerHTML = `<div class="popup-title" style="opacity: 0;">Congratulations!!</div>`;
         popupContent.innerHTML = `
-    <div class="popup-content">
-        <span style="color: yellow;">You have beat the game, well done!</span><br><br>
-        
-        You earned a total of: <br>
-        You spent a total of: <br>
-        You peeled a total of XX potatoes.<br>
-        You cut a total of XX chips.<br>
-        You wasted a total of XX chips.<br>
-        
-        You served a total of XX customers!<br>
-        
-        Now please do the honours and fry up and serve the last customer their chips before you retire as a millionaire!
-    </div>`;
+            <div class="popup-content">
+                <span style="color: yellow;">You have beat the game, well done!</span><br><br>
+                You earned a total of: <br>
+                You spent a total of: <br>
+                You peeled a total of XX potatoes.<br>
+                You cut a total of XX chips.<br>
+                You wasted a total of XX chips.<br>
+                You served a total of XX customers!<br>
+                Now please do the honours and fry up and serve the last customer their chips before you retire as a millionaire!
+            </div>`;
     } else {
-        popupTitle.innerHTML = `<div class="popup-title">End Of Shift ${shiftCounter}</div>`;
+        popupTitle.innerHTML = `<div class="popup-title" style="opacity: 0;">End Of Shift ${shiftCounter}</div>`;
         let potatoesMessage = `Potatoes for next shift: ${currentPotatoes} + ${nextShiftPotatoes - currentPotatoes} to be delivered = ${nextShiftPotatoes}`;
         if (nextShiftPotatoes === storageQuantity) {
             potatoesMessage += " (due to max storage reached)";
@@ -664,29 +661,52 @@ export function writePopupText() {
         }
 
         popupContent.innerHTML = `
-    <div class="popup-content">
-        Your shift has ended!<br><br>
-        Earnings: ${formatToCashNotation(getCurrentCash() - getOldCash())} this shift + ${formatToCashNotation(getOldCash())} in bank = ${formatToCashNotation(getCurrentCash())}<br><br>
-        Customers Served: ${getCustomersServed()}<br>
-        
-        Potatoes Peeled: ${getPotatoesPeeledThisShift()}<br>
-        Chips Cut: ${getChipsCutThisShift()}<br>
-        Chips Fried: ${getChipsFriedThisShift()}<br>
-        Chips Wasted This Shift: ${getChipsWastedThisShift()}<br><br>
-        
-        Customer Walkouts: ${walkOuts}<br>
-        Customers Still Waiting: ${getCustomersWaiting()}<br><br>
-
-        ${potatoesMessage}<br><br>
-        
-        <span style="color: yellow;">${promotionMessage}</span>
-        
-        ${investmentMessage}<br>
-        ${growthLossMessage}<br>
-        ${totalGrowthMessage}
-    </div>`;
+            <div class="popup-content">
+                Your shift has ended!<br><br>
+                Earnings: ${formatToCashNotation(getCurrentCash() - getOldCash())} this shift + ${formatToCashNotation(getOldCash())} in bank = ${formatToCashNotation(getCurrentCash())}<br><br>
+                Customers Served: ${getCustomersServed()}<br>
+                Potatoes Peeled: ${getPotatoesPeeledThisShift()}<br>
+                Chips Cut: ${getChipsCutThisShift()}<br>
+                Chips Fried: ${getChipsFriedThisShift()}<br>
+                Chips Wasted This Shift: ${getChipsWastedThisShift()}<br><br>
+                Customer Walkouts: ${walkOuts}<br>
+                Customers Still Waiting: ${getCustomersWaiting()}<br><br>
+                ${potatoesMessage}<br><br>
+                <span style="color: yellow;">${promotionMessage}</span>
+                ${investmentMessage}<br>
+                ${growthLossMessage}<br>
+                ${totalGrowthMessage}
+            </div>`;
     }
+
+    const titleElement = document.querySelector('.popup-title');
+    titleElement.style.animation = 'slideInRight 0.5s forwards';
+
+    setTimeout(() => {
+        const popupContentElement = document.querySelector('.popup-content');
+        const lines = popupContentElement.innerHTML.split('<br>');
+        popupContentElement.innerHTML = '';
+
+        lines.forEach((line, index) => {
+            const lineElement = document.createElement('div');
+            lineElement.innerHTML = line;
+            lineElement.style.opacity = '0';
+            lineElement.style.animation = `slideInLeft 0.2s forwards ${index * 0.2}s`;
+            lineElement.style.animationDelay = `${index * 0.2}s`;
+            popupContentElement.appendChild(lineElement);
+        });
+
+        const totalLines = lines.length;
+        const totalAnimationTime = totalLines * 0.2;
+
+        setTimeout(() => {
+            popupButton.style.opacity = '0';
+            popupButton.style.animation = 'fadeIn 0.2s forwards';
+        }, totalAnimationTime * 1000);
+    }, 500);
 }
+
+
 
 export function updateVisibleButtons() {
     if (!getShiftInProgress() && (getShiftCounter() > getZero() || debugFlag || getStateLoading())) {
