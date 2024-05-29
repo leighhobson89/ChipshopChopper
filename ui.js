@@ -540,13 +540,11 @@ export function createEndOfShiftOrGamePopup() {
     popupTitle.id = 'endOfShiftOrGamePopupTitle';
     popupTitle.classList.add('popup-row');
     popupTitle.classList.add('popup-row-1');
-    popupTitle.innerHTML = `<div class="popup-title">test</div>`;
 
     const popupContent = document.createElement('div');
     popupContent.id = 'endOfShiftOrGamePopupContent';
     popupContent.classList.add('popup-row');
     popupContent.classList.add('popup-row-2');
-    popupContent.innerHTML = '<div class="popup-content">test</div>';
 
     const popupRow3 = document.createElement('div');
     popupRow3.classList.add('popup-row');
@@ -611,7 +609,6 @@ export function writePopupText() {
     let nextShiftPotatoes = Math.min(totalPotatoes, storageQuantity);
     const popupTitle = getElements().endOfShiftOrGamePopupTitle;
     const popupContent = getElements().endOfShiftOrGamePopupContent;
-    const popupButton = getElements().endOfShiftOrGamePopupButton;
 
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         popupTitle.innerHTML = `<div class="popup-title" style="opacity: 0;">Congratulations!!</div>`;
@@ -627,7 +624,7 @@ export function writePopupText() {
                 Now please do the honours and fry up and serve the last customer their chips before you retire as a millionaire!
             </div>`;
     } else {
-        popupTitle.innerHTML = `<div class="popup-title" style="opacity: 0;">End Of Shift ${shiftCounter}</div>`;
+        popupTitle.innerHTML = `<div class="popup-title">End Of Shift ${shiftCounter}</div>`;
         let potatoesMessage = `Potatoes for next shift: ${currentPotatoes} + ${nextShiftPotatoes - currentPotatoes} to be delivered = ${nextShiftPotatoes}`;
         if (nextShiftPotatoes === storageQuantity) {
             potatoesMessage += " (due to max storage reached)";
@@ -690,8 +687,9 @@ export function writePopupText() {
         lines.forEach((line, index) => {
             const lineElement = document.createElement('div');
             lineElement.innerHTML = line;
+            lineElement.style.transform = 'translateX(-100%)';
             lineElement.style.opacity = '0';
-            lineElement.style.animation = `slideInLeft 0.2s forwards ${index * 0.2}s`;
+            lineElement.style.animation = `slideInLeftWithOpacity 0.2s forwards`;
             lineElement.style.animationDelay = `${index * 0.2}s`;
             popupContentElement.appendChild(lineElement);
         });
@@ -699,11 +697,14 @@ export function writePopupText() {
         const totalLines = lines.length;
         const totalAnimationTime = totalLines * 0.2;
 
+        const buttonElement = document.querySelector('.popup-continue-button');
+        buttonElement.style.opacity = '0'; // Ensure initial opacity is 0
+        buttonElement.style.animation = ''; // Reset animation
+
         setTimeout(() => {
-            popupButton.style.opacity = '0';
-            popupButton.style.animation = 'fadeIn 0.2s forwards';
+            buttonElement.style.animation = 'fadeIn 1.5s forwards';
         }, totalAnimationTime * 1000);
-    }, 500);
+    }, 0);
 }
 
 
@@ -797,6 +798,7 @@ function createOptionScreenEventListeners() {
         setPauseAutoSaveCountdown(false);
     });
     popupContinueButton.addEventListener('click', function() {
+        clearPopupTexts();
         toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
         toggleOverlay(popupOverlay);
     });
@@ -1142,6 +1144,18 @@ export function addCheckbox(button, state) {
     });
 
     button.appendChild(checkbox);
+}
+
+function clearPopupTexts() {
+    const titleElement = document.querySelector('.popup-title');
+    titleElement.innerHTML = '';
+
+    const popupContentElement = document.querySelector('.popup-content');
+    popupContentElement.innerHTML = '';
+
+    const buttonElement = document.querySelector('.popup-continue-button');
+    buttonElement.style.opacity = '0';
+    buttonElement.style.animation = '';
 }
 
 
