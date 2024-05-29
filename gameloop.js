@@ -119,7 +119,7 @@ import {
     setGameInProgress,
     setGrowthInvestment,
     setInvestmentFundUnlockable,
-    setOldCash,
+    setOldCash, setPauseAutoSaveCountdown,
     setPotatoesPeeledThisShift,
     setQuantityOfChipsFrying,
     setShiftInProgress,
@@ -136,6 +136,9 @@ let lastFryingUpdateTime = new Date().getTime();
 let lastAutoUpgradesUpdateTime = new Date().getTime();
 
 function main() {
+    document.addEventListener('visibilitychange', handleVisibilityChange, false);
+    window.addEventListener('blur', handleVisibilityChange, false);
+    window.addEventListener('focus', handleVisibilityChange, false);
     document.addEventListener('titleScreenCreated', setElements);
     autoSaveInterval = getAutoSaveInterval();
     nextAutoSaveTime = Date.now() + autoSaveInterval;
@@ -619,5 +622,13 @@ export function calculateForthcomingTotalInvestment() {
             setGrowthInvestment(getGrowthInvestment() + valueToIncreaseThisSecond);
             setCurrentValueOfInvestment(newValueOfInvestment);
         }
+    }
+}
+
+function handleVisibilityChange() {
+    if (document.hidden || document.hasFocus() === false) {
+        setPauseAutoSaveCountdown(true);
+    } else {
+        setPauseAutoSaveCountdown(false);
     }
 }
