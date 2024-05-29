@@ -23,7 +23,7 @@ const END_GAME_POTATOES = 8;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const SHIFT_LENGTH = 5; //120
+const SHIFT_LENGTH = 45; //120
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
@@ -163,9 +163,9 @@ export let shiftInProgress = false;
  let priceToImproveAutoFryer = 60;
  let priceToImproveAutoStorageCollector = 60;
  let priceToImproveAutoCustomerServer = 140;
- let priceToImproveFryTimer = 300;
- let priceToDoubleSpudsMax = 300;
- let priceToIncreaseFootfall = 100;
+ let priceToImproveFryTimer = 100;
+ let priceToDoubleSpudsMax = 100;
+ let priceToIncreaseFootfall = 300;
  let priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
 
 //AUTO SPEEDS
@@ -1635,8 +1635,6 @@ export function captureGameStatusForSaving() {
 }
 
 export function restoreGameStatus(gameState) {
-    addAutoUpgradeEnabledStates(gameState);
-
     // Game variables
     currentMaxValueWaitForNewCustomer = gameState.currentMaxValueWaitForNewCustomer;
     nextMaxValueWaitForNewCustomer = gameState.nextMaxValueWaitForNewCustomer;
@@ -1766,6 +1764,7 @@ export function restoreGameStatus(gameState) {
     batchTimers = gameState.batchTimers;
 
     restoreButtonStates(gameState);
+    addAutoUpgradeEnabledStates(gameState);
 }
 
 export function getStateLoading() {
