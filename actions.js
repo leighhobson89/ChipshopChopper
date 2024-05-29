@@ -1,7 +1,7 @@
 import {
     getActualPotatoesInStorage,
     getChipsCutThisShift,
-    getChipsFrying,
+    getAreChipsFrying,
     getChipsReadyToServeQuantity,
     getCurrentCash,
     getCustomersServed,
@@ -41,7 +41,7 @@ import {
     getZero,
     setActualPotatoesInStorage,
     setChipsCutThisShift,
-    setChipsFrying,
+    setAreChipsFrying,
     setChipsReadyToServeQuantity,
     setCurrentCash,
     setCustomersServed,
@@ -182,7 +182,17 @@ import {
     setChipsFriedThisShift,
     getEndGameCash,
     getEndGamePotatoes,
-    getEndGameFryTimer, captureGameStatusForSaving, restoreGameStatus, setElements, setPauseAutoSaveCountdown,
+    getEndGameFryTimer,
+    captureGameStatusForSaving,
+    restoreGameStatus,
+    setElements,
+    setPauseAutoSaveCountdown,
+    setTotalSpentExcludingInvestments,
+    getTotalSpentExcludingInvestments,
+    setTotalPeeled,
+    getTotalPeeled,
+    setTotalCut,
+    getTotalCut, setTotalServedCustomers, getTotalServedCustomers, setTotalWastedChips, getTotalWastedChips,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -449,6 +459,7 @@ function handleImprovePotatoStorage(buttonId) {
         setActualPotatoesInStorage(getStartingSpuds());
     }
     setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImprovePotatoStorage());
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity());
     getElements()[buttonId].innerHTML = `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(newPriceOfUpgrade)}`;
@@ -458,6 +469,7 @@ function handleImprovePotatoStorage(buttonId) {
 function handleTwoHandedPeeling(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button, 'peeler')) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
+        setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToEnableDoublePeeling());
         getElements()[buttonId].innerHTML = 'Double Peeling Tool PURCHASED';
         updateButtonStyle(buttonId, null);
         setPeelPotatoesRate(getPeelPotatoesRate() * getUpgradeDoublePeelerMultiple());
@@ -467,6 +479,7 @@ function handleTwoHandedPeeling(button, buttonId) {
 function handleTwoHandedChipping(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button, 'chipper')) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChipping());
+        setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToEnableDoubleChipping());
         getElements()[buttonId].innerHTML = 'Double Chipping Tool PURCHASED';
         updateButtonStyle(buttonId, null);
         setCutChipsRate(getCutChipsRate() * getUpgradeDoubleChopperMultiple());
@@ -475,7 +488,8 @@ function handleTwoHandedChipping(button, buttonId) {
 
 function handleImproveFryerCapacity(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveFryerCapacity());
+        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setFryerCapacity(getFryerCapacity() + getUpgradeFryerCapacityAmount());
     getElements()[buttonId].innerHTML = `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(newPriceOfUpgrade)}`;
     getElements().fryChipsButton.innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
@@ -485,6 +499,7 @@ function handleAddStorageHeater(button, buttonId) {
     if (!getInvestmentFundUnlocked()) { //storage heater button
         if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
             setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
+            setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToAddStorageHeater());
             getElements()[buttonId].innerHTML = 'Storage Bin Heater PURCHASED';
             updateButtonStyle(buttonId, null);
             setMultipleForHeaterEffectOnCoolDown(getUpgradeHeaterMultiple());
@@ -492,6 +507,7 @@ function handleAddStorageHeater(button, buttonId) {
     } else { //auto shift start button
         if (!checkIfNonRepeatableUpgradePurchased(button, 'autoShift')) { //if auto shift start not bought yet
             setCurrentCash(getCurrentCash() - getPriceToUnlockAutoShiftStart());
+            setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToUnlockAutoShiftStart());
             getElements()[buttonId].innerHTML = `Auto Shift Start Upgrade<br>DISABLED`;
             getElements()[buttonId].classList.add('toggleable-button-on-state'); //initialisation leave as this
             updateButtonStyle(buttonId, null);
@@ -548,7 +564,8 @@ function handleAutoPeeler(buttonId) {
         button.classList.remove('autoUpgradeEnabled');
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoPeeler());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoPeeler());
+        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoPeeler(getNextSpeedAutoPeeler());
     setNextSpeedAutoPeeler(getCurrentSpeedAutoPeeler() + getStandardDecrementIncrementOfOne());
 
@@ -566,7 +583,8 @@ function handleAutoChipper(buttonId) {
         button.classList.remove('autoUpgradeEnabled');
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoChipper());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoChipper());
+        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoChipper(getNextSpeedAutoChipper());
     setNextSpeedAutoChipper(getCurrentSpeedAutoChipper() + getStandardDecrementIncrementOfOne());
 
@@ -585,7 +603,8 @@ function handleAutoFryer(buttonId) {
     }
     setAutoFryerCounter(getZero());
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
+        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
     setNextSpeedAutoFryer(getCurrentSpeedAutoFryer() - getAutoFryerUpgradeDecrement());
 
@@ -604,7 +623,8 @@ function handleAutoStorageCollector(buttonId) {
     }
     setAutoStorageCollectorCounter(getZero());
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoMoverFromFryerToStorage());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoMoverFromFryerToStorage());
+        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoStorageCollector(getNextSpeedAutoStorageCollector());
     setNextSpeedAutoStorageCollector(getCurrentSpeedAutoStorageCollector() - getAutoStorageCollectorUpgradeDecrement());
 
@@ -622,7 +642,8 @@ function handleAutoCustomerServer(buttonId) {
         button.classList.remove('autoUpgradeEnabled');
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoCustomerServer());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoCustomerServer());
+        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoCustomerServer(getNextSpeedAutoCustomerServer());
     setNextSpeedAutoCustomerServer(getCurrentSpeedAutoCustomerServer() - getAutoCustomerServerUpgradeDecrement());
 
@@ -638,7 +659,8 @@ function handleImproveFryTimer(buttonId) {
         setImproveFryTimerBought(true);
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveFryTimer());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveFryTimer());
+        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedFryTimer(getNextSpeedFryTimer());
     setFryTimer(Math.floor(getCurrentSpeedFryTimer()));
     setNextSpeedFryTimer(getCurrentSpeedFryTimer() - getUpgradeFryTimeDecrement());
@@ -650,7 +672,8 @@ function handleDoubleMaxSpudsDelivery(buttonId) {
         setDoubleMaxSpudsDeliveryBought(true);
     }
     setCurrentCash(getCurrentCash() - getPriceToDoubleSpudsMax());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToDoubleSpudsMax());
+        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentMaxSpudsDelivery(getNextMaxSpudsDelivery());
     setMaxSpudsDelivery(getCurrentMaxSpudsDelivery());
     setNextMaxSpudsDelivery(getCurrentMaxSpudsDelivery() * getUpgradeMaxSpudsIncrement());
@@ -665,20 +688,23 @@ function handleInvestmentFundUnlockButton(buttonId) {
         setFloatOnStockMarketUnlockedAndEndGameFlowStarted(true);
     }
     setCurrentCash(getCurrentCash() - getPriceToUnlockInvestmentFundOrFloatOnStockMarket());
-    updateButtonStyle(buttonId, null);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToUnlockInvestmentFundOrFloatOnStockMarket());
+        updateButtonStyle(buttonId, null);
     if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         updateStorageBinHeaterToAutoShiftStartButton();
         hideDoublePeelerChipperAndShowInvestmentComponents();
         setUpFloatButton();
     }
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
-        setupEndGameFlow();
+        setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToFloatOnStockMarket());
+            setupEndGameFlow();
     }
 }
 
 function handleIncreaseFootfall(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToIncreaseFootfall());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToIncreaseFootfall());
+        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentMaxValueWaitForNewCustomer(getNextMaxValueWaitForNewCustomer());
     setNextMaxValueWaitForNewCustomer(getCurrentMaxValueWaitForNewCustomer() - getIncreaseFootfallDecrement());
     getElements()[buttonId].innerHTML = `Max Wait Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(newPriceOfUpgrade)}`
@@ -822,7 +848,7 @@ export function disableButtons(init) {
                         break;
                     case getElements().fryChipsButton.id:
                         checkIfChipsStillInFryer();
-                        button.disabled = !getShiftInProgress() || (cutCount <= getZero() && !getChipsFrying());
+                        button.disabled = !getShiftInProgress() || (cutCount <= getZero() && !getAreChipsFrying());
                         break;
                     case getElements().servingStorageButton.id:
                         button.disabled = inFryerCount <= getZero() || !getShiftInProgress();
@@ -1023,7 +1049,7 @@ function addShiftSpuds(quantity) {
 
 export function fryChips() {
     setFryTimeRemaining(getFryTimer());
-    setChipsFrying(true);
+    setAreChipsFrying(true);
 }
 
 function selectARandomNumberOfSpudsForNextShift() {
@@ -1155,12 +1181,14 @@ export function peelPotato(counterElement, value) {
     decrementCounter(getElements().subInnerDivMid1_2.id, value);
     incrementCounter(counterElement, value);
     setPotatoesPeeledThisShift(getPotatoesPeeledThisShift() + value);
+    setTotalPeeled(getTotalPeeled() + value);
 }
 
 export function cutChips(quantity, cutChipsRate) {
     decrementCounter(getElements().peeledCount.id, cutChipsRate);
     incrementCounter(getElements().cutCount, quantity);
     setChipsCutThisShift(getChipsCutThisShift() + quantity);
+    setTotalCut(getTotalCut() + quantity);
 }
 
 export function serveCustomer() {
@@ -1169,6 +1197,7 @@ export function serveCustomer() {
     setCustomersWaiting(getCustomersWaiting() - getStandardDecrementIncrementOfOne());
     let newCustomersServedValue = getCustomersServed() + getStandardDecrementIncrementOfOne();
     setCustomersServed(newCustomersServedValue);
+    setTotalServedCustomers(getTotalServedCustomers() + getStandardDecrementIncrementOfOne());
 
     let totalChips = getZero();
     let portionSizeFulfilled = false;
@@ -1221,6 +1250,7 @@ function setUpFloatButton() {
 }
 
 function setupEndGameFlow() {
+    setTotalWastedChips(getTotalWastedChips() + getQuantityOfChipsFrying() + (getChipsReadyToServeQuantity().reduce((total, num) => total + num, 0)));
     writePopupText();
     toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
     toggleOverlay(popupOverlay);

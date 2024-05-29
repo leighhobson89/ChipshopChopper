@@ -199,6 +199,14 @@ export let autoCustomerServerCounter = 30;
  let customersWaiting = 0;
  let chipsWastedThisShift = 0;
 
+ let totalEarnedInSales = 0;
+ let totalSpentExcludingInvestments = 0;
+ let totalPeeled = 0;
+ let totalCut = 0;
+ let totalWastedChips = 0;
+ let totalServedCustomers = 0;
+
+
  //STRING LITERAL ENUMS
  export const Role = {
      ONE: 'Chip Shop Prepper',
@@ -364,11 +372,11 @@ export function getCurrentCash() {
     return currentCash;
 }
 
-export function setChipsFrying(value) {
+export function setAreChipsFrying(value) {
     chipsFrying = value;
 }
 
-export function getChipsFrying() {
+export function getAreChipsFrying() {
     return chipsFrying;
 }
 
@@ -1608,6 +1616,13 @@ export function captureGameStatusForSaving() {
     gameState.customersWaiting = customersWaiting;
     gameState.chipsWastedThisShift = chipsWastedThisShift;
 
+    gameState.totalEarned = getTotalEarnedInSales();
+    gameState.totalSpent = getTotalSpentExcludingInvestments();
+    gameState.totalPeeled = getTotalPeeled();
+    gameState.totalCut = getTotalCut();
+    gameState.totalWastedChips = getTotalWastedChips();
+    gameState.totalServedCustomers = getTotalServedCustomers();
+
     // UI elements
     gameState.uiElements = {
         peeledCount: getElements().peeledCount.innerHTML,
@@ -1746,6 +1761,13 @@ export function restoreGameStatus(gameState) {
     customersWaiting = gameState.customersWaiting;
     chipsWastedThisShift = gameState.chipsWastedThisShift;
 
+    setTotalEarnedInSales(gameState.totalEarned);
+    setTotalSpentExcludingInvestments(gameState.totalSpent);
+    setTotalPeeled(gameState.totalPeeled);
+    setTotalCut(gameState.totalCut);
+    setTotalWastedChips(gameState.totalWastedChips);
+    setTotalServedCustomers(gameState.totalServedCustomers);
+
     // UI elements
     getElements().peeledCount.innerHTML = gameState.uiElements.peeledCount;
     getElements().cutCount.innerHTML = gameState.uiElements.cutCount;
@@ -1853,6 +1875,55 @@ export function setPauseAutoSaveCountdown(value) {
     pauseAutoSaveCountdown = value;
 }
 
+
+export function getTotalEarnedInSales() {
+    return totalEarnedInSales;
+}
+
+export function setTotalEarnedInSales(value) {
+    totalEarnedInSales = value;
+}
+
+export function getTotalSpentExcludingInvestments() {
+    return totalSpentExcludingInvestments;
+}
+
+export function setTotalSpentExcludingInvestments(value) {
+    totalSpentExcludingInvestments = value;
+}
+
+export function getTotalPeeled() {
+    return totalPeeled;
+}
+
+export function setTotalPeeled(value) {
+    totalPeeled = value;
+}
+
+export function getTotalCut() {
+    return totalCut;
+}
+
+export function setTotalCut(value) {
+    totalCut = value;
+}
+
+export function getTotalWastedChips() {
+    return totalWastedChips;
+}
+
+export function setTotalWastedChips(value) {
+    totalWastedChips = value;
+}
+
+export function getTotalServedCustomers() {
+    return totalServedCustomers;
+}
+
+export function setTotalServedCustomers(value) {
+    totalServedCustomers = value;
+}
+
 function addAutoUpgradeEnabledStates(gameState) {
     getElements().autoPeelerUpgradeButton.querySelector('input').checked = gameState.autoPeelerEnabledState;
     if (gameState.autoPeelerEnabledState) {
@@ -1889,3 +1960,4 @@ function addAutoUpgradeEnabledStates(gameState) {
         getElements().autoCustomerServerUpgradeButton.classList.remove('autoUpgradeEnabled');
     }
 }
+

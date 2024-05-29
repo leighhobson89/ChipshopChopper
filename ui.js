@@ -5,7 +5,7 @@ import {
     getActualPotatoesInStorage,
     getChipsCutThisShift,
     getChipsFriedThisShift,
-    getChipsFrying,
+    getAreChipsFrying,
     getChipsWastedThisShift,
     getCurrentCash,
     getCurrentSpeedAutoChipper,
@@ -111,7 +111,12 @@ import {
     getInitialStateBottomRowButtons,
     resetCounterUiElements,
     getStateLoading,
-    setStateLoading, setPauseAutoSaveCountdown
+    setStateLoading,
+    setPauseAutoSaveCountdown,
+    getTotalEarnedInSales,
+    getTotalSpentExcludingInvestments,
+    getTotalPeeled,
+    getTotalCut, getTotalWastedChips, getTotalServedCustomers
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -482,7 +487,7 @@ export function updateButtonStyle(buttonId, startStop) {
     if (startStop === null) {
         switch (buttonId) {
             case getElements().fryChipsButton.id:
-                if (getChipsFrying()) {
+                if (getAreChipsFrying()) {
                     element.classList.add('cooking');
                     element.classList.remove('disabled');
                 } else {
@@ -615,12 +620,12 @@ export function writePopupText() {
         popupContent.innerHTML = `
             <div class="popup-content">
                 <span style="color: yellow;">You have beat the game, well done!</span><br><br>
-                You earned a total of: <br>
-                You spent a total of: <br>
-                You peeled a total of XX potatoes.<br>
-                You cut a total of XX chips.<br>
-                You wasted a total of XX chips.<br>
-                You served a total of XX customers!<br>
+                You earned a total of ${formatToCashNotation(getTotalEarnedInSales())} in chip sales!<br>
+                You spent a total of ${formatToCashNotation(getTotalSpentExcludingInvestments())} excluding investments!<br>
+                You peeled a total of ${getTotalPeeled()} potatoes.<br>
+                You cut a total of ${getTotalCut()} chips.<br>
+                You wasted a total of ${getTotalWastedChips()} chips.<br>
+                You served a total of ${getTotalServedCustomers()} customers!<br>
                 Now please do the honours and fry up and serve the last customer their chips before you retire as a millionaire!
             </div>`;
     } else {

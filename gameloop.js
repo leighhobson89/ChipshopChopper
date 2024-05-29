@@ -41,7 +41,8 @@ import {
     getAutoFryerCounter,
     getAutoFryerEfficiency,
     getAutoPeelerBought,
-    getAutoPeelerCounter, getAutoSaveInterval,
+    getAutoPeelerCounter,
+    getAutoSaveInterval,
     getAutoShiftStatus,
     getAutoStorageCollectorBought,
     getAutoStorageCollectorCounter,
@@ -49,7 +50,7 @@ import {
     getBaseRiskNumber,
     getChipperUpgradeBought,
     getChipsFriedThisShift,
-    getChipsFrying,
+    getAreChipsFrying,
     getChipsReadyToServeQuantity,
     getChipsWastedThisShift,
     getClockSpeed,
@@ -79,7 +80,8 @@ import {
     getMultipleForHeaterEffectOnCoolDown,
     getNumberOfChipsFromPotato,
     getOne,
-    getOneForTimeDiff, getPauseAutoSaveCountdown,
+    getOneForTimeDiff,
+    getPauseAutoSaveCountdown,
     getPeelerUpgradeBought,
     getPortionSize,
     getPriceOfChips,
@@ -92,6 +94,12 @@ import {
     getShiftTimeRemaining,
     getStandardDecrementIncrementOfOne,
     getStop,
+    getTotalCut,
+    getTotalEarnedInSales,
+    getTotalPeeled,
+    getTotalServedCustomers,
+    getTotalSpentExcludingInvestments,
+    getTotalWastedChips,
     getZero,
     popupOverlay,
     resetBatchTimers,
@@ -103,7 +111,7 @@ import {
     setAutoStorageCollectorCounter,
     setChipsCutThisShift,
     setChipsFriedThisShift,
-    setChipsFrying,
+    setAreChipsFrying,
     setChipsReadyToServeQuantity,
     setChipsWastedThisShift,
     setCoolDownTimeRemaining,
@@ -119,11 +127,14 @@ import {
     setGameInProgress,
     setGrowthInvestment,
     setInvestmentFundUnlockable,
-    setOldCash, setPauseAutoSaveCountdown,
+    setOldCash,
+    setPauseAutoSaveCountdown,
     setPotatoesPeeledThisShift,
     setQuantityOfChipsFrying,
     setShiftInProgress,
     setShiftTimeRemaining,
+    setTotalEarnedInSales,
+    setTotalWastedChips,
     TIMER_CORRECTION_COEFFICIENT,
 } from './constantsAndGlobalVars.js';
 
@@ -241,8 +252,9 @@ function updateShiftCountDown() {
                 if (
                     getAutoFryerBought() &&
                     (!getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
-                    !getChipsFrying()) &&
-                    getAutoFryerCounter() === getZero()
+                    !getAreChipsFrying()) &&
+                    getAutoFryerCounter() === getZero() &&
+                    getElements().autoFryerUpgradeButton.classList.contains('autoUpgradeEnabled')
                 ) {
                     if (parseInt(getElements().cutCount.innerHTML) > getZero()) {
                         updateButtonCountdownText(getElements().autoFryerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoFryer()), getElements().autoFryerUpgradeButton.classList.contains('autoUpgradeEnabled'));
@@ -258,7 +270,8 @@ function updateShiftCountDown() {
                 if (
                     getAutoStorageCollectorBought() &&
                     (getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
-                    getAutoStorageCollectorCounter() === getZero()
+                    getAutoStorageCollectorCounter() === getZero() &&
+                    getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled')
                 )){
                     updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoStorageCollector()), getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled'));
                     updateButtonClass(getElements().autoStorageCollectorUpgradeButton, getCurrentSpeedAutoStorageCollector());
@@ -270,7 +283,8 @@ function updateShiftCountDown() {
                     getAutoCustomerServerBought() &&
                     getAutoCustomerServerCounter() === getZero() &&
                     getCustomersWaiting() > 0 &&
-                    parseInt(getElements().readyToServeCount.innerHTML) >= getPortionSize()
+                    parseInt(getElements().readyToServeCount.innerHTML) >= getPortionSize() &&
+                    getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled')
                 ){
                     updateButtonCountdownText(getElements().autoCustomerServerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoCustomerServer()), getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled'));
                     updateButtonClass(getElements().autoCustomerServerUpgradeButton, getCurrentSpeedAutoCustomerServer());
@@ -291,6 +305,7 @@ function updateShiftCountDown() {
                     setShiftInProgress(false);
                     setOldCash(getCurrentCash());
                     setCurrentCash((getCustomersServed() * getPriceOfChips()) + getCurrentCash());
+                    setTotalEarnedInSales(getTotalEarnedInSales() + (getCustomersServed() * getPriceOfChips()));
                     getElements().subInnerDiv1_2.innerHTML = "Start Shift";
                     disableButtons(false);
 
@@ -309,12 +324,14 @@ function updateShiftCountDown() {
                     getElements().readyToServeCount.innerHTML = getZero().toString();
                     resetBatchTimers();
 
+                    setTotalWastedChips(getTotalWastedChips() + getChipsWastedThisShift());
+
                     if (!getAutoShiftStatus()) { //no popup if autoShiftStartIsEnabled
                         writePopupText();
                         toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
                         toggleOverlay(popupOverlay);
                     }
-
+                    consoleOutTotalStats(); //debug
                     setGrowthInvestment(getZero());
                     setCustomersServed(getZero());
                     setPotatoesPeeledThisShift(getZero());
@@ -340,7 +357,7 @@ function updateShiftCountDown() {
 }
 
 function updateChipsFryingTimer() {
-    if (getChipsFrying()) {
+    if (getAreChipsFrying()) {
         const now = new Date().getTime();
         const timeDiffSeconds = (now - lastFryingUpdateTime) / getClockSpeed();
         const fryerButton = getElements().fryChipsButton;
@@ -352,7 +369,7 @@ function updateChipsFryingTimer() {
 
                 //console.log(`Fry time remaining: ${getFryTimeRemaining()} seconds`);
                 if (getFryTimeRemaining() === getZero()) {
-                    setChipsFrying(false);
+                    setAreChipsFrying(false);
                     setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityOfChipsFrying());
                     getElements().chuckedInFryerCount.innerHTML = (parseInt(getElements().chuckedInFryerCount.innerHTML) + getQuantityOfChipsFrying()).toString();
                     fryerButton.innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
@@ -432,7 +449,7 @@ export function wasteChipsStillInFryerOrFryingAtEndOfShift() {
     const fryerButton = getElements().fryChipsButton;
     const fryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
 
-    setChipsFrying(false);
+    setAreChipsFrying(false);
     setFryTimeRemaining(getZero());
     getElements().fryChipsButton.innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
     setChipsWastedThisShift(fryerCount + getQuantityOfChipsFrying() + getChipsWastedThisShift());
@@ -631,4 +648,13 @@ function handleVisibilityChange() {
     } else {
         setPauseAutoSaveCountdown(false);
     }
+}
+
+function consoleOutTotalStats() {
+    console.log('Total Earned in Sales: ' + getTotalEarnedInSales());
+    console.log('Total Spent: ' + getTotalSpentExcludingInvestments());
+    console.log('Total Peeled: ' + getTotalPeeled());
+    console.log('Total Cut: ' + getTotalCut());
+    console.log('Total Wasted Chips: ' + getTotalWastedChips());
+    console.log('Total Served Customers: ' + getTotalServedCustomers());
 }
