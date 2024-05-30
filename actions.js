@@ -192,19 +192,27 @@ import {
     setTotalPeeled,
     getTotalPeeled,
     setTotalCut,
-    getTotalCut, setTotalServedCustomers, getTotalServedCustomers, setTotalWastedChips, getTotalWastedChips,
+    getTotalCut,
+    setTotalServedCustomers,
+    getTotalServedCustomers,
+    setTotalWastedChips,
+    getTotalWastedChips,
 } from './constantsAndGlobalVars.js';
 
 import {
     calculateForthcomingTotalInvestment,
-    startBatchTimer, wasteChipsStillInFryerOrFryingAtEndOfShift
+    startBatchTimer,
+    wasteChipsStillInFryerOrFryingAtEndOfShift
 } from './gameloop.js';
 
 import {
     addCheckbox,
-    createInvestmentComponents, createInvestmentDataScreen,
-    formatToCashNotation, hideButtonsReadyForEndGame,
-    hideDoublePeelerChipperAndShowInvestmentComponents, initialiseInvestmentScreenText,
+    createInvestmentComponents,
+    createInvestmentDataScreen,
+    formatToCashNotation,
+    hideButtonsReadyForEndGame,
+    hideDoublePeelerChipperAndShowInvestmentComponents,
+    initialiseInvestmentScreenText,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
     triggerEndGameScreen,
@@ -489,7 +497,7 @@ function handleTwoHandedChipping(button, buttonId) {
 function handleImproveFryerCapacity(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveFryerCapacity());
-        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setFryerCapacity(getFryerCapacity() + getUpgradeFryerCapacityAmount());
     getElements()[buttonId].innerHTML = `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(newPriceOfUpgrade)}`;
     getElements().fryChipsButton.innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
@@ -565,7 +573,7 @@ function handleAutoPeeler(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoPeeler());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoPeeler());
-        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoPeeler(getNextSpeedAutoPeeler());
     setNextSpeedAutoPeeler(getCurrentSpeedAutoPeeler() + getStandardDecrementIncrementOfOne());
 
@@ -584,7 +592,7 @@ function handleAutoChipper(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoChipper());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoChipper());
-        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoChipper(getNextSpeedAutoChipper());
     setNextSpeedAutoChipper(getCurrentSpeedAutoChipper() + getStandardDecrementIncrementOfOne());
 
@@ -604,7 +612,7 @@ function handleAutoFryer(buttonId) {
     setAutoFryerCounter(getZero());
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
-        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
     setNextSpeedAutoFryer(getCurrentSpeedAutoFryer() - getAutoFryerUpgradeDecrement());
 
@@ -624,7 +632,7 @@ function handleAutoStorageCollector(buttonId) {
     setAutoStorageCollectorCounter(getZero());
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoMoverFromFryerToStorage());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoMoverFromFryerToStorage());
-        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoStorageCollector(getNextSpeedAutoStorageCollector());
     setNextSpeedAutoStorageCollector(getCurrentSpeedAutoStorageCollector() - getAutoStorageCollectorUpgradeDecrement());
 
@@ -643,7 +651,7 @@ function handleAutoCustomerServer(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoCustomerServer());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoCustomerServer());
-        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoCustomerServer(getNextSpeedAutoCustomerServer());
     setNextSpeedAutoCustomerServer(getCurrentSpeedAutoCustomerServer() - getAutoCustomerServerUpgradeDecrement());
 
@@ -660,7 +668,7 @@ function handleImproveFryTimer(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveFryTimer());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveFryTimer());
-        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedFryTimer(getNextSpeedFryTimer());
     setFryTimer(Math.floor(getCurrentSpeedFryTimer()));
     setNextSpeedFryTimer(getCurrentSpeedFryTimer() - getUpgradeFryTimeDecrement());
@@ -673,7 +681,7 @@ function handleDoubleMaxSpudsDelivery(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToDoubleSpudsMax());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToDoubleSpudsMax());
-        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentMaxSpudsDelivery(getNextMaxSpudsDelivery());
     setMaxSpudsDelivery(getCurrentMaxSpudsDelivery());
     setNextMaxSpudsDelivery(getCurrentMaxSpudsDelivery() * getUpgradeMaxSpudsIncrement());
@@ -689,7 +697,7 @@ function handleInvestmentFundUnlockButton(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToUnlockInvestmentFundOrFloatOnStockMarket());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToUnlockInvestmentFundOrFloatOnStockMarket());
-        updateButtonStyle(buttonId, null);
+    updateButtonStyle(buttonId, null);
     if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         updateStorageBinHeaterToAutoShiftStartButton();
         hideDoublePeelerChipperAndShowInvestmentComponents();
@@ -697,14 +705,14 @@ function handleInvestmentFundUnlockButton(buttonId) {
     }
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToFloatOnStockMarket());
-            setupEndGameFlow();
+        setupEndGameFlow();
     }
 }
 
 function handleIncreaseFootfall(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToIncreaseFootfall());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToIncreaseFootfall());
-        let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
+    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentMaxValueWaitForNewCustomer(getNextMaxValueWaitForNewCustomer());
     setNextMaxValueWaitForNewCustomer(getCurrentMaxValueWaitForNewCustomer() - getIncreaseFootfallDecrement());
     getElements()[buttonId].innerHTML = `Max Wait Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(newPriceOfUpgrade)}`
@@ -919,7 +927,7 @@ export function disableButtons(init) {
                                 }
                             } else {
                                 if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                  button.disabled = (getCurrentCash() < getPriceToUnlockAutoShiftStart() && getInvestmentFundUnlocked());
+                                    button.disabled = (getCurrentCash() < getPriceToUnlockAutoShiftStart() && getInvestmentFundUnlocked());
                                 }
                             }
                             break;
@@ -1145,7 +1153,7 @@ function calculateAndSetNewPriceOfUpgrade(buttonId) {
 }
 
 function checkIfNonRepeatableUpgradePurchased(button, upgrade) {
-    switch(upgrade) {
+    switch (upgrade) {
         case 'peeler':
             setPeelerUpgradeBought(true);
             break;
@@ -1271,7 +1279,7 @@ function setupEndGameFlow() {
 
     getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
 
-    setChipsReadyToServeQuantity(null,'clear');
+    setChipsReadyToServeQuantity(null, 'clear');
     getElements().readyToServeCount.innerHTML = getZero().toString();
     getElements().peeledCount.innerHTML = getZero().toString();
     getElements().cutCount.innerHTML = getZero().toString();
@@ -1299,7 +1307,7 @@ function setupEndGameFlow() {
 }
 
 export function toggleMenu(inGame) {
-    switch(inGame) {
+    switch (inGame) {
         case true:
             getElements().optionsWindow.style.display = 'flex';
             //debug
@@ -1321,7 +1329,9 @@ export function toggleMenu(inGame) {
 export function saveGame(isManualSave) {
     const gameState = captureGameStatusForSaving();
     const serializedGameState = JSON.stringify(gameState);
-    const blob = new Blob([serializedGameState], { type: 'text/plain' });
+    const blob = new Blob([serializedGameState], {
+        type: 'text/plain'
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
 
@@ -1368,7 +1378,7 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
     }
 
     const reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = function(e) {
         try {
             const result = e.target.result;
 
@@ -1398,4 +1408,3 @@ function initialiseLoadedGame(gameState) {
     restoreGameStatus(gameState);
     setElements();
 }
-

@@ -22,7 +22,8 @@ import {
     handleServingStorage,
     handleStartShift,
     incrementCustomersWaiting,
-    peelPotato, saveGame,
+    peelPotato,
+    saveGame,
     serveCustomer
 } from './actions.js';
 
@@ -252,7 +253,7 @@ function updateShiftCountDown() {
                 if (
                     getAutoFryerBought() &&
                     (!getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
-                    !getAreChipsFrying()) &&
+                        !getAreChipsFrying()) &&
                     getAutoFryerCounter() === getZero() &&
                     getElements().autoFryerUpgradeButton.classList.contains('autoUpgradeEnabled')
                 ) {
@@ -270,9 +271,9 @@ function updateShiftCountDown() {
                 if (
                     getAutoStorageCollectorBought() &&
                     (getElements().fryChipsButton.classList.contains('action-button-main-flashing') &&
-                    getAutoStorageCollectorCounter() === getZero() &&
-                    getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled')
-                )){
+                        getAutoStorageCollectorCounter() === getZero() &&
+                        getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled')
+                    )) {
                     updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoStorageCollector()), getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled'));
                     updateButtonClass(getElements().autoStorageCollectorUpgradeButton, getCurrentSpeedAutoStorageCollector());
                     handleServingStorage();
@@ -285,7 +286,7 @@ function updateShiftCountDown() {
                     getCustomersWaiting() > 0 &&
                     parseInt(getElements().readyToServeCount.innerHTML) >= getPortionSize() &&
                     getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled')
-                ){
+                ) {
                     updateButtonCountdownText(getElements().autoCustomerServerUpgradeButton, 'reset', Math.floor(getCurrentSpeedAutoCustomerServer()), getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled'));
                     updateButtonClass(getElements().autoCustomerServerUpgradeButton, getCurrentSpeedAutoCustomerServer());
                     setAutoCustomerServerCounter(1);
@@ -312,7 +313,7 @@ function updateShiftCountDown() {
                     wasteChipsStillInFryerOrFryingAtEndOfShift();
 
                     for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
-                        clearInterval(batchTimers[i]);  //kill all timers end of shift
+                        clearInterval(batchTimers[i]); //kill all timers end of shift
                         setChipsWastedThisShift(getChipsWastedThisShift() + getChipsReadyToServeQuantity()[i]);
                     }
 
@@ -320,7 +321,7 @@ function updateShiftCountDown() {
                     setCustomersWaiting(selectHowManyCustomersLeftAfterWalkOutAtShiftEnd());
                     getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
 
-                    setChipsReadyToServeQuantity(null,'clear');
+                    setChipsReadyToServeQuantity(null, 'clear');
                     getElements().readyToServeCount.innerHTML = getZero().toString();
                     resetBatchTimers();
 
@@ -365,7 +366,7 @@ function updateChipsFryingTimer() {
         if (getFryTimeRemaining() > getZero()) {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setFryTimeRemaining(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
-                fryerButton.innerHTML = 'Frying ' + getQuantityOfChipsFrying() +' Chips <br> (' + getFryTimeRemaining() + 's)';
+                fryerButton.innerHTML = 'Frying ' + getQuantityOfChipsFrying() + ' Chips <br> (' + getFryTimeRemaining() + 's)';
 
                 //console.log(`Fry time remaining: ${getFryTimeRemaining()} seconds`);
                 if (getFryTimeRemaining() === getZero()) {
@@ -478,7 +479,7 @@ function checkAutoUpgradeButtonsAndUpdateTheirCountDownTime() {
     if (getAutoStorageCollectorBought()) {
         let value = updateButtonCountdownText(getElements().autoStorageCollectorUpgradeButton, 'countDown', null, getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled'));
         setAutoStorageCollectorCounter(value);
-        if(!getElements().fryChipsButton.classList.contains('action-button-main-flashing')) {
+        if (!getElements().fryChipsButton.classList.contains('action-button-main-flashing')) {
             updateButtonClass(getElements().autoStorageCollectorUpgradeButton, value);
         }
     }
@@ -530,9 +531,9 @@ function updateButtonClass(buttonElement, value) {
 function checkPlayerRole() {
     let existingRoleText = getElements().playerRoleText.innerHTML;
     if (existingRoleText === Role.ONE) {
-       if (getPeelerUpgradeBought() || getChipperUpgradeBought()) {
-           changePlayerRole(getElements().playerRoleText, Role.TWO, 'text-bounce-animation', 'fade-text-animation');
-       }
+        if (getPeelerUpgradeBought() || getChipperUpgradeBought()) {
+            changePlayerRole(getElements().playerRoleText, Role.TWO, 'text-bounce-animation', 'fade-text-animation');
+        }
     } else if (existingRoleText === Role.TWO && getPeelerUpgradeBought() && getChipperUpgradeBought()) {
         if (getAutoPeelerBought() || getAutoChipperBought() || getAutoFryerBought() || getAutoStorageCollectorBought() || getAutoCustomerServerBought()) {
             changePlayerRole(getElements().playerRoleText, Role.THREE, 'text-bounce-animation', 'fade-text-animation');

@@ -1,4 +1,10 @@
-import {disableButtons, handleButtonClick, loadGame, saveGame, toggleMenu} from './actions.js';
+import {
+    disableButtons,
+    handleButtonClick,
+    loadGame,
+    saveGame,
+    toggleMenu
+} from './actions.js';
 import {
     debugFlag,
     endOfShiftOrGamePopup,
@@ -116,9 +122,13 @@ import {
     getTotalEarnedInSales,
     getTotalSpentExcludingInvestments,
     getTotalPeeled,
-    getTotalCut, getTotalWastedChips, getTotalServedCustomers
+    getTotalCut,
+    getTotalWastedChips,
+    getTotalServedCustomers
 } from './constantsAndGlobalVars.js';
-import {initialiseNewGame} from "./gameloop.js";
+import {
+    initialiseNewGame
+} from "./gameloop.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -155,17 +165,28 @@ export function createTitleScreen() {
     resumeGameWindow.classList.add('debugs');
     resumeGameWindow.id = 'resumeGameWindow';
 
-    const optionInfo = [
-        {name: 'New Game'},
-        {name: 'Save Game'},
-        {name: 'Load Game'},
-        {name: 'Help'},
-        {name: 'Toggle Sound', color: '#00cc00'}
+    const optionInfo = [{
+        name: 'New Game'
+    },
+        {
+            name: 'Save Game'
+        },
+        {
+            name: 'Load Game'
+        },
+        {
+            name: 'Help'
+        },
+        {
+            name: 'Toggle Sound',
+            color: '#00cc00'
+        }
     ];
 
-    const debugInfo = [
-        {name: 'Give $10000', color: 'Black'},
-    ];
+    const debugInfo = [{
+        name: 'Give $10000',
+        color: 'Black'
+    }, ];
 
     for (let i = 0; i < optionInfo.length; i++) {
         const option = document.createElement('div');
@@ -229,7 +250,7 @@ export function createGameWindow(titleScreenCreatedEvent) {
                 subInnerDiv.classList.add('sub-inner-div-topDivRow1');
                 subInnerDiv.id = `subInnerDiv${i}_${j}`;
 
-                if (i === 3 && j ===2) {
+                if (i === 3 && j === 2) {
                     subInnerDiv.classList.add('sub-inner-div-topDivRow1-side-by-side');
 
                     const div1 = document.createElement('div');
@@ -310,31 +331,134 @@ export function createGameWindow(titleScreenCreatedEvent) {
     bottomRowContainer.classList.add('bottom-row-container');
     bottomRowContainer.id = 'bottomRowContainer';
 
-    let mainButtonDetails = [
-        { id: 'peelPotatoButton', name: 'Peel Potato', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'cutChipsButton', name: 'Cut Chips', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'fryChipsButton', name: `Fry Chips<br> (Capacity: ${getFryerCapacity()})`, upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'servingStorageButton', name: 'Serving Storage', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'serveCustomerButton', name: 'Serve Customer', upgrade: 'false', repeatableUpgrade: 'false' },
-        { id: 'autoPeelerUpgradeButton', name: `Auto Peeler (${getCurrentSpeedAutoPeeler()})<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(getPriceToImproveAutoPeeler())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'autoChipperUpgradeButton', name: `Auto Chipper (${getCurrentSpeedAutoChipper()})<br> ${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(getPriceToImproveAutoChipper())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'autoFryerUpgradeButton', name: `Auto Fryer (${getCurrentSpeedAutoFryer()})<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'autoStorageCollectorUpgradeButton', name: `Auto Collect (${getCurrentSpeedAutoStorageCollector()})<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'autoCustomerServerUpgradeButton', name: `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'improvePotatoStorageButton', name: `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'improveFryerCapacityButton', name: `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'fastFryerUpgradeButton', name: `Improve Fry Speed<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'potatoDeliveryDoublerButton', name: `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'customerFrequencyIncreaser', name: `Max Wait Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}`, upgrade: 'true', repeatableUpgrade: 'true' },
-        { id: 'investmentDataScreenButton', name: `Investment Data Screen Placeholder`, upgrade: 'false', repeatableUpgrade: 'false' },
+    let mainButtonDetails = [{
+        id: 'peelPotatoButton',
+        name: 'Peel Potato',
+        upgrade: 'false',
+        repeatableUpgrade: 'false'
+    },
+        {
+            id: 'cutChipsButton',
+            name: 'Cut Chips',
+            upgrade: 'false',
+            repeatableUpgrade: 'false'
+        },
+        {
+            id: 'fryChipsButton',
+            name: `Fry Chips<br> (Capacity: ${getFryerCapacity()})`,
+            upgrade: 'false',
+            repeatableUpgrade: 'false'
+        },
+        {
+            id: 'servingStorageButton',
+            name: 'Serving Storage',
+            upgrade: 'false',
+            repeatableUpgrade: 'false'
+        },
+        {
+            id: 'serveCustomerButton',
+            name: 'Serve Customer',
+            upgrade: 'false',
+            repeatableUpgrade: 'false'
+        },
+        {
+            id: 'autoPeelerUpgradeButton',
+            name: `Auto Peeler (${getCurrentSpeedAutoPeeler()})<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(getPriceToImproveAutoPeeler())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'autoChipperUpgradeButton',
+            name: `Auto Chipper (${getCurrentSpeedAutoChipper()})<br> ${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(getPriceToImproveAutoChipper())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'autoFryerUpgradeButton',
+            name: `Auto Fryer (${getCurrentSpeedAutoFryer()})<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'autoStorageCollectorUpgradeButton',
+            name: `Auto Collect (${getCurrentSpeedAutoStorageCollector()})<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'autoCustomerServerUpgradeButton',
+            name: `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'improvePotatoStorageButton',
+            name: `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'improveFryerCapacityButton',
+            name: `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'fastFryerUpgradeButton',
+            name: `Improve Fry Speed<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'potatoDeliveryDoublerButton',
+            name: `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'customerFrequencyIncreaser',
+            name: `Max Wait Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'true'
+        },
+        {
+            id: 'investmentDataScreenButton',
+            name: `Investment Data Screen Placeholder`,
+            upgrade: 'false',
+            repeatableUpgrade: 'false'
+        },
     ];
 
-    let bottomButtonDetails = [
-        { id: 'twoHandedPeelingButton', name: `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`, upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'twoHandedChippingButton', name: `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`, upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'investmentFundUnlockOrFloatButton', name: `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}`, upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'addStorageHeaterAutoShiftStartButton', name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`, upgrade: 'true', repeatableUpgrade: 'false' },
-        { id: 'startShiftButton', name: 'Start Shift', upgrade: 'false', repeatableUpgrade: 'false' }
+    let bottomButtonDetails = [{
+        id: 'twoHandedPeelingButton',
+        name: `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`,
+        upgrade: 'true',
+        repeatableUpgrade: 'false'
+    },
+        {
+            id: 'twoHandedChippingButton',
+            name: `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'false'
+        },
+        {
+            id: 'investmentFundUnlockOrFloatButton',
+            name: `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'false'
+        },
+        {
+            id: 'addStorageHeaterAutoShiftStartButton',
+            name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`,
+            upgrade: 'true',
+            repeatableUpgrade: 'false'
+        },
+        {
+            id: 'startShiftButton',
+            name: 'Start Shift',
+            upgrade: 'false',
+            repeatableUpgrade: 'false'
+        }
     ];
 
     setInitialStateMainButtons(mainButtonDetails);
@@ -566,7 +690,10 @@ export function createEndOfShiftOrGamePopup() {
     popupContainer.appendChild(popupRow3);
     document.body.appendChild(popupContainer);
 
-    return { popupContainer, continueButton };
+    return {
+        popupContainer,
+        continueButton
+    };
 }
 
 export function createOverlay() {
@@ -770,7 +897,7 @@ export function updateVisibleButtons() {
 }
 
 function createOptionScreenEventListeners() {
-    getElements().option1.addEventListener('click', function () {
+    getElements().option1.addEventListener('click', function() {
         if (getElements().option1.innerHTML === 'Click again to start a New Game...') {
             resetAllVariables();
             resetCounterUiElements();
@@ -784,21 +911,21 @@ function createOptionScreenEventListeners() {
         updateVisibleButtons(); //for debug if money given
         setPauseAutoSaveCountdown(false);
     });
-    getElements().option2.addEventListener('click', function () {
+    getElements().option2.addEventListener('click', function() {
         saveGame(true);
     });
-    getElements().option3.addEventListener('click', function () {
+    getElements().option3.addEventListener('click', function() {
         setStateLoading(true);
         loadGame();
         setStateLoading(false);
     });
-    getElements().option4.addEventListener('click', function () {
+    getElements().option4.addEventListener('click', function() {
         // Add functionality for help
     });
-    getElements().option5.addEventListener('click', function () {
+    getElements().option5.addEventListener('click', function() {
         toggleSound();
     });
-    getElements().resumeGameButton.addEventListener('click', function () {
+    getElements().resumeGameButton.addEventListener('click', function() {
         toggleMenu(getElements().gameWindow.style.display === 'block');
         setPauseAutoSaveCountdown(false);
     });
@@ -809,7 +936,7 @@ function createOptionScreenEventListeners() {
     });
 
     //DEBUG
-    getElements().debug1.addEventListener('click', function () {
+    getElements().debug1.addEventListener('click', function() {
         setDebugFlag(true);
         getElements().debug1.classList.add('debug-toggledOn');
         let donation = 7200000;
@@ -1162,6 +1289,3 @@ function clearPopupTexts() {
     buttonElement.style.opacity = '0';
     buttonElement.style.animation = '';
 }
-
-
-

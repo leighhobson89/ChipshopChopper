@@ -6,7 +6,9 @@ import {
     formatToCashNotation,
     hideDoublePeelerChipperAndShowInvestmentComponents
 } from './ui.js';
-import {disableButtons} from "./actions.js";
+import {
+    disableButtons
+} from "./actions.js";
 
 //DEBUG
 export let debugFlag = false;
@@ -88,85 +90,85 @@ export const endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
 export const popupContinueButton = endOfShiftOrGamePopupObject.continueButton;
 export const popupOverlay = createOverlay();
 
- //GLOBAL VARIABLES
- let initialStateMainButtons;
- let initialStateBottomRowButtons;
- let currentMaxValueWaitForNewCustomer = 10;
- let nextMaxValueWaitForNewCustomer = 8;
- let multipleForHeaterEffectOnCoolDown = 1;
- let customerTime = 0;
- let shiftTimeRemaining = 0;
- let fryTimer = 15;
- let fryTimeRemaining = 0;
- let coolDownTimeRemaining = 0;
- let shiftCounter = 0;
- let customersServed = 0;
- let currentCash = 0;
- let quantityFrying = 0;
- let spudsToAddToShift = 0;
- let maxSpudsDelivery = 80;
- let actualPotatoesInStorage = 100;
- let potatoStorage = 200;
- let cutChipsRate = 1;
- let peelPotatoesRate = 1;
- let chipsReadyToServeQuantity = [];
- let fryerCapacity = 100;
- let autoFryerEfficiency = 1; //not a game option but can tweak between 0 and 1 for % of fryer capacity used by autoFryer
- let amountInvestmentCash = 0;
- let amountInvestmentRisk = 0;
- let investmentCashIncrementDecrement = 1000;
- let investmentRiskIncrementDecrement = 1;
- let currentValueOfInvestment = 0;
- let currentRiskLevel = 0;
- let growthInvestment = 0;
+//GLOBAL VARIABLES
+let initialStateMainButtons;
+let initialStateBottomRowButtons;
+let currentMaxValueWaitForNewCustomer = 10;
+let nextMaxValueWaitForNewCustomer = 8;
+let multipleForHeaterEffectOnCoolDown = 1;
+let customerTime = 0;
+let shiftTimeRemaining = 0;
+let fryTimer = 15;
+let fryTimeRemaining = 0;
+let coolDownTimeRemaining = 0;
+let shiftCounter = 0;
+let customersServed = 0;
+let currentCash = 0;
+let quantityFrying = 0;
+let spudsToAddToShift = 0;
+let maxSpudsDelivery = 80;
+let actualPotatoesInStorage = 100;
+let potatoStorage = 200;
+let cutChipsRate = 1;
+let peelPotatoesRate = 1;
+let chipsReadyToServeQuantity = [];
+let fryerCapacity = 100;
+let autoFryerEfficiency = 1; //not a game option but can tweak between 0 and 1 for % of fryer capacity used by autoFryer
+let amountInvestmentCash = 0;
+let amountInvestmentRisk = 0;
+let investmentCashIncrementDecrement = 1000;
+let investmentRiskIncrementDecrement = 1;
+let currentValueOfInvestment = 0;
+let currentRiskLevel = 0;
+let growthInvestment = 0;
 
- //FLAGS
+//FLAGS
 export let pauseAutoSaveCountdown = true;
 export let gameInProgress = false;
 export let shiftInProgress = false;
- let chipsFrying = false;
- let peelerUpgradeBought = false;
- let chipperUpgradeBought = false;
- let heaterUpgradeBought = false;
- let autoPeelerBought = false;
- let autoChipperBought = false;
- let autoFryerBought = false;
- let autoStorageCollectorBought = false;
- let autoCustomerServerBought = false;
- let improveFryTimerBought = false;
- let doubleMaxSpudsDeliveryBought = false;
- let investmentFundUnlocked = false;
- let investmentFundUnlockable = false;
- let autoShiftStartUpgradeUnlocked = false;
- let autoShiftStatus = false;
- let promotionFlag = false;
- let floatOnStockMarketUnlocked = false;
- let autoPeelerCapped = false;
- let autoChipperCapped = false;
- let autoFryerCapped = false;
- let autoStorageCollectorCapped = false;
- let autoCustomerServerCapped = false;
- let potatoCapacityCapped = false;
- let fryerCapacityCapped = false;
- let fryerSpeedCapped = false;
- let maxDeliveryCapped = false;
- let maxWaitCustomerCapped = false;
+let chipsFrying = false;
+let peelerUpgradeBought = false;
+let chipperUpgradeBought = false;
+let heaterUpgradeBought = false;
+let autoPeelerBought = false;
+let autoChipperBought = false;
+let autoFryerBought = false;
+let autoStorageCollectorBought = false;
+let autoCustomerServerBought = false;
+let improveFryTimerBought = false;
+let doubleMaxSpudsDeliveryBought = false;
+let investmentFundUnlocked = false;
+let investmentFundUnlockable = false;
+let autoShiftStartUpgradeUnlocked = false;
+let autoShiftStatus = false;
+let promotionFlag = false;
+let floatOnStockMarketUnlocked = false;
+let autoPeelerCapped = false;
+let autoChipperCapped = false;
+let autoFryerCapped = false;
+let autoStorageCollectorCapped = false;
+let autoCustomerServerCapped = false;
+let potatoCapacityCapped = false;
+let fryerCapacityCapped = false;
+let fryerSpeedCapped = false;
+let maxDeliveryCapped = false;
+let maxWaitCustomerCapped = false;
 
 //PRICES
- let priceToImprovePotatoStorage = 20;
- let priceToEnableDoubleChipping = 40;
- let priceToEnableDoublePeeling = 40;
- let priceToImproveFryerCapacity = 50;
- let priceToAddStorageHeater = 60;
- let priceToImproveAutoPeeler = 50;
- let priceToImproveAutoChipper = 50;
- let priceToImproveAutoFryer = 60;
- let priceToImproveAutoStorageCollector = 60;
- let priceToImproveAutoCustomerServer = 140;
- let priceToImproveFryTimer = 100;
- let priceToDoubleSpudsMax = 100;
- let priceToIncreaseFootfall = 300;
- let priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
+let priceToImprovePotatoStorage = 20;
+let priceToEnableDoubleChipping = 40;
+let priceToEnableDoublePeeling = 40;
+let priceToImproveFryerCapacity = 50;
+let priceToAddStorageHeater = 60;
+let priceToImproveAutoPeeler = 50;
+let priceToImproveAutoChipper = 50;
+let priceToImproveAutoFryer = 60;
+let priceToImproveAutoStorageCollector = 60;
+let priceToImproveAutoCustomerServer = 140;
+let priceToImproveFryTimer = 100;
+let priceToDoubleSpudsMax = 100;
+let priceToIncreaseFootfall = 300;
+let priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
 
 //AUTO SPEEDS
 let currentSpeedAutoPeeler = "N/A";
@@ -191,38 +193,38 @@ export let autoStorageCollectorCounter = 30;
 export let autoCustomerServerCounter = 30;
 
 //STATS
- let oldCash = 0;
- let potatoesPeeledThisShift = 0;
- let chipsCutThisShift = 0;
- let chipsFriedThisShift = 0;
- let customersWaitingAtEndOfShift = 0;
- let customersWaiting = 0;
- let chipsWastedThisShift = 0;
+let oldCash = 0;
+let potatoesPeeledThisShift = 0;
+let chipsCutThisShift = 0;
+let chipsFriedThisShift = 0;
+let customersWaitingAtEndOfShift = 0;
+let customersWaiting = 0;
+let chipsWastedThisShift = 0;
 
- let totalEarnedInSales = 0;
- let totalSpentExcludingInvestments = 0;
- let totalPeeled = 0;
- let totalCut = 0;
- let totalWastedChips = 0;
- let totalServedCustomers = 0;
+let totalEarnedInSales = 0;
+let totalSpentExcludingInvestments = 0;
+let totalPeeled = 0;
+let totalCut = 0;
+let totalWastedChips = 0;
+let totalServedCustomers = 0;
 
 
- //STRING LITERAL ENUMS
- export const Role = {
-     ONE: 'Chip Shop Prepper',
-     TWO: 'Smart Prepper',
-     THREE: 'Chip Shop Manager',
-     FOUR: 'Chip Shop Owner',
-     FIVE: 'Chip Empire Executive',
-     SIX: 'Rich Lazy Director',
-     SEVEN: 'President of Potatoes'
- }
- //BATCH TIMER VARIABLE
- export let batchTimers = {};
+//STRING LITERAL ENUMS
+export const Role = {
+    ONE: 'Chip Shop Prepper',
+    TWO: 'Smart Prepper',
+    THREE: 'Chip Shop Manager',
+    FOUR: 'Chip Shop Owner',
+    FIVE: 'Chip Empire Executive',
+    SIX: 'Rich Lazy Director',
+    SEVEN: 'President of Potatoes'
+}
+//BATCH TIMER VARIABLE
+export let batchTimers = {};
 
- //GETTER SETTER METHODS
+//GETTER SETTER METHODS
 export function setElements() {
-      elements = {
+    elements = {
         option1: document.getElementById('option1'),
         option2: document.getElementById('option2'),
         option3: document.getElementById('option3'),
@@ -299,7 +301,7 @@ export function setElements() {
         menuButton: document.getElementById('menuButton'),
         titleScreen: document.getElementById('titleScreen'),
         bottomSectionContainer: document.getElementById('bottomSectionContainer'),
-      };
+    };
 }
 
 export function getElements() {
@@ -992,7 +994,7 @@ export function setAutoCustomerServerCounter(value) {
 }
 
 export function getRoleUpgrade(currentRole) {
-    switch(currentRole) {
+    switch (currentRole) {
         case Role.FOUR:
             return ROLE_FIVE_UPGRADE;
         case Role.FIVE:
@@ -1273,7 +1275,7 @@ export function getCapMaxWaitCustomer() {
 }
 
 export function setAutoPeelerCapped(value) {
-     autoPeelerCapped = value;
+    autoPeelerCapped = value;
 }
 export function setAutoChipperCapped(value) {
     autoChipperCapped = value;
@@ -1499,6 +1501,75 @@ export function setInitialStateBottomRowButtons(value) {
     initialStateBottomRowButtons = value;
 }
 
+export function getStateLoading() {
+    return stateLoading;
+}
+
+export function setStateLoading(value) {
+    stateLoading = value;
+}
+
+export function getAutoSaveInterval() {
+    return AUTO_SAVE_INTERVAL;
+}
+
+export function getPauseAutoSaveCountdown() {
+    return pauseAutoSaveCountdown;
+}
+
+export function setPauseAutoSaveCountdown(value) {
+    pauseAutoSaveCountdown = value;
+}
+
+
+export function getTotalEarnedInSales() {
+    return totalEarnedInSales;
+}
+
+export function setTotalEarnedInSales(value) {
+    totalEarnedInSales = value;
+}
+
+export function getTotalSpentExcludingInvestments() {
+    return totalSpentExcludingInvestments;
+}
+
+export function setTotalSpentExcludingInvestments(value) {
+    totalSpentExcludingInvestments = value;
+}
+
+export function getTotalPeeled() {
+    return totalPeeled;
+}
+
+export function setTotalPeeled(value) {
+    totalPeeled = value;
+}
+
+export function getTotalCut() {
+    return totalCut;
+}
+
+export function setTotalCut(value) {
+    totalCut = value;
+}
+
+export function getTotalWastedChips() {
+    return totalWastedChips;
+}
+
+export function setTotalWastedChips(value) {
+    totalWastedChips = value;
+}
+
+export function getTotalServedCustomers() {
+    return totalServedCustomers;
+}
+
+export function setTotalServedCustomers(value) {
+    totalServedCustomers = value;
+}
+
 export function captureGameStatusForSaving() {
     let gameState = {};
 
@@ -1607,7 +1678,7 @@ export function captureGameStatusForSaving() {
     gameState.autoStorageCollectorCounter = autoStorageCollectorCounter;
     gameState.autoCustomerServerCounter = autoCustomerServerCounter;
 
-//STATS
+    //STATS
     gameState.oldCash = oldCash;
     gameState.potatoesPeeledThisShift = potatoesPeeledThisShift;
     gameState.chipsCutThisShift = chipsCutThisShift;
@@ -1752,7 +1823,7 @@ export function restoreGameStatus(gameState) {
     autoStorageCollectorCounter = gameState.autoStorageCollectorCounter;
     autoCustomerServerCounter = gameState.autoCustomerServerCounter;
 
-//STATS
+    //STATS
     oldCash = gameState.oldCash;
     potatoesPeeledThisShift = gameState.potatoesPeeledThisShift;
     chipsCutThisShift = gameState.chipsCutThisShift;
@@ -1789,12 +1860,41 @@ export function restoreGameStatus(gameState) {
     addAutoUpgradeEnabledStates(gameState);
 }
 
-export function getStateLoading() {
-    return stateLoading;
-}
+function addAutoUpgradeEnabledStates(gameState) {
+    getElements().autoPeelerUpgradeButton.querySelector('input').checked = gameState.autoPeelerEnabledState;
+    if (gameState.autoPeelerEnabledState) {
+        getElements().autoPeelerUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoPeelerUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
 
-export function setStateLoading(value) {
-    stateLoading = value;
+    getElements().autoChipperUpgradeButton.querySelector('input').checked = gameState.autoChipperEnabledState;
+    if (gameState.autoChipperEnabledState) {
+        getElements().autoChipperUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoChipperUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
+
+    getElements().autoFryerUpgradeButton.querySelector('input').checked = gameState.autoFryerEnabledState;
+    if (gameState.autoFryerEnabledState) {
+        getElements().autoFryerUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoFryerUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
+
+    getElements().autoStorageCollectorUpgradeButton.querySelector('input').checked = gameState.autoStorageCollectorEnabledState;
+    if (gameState.autoStorageCollectorEnabledState) {
+        getElements().autoStorageCollectorUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoStorageCollectorUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
+
+    getElements().autoCustomerServerUpgradeButton.querySelector('input').checked = gameState.autoCustomerServerEnabledState;
+    if (gameState.autoCustomerServerEnabledState) {
+        getElements().autoCustomerServerUpgradeButton.classList.add('autoUpgradeEnabled');
+    } else {
+        getElements().autoCustomerServerUpgradeButton.classList.remove('autoUpgradeEnabled');
+    }
 }
 
 export function captureButtonStates(gameState) {
@@ -1813,7 +1913,10 @@ export function captureButtonStates(gameState) {
             classes: Array.from(button.classList)
         }));
 
-        return { visibleButtons, disabledButtons };
+        return {
+            visibleButtons,
+            disabledButtons
+        };
     };
 
     gameState.mainButtonContainer = captureButtons(getElements().mainButtonContainer.id);
@@ -1862,102 +1965,3 @@ export function restoreButtonStates(gameState) {
         hideDoublePeelerChipperAndShowInvestmentComponents();
     }
 }
-
-export function getAutoSaveInterval() {
-    return AUTO_SAVE_INTERVAL;
-}
-
-export function getPauseAutoSaveCountdown() {
-    return pauseAutoSaveCountdown;
-}
-
-export function setPauseAutoSaveCountdown(value) {
-    pauseAutoSaveCountdown = value;
-}
-
-
-export function getTotalEarnedInSales() {
-    return totalEarnedInSales;
-}
-
-export function setTotalEarnedInSales(value) {
-    totalEarnedInSales = value;
-}
-
-export function getTotalSpentExcludingInvestments() {
-    return totalSpentExcludingInvestments;
-}
-
-export function setTotalSpentExcludingInvestments(value) {
-    totalSpentExcludingInvestments = value;
-}
-
-export function getTotalPeeled() {
-    return totalPeeled;
-}
-
-export function setTotalPeeled(value) {
-    totalPeeled = value;
-}
-
-export function getTotalCut() {
-    return totalCut;
-}
-
-export function setTotalCut(value) {
-    totalCut = value;
-}
-
-export function getTotalWastedChips() {
-    return totalWastedChips;
-}
-
-export function setTotalWastedChips(value) {
-    totalWastedChips = value;
-}
-
-export function getTotalServedCustomers() {
-    return totalServedCustomers;
-}
-
-export function setTotalServedCustomers(value) {
-    totalServedCustomers = value;
-}
-
-function addAutoUpgradeEnabledStates(gameState) {
-    getElements().autoPeelerUpgradeButton.querySelector('input').checked = gameState.autoPeelerEnabledState;
-    if (gameState.autoPeelerEnabledState) {
-        getElements().autoPeelerUpgradeButton.classList.add('autoUpgradeEnabled');
-    } else {
-        getElements().autoPeelerUpgradeButton.classList.remove('autoUpgradeEnabled');
-    }
-
-    getElements().autoChipperUpgradeButton.querySelector('input').checked = gameState.autoChipperEnabledState;
-    if (gameState.autoChipperEnabledState) {
-        getElements().autoChipperUpgradeButton.classList.add('autoUpgradeEnabled');
-    } else {
-        getElements().autoChipperUpgradeButton.classList.remove('autoUpgradeEnabled');
-    }
-
-    getElements().autoFryerUpgradeButton.querySelector('input').checked = gameState.autoFryerEnabledState;
-    if (gameState.autoFryerEnabledState) {
-        getElements().autoFryerUpgradeButton.classList.add('autoUpgradeEnabled');
-    } else {
-        getElements().autoFryerUpgradeButton.classList.remove('autoUpgradeEnabled');
-    }
-
-    getElements().autoStorageCollectorUpgradeButton.querySelector('input').checked = gameState.autoStorageCollectorEnabledState;
-    if (gameState.autoStorageCollectorEnabledState) {
-        getElements().autoStorageCollectorUpgradeButton.classList.add('autoUpgradeEnabled');
-    } else {
-        getElements().autoStorageCollectorUpgradeButton.classList.remove('autoUpgradeEnabled');
-    }
-
-    getElements().autoCustomerServerUpgradeButton.querySelector('input').checked = gameState.autoCustomerServerEnabledState;
-    if (gameState.autoCustomerServerEnabledState) {
-        getElements().autoCustomerServerUpgradeButton.classList.add('autoUpgradeEnabled');
-    } else {
-        getElements().autoCustomerServerUpgradeButton.classList.remove('autoUpgradeEnabled');
-    }
-}
-

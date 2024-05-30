@@ -182,18 +182,18 @@ div[id^="playerRoleText"] {
     font-size: 24px;
 }
 
-div[id^="subInnerDiv"][id$='_1'],
-div[id^="subInnerDivMid"][id$='_1'] {
+div[id^="subInnerDiv"][id$="_1"],
+div[id^="subInnerDivMid"][id$="_1"] {
     justify-content: right;
     padding-right: 20px;
 }
 
-div[id^="subInnerDiv"][id$='_1'] {
+div[id^="subInnerDiv"][id$="_1"] {
     font-size: 20px;
 }
 
-div[id^="subInnerDiv"][id$='_2'],
-div[id^="subInnerDivMid"][id$='_2'] {
+div[id^="subInnerDiv"][id$="_2"],
+div[id^="subInnerDivMid"][id$="_2"] {
     justify-content: left;
 }
 
@@ -239,7 +239,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .button-checkbox::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 8px;
     height: 8px;
@@ -253,7 +253,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 .button-checkbox:checked {
-    background-color: #4CAF50;
+    background-color: #4caf50;
 }
 
 .button-checkbox:checked::after {
@@ -379,33 +379,11 @@ div[id^="subInnerDivMid"][id$='_2'] {
     animation: flash 0.5s infinite alternate;
 }
 
-@keyframes flash {
-    from {
-        color: lightcoral;
-        background-color: darkred;
-    }
-    to {
-        color: darkred;
-        background-color: lightcoral;
-    }
-}
-
 .waiting-trigger-auto-action {
     color: chartreuse;
     background-color: darkgreen;
     font-weight: bold;
     animation: flashAutoAction 0.5s infinite alternate;
-}
-
-@keyframes flashAutoAction {
-    from {
-        color: chartreuse;
-        background-color: darkgreen;
-    }
-    to {
-        color: darkgreen;
-        background-color: chartreuse;
-    }
 }
 
 .hidden-button {
@@ -451,21 +429,6 @@ div[id^="subInnerDivMid"][id$='_2'] {
     overflow: hidden;
     z-index: 1000;
     animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes slideInRight {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes slideInLeftWithOpacity {
-    from { transform: translateX(-100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
 
 .popup-row {
@@ -518,22 +481,6 @@ div[id^="subInnerDivMid"][id$='_2'] {
     color: #ffffff;
 }
 
-
-.text-bounce-animation {
-    animation-name: textBounce;
-    animation-duration: 0.5s;
-}
-
-@keyframes textBounce {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.7); }
-    100% { transform: scale(1); }
-}
-
-.fade-text-animation {
-    transition: opacity 0.5s ease;
-}
-
 /* INVESTMENT COMPONENTS */
 
 .investmentComponent {
@@ -546,7 +493,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     border-radius: 10px;
     visibility: visible;
     font-weight: bold;
-    font-size: 0.70em;
+    font-size: 0.7em;
 }
 
 .investmentComponent_title {
@@ -590,7 +537,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     font-weight: bold;
-    font-size: 0.90em;
+    font-size: 0.9em;
     height: 100%;
     width: 100%;
     justify-content: center;
@@ -606,7 +553,7 @@ div[id^="subInnerDivMid"][id$='_2'] {
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     font-weight: bold;
-    font-size: 0.90em;
+    font-size: 0.9em;
     height: 100%;
     width: 100%;
     justify-content: center;
@@ -675,8 +622,24 @@ div[id^="subInnerDivMid"][id$='_2'] {
     color: yellow;
 }
 
+.sub-inner-div-topDivRow1-side-by-side {
+    display: flex;
+}
+
+/*animations*/
+
+.text-bounce-animation {
+    animation-name: textBounce;
+    animation-duration: 0.5s;
+}
+
+.fade-text-animation {
+    transition: opacity 0.5s ease;
+}
+
 @keyframes bounce {
-    0%, 100% {
+    0%,
+    100% {
         top: 0;
         left: 0;
     }
@@ -695,7 +658,8 @@ div[id^="subInnerDivMid"][id$='_2'] {
 }
 
 @keyframes fade {
-    0%, 100% {
+    0%,
+    100% {
         opacity: 0.2;
     }
     50% {
@@ -733,6 +697,67 @@ div[id^="subInnerDivMid"][id$='_2'] {
     }
 }
 
-.sub-inner-div-topDivRow1-side-by-side {
-    display: flex;
+@keyframes textBounce {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.7);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeftWithOpacity {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes flash {
+    from {
+        color: lightcoral;
+        background-color: darkred;
+    }
+    to {
+        color: darkred;
+        background-color: lightcoral;
+    }
+}
+
+@keyframes flashAutoAction {
+    from {
+        color: chartreuse;
+        background-color: darkgreen;
+    }
+    to {
+        color: darkgreen;
+        background-color: chartreuse;
+    }
 }
