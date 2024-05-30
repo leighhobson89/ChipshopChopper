@@ -121,6 +121,7 @@ let investmentRiskIncrementDecrement = 1;
 let currentValueOfInvestment = 0;
 let currentRiskLevel = 0;
 let growthInvestment = 0;
+let shiftPoints = 0;
 
 //FLAGS
 export let pauseAutoSaveCountdown = true;
@@ -1509,6 +1510,14 @@ export function setStateLoading(value) {
     stateLoading = value;
 }
 
+export function getShiftPoints(value) {
+    return shiftPoints;
+}
+
+export function setShiftPoints(value) {
+    shiftPoints = value;
+}
+
 export function getAutoSaveInterval() {
     return AUTO_SAVE_INTERVAL;
 }
@@ -1580,6 +1589,7 @@ export function captureGameStatusForSaving() {
     gameState.autoStorageCollectorEnabledState = getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled');
     gameState.autoCustomerServerEnabledState = getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled');
 
+    gameState.shiftPoints = getShiftPoints();
     gameState.currentMaxValueWaitForNewCustomer = currentMaxValueWaitForNewCustomer;
     gameState.nextMaxValueWaitForNewCustomer = nextMaxValueWaitForNewCustomer;
     gameState.multipleForHeaterEffectOnCoolDown = multipleForHeaterEffectOnCoolDown;
@@ -1722,6 +1732,7 @@ export function captureGameStatusForSaving() {
 
 export function restoreGameStatus(gameState) {
     // Game variables
+    setShiftPoints(gameState.shiftPoints);
     currentMaxValueWaitForNewCustomer = gameState.currentMaxValueWaitForNewCustomer;
     nextMaxValueWaitForNewCustomer = gameState.nextMaxValueWaitForNewCustomer;
     multipleForHeaterEffectOnCoolDown = gameState.multipleForHeaterEffectOnCoolDown;

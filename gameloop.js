@@ -136,7 +136,7 @@ import {
     setShiftTimeRemaining,
     setTotalEarnedInSales,
     setTotalWastedChips,
-    TIMER_CORRECTION_COEFFICIENT,
+    TIMER_CORRECTION_COEFFICIENT, setShiftPoints, getShiftPoints,
 } from './constantsAndGlobalVars.js';
 
 let autoSaveInterval;
@@ -326,6 +326,7 @@ function updateShiftCountDown() {
                     resetBatchTimers();
 
                     setTotalWastedChips(getTotalWastedChips() + getChipsWastedThisShift());
+                    setShiftPoints(getShiftPoints() + getOne());
 
                     if (!getAutoShiftStatus()) { //no popup if autoShiftStartIsEnabled
                         writePopupText();
