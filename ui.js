@@ -124,7 +124,7 @@ import {
     getTotalPeeled,
     getTotalCut,
     getTotalWastedChips,
-    getTotalServedCustomers
+    getTotalServedCustomers, getShiftPoints, setCurrentRotation, getCurrentRotation
 } from './constantsAndGlobalVars.js';
 import {
     initialiseNewGame
@@ -675,6 +675,34 @@ export function createEndOfShiftOrGamePopup() {
     popupContent.classList.add('popup-row');
     popupContent.classList.add('popup-row-2');
 
+    const popupContentInnerLeft = document.createElement('div');
+    popupContentInnerLeft.id = 'popupContentInnerLeft';
+    popupContentInnerLeft.classList.add('popup-content-inner-left');
+
+    const popupContentInnerRight = document.createElement('div');
+    popupContentInnerRight.id = 'popupContentInnerRight';
+    popupContentInnerRight.classList.add('popup-content-inner-right');
+
+    const innerRightDiv1 = document.createElement('div');
+    innerRightDiv1.classList.add('inner-right-div-1');
+    innerRightDiv1.id = 'popupContentInnerRight1';
+
+    const innerRightDiv2 = document.createElement('div');
+    innerRightDiv2.classList.add('inner-right-div-2');
+    innerRightDiv2.id = 'popupContentInnerRight2';
+
+    const innerRightDiv3 = document.createElement('div');
+    innerRightDiv3.classList.add('inner-right-div-3');
+    innerRightDiv3.id = 'popupContentInnerRight3';
+
+    // Append the three div elements directly to the right container
+    popupContentInnerRight.appendChild(innerRightDiv1);
+    popupContentInnerRight.appendChild(innerRightDiv2);
+    popupContentInnerRight.appendChild(innerRightDiv3);
+
+    popupContent.appendChild(popupContentInnerLeft);
+    popupContent.appendChild(popupContentInnerRight);
+
     const popupRow3 = document.createElement('div');
     popupRow3.classList.add('popup-row');
     popupRow3.classList.add('popup-row-3');
@@ -689,6 +717,16 @@ export function createEndOfShiftOrGamePopup() {
     popupContainer.appendChild(popupContent);
     popupContainer.appendChild(popupRow3);
     document.body.appendChild(popupContainer);
+
+    const observer = new MutationObserver(() => {
+        popupContentInnerRight.style.height = `${popupContentInnerLeft.offsetHeight}px`;
+    });
+
+    observer.observe(popupContentInnerLeft, { childList: true, subtree: true, characterData: true });
+
+    setTimeout(() => {
+        popupContentInnerRight.style.height = `${popupContentInnerLeft.offsetHeight}px`;
+    }, 0);
 
     return {
         popupContainer,
@@ -731,6 +769,9 @@ export function toggleOverlay(popupOverlay) {
 }
 
 export function writePopupText() {
+    createSpinButton();
+    createWheelOfFortune();
+
     let walkOuts = getCustomersWaitingBeforeEndOfShift() - getCustomersWaiting();
     let shiftCounter = getShiftCounter();
     let currentPotatoes = getActualPotatoesInStorage();
@@ -740,11 +781,12 @@ export function writePopupText() {
     let totalPotatoes = currentPotatoes + spudsToAdd;
     let nextShiftPotatoes = Math.min(totalPotatoes, storageQuantity);
     const popupTitle = getElements().endOfShiftOrGamePopupTitle;
-    const popupContent = getElements().endOfShiftOrGamePopupContent;
+    const popupContentInnerLeft = getElements().endOfShiftOrGamePopupContentInnerLeft;
+    const popupContentInnerRight1 = getElements().endOfShiftOrGamePopupContentInnerRight1;
 
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         popupTitle.innerHTML = `<div class="popup-title" style="opacity: 0;">Congratulations!!</div>`;
-        popupContent.innerHTML = `
+        popupContentInnerLeft.innerHTML = `
             <div class="popup-content">
                 <span style="color: yellow;">You have beat the game, well done!</span><br><br>
                 You earned a total of ${formatToCashNotation(getTotalEarnedInSales())} in chip sales!<br>
@@ -789,17 +831,17 @@ export function writePopupText() {
             }
         }
 
-        popupContent.innerHTML = `
-            <div class="popup-content">
-                Your shift has ended!<br><br>
-                Earnings: ${formatToCashNotation(getCurrentCash() - getOldCash())} this shift + ${formatToCashNotation(getOldCash())} in bank = ${formatToCashNotation(getCurrentCash())}<br><br>
+        popupContentInnerLeft.innerHTML = `
+            <div>
+                Your shift has ended!<br>
+                Earnings: ${formatToCashNotation(getCurrentCash() - getOldCash())} this shift + ${formatToCashNotation(getOldCash())} in bank = ${formatToCashNotation(getCurrentCash())}<br>
                 Customers Served: ${getCustomersServed()}<br>
                 Potatoes Peeled: ${getPotatoesPeeledThisShift()}<br>
                 Chips Cut: ${getChipsCutThisShift()}<br>
                 Chips Fried: ${getChipsFriedThisShift()}<br>
-                Chips Wasted This Shift: ${getChipsWastedThisShift()}<br><br>
+                Chips Wasted This Shift: ${getChipsWastedThisShift()}<br>
                 Customer Walkouts: ${walkOuts}<br>
-                Customers Still Waiting: ${getCustomersWaiting()}<br><br>
+                Customers Still Waiting: ${getCustomersWaiting()}<br>
                 ${potatoesMessage}<br><br>
                 <span style="color: yellow;">${promotionMessage}</span>
                 ${investmentMessage}<br>
@@ -812,12 +854,13 @@ export function writePopupText() {
     titleElement.style.animation = 'slideInRight 0.5s forwards';
 
     setTimeout(() => {
-        const popupContentElement = document.querySelector('.popup-content');
+        const popupContentElement = popupContentInnerLeft;
         const lines = popupContentElement.innerHTML.split('<br>');
         popupContentElement.innerHTML = '';
 
         lines.forEach((line, index) => {
             const lineElement = document.createElement('div');
+            lineElement.classList.add('popup-content');
             lineElement.innerHTML = line;
             lineElement.style.transform = 'translateX(-100%)';
             lineElement.style.opacity = '0';
@@ -829,15 +872,42 @@ export function writePopupText() {
         const totalLines = lines.length;
         const totalAnimationTime = totalLines * 0.2;
 
-        const buttonElement = document.querySelector('.popup-continue-button');
-        buttonElement.style.opacity = '0'; // Ensure initial opacity is 0
-        buttonElement.style.animation = ''; // Reset animation
-
         setTimeout(() => {
-            buttonElement.style.animation = 'fadeIn 1.5s forwards';
+            popupContentInnerRight1.innerHTML = `
+                <div>
+                    You gained a shift point!<br>
+                    Your total shift points are ${getShiftPoints()}
+                </div>`;
+
+            const rightLines = popupContentInnerRight1.innerHTML.split('<br>');
+            popupContentInnerRight1.innerHTML = '';
+
+            rightLines.forEach((line, index) => {
+                const lineElement = document.createElement('div');
+                lineElement.classList.add('popup-content');
+                lineElement.innerHTML = line;
+                lineElement.style.transform = 'translateX(-100%)';
+                lineElement.style.opacity = '0';
+                lineElement.style.animation = `slideInRight 0.2s forwards`;
+                lineElement.style.animationDelay = `${index * 0.2}s`;
+                popupContentInnerRight1.appendChild(lineElement);
+            });
+
+            const rightTotalLines = rightLines.length;
+            const rightTotalAnimationTime = rightTotalLines * 0.2;
+
+            setTimeout(() => {
+                const buttonElement = document.querySelector('.popup-continue-button');
+                buttonElement.style.opacity = '0';
+                buttonElement.style.animation = '';
+                buttonElement.style.animation = 'fadeIn 1.5s forwards';
+            }, rightTotalAnimationTime * 1000);
+
         }, totalAnimationTime * 1000);
+
     }, 0);
 }
+
 
 
 
@@ -1282,10 +1352,76 @@ function clearPopupTexts() {
     const titleElement = document.querySelector('.popup-title');
     titleElement.innerHTML = '';
 
-    const popupContentElement = document.querySelector('.popup-content');
-    popupContentElement.innerHTML = '';
+    const popupContentElementLeft = getElements().endOfShiftOrGamePopupContentInnerLeft;
+    const popupContentElementRight1 = getElements().endOfShiftOrGamePopupContentInnerRight1;
+    const popupContentElementRight2 = getElements().endOfShiftOrGamePopupContentInnerRight2;
+    const popupContentElementRight3 = getElements().endOfShiftOrGamePopupContentInnerRight3;
+
+    popupContentElementLeft.innerHTML = '';
+    popupContentElementRight1.innerHTML = '';
+    popupContentElementRight2.innerHTML = '';
+    popupContentElementRight3.innerHTML = '';
 
     const buttonElement = document.querySelector('.popup-continue-button');
     buttonElement.style.opacity = '0';
     buttonElement.style.animation = '';
+}
+
+function createWheelOfFortune() {
+    const wheelContainer = getElements().endOfShiftOrGamePopupContentInnerRight2;
+
+    const numberOfSections = 8;
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FFC300', '#FF5733', '#DAF7A6', '#900C3F'];
+    const sectionAngle = 360 / numberOfSections;
+
+    // Create the wheel element
+    const wheel = document.createElement('div');
+    wheel.classList.add('wheel');
+    wheelContainer.appendChild(wheel);
+
+    for (let i = 0; i < numberOfSections; i++) {
+        const section = document.createElement('div');
+        section.style.transform = `rotate(${i * sectionAngle}deg) skewY(-60deg)`;
+        section.style.backgroundColor = colors[i % colors.length];
+        wheel.appendChild(section);
+    }
+
+    const spinButton = document.getElementById('spinButton');
+    let isSpinning = false;
+
+    spinButton.addEventListener('click', function() {
+        if (!isSpinning) {
+            const minRotation = 1000;
+            const maxRotation = 2000;
+            const rotation = Math.floor(Math.random() * (maxRotation - minRotation + 1)) + minRotation;
+            isSpinning = true;
+            spinButton.disabled = true;
+            setCurrentRotation(getCurrentRotation() + rotation);
+            wheel.style.transform = `rotate(${getCurrentRotation()}deg)`;
+        }
+    });
+
+    wheel.addEventListener('transitionend', function() {
+        isSpinning = false;
+        spinButton.disabled = false;
+        setTimeout(() => {
+            wheel.style.transition = 'transform 4s cubic-bezier(0.33, 1, 0.68, 1)';
+        }, 0);
+    });
+}
+
+function createSpinButton() {
+    const spinButton = document.createElement('button');
+    spinButton.id = 'spinButton';
+    spinButton.innerHTML = 'Spin the Wheel';
+
+    spinButton.style.display = 'block';
+    spinButton.style.margin = '20px auto';
+    spinButton.style.padding = '10px 20px';
+    spinButton.style.fontSize = '16px';
+    spinButton.style.cursor = 'pointer';
+
+    getElements().endOfShiftOrGamePopupContentInnerRight3.appendChild(spinButton);
+
+    return spinButton;
 }
