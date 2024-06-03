@@ -4,7 +4,7 @@ import {
     checkAndSetFlagCapOnUpgrades,
     createGameWindow,
     createTitleScreen,
-    formatToCashNotation,
+    formatToCashNotation, getColorsForWheel,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
     updateButtonStyle,
@@ -136,7 +136,7 @@ import {
     setShiftTimeRemaining,
     setTotalEarnedInSales,
     setTotalWastedChips,
-    TIMER_CORRECTION_COEFFICIENT, setShiftPoints, getShiftPoints,
+    TIMER_CORRECTION_COEFFICIENT, setShiftPoints, getShiftPoints, getWheelSpinning, getTextAnimationDone,
 } from './constantsAndGlobalVars.js';
 
 let autoSaveInterval;
@@ -188,6 +188,9 @@ function gameLoop() {
     updateChipsFryingTimer();
     updateVisibleButtons();
     checkPlayerRole();
+    if (endOfShiftOrGamePopup.style.display === 'block') {
+        checkSpinButtonStatusAndSetColors();
+    }
     if (getInvestmentFundUnlocked()) {
         updateInvestmentPlanData();
     }
@@ -660,3 +663,37 @@ function consoleOutTotalStats() {
     console.log('Total Wasted Chips: ' + getTotalWastedChips());
     console.log('Total Served Customers: ' + getTotalServedCustomers());
 }
+
+function checkSpinButtonStatusAndSetColors() {
+    const spinButton = document.getElementById('spinButton');
+    if (spinButton.classList.contains('disabled') && !getWheelSpinning() && getTextAnimationDone()) {
+        setWheelOpacity(true);
+    } else if (!getTextAnimationDone()) {
+        setWheelOpacity(true);
+    } else {
+        setWheelOpacity(false);
+    }
+}
+
+function setWheelOpacity(state) {
+    const centerLine = document.getElementById('wheelCenterLine');
+
+    if (state) {
+        const colors = getColorsForWheel(false);
+        centerLine.style.opacity = '0.5';
+        const wheel = document.querySelector('.wheel');
+        const sections = wheel.querySelectorAll('.wheel-section');
+        sections.forEach((section, index) => {
+            section.style.backgroundColor = colors[index];
+        });
+    } else {
+        const colors = getColorsForWheel(true);
+        centerLine.style.opacity = '1';
+        const wheel = document.querySelector('.wheel');
+        const sections = wheel.querySelectorAll('.wheel-section');
+        sections.forEach((section, index) => {
+            section.style.backgroundColor = colors[index];
+        });
+    }
+}
+

@@ -1,34 +1,59 @@
-import {
-    disableButtons,
-    handleButtonClick,
-    loadGame,
-    saveGame,
-    toggleMenu
-} from './actions.js';
+import {disableButtons, handleButtonClick, loadGame, saveGame, toggleMenu} from './actions.js';
 import {
     debugFlag,
     endOfShiftOrGamePopup,
     getActualPotatoesInStorage,
+    getAmountInvestmentCash,
+    getAmountInvestmentRisk,
+    getAreChipsFrying,
+    getAutoChipperCapped,
+    getAutoCustomerServerCapped,
+    getAutoFryerCapped,
+    getAutoPeelerCapped,
+    getAutoStorageCollectorCapped,
+    getCapAutoChipper,
+    getCapAutoCustomerServer,
+    getCapAutoFryer,
+    getCapAutoPeeler,
+    getCapAutoStorageCollector,
+    getCapFryerCapacity,
+    getCapFryerSpeed,
+    getCapMaxDelivery,
+    getCapMaxWaitCustomer,
+    getCapPotatoCapacity,
     getChipsCutThisShift,
     getChipsFriedThisShift,
-    getAreChipsFrying,
     getChipsWastedThisShift,
     getCurrentCash,
+    getCurrentMaxValueWaitForNewCustomer,
+    getCurrentRotation,
     getCurrentSpeedAutoChipper,
     getCurrentSpeedAutoCustomerServer,
     getCurrentSpeedAutoFryer,
     getCurrentSpeedAutoPeeler,
     getCurrentSpeedAutoStorageCollector,
+    getCurrentValueOfInvestment,
     getCustomersServed,
     getCustomersWaiting,
     getCustomersWaitingBeforeEndOfShift,
     getElements,
+    getFloatOnStockMarketUnlockedAndEndGameFlowStarted,
     getFryerCapacity,
+    getFryerCapacityCapped,
+    getFryerSpeedCapped,
     getFryTimer,
+    getGrowthInvestment,
+    getInitialStateBottomRowButtons,
+    getInitialStateMainButtons,
+    getInvestmentCashIncrementDecrement,
+    getInvestmentFundUnlockable,
     getInvestmentFundUnlocked,
+    getInvestmentRiskIncrementDecrement,
+    getMaxDeliveryCapped,
     getMaxSpudsDelivery,
-    getCurrentMaxValueWaitForNewCustomer,
+    getMaxWaitCustomerCapped,
     getNextMaxSpudsDelivery,
+    getNextMaxValueWaitForNewCustomer,
     getNextSpeedAutoChipper,
     getNextSpeedAutoCustomerServer,
     getNextSpeedAutoFryer,
@@ -37,6 +62,7 @@ import {
     getNextSpeedFryTimer,
     getOldCash,
     getOne,
+    getPotatoCapacityCapped,
     getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
@@ -52,83 +78,55 @@ import {
     getPriceToImproveFryerCapacity,
     getPriceToImproveFryTimer,
     getPriceToImprovePotatoStorage,
+    getPriceToIncreaseFootfall,
     getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
+    getPromotionFlag,
     getRoleUpgrade,
     getShiftCounter,
     getShiftInProgress,
+    getShiftPoints,
     getSpudsToAddToShift,
     getStartingCash,
+    getStateLoading,
+    getTotalCut,
+    getTotalEarnedInSales,
+    getTotalPeeled,
+    getTotalServedCustomers,
+    getTotalSpentExcludingInvestments,
+    getTotalWastedChips,
     getUpgradeFryerCapacityAmount,
     getUpgradePotatoStorageQuantity,
+    getWheelSpinning,
     getZero,
     popupContinueButton,
     popupOverlay,
+    resetAllVariables,
+    resetCounterUiElements,
+    resetUiButtonElements,
     Role,
+    setAutoChipperCapped,
+    setAutoCustomerServerCapped,
+    setAutoFryerCapped,
+    setAutoPeelerCapped,
+    setAutoStorageCollectorCapped,
     setCurrentCash,
+    setCurrentRotation,
     setDebugFlag,
+    setFryerCapacityCapped,
+    setFryerSpeedCapped,
     setGameInProgress,
-    getNextMaxValueWaitForNewCustomer,
-    getPriceToIncreaseFootfall,
-    getInvestmentCashIncrementDecrement,
-    getInvestmentRiskIncrementDecrement,
-    getAmountInvestmentCash,
-    getAmountInvestmentRisk,
-    getCurrentValueOfInvestment,
-    getInvestmentFundUnlockable,
-    getPromotionFlag,
-    setPromotionFlag,
-    getGrowthInvestment,
-    getFloatOnStockMarketUnlockedAndEndGameFlowStarted,
-    getCapMaxWaitCustomer,
-    getCapMaxDelivery,
-    getCapFryerSpeed,
-    getCapFryerCapacity,
-    getCapPotatoCapacity,
-    getCapAutoCustomerServer,
-    getCapAutoStorageCollector,
-    getCapAutoFryer,
-    getCapAutoChipper,
-    getCapAutoPeeler,
+    setInitialStateBottomRowButtons,
+    setInitialStateMainButtons,
     setMaxDeliveryCapped,
     setMaxWaitCustomerCapped,
-    setFryerSpeedCapped,
-    setFryerCapacityCapped,
-    setPotatoCapacityCapped,
-    setAutoCustomerServerCapped,
-    setAutoPeelerCapped,
-    setAutoChipperCapped,
-    setAutoFryerCapped,
-    setAutoStorageCollectorCapped,
-    getMaxWaitCustomerCapped,
-    getMaxDeliveryCapped,
-    getFryerSpeedCapped,
-    getFryerCapacityCapped,
-    getPotatoCapacityCapped,
-    getAutoCustomerServerCapped,
-    getAutoStorageCollectorCapped,
-    getAutoFryerCapped,
-    getAutoChipperCapped,
-    getAutoPeelerCapped,
-    resetAllVariables,
-    resetUiButtonElements,
-    setInitialStateMainButtons,
-    setInitialStateBottomRowButtons,
-    getInitialStateMainButtons,
-    getInitialStateBottomRowButtons,
-    resetCounterUiElements,
-    getStateLoading,
-    setStateLoading,
     setPauseAutoSaveCountdown,
-    getTotalEarnedInSales,
-    getTotalSpentExcludingInvestments,
-    getTotalPeeled,
-    getTotalCut,
-    getTotalWastedChips,
-    getTotalServedCustomers, getShiftPoints, setCurrentRotation, getCurrentRotation
+    setPotatoCapacityCapped,
+    setPromotionFlag,
+    setShiftPoints,
+    setStateLoading, setTextAnimationDone,
+    setWheelSpinning
 } from './constantsAndGlobalVars.js';
-import {
-    initialiseNewGame
-} from "./gameloop.js";
+import {initialiseNewGame} from "./gameloop.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -773,8 +771,11 @@ export function toggleOverlay(popupOverlay) {
 }
 
 export function writePopupText() {
+    setTextAnimationDone(false);
     createSpinButton();
     createWheelOfFortune();
+
+    const spinButton = document.getElementById('spinButton');
 
     let walkOuts = getCustomersWaitingBeforeEndOfShift() - getCustomersWaiting();
     let shiftCounter = getShiftCounter();
@@ -858,6 +859,8 @@ export function writePopupText() {
     titleElement.style.animation = 'slideInRight 0.5s forwards';
 
     setTimeout(() => {
+        spinButton.classList.add('disabled');
+        spinButton.disabled = true;
         const popupContentElement = popupContentInnerLeft;
         const lines = popupContentElement.innerHTML.split('<br>');
         popupContentElement.innerHTML = '';
@@ -905,6 +908,10 @@ export function writePopupText() {
                 buttonElement.style.opacity = '0';
                 buttonElement.style.animation = '';
                 buttonElement.style.animation = 'fadeIn 1.5s forwards';
+
+                setTextAnimationDone(true);
+                spinButton.classList.remove('disabled');
+                spinButton.disabled = false;
             }, rightTotalAnimationTime * 1000);
 
         }, totalAnimationTime * 1000);
@@ -1007,6 +1014,7 @@ function createOptionScreenEventListeners() {
         clearPopupTexts();
         toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
         toggleOverlay(popupOverlay);
+        setCurrentRotation(getZero());
     });
 
     //DEBUG
@@ -1374,68 +1382,89 @@ function clearPopupTexts() {
 function createWheelOfFortune() {
     const wheelContainer = getElements().endOfShiftOrGamePopupContentInnerRight2;
 
-    const numberOfSections = 8;
-    const colors = ['#FF0000', '#999999', '#0000FF', '#891E8F', '#FFFF00', '#FFbcFF', '#00FF00'];
+    const numberOfSections = 4;
+    const colors = getColorsForWheel(true);
 
     const sectionAngle = 360 / numberOfSections;
 
-    // Create the wheel element
     const wheel = document.createElement('div');
     wheel.classList.add('wheel');
     wheelContainer.appendChild(wheel);
 
     for (let i = 0; i < numberOfSections; i++) {
         const section = document.createElement('div');
-        section.classList.add('section');
+        section.classList.add('wheel-section');
         section.style.transform = `rotate(${i * sectionAngle}deg)`;
         section.style.backgroundColor = colors[i % colors.length];
         wheel.appendChild(section);
-        if (i === 7) {
-            section.style.opacity = '0.4';
-        }
     }
 
     const centerLine = document.createElement('div');
     centerLine.classList.add('center-line');
+    centerLine.id = 'wheelCenterLine';
+    centerLine.style.opacity = '1';
     wheelContainer.appendChild(centerLine);
 
     const spinButton = document.getElementById('spinButton');
-    let isSpinning = false;
+    setWheelSpinning(false);
 
     spinButton.addEventListener('click', function() {
-        if (!isSpinning) {
-            const minRotation = 1000;
-            const maxRotation = 2000;
+        if (!getWheelSpinning()) {
+            const minRotation = 875;
+            const maxRotation = 3570;
             const rotation = Math.floor(Math.random() * (maxRotation - minRotation + 1)) + minRotation;
-            isSpinning = true;
+            setWheelSpinning(true);
             spinButton.disabled = true;
+            spinButton.classList.add('disabled');
             setCurrentRotation(getCurrentRotation() + rotation);
             wheel.style.transform = `rotate(${getCurrentRotation()}deg)`;
+
+            setShiftPoints(getShiftPoints() - getOne());
+            const messageDiv = document.querySelector('#popupContentInnerRight1 div:nth-child(2)');
+
+            const message = "Your total shift points are ";
+
+            if (messageDiv.innerHTML.includes(message)) {
+                const numberString = messageDiv.innerHTML.match(/\d+/)[0];
+                const currentNumber = parseInt(numberString);
+                const newNumber = currentNumber - getOne();
+                messageDiv.innerHTML = message + newNumber.toString();
+            }
         }
     });
 
     wheel.addEventListener('transitionend', function() {
-        isSpinning = false;
-        spinButton.disabled = false;
+        setWheelSpinning(false);
+        if (getShiftPoints() > getZero()) {
+            spinButton.disabled = false;
+            spinButton.classList.remove('disabled');
+        } else {
+            spinButton.innerHTML = 'No Shift Points!';
+        }
         setTimeout(() => {
-            wheel.style.transition = 'transform 4s cubic-bezier(0.33, 1, 0.68, 1)';
+            wheel.style.transition = 'transform 5s cubic-bezier(0.2, 0.75, 0.5, 1)';
         }, 0);
     });
 }
 
-
 function createSpinButton() {
     const spinButton = document.createElement('button');
     spinButton.id = 'spinButton';
-    spinButton.innerHTML = 'Spin the Wheel';
-
-    spinButton.style.display = 'block';
-    spinButton.style.margin = '20px auto';
-    spinButton.style.padding = '10px 20px';
-    spinButton.style.fontSize = '16px';
-    spinButton.style.cursor = 'pointer';
+    if (getShiftPoints() > getZero()) {
+        spinButton.innerHTML = 'Spin the Wheel';
+    } else {
+        spinButton.innerHTML = 'No Shift Points!';
+    }
 
     getElements().endOfShiftOrGamePopupContentInnerRight3.appendChild(spinButton);
 
     return spinButton;
+}
+
+export function getColorsForWheel(active) {
+    if (active) {
+        return ['#FF0000', '#0000FF', '#FFFF00', '#00FF00'];
+    } else {
+        return ['#FF000030', '#0000FF30', '#FFFF0030', '#00FF0030'];
+    }
 }

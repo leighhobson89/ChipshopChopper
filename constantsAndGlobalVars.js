@@ -157,6 +157,8 @@ let fryerCapacityCapped = false;
 let fryerSpeedCapped = false;
 let maxDeliveryCapped = false;
 let maxWaitCustomerCapped = false;
+let wheelSpinning = false;
+let textAnimationDone = false;
 
 //PRICES
 let priceToImprovePotatoStorage = 20;
@@ -1594,6 +1596,25 @@ export function getCurrentRotation() {
 export function setCurrentRotation(value) {
     currentRotation = value;
 }
+
+export function getWheelSpinning() {
+    return wheelSpinning;
+}
+
+export function setWheelSpinning(value) {
+    wheelSpinning = value;
+}
+
+export function getTextAnimationDone() {
+    return textAnimationDone;
+}
+
+export function setTextAnimationDone(value) {
+    textAnimationDone = value;
+}
+
+
+getTextAnimationDone
 
 export function captureGameStatusForSaving() {
     let gameState = {};
