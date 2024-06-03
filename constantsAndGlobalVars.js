@@ -121,10 +121,11 @@ let investmentRiskIncrementDecrement = 1;
 let currentValueOfInvestment = 0;
 let currentRiskLevel = 0;
 let growthInvestment = 0;
-let shiftPoints = 0;
+let shiftPoints = 50;
 
 //WHEEL OF FORTUNE
 let currentRotation = 0;
+let winResult = {};
 
 //FLAGS
 export let pauseAutoSaveCountdown = true;
@@ -1613,8 +1614,13 @@ export function setTextAnimationDone(value) {
     textAnimationDone = value;
 }
 
+export function getWinResult() {
+    return winResult;
+}
 
-getTextAnimationDone
+export function setWinResult(value) {
+    winResult = value;
+}
 
 export function captureGameStatusForSaving() {
     let gameState = {};

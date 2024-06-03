@@ -96,7 +96,7 @@ import {
     getTotalWastedChips,
     getUpgradeFryerCapacityAmount,
     getUpgradePotatoStorageQuantity,
-    getWheelSpinning,
+    getWheelSpinning, getWinResult,
     getZero,
     popupContinueButton,
     popupOverlay,
@@ -123,8 +123,9 @@ import {
     setPotatoCapacityCapped,
     setPromotionFlag,
     setShiftPoints,
-    setStateLoading, setTextAnimationDone,
-    setWheelSpinning
+    setStateLoading,
+    setTextAnimationDone,
+    setWheelSpinning, setWinResult
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -1389,6 +1390,7 @@ function createWheelOfFortune() {
 
     const wheel = document.createElement('div');
     wheel.classList.add('wheel');
+    wheel.id = 'wheel';
     wheelContainer.appendChild(wheel);
 
     for (let i = 0; i < numberOfSections; i++) {
@@ -1435,6 +1437,14 @@ function createWheelOfFortune() {
 
     wheel.addEventListener('transitionend', function() {
         setWheelSpinning(false);
+        setWinResult(findEndOfLineAndCheckWinningColor());
+        if (getWinResult().colorsMatch) {
+            console.log('The winner is ' + getWinResult().leftColor);
+        } else {
+            const winner = determineWinner(getWinResult().leftColor, getWinResult().rightColor);
+            console.log('The winner by determination is ' + winner);
+        }
+
         if (getShiftPoints() > getZero()) {
             spinButton.disabled = false;
             spinButton.classList.remove('disabled');
@@ -1468,3 +1478,69 @@ export function getColorsForWheel(active) {
         return ['#FF000030', '#0000FF30', '#FFFF0030', '#00FF0030'];
     }
 }
+
+function findEndOfLineAndCheckWinningColor() {
+    const centerLine = document.getElementById('wheelCenterLine');
+    const centerLineRect = centerLine.getBoundingClientRect();
+
+    const endOfLineLeftX = centerLineRect.left - 2;
+    const endOfLineLeftY = centerLineRect.top + 3;
+
+    const endOfLineRightX = centerLineRect.right + 2;
+    const endOfLineRightY = centerLineRect.top + 3;
+
+    const leftPixelColor = getColorAtPoint(endOfLineLeftX, endOfLineLeftY);
+    const rightPixelColor = getColorAtPoint(endOfLineRightX, endOfLineRightY);
+
+    const leftHexColor = rgbToHex(leftPixelColor);
+    const rightHexColor = rgbToHex(rightPixelColor);
+
+    console.log("Color Just Before End of Line on the Left:", leftHexColor);
+    console.log("Color Just After End of Line on the Right:", rightHexColor);
+
+    const colorsMatch = leftHexColor === rightHexColor;
+
+    return {
+        leftColor: leftHexColor,
+        rightColor: rightHexColor,
+        colorsMatch: colorsMatch
+    };
+}
+
+function getColorAtPoint(x, y) {
+    const elementAtPoint = document.elementFromPoint(x, y);
+
+    const computedStyle = window.getComputedStyle(elementAtPoint);
+    return computedStyle.getPropertyValue('background-color');
+}
+
+function rgbToHex(color) {
+    const rgbRegex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
+    const matches = color.match(rgbRegex);
+
+    if (!matches) {
+        return color;
+    }
+
+    const r = parseInt(matches[1]);
+    const g = parseInt(matches[2]);
+    const b = parseInt(matches[3]);
+
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function determineWinner(color1, color2) {
+    if (color1 === '#000000' && color2 !== '#000000') {
+        return color2;
+    } else if (color2 === '#000000' && color1 !== '#000000') {
+        return color1;
+    } else if (color1 !== color2 || (color1 === '#000000' && color2 === '#000000')) {
+        const randomIndex = Math.floor(Math.random() * 2);
+        if (randomIndex === 1) {
+            return color1;
+        } else {
+            return color2;
+        }
+    }
+}
+
