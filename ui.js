@@ -720,6 +720,10 @@ export function createEndOfShiftOrGamePopup() {
 
     const observer = new MutationObserver(() => {
         popupContentInnerRight.style.height = `${popupContentInnerLeft.offsetHeight}px`;
+        const popupContentInnerRight2 = document.getElementById('popupContentInnerRight2');
+        if (popupContentInnerRight2) {
+            popupContentInnerRight2.style.width = `${popupContentInnerRight2.offsetHeight}px`;
+        }
     });
 
     observer.observe(popupContentInnerLeft, { childList: true, subtree: true, characterData: true });
@@ -1371,7 +1375,8 @@ function createWheelOfFortune() {
     const wheelContainer = getElements().endOfShiftOrGamePopupContentInnerRight2;
 
     const numberOfSections = 8;
-    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FFC300', '#FF5733', '#DAF7A6', '#900C3F'];
+    const colors = ['#FF0000', '#999999', '#0000FF', '#891E8F', '#FFFF00', '#FFbcFF', '#00FF00'];
+
     const sectionAngle = 360 / numberOfSections;
 
     // Create the wheel element
@@ -1381,10 +1386,18 @@ function createWheelOfFortune() {
 
     for (let i = 0; i < numberOfSections; i++) {
         const section = document.createElement('div');
-        section.style.transform = `rotate(${i * sectionAngle}deg) skewY(-60deg)`;
+        section.classList.add('section');
+        section.style.transform = `rotate(${i * sectionAngle}deg)`;
         section.style.backgroundColor = colors[i % colors.length];
         wheel.appendChild(section);
+        if (i === 7) {
+            section.style.opacity = '0.4';
+        }
     }
+
+    const centerLine = document.createElement('div');
+    centerLine.classList.add('center-line');
+    wheelContainer.appendChild(centerLine);
 
     const spinButton = document.getElementById('spinButton');
     let isSpinning = false;
@@ -1409,6 +1422,7 @@ function createWheelOfFortune() {
         }, 0);
     });
 }
+
 
 function createSpinButton() {
     const spinButton = document.createElement('button');

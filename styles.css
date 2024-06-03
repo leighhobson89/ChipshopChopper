@@ -474,13 +474,14 @@ div[id^="subInnerDivMid"][id$="_2"] {
 }
 
 .inner-right-div-1,
-.inner-right-div-2,
 .inner-right-div-3 {
     width: 100%;
 }
 
 .inner-right-div-1 {
     height: 20%;
+    text-align: center;
+    padding-bottom: 5px;
 }
 
 .inner-right-div-2 {
@@ -819,4 +820,16 @@ div[id^="subInnerDivMid"][id$="_2"] {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+}
+
+
+.center-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 3px;
+    height: 50%;
+    background-color: white;
+    z-index: 10;
+    transform: translateX(-50%);
 }
