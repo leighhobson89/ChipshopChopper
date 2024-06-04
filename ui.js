@@ -963,9 +963,6 @@ export function writePopupText() {
     }, 0);
 }
 
-
-
-
 export function updateVisibleButtons() {
     if (!getShiftInProgress() && (getShiftCounter() > getZero() || debugFlag || getStateLoading())) {
         //manual phase upgrades
@@ -1002,11 +999,13 @@ export function updateVisibleButtons() {
         if (getCurrentCash() >= getPriceToImproveAutoCustomerServer()) {
             getElements().autoCustomerServerUpgradeButton.classList.remove('hidden-button');
         }
+        if (getCurrentCash() >= getPriceToIncreaseFootfall()) {
+            getElements().customerFrequencyIncreaser.classList.remove('hidden-button');
+        }
         //third phase upgrades
         if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && (getElements().playerRoleText.innerHTML === Role.FIVE || getElements().playerRoleText.innerHTML === Role.SIX || getElements().playerRoleText.innerHTML === Role.SEVEN)) {
             getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
             getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
-            getElements().customerFrequencyIncreaser.classList.remove('hidden-button');
         }
         if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && (getElements().playerRoleText.innerHTML === Role.SIX || getElements().playerRoleText.innerHTML === Role.SEVEN)) {
             getElements().investmentFundUnlockOrFloatButton.classList.remove('hidden-button');
