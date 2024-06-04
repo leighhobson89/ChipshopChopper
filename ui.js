@@ -1566,6 +1566,7 @@ function showWheelPrizeString(winningColor) {
     const wheelCenterY = wheelCenterRect.top + wheelCenterRect.height / 2;
 
     const textString = document.createElement('div');
+    textString.classList.add('stroke-text');
     textString.textContent = prizeString;
     textString.classList.add('wheel-stop-text-string');
 
