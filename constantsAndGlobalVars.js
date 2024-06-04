@@ -1538,7 +1538,7 @@ export function setStateLoading(value) {
     stateLoading = value;
 }
 
-export function getShiftPoints(value) {
+export function getShiftPoints() {
     return shiftPoints;
 }
 
@@ -1637,10 +1637,6 @@ export function getWinResult() {
 
 export function setWinResult(value) {
     winResult = value;
-}
-
-export function getBlackString() {
-    return "#000000";
 }
 
 export function captureGameStatusForSaving() {
