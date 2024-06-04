@@ -127,6 +127,13 @@ let shiftPoints = 50;
 let currentRotation = 0;
 let winResult = {};
 
+export const prizeString = {
+    RED: "+ $10",
+    GREEN: "+ 50 potatoes",
+    BLUE: "Nothing",
+    YELLOW: "Delivery Cancelled"
+}
+
 //FLAGS
 export let pauseAutoSaveCountdown = true;
 export let gameInProgress = false;

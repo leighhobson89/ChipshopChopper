@@ -99,7 +99,7 @@ import {
     getWheelSpinning, getWinResult,
     getZero,
     popupContinueButton,
-    popupOverlay,
+    popupOverlay, prizeString,
     resetAllVariables,
     resetCounterUiElements,
     resetUiButtonElements,
@@ -1436,14 +1436,17 @@ function createWheelOfFortune() {
     });
 
     wheel.addEventListener('transitionend', function() {
+        let winner;
         setWheelSpinning(false);
         setWinResult(findEndOfLineAndCheckWinningColor());
         if (getWinResult().colorsMatch) {
-            console.log('The winner is ' + getWinResult().leftColor);
+            winner = getWinResult().leftColor;
+            console.log('The winner is ' + winner);
         } else {
-            const winner = determineWinner(getWinResult().leftColor, getWinResult().rightColor);
+            winner = determineWinner(getWinResult().leftColor, getWinResult().rightColor);
             console.log('The winner by determination is ' + winner);
         }
+        showWheelPrizeString(winner);
 
         if (getShiftPoints() > getZero()) {
             spinButton.disabled = false;
@@ -1541,6 +1544,47 @@ function determineWinner(color1, color2) {
         } else {
             return color2;
         }
+    }
+}
+
+function showWheelPrizeString(winningColor) {
+    const prizeString = getPrizeFromWinningColor(winningColor);
+    const wheelCenterLine = document.getElementById('wheelCenterLine');
+
+    const wheelCenterRect = wheelCenterLine.getBoundingClientRect();
+    const wheelCenterX = wheelCenterRect.left + wheelCenterRect.width / 2;
+    const wheelCenterY = wheelCenterRect.top + wheelCenterRect.height / 2;
+
+    const textString = document.createElement('div');
+    textString.textContent = prizeString;
+    textString.classList.add('wheel-stop-text-string');
+
+    const textStringTop = wheelCenterY - textString.offsetHeight;
+    const textStringLeft = wheelCenterX - textString.offsetWidth / 2;
+
+    textString.style.position = 'absolute';
+    textString.style.top = textStringTop + 'px';
+    textString.style.left = textStringLeft + 'px';
+
+    document.body.appendChild(textString);
+
+    setTimeout(() => {
+        textString.style.top = '30%';
+        textString.style.opacity = '0';
+        textString.style.color = 'black';
+    }, 100);
+}
+
+function getPrizeFromWinningColor(winningColor) {
+    switch (winningColor) {
+        case "#ff0000":
+            return prizeString.RED;
+        case "#00ff00":
+            return prizeString.GREEN;
+        case "#0000ff":
+            return prizeString.BLUE;
+        case "#ffff00":
+            return prizeString.YELLOW;
     }
 }
 
