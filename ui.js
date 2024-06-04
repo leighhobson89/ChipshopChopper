@@ -690,14 +690,9 @@ export function createEndOfShiftOrGamePopup() {
     innerRightDiv2.classList.add('inner-right-div-2');
     innerRightDiv2.id = 'popupContentInnerRight2';
 
-    const innerRightDiv3 = document.createElement('div');
-    innerRightDiv3.classList.add('inner-right-div-3');
-    innerRightDiv3.id = 'popupContentInnerRight3';
-
     // Append the three div elements directly to the right container
     popupContentInnerRight.appendChild(innerRightDiv1);
     popupContentInnerRight.appendChild(innerRightDiv2);
-    popupContentInnerRight.appendChild(innerRightDiv3);
 
     popupContent.appendChild(popupContentInnerLeft);
     popupContent.appendChild(popupContentInnerRight);
@@ -706,10 +701,19 @@ export function createEndOfShiftOrGamePopup() {
     popupRow3.classList.add('popup-row');
     popupRow3.classList.add('popup-row-3');
 
+    const popupRow3Left = document.createElement('div');
+    popupRow3Left.classList.add('popup-row-3-left');
+
+    const popupRow3Right = document.createElement('div');
+    popupRow3Right.classList.add('popup-row-3-right');
+
+    popupRow3.appendChild(popupRow3Left);
+    popupRow3.appendChild(popupRow3Right);
+
     const continueButton = document.createElement('button');
     continueButton.innerHTML = 'Continue';
     continueButton.classList.add('popup-continue-button');
-    popupRow3.appendChild(continueButton);
+    popupRow3Left.appendChild(continueButton);
     popupContainer.style.display = "none";
 
     popupContainer.appendChild(popupTitle);
@@ -1469,9 +1473,7 @@ function createSpinButton() {
         spinButton.innerHTML = 'No Shift Points!';
     }
 
-    getElements().endOfShiftOrGamePopupContentInnerRight3.appendChild(spinButton);
-
-    return spinButton;
+    document.querySelector('.popup-row-3-right').appendChild(spinButton);
 }
 
 export function getColorsForWheel(active) {
@@ -1530,11 +1532,7 @@ function rgbToHex(color) {
 }
 
 function determineWinner(color1, color2) {
-    if (color1 === getBlackString() && color2 !== getBlackString()) {
-        return color2;
-    } else if (color2 === getBlackString() && color1 !== getBlackString()) {
-        return color1;
-    } else if (color1 !== color2 || (color1 === getBlackString() && color2 === getBlackString())) {
+    if (color1 !== color2) {
         const randomIndex = Math.floor(Math.random() * 2);
         if (randomIndex === 1) {
             return color1;

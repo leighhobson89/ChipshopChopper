@@ -448,7 +448,24 @@ div[id^="subInnerDivMid"][id$="_2"] {
 .popup-row-3 {
     display: flex;
     justify-content: center;
+}
+
+.popup-row-3-left {
+    display: flex;
+    width: 70%;
+    height: 100%;
     padding: 10px 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-row-3-right {
+    display: flex;
+    width: 30%;
+    height: 100%;
+    padding: 10px 0;
+    justify-content: center;
+    align-items: center;
 }
 
 .popup-title {
@@ -486,7 +503,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
 }
 
 .inner-right-div-2 {
-    height: 60%;
+    height: 80%;
     position: relative;
     border-radius: 50%;
     overflow: hidden;
@@ -498,7 +515,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
 }
 
 .popup-continue-button {
-    width: auto;
+    width: 60%;
     padding: 10px 20px;
     background-color: #28a745;
     color: #ffffff;
@@ -825,7 +842,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
     font-size: 1.2em;
     font-weight: bold;
     display: block;
-    margin: 20px auto;
 }
 
 .center-line {
@@ -837,12 +853,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
     background-color: white;
     z-index: 1001;
     transform: translateX(-50%);
-}
-
-.wheel-section {
-    border-width: 1px 1px 1px 1px;
-    border-style: solid;
-    border-color: black;
 }
 
 .wheel-stop-text-string {
