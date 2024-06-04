@@ -1491,15 +1491,19 @@ export function addPrizeToPlayerStats(prizeString) {
             getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
             break;
         case "Delivery Cancelled":
-            setSpudsToAddToShift(getZero);
+            setSpudsToAddToShift(getZero());
             getElements().startShiftButton.innerHTML = 'Start Shift <br> (+ ' + getSpudsToAddToShift() + ' Potatoes)';
             break;
         case "Fine of half of money":
-            setCurrentCash(getCurrentCash() / 2);
+            if (getCurrentCash() > 0) {
+                setCurrentCash(getCurrentCash() / 2);
+            }
             getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
             break;
         case "Half Of Potatoes Rot":
-            setActualPotatoesInStorage(Math.floor(getActualPotatoesInStorage() / 2));
+            if (getActualPotatoesInStorage() > 0) {
+                setActualPotatoesInStorage(Math.floor(getActualPotatoesInStorage() / 2));
+            }
             getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
             break;
         case "+100 Potatoes":
