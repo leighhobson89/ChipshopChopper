@@ -1,4 +1,12 @@
-import {disableButtons, getPrizes, handleButtonClick, loadGame, saveGame, toggleMenu} from './actions.js';
+import {
+    addPrizeToPlayerStats,
+    disableButtons,
+    getPrizes,
+    handleButtonClick,
+    loadGame,
+    saveGame,
+    toggleMenu
+} from './actions.js';
 import {
     debugFlag,
     endOfShiftOrGamePopup,
@@ -103,7 +111,6 @@ import {
     getZero,
     popupContinueButton,
     popupOverlay,
-    prizeString,
     resetAllVariables,
     resetCounterUiElements,
     resetUiButtonElements,
@@ -1480,7 +1487,8 @@ function createWheelOfFortune() {
             winner = determineWinner(getWinResult().leftColor, getWinResult().rightColor);
             console.log('The winner by determination is ' + winner);
         }
-        showWheelPrizeString(winner);
+        const prizeString = showWheelPrizeString(winner);
+        addPrizeToPlayerStats(prizeString);
 
         if (getShiftPoints() > getZero()) {
             spinButton.disabled = false;
@@ -1599,6 +1607,8 @@ function showWheelPrizeString(winningColor) {
         textString.style.opacity = '0';
         textString.style.color = 'black';
     }, 100);
+
+    return prizeString;
 }
 
 function getPrizeFromWinningColor(winningColor) {

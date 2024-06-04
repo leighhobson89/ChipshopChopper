@@ -1467,3 +1467,99 @@ export function getPrizes() {
         <div class="prize-item" style="color: ${wheelColors.NORMAL[3]};">${selectedPrizes[3].name}</div>
     `;
 }
+
+export function addPrizeToPlayerStats(prizeString) {
+    switch (prizeString) {
+        case "Potato Storage Filled":
+            setActualPotatoesInStorage(getPotatoStorageQuantity());
+            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            break;
+        case "+10 Potatoes":
+            if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 10)) {
+                setActualPotatoesInStorage(getActualPotatoesInStorage() + 10);
+            } else {
+                setActualPotatoesInStorage(getPotatoStorageQuantity());
+            }
+            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            break;
+        case "+$5":
+            setCurrentCash(getCurrentCash() + 5);
+            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            break;
+        case "Money Doubled":
+            setCurrentCash(getCurrentCash() * 2);
+            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            break;
+        case "Delivery Cancelled":
+            setSpudsToAddToShift(getZero);
+            getElements().startShiftButton.innerHTML = 'Start Shift <br> (+ ' + getSpudsToAddToShift() + ' Potatoes)';
+            break;
+        case "Fine of half of money":
+            setCurrentCash(getCurrentCash() / 2);
+            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            break;
+        case "Half Of Potatoes Rot":
+            setActualPotatoesInStorage(Math.floor(getActualPotatoesInStorage() / 2));
+            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            break;
+        case "+100 Potatoes":
+            if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 100)) {
+                setActualPotatoesInStorage(getActualPotatoesInStorage() + 100);
+            } else {
+                setActualPotatoesInStorage(getPotatoStorageQuantity());
+            }
+            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            break;
+        case "+$15":
+            setCurrentCash(getCurrentCash() + 15);
+            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            break;
+        case "+200 Potatoes":
+            if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 200)) {
+                setActualPotatoesInStorage(getActualPotatoesInStorage() + 200);
+            } else {
+                setActualPotatoesInStorage(getPotatoStorageQuantity());
+            }
+            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            break;
+        case "+$50":
+            setCurrentCash(getCurrentCash() + 50);
+            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            break;
+        case "+300 Potatoes":
+            if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 300)) {
+                setActualPotatoesInStorage(getActualPotatoesInStorage() + 300);
+            } else {
+                setActualPotatoesInStorage(getPotatoStorageQuantity());
+            }
+            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            break;
+        case "+$100":
+            setCurrentCash(getCurrentCash() + 100);
+            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            break;
+        case "+500 Potatoes":
+            if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 500)) {
+                setActualPotatoesInStorage(getActualPotatoesInStorage() + 500);
+            } else {
+                setActualPotatoesInStorage(getPotatoStorageQuantity());
+            }
+            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            break;
+        case "+$1000":
+            setCurrentCash(getCurrentCash() + 1000);
+            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            break;
+        case "+$3000":
+            setCurrentCash(getCurrentCash() + 3000);
+            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            break;
+        case "+$5000":
+            setCurrentCash(getCurrentCash() + 5000);
+            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            break;
+        default:
+            console.log("Unknown prize: " + prizeString);
+            break;
+    }
+}
