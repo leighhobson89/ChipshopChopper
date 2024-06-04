@@ -256,7 +256,7 @@ let priceToImproveFryTimer = 100;
 let priceToDoubleSpudsMax = 100;
 let priceToIncreaseFootfall = 300;
 let priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
-
+//
 //AUTO SPEEDS
 let currentSpeedAutoPeeler = "N/A";
 let nextSpeedAutoPeeler = 1;
