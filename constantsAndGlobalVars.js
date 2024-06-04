@@ -51,7 +51,8 @@ const MAX_RISK_INVESTMENT_MECHANIC = 21;
 const RISK_THRESHOLD = 2500;
 const RISK_ADJUSTMENT_COEFFICIENT = 98;
 const BASE_RISK_NUMBER = 200;
-const INTEREST_RATE_BASE_VALUE = 1.2; //
+const INTEREST_RATE_BASE_VALUE = 1.2;
+const NUMBER_OF_WHEEL_SECTIONS = 4;
 
 //UPGRADE PRICE MULTIPLIER CONSTANTS
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
@@ -132,6 +133,11 @@ export const prizeString = {
     GREEN: "+ 50 potatoes",
     BLUE: "Nothing",
     YELLOW: "Delivery Cancelled"
+}
+
+export const wheelColors = {
+    NORMAL: ['#ff0000', '#0000ff', '#ffff00', '#00ff00'],
+    TRANSPARENT: ['#ff000030', '#0000ff30', '#ffff0030', '#00ff0030']
 }
 
 //FLAGS
@@ -1364,6 +1370,10 @@ export function getMaxWaitCustomerCapped() {
     return maxWaitCustomerCapped;
 }
 
+export function getNumberOfWheelSections() {
+    return NUMBER_OF_WHEEL_SECTIONS;
+}
+
 export function resetAllVariables() {
     // GLOBAL VARIABLES
     currentMaxValueWaitForNewCustomer = 10;
@@ -1627,6 +1637,10 @@ export function getWinResult() {
 
 export function setWinResult(value) {
     winResult = value;
+}
+
+export function getBlackString() {
+    return "#000000";
 }
 
 export function captureGameStatusForSaving() {

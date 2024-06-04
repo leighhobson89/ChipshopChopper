@@ -10,7 +10,7 @@ import {
     getAutoCustomerServerCapped,
     getAutoFryerCapped,
     getAutoPeelerCapped,
-    getAutoStorageCollectorCapped,
+    getAutoStorageCollectorCapped, getBlackString,
     getCapAutoChipper,
     getCapAutoCustomerServer,
     getCapAutoFryer,
@@ -59,7 +59,7 @@ import {
     getNextSpeedAutoFryer,
     getNextSpeedAutoPeeler,
     getNextSpeedAutoStorageCollector,
-    getNextSpeedFryTimer,
+    getNextSpeedFryTimer, getNumberOfWheelSections,
     getOldCash,
     getOne,
     getPotatoCapacityCapped,
@@ -125,7 +125,7 @@ import {
     setShiftPoints,
     setStateLoading,
     setTextAnimationDone,
-    setWheelSpinning, setWinResult
+    setWheelSpinning, setWinResult, wheelColors
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -1383,7 +1383,7 @@ function clearPopupTexts() {
 function createWheelOfFortune() {
     const wheelContainer = getElements().endOfShiftOrGamePopupContentInnerRight2;
 
-    const numberOfSections = 4;
+    const numberOfSections = getNumberOfWheelSections();
     const colors = getColorsForWheel(true);
 
     const sectionAngle = 360 / numberOfSections;
@@ -1476,9 +1476,9 @@ function createSpinButton() {
 
 export function getColorsForWheel(active) {
     if (active) {
-        return ['#FF0000', '#0000FF', '#FFFF00', '#00FF00'];
+        return wheelColors.NORMAL;
     } else {
-        return ['#FF000030', '#0000FF30', '#FFFF0030', '#00FF0030'];
+        return wheelColors.TRANSPARENT;
     }
 }
 
@@ -1497,9 +1497,6 @@ function findEndOfLineAndCheckWinningColor() {
 
     const leftHexColor = rgbToHex(leftPixelColor);
     const rightHexColor = rgbToHex(rightPixelColor);
-
-    console.log("Color Just Before End of Line on the Left:", leftHexColor);
-    console.log("Color Just After End of Line on the Right:", rightHexColor);
 
     const colorsMatch = leftHexColor === rightHexColor;
 
@@ -1533,11 +1530,11 @@ function rgbToHex(color) {
 }
 
 function determineWinner(color1, color2) {
-    if (color1 === '#000000' && color2 !== '#000000') {
+    if (color1 === getBlackString() && color2 !== getBlackString()) {
         return color2;
-    } else if (color2 === '#000000' && color1 !== '#000000') {
+    } else if (color2 === getBlackString() && color1 !== getBlackString()) {
         return color1;
-    } else if (color1 !== color2 || (color1 === '#000000' && color2 === '#000000')) {
+    } else if (color1 !== color2 || (color1 === getBlackString() && color2 === getBlackString())) {
         const randomIndex = Math.floor(Math.random() * 2);
         if (randomIndex === 1) {
             return color1;
@@ -1577,14 +1574,14 @@ function showWheelPrizeString(winningColor) {
 
 function getPrizeFromWinningColor(winningColor) {
     switch (winningColor) {
-        case "#ff0000":
+        case wheelColors.NORMAL[0]:
             return prizeString.RED;
-        case "#00ff00":
-            return prizeString.GREEN;
-        case "#0000ff":
+        case wheelColors.NORMAL[1]:
             return prizeString.BLUE;
-        case "#ffff00":
+        case wheelColors.NORMAL[2]:
             return prizeString.YELLOW;
+        case wheelColors.NORMAL[3]:
+            return prizeString.GREEN;
     }
 }
 
