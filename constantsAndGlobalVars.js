@@ -127,12 +127,86 @@ let shiftPoints = 50;
 //WHEEL OF FORTUNE
 let currentRotation = 0;
 let winResult = {};
+let shiftPrizePot = [];
 
 export const prizeString = {
     RED: "+ $10",
     GREEN: "+ 50 potatoes",
     BLUE: "Nothing",
     YELLOW: "Delivery Cancelled"
+}
+
+export const prizes = {
+    ONE: [
+        {name: "Potato Storage Filled", classification: "good"},
+        {name: "+10 Potatoes", classification: "good"},
+        {name: "+$5", classification: "good"},
+        {name: "Money Doubled", classification: "good"},
+        {name: "Nothing", classification: "bad"},
+        {name: "Delivery Cancelled", classification: "bad"},
+        {name: "Fine of half of money", classification: "bad"},
+        {name: "Half Of Potatoes Rot", classification: "bad"},
+    ],
+    TWO: [
+        {name: "Potato Storage Filled", classification: "good"},
+        {name: "+100 Potatoes", classification: "good"},
+        {name: "+$15", classification: "good"},
+        {name: "Money Doubled", classification: "good"},
+        {name: "Nothing", classification: "bad"},
+        {name: "Delivery Cancelled", classification: "bad"},
+        {name: "Fine of half of money", classification: "bad"},
+        {name: "Half Of Potatoes Rot", classification: "bad"},
+    ],
+    THREE: [
+        {name: "Potato Storage Filled", classification: "good"},
+        {name: "+200 Potatoes", classification: "good"},
+        {name: "+$50", classification: "good"},
+        {name: "Money Doubled", classification: "good"},
+        {name: "Nothing", classification: "bad"},
+        {name: "Delivery Cancelled", classification: "bad"},
+        {name: "Fine of half of money", classification: "bad"},
+        {name: "Half Of Potatoes Rot", classification: "bad"},
+    ],
+    FOUR: [
+        {name: "Potato Storage Filled", classification: "good"},
+        {name: "+300 Potatoes", classification: "good"},
+        {name: "+$100", classification: "good"},
+        {name: "Money Doubled", classification: "good"},
+        {name: "Nothing", classification: "bad"},
+        {name: "Delivery Cancelled", classification: "bad"},
+        {name: "Fine of half of money", classification: "bad"},
+        {name: "Half Of Potatoes Rot", classification: "bad"},
+    ],
+    FIVE: [
+        {name: "Potato Storage Filled", classification: "good"},
+        {name: "+500 Potatoes", classification: "good"},
+        {name: "+$1000", classification: "good"},
+        {name: "Money Doubled", classification: "good"},
+        {name: "Nothing", classification: "bad"},
+        {name: "Delivery Cancelled", classification: "bad"},
+        {name: "Fine of half of money", classification: "bad"},
+        {name: "Half Of Potatoes Rot", classification: "bad"},
+    ],
+    SIX: [
+        {name: "Potato Storage Filled", classification: "good"},
+        {name: "+500 Potatoes", classification: "good"},
+        {name: "+$3000", classification: "good"},
+        {name: "Money Doubled", classification: "good"},
+        {name: "Nothing", classification: "bad"},
+        {name: "Delivery Cancelled", classification: "bad"},
+        {name: "Fine of half of money", classification: "bad"},
+        {name: "Half Of Potatoes Rot", classification: "bad"},
+    ],
+    SEVEN: [
+        {name: "Potato Storage Filled", classification: "good"},
+        {name: "+500 Potatoes", classification: "good"},
+        {name: "+$5000", classification: "good"},
+        {name: "Money Doubled", classification: "good"},
+        {name: "Nothing", classification: "bad"},
+        {name: "Delivery Cancelled", classification: "bad"},
+        {name: "Fine of half of money", classification: "bad"},
+        {name: "Half Of Potatoes Rot", classification: "bad"},
+    ],
 }
 
 export const wheelColors = {
@@ -1016,6 +1090,14 @@ export function getAutoCustomerServerCounter() {
 
 export function setAutoCustomerServerCounter(value) {
     autoCustomerServerCounter = value;
+}
+
+export function getShiftPrizePot() {
+    return shiftPrizePot;
+}
+
+export function setShiftPrizePot(value) {
+    shiftPrizePot = value;
 }
 
 export function getRoleUpgrade(currentRole) {

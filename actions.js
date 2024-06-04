@@ -196,7 +196,7 @@ import {
     setTotalServedCustomers,
     getTotalServedCustomers,
     setTotalWastedChips,
-    getTotalWastedChips, wheelColors,
+    getTotalWastedChips, wheelColors, Role, prizes,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -1410,10 +1410,60 @@ function initialiseLoadedGame(gameState) {
 }
 
 export function getPrizes() {
+    const playerRoleString = getElements().playerRoleText.innerHTML;
+    let playerRoleKey = null;
+
+    for (const key in Role) {
+        if (Role[key] === playerRoleString) {
+            playerRoleKey = key;
+            break;
+        }
+    }
+
+    if (!playerRoleKey) {
+        console.error(`No matching role found for player role string: ${playerRoleString}`);
+        return '';
+    }
+
+    const rolePrizes = prizes[playerRoleKey];
+
+    if (!rolePrizes) {
+        console.error(`No prizes found for player role: ${playerRoleKey}`);
+        return '';
+    }
+
+    const goodPrizes = rolePrizes.filter(prize => prize.classification === 'good');
+    const badPrizes = rolePrizes.filter(prize => prize.classification === 'bad');
+
+    function getRandomItems(array, count) {
+        const result = [];
+        const usedIndices = new Set();
+
+        while (result.length < count && usedIndices.size < array.length) {
+            const randomIndex = Math.floor(Math.random() * array.length);
+            if (!usedIndices.has(randomIndex)) {
+                result.push(array[randomIndex]);
+                usedIndices.add(randomIndex);
+            }
+        }
+
+        return result;
+    }
+
+    const selectedGoodPrizes = getRandomItems(goodPrizes, 2);
+    const selectedBadPrizes = getRandomItems(badPrizes, 2);
+    const selectedPrizes = selectedGoodPrizes.concat(selectedBadPrizes);
+
+    // Shuffle the selected prizes to ensure random order
+    for (let i = selectedPrizes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [selectedPrizes[i], selectedPrizes[j]] = [selectedPrizes[j], selectedPrizes[i]];
+    }
+
     return `
-        <div class="prize-item" style="color: ${wheelColors.NORMAL[0]};">Prize1</div>
-        <div class="prize-item" style="color: ${wheelColors.NORMAL[1]};">Prize2</div>
-        <div class="prize-item" style="color: ${wheelColors.NORMAL[2]};">Prize3</div>
-        <div class="prize-item" style="color: ${wheelColors.NORMAL[3]};">Prize4</div>
+        <div class="prize-item" style="color: ${wheelColors.NORMAL[0]};">${selectedPrizes[0].name}</div>
+        <div class="prize-item" style="color: ${wheelColors.NORMAL[1]};">${selectedPrizes[1].name}</div>
+        <div class="prize-item" style="color: ${wheelColors.NORMAL[2]};">${selectedPrizes[2].name}</div>
+        <div class="prize-item" style="color: ${wheelColors.NORMAL[3]};">${selectedPrizes[3].name}</div>
     `;
 }

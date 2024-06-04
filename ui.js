@@ -59,7 +59,8 @@ import {
     getNextSpeedAutoFryer,
     getNextSpeedAutoPeeler,
     getNextSpeedAutoStorageCollector,
-    getNextSpeedFryTimer, getNumberOfWheelSections,
+    getNextSpeedFryTimer,
+    getNumberOfWheelSections,
     getOldCash,
     getOne,
     getPotatoCapacityCapped,
@@ -85,6 +86,7 @@ import {
     getShiftCounter,
     getShiftInProgress,
     getShiftPoints,
+    getShiftPrizePot,
     getSpudsToAddToShift,
     getStartingCash,
     getStateLoading,
@@ -96,10 +98,12 @@ import {
     getTotalWastedChips,
     getUpgradeFryerCapacityAmount,
     getUpgradePotatoStorageQuantity,
-    getWheelSpinning, getWinResult,
+    getWheelSpinning,
+    getWinResult,
     getZero,
     popupContinueButton,
-    popupOverlay, prizeString,
+    popupOverlay,
+    prizeString,
     resetAllVariables,
     resetCounterUiElements,
     resetUiButtonElements,
@@ -123,9 +127,12 @@ import {
     setPotatoCapacityCapped,
     setPromotionFlag,
     setShiftPoints,
+    setShiftPrizePot,
     setStateLoading,
     setTextAnimationDone,
-    setWheelSpinning, setWinResult, wheelColors
+    setWheelSpinning,
+    setWinResult,
+    wheelColors
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 
@@ -894,6 +901,9 @@ export function writePopupText() {
         const totalLines = lines.length;
         const totalAnimationTime = totalLines * 0.2;
 
+        const prizeDiv = document.querySelector('.popup-title-right');
+        prizeDiv.innerHTML = '';
+
         setTimeout(() => {
             popupContentInnerRight1.innerHTML = `
                 <div>
@@ -928,8 +938,13 @@ export function writePopupText() {
                 spinButton.classList.remove('disabled');
                 spinButton.disabled = false;
 
-                const prizeDiv = document.querySelector('.popup-title-right');
-                prizeDiv.innerHTML = getPrizes();
+                const prizes = getPrizes();
+
+                const prizeStrings = extractPrizeNames(prizes);
+
+                setShiftPrizePot(prizeStrings);
+
+                prizeDiv.innerHTML = prizes;
                 prizeDiv.style.opacity = '0';
                 prizeDiv.style.animation = '';
                 prizeDiv.style.animation = 'fadeIn 1.5s forwards';
@@ -1589,13 +1604,21 @@ function showWheelPrizeString(winningColor) {
 function getPrizeFromWinningColor(winningColor) {
     switch (winningColor) {
         case wheelColors.NORMAL[0]:
-            return prizeString.RED;
+            return getShiftPrizePot()[0];
         case wheelColors.NORMAL[1]:
-            return prizeString.BLUE;
+            return getShiftPrizePot()[1];
         case wheelColors.NORMAL[2]:
-            return prizeString.YELLOW;
+            return getShiftPrizePot()[2];
         case wheelColors.NORMAL[3]:
-            return prizeString.GREEN;
+            return getShiftPrizePot()[3];
     }
+}
+
+function extractPrizeNames(htmlString) {
+    const tempContainer = document.createElement('div');
+    tempContainer.innerHTML = htmlString;
+
+    const prizeDivs = tempContainer.querySelectorAll('.prize-item');
+    return Array.from(prizeDivs).map(div => div.innerHTML);
 }
 
