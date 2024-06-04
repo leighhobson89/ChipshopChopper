@@ -136,8 +136,8 @@ export const prizeString = {
 }
 
 export const wheelColors = {
-    NORMAL: ['#ff0000', '#0000ff', '#ffff00', '#00ff00'],
-    TRANSPARENT: ['#ff000030', '#0000ff30', '#ffff0030', '#00ff0030']
+    NORMAL: ['#ff0000', '#07b3e7', '#ffff00', '#00ff00'],
+    TRANSPARENT: ['#ff000030', '#07b3e730', '#ffff0030', '#00ff0030']
 }
 
 //FLAGS

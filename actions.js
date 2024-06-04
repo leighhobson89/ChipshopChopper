@@ -196,7 +196,7 @@ import {
     setTotalServedCustomers,
     getTotalServedCustomers,
     setTotalWastedChips,
-    getTotalWastedChips,
+    getTotalWastedChips, wheelColors,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -1407,4 +1407,13 @@ function initialiseLoadedGame(gameState) {
     initialiseInvestmentScreenText();
     restoreGameStatus(gameState);
     setElements();
+}
+
+export function getPrizes() {
+    return `
+        <div class="prize-item" style="color: ${wheelColors.NORMAL[0]};">Prize1</div>
+        <div class="prize-item" style="color: ${wheelColors.NORMAL[1]};">Prize2</div>
+        <div class="prize-item" style="color: ${wheelColors.NORMAL[2]};">Prize3</div>
+        <div class="prize-item" style="color: ${wheelColors.NORMAL[3]};">Prize4</div>
+    `;
 }

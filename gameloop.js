@@ -136,7 +136,12 @@ import {
     setShiftTimeRemaining,
     setTotalEarnedInSales,
     setTotalWastedChips,
-    TIMER_CORRECTION_COEFFICIENT, setShiftPoints, getShiftPoints, getWheelSpinning, getTextAnimationDone,
+    TIMER_CORRECTION_COEFFICIENT,
+    setShiftPoints,
+    getShiftPoints,
+    getWheelSpinning,
+    getTextAnimationDone,
+    popupContinueButton,
 } from './constantsAndGlobalVars.js';
 
 let autoSaveInterval;
@@ -190,6 +195,7 @@ function gameLoop() {
     checkPlayerRole();
     if (endOfShiftOrGamePopup.style.display === 'block') {
         checkSpinButtonStatusAndSetColors();
+        disableEnableContinueButtonIfWheelSpinningNotSpinning();
     }
     if (getInvestmentFundUnlocked()) {
         updateInvestmentPlanData();
@@ -694,6 +700,16 @@ function setWheelOpacity(state) {
         sections.forEach((section, index) => {
             section.style.backgroundColor = colors[index];
         });
+    }
+}
+
+function disableEnableContinueButtonIfWheelSpinningNotSpinning() {
+    if (getWheelSpinning()) {
+        popupContinueButton.disabled = true;
+        popupContinueButton.classList.add('disabled');
+    } else {
+        popupContinueButton.disabled = false;
+        popupContinueButton.classList.remove('disabled');
     }
 }
 

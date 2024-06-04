@@ -1,4 +1,4 @@
-import {disableButtons, handleButtonClick, loadGame, saveGame, toggleMenu} from './actions.js';
+import {disableButtons, getPrizes, handleButtonClick, loadGame, saveGame, toggleMenu} from './actions.js';
 import {
     debugFlag,
     endOfShiftOrGamePopup,
@@ -669,6 +669,15 @@ export function createEndOfShiftOrGamePopup() {
     popupTitle.classList.add('popup-row');
     popupTitle.classList.add('popup-row-1');
 
+    const popupTitleLeft = document.createElement('div');
+    popupTitleLeft.classList.add('popup-title-left');
+
+    const popupTitleRight = document.createElement('div');
+    popupTitleRight.classList.add('popup-title-right');
+
+    popupTitle.appendChild(popupTitleLeft);
+    popupTitle.appendChild(popupTitleRight);
+
     const popupContent = document.createElement('div');
     popupContent.id = 'endOfShiftOrGamePopupContent';
     popupContent.classList.add('popup-row');
@@ -777,6 +786,7 @@ export function toggleOverlay(popupOverlay) {
 
 export function writePopupText() {
     setTextAnimationDone(false);
+    document.querySelector('.popup-row-3-right').innerHTML = '';
     createSpinButton();
     createWheelOfFortune();
 
@@ -790,12 +800,12 @@ export function writePopupText() {
 
     let totalPotatoes = currentPotatoes + spudsToAdd;
     let nextShiftPotatoes = Math.min(totalPotatoes, storageQuantity);
-    const popupTitle = getElements().endOfShiftOrGamePopupTitle;
+    const popupTitleLeft = document.querySelector('.popup-title-left');
     const popupContentInnerLeft = getElements().endOfShiftOrGamePopupContentInnerLeft;
     const popupContentInnerRight1 = getElements().endOfShiftOrGamePopupContentInnerRight1;
 
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
-        popupTitle.innerHTML = `<div class="popup-title" style="opacity: 0;">Congratulations!!</div>`;
+        popupTitleLeft.innerHTML = `<div class="popup-title" style="opacity: 0;">Congratulations!!</div>`;
         popupContentInnerLeft.innerHTML = `
             <div class="popup-content">
                 <span style="color: yellow;">You have beat the game, well done!</span><br><br>
@@ -808,7 +818,7 @@ export function writePopupText() {
                 Now please do the honours and fry up and serve the last customer their chips before you retire as a millionaire!
             </div>`;
     } else {
-        popupTitle.innerHTML = `<div class="popup-title">End Of Shift ${shiftCounter}</div>`;
+        popupTitleLeft.innerHTML = `<div class="popup-title">End Of Shift ${shiftCounter}</div>`;
         let potatoesMessage = `Potatoes for next shift: ${currentPotatoes} + ${nextShiftPotatoes - currentPotatoes} to be delivered = ${nextShiftPotatoes}`;
         if (nextShiftPotatoes === storageQuantity) {
             potatoesMessage += " (due to max storage reached)";
@@ -917,6 +927,13 @@ export function writePopupText() {
                 setTextAnimationDone(true);
                 spinButton.classList.remove('disabled');
                 spinButton.disabled = false;
+
+                const prizeDiv = document.querySelector('.popup-title-right');
+                prizeDiv.innerHTML = getPrizes();
+                prizeDiv.style.opacity = '0';
+                prizeDiv.style.animation = '';
+                prizeDiv.style.animation = 'fadeIn 1.5s forwards';
+
             }, rightTotalAnimationTime * 1000);
 
         }, totalAnimationTime * 1000);
@@ -1372,12 +1389,10 @@ function clearPopupTexts() {
     const popupContentElementLeft = getElements().endOfShiftOrGamePopupContentInnerLeft;
     const popupContentElementRight1 = getElements().endOfShiftOrGamePopupContentInnerRight1;
     const popupContentElementRight2 = getElements().endOfShiftOrGamePopupContentInnerRight2;
-    const popupContentElementRight3 = getElements().endOfShiftOrGamePopupContentInnerRight3;
 
     popupContentElementLeft.innerHTML = '';
     popupContentElementRight1.innerHTML = '';
     popupContentElementRight2.innerHTML = '';
-    popupContentElementRight3.innerHTML = '';
 
     const buttonElement = document.querySelector('.popup-continue-button');
     buttonElement.style.opacity = '0';

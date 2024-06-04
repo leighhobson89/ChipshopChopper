@@ -357,6 +357,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
     font-weight: bold;
 }
 
+.popup-continue-button.disabled,
 .menu-button.disabled,
 .action-button-main.disabled,
 .action-button-bottom-row.disabled,
@@ -438,6 +439,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
 
 .popup-row-1 {
     text-align: center;
+    display: flex;
 }
 
 .popup-row-2 {
@@ -474,6 +476,32 @@ div[id^="subInnerDivMid"][id$="_2"] {
     font-weight: bold;
     margin: 0;
     opacity: 0;
+}
+
+.popup-title-left {
+    display: flex;
+    width: 70%;
+    height: 100%;
+    padding: 10px 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-title-right {
+    display: flex;
+    width: 30%;
+    height: 100%;
+    padding: 10px 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.prize-item {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
 }
 
 .popup-content {
@@ -842,6 +870,11 @@ div[id^="subInnerDivMid"][id$="_2"] {
     font-size: 1.2em;
     font-weight: bold;
     display: block;
+}
+
+#spinButton:hover {
+    background-color: #218838;
+    color: #ffffff;
 }
 
 .center-line {
