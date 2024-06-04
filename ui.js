@@ -10,7 +10,7 @@ import {
     getAutoCustomerServerCapped,
     getAutoFryerCapped,
     getAutoPeelerCapped,
-    getAutoStorageCollectorCapped, getBlackString,
+    getAutoStorageCollectorCapped,
     getCapAutoChipper,
     getCapAutoCustomerServer,
     getCapAutoFryer,
