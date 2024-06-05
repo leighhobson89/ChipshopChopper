@@ -141,7 +141,7 @@ import {
     getShiftPoints,
     getWheelSpinning,
     getTextAnimationDone,
-    popupContinueButton, getAutoSaveOn,
+    popupContinueButton, getAutoSaveOn, setDebugOptionFlag, debugOptionFlag,
 } from './constantsAndGlobalVars.js';
 
 let autoSaveInterval;
@@ -153,6 +153,11 @@ let lastFryingUpdateTime = new Date().getTime();
 let lastAutoUpgradesUpdateTime = new Date().getTime();
 
 function main() {
+    document.addEventListener('keydown', function(event) {
+        if (event.key === '-') {
+            setDebugOptionFlag(true);
+        }
+    });
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
     window.addEventListener('blur', handleVisibilityChange, false);
     window.addEventListener('focus', handleVisibilityChange, false);
@@ -185,7 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function gameLoop() {
-
+    if (debugOptionFlag && document.getElementById('debug1').style.visibility === 'hidden') {
+        document.getElementById('debug1').style.visibility = 'visible';
+    }
     setGameInProgress(!!getGameInProgress());
     updateClock();
     updateCustomerCountdown();

@@ -197,7 +197,7 @@ export function createTitleScreen() {
     ];
 
     const debugInfo = [{
-        name: 'Give $10000',
+        name: 'Give $25000',
         color: 'Black'
     }, ];
 
@@ -218,11 +218,12 @@ export function createTitleScreen() {
     resumeGameButton.id = `resumeGameButton`;
     resumeGameWindow.appendChild(resumeGameButton);
 
-    for (let i = 0; i < debugInfo.length; i++) {
+    for (let i = 0; i < debugInfo.length; i++) { //uncomment this loop to see the option to give $25000 for testing
         const debug = document.createElement('div');
         debug.innerHTML = debugInfo[i].name;
         debug.classList.add('debug');
         debug.id = `debug${i + 1}`;
+        debug.style.visibility = 'hidden';
         resumeGameWindow.appendChild(debug);
     }
 

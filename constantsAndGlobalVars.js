@@ -12,6 +12,7 @@ import {
 
 //DEBUG
 export let debugFlag = false;
+export let debugOptionFlag = false;
 export let stateLoading = false;
 
 //ELEMENTS
@@ -956,6 +957,14 @@ export function setDebugFlag(value) {
 
 export function getDebugFlag() {
     return debugFlag;
+}
+
+export function setDebugOptionFlag(value) {
+    debugOptionFlag = value;
+}
+
+export function getDebugOptionFlag() {
+    return debugOptionFlag;
 }
 
 export function getImprovePotatoStorageNotClickedYet() {
