@@ -1587,25 +1587,7 @@ function showWheelPrizeString(winningColor) {
     const wheelCenterX = wheelCenterRect.left + wheelCenterRect.width / 2;
     const wheelCenterY = wheelCenterRect.top + wheelCenterRect.height / 2;
 
-    const textString = document.createElement('div');
-    textString.classList.add('stroke-text');
-    textString.textContent = prizeString;
-    textString.classList.add('wheel-stop-text-string');
-
-    const textStringTop = wheelCenterY - textString.offsetHeight;
-    const textStringLeft = wheelCenterX - textString.offsetWidth / 2;
-
-    textString.style.position = 'absolute';
-    textString.style.top = textStringTop + 'px';
-    textString.style.left = textStringLeft + 'px';
-
-    document.body.appendChild(textString);
-
-    setTimeout(() => {
-        textString.style.top = '30%';
-        textString.style.opacity = '0';
-        textString.style.color = 'black';
-    }, 100);
+    animatedTextString(wheelCenterX, wheelCenterY, prizeString);
 
     return prizeString;
 }
@@ -1641,7 +1623,7 @@ export function animatedTextString(x, y, displayString) {
     // Calculate the initial position
     document.body.appendChild(textString);
     const textStringTop = y - textString.offsetHeight;
-    const textStringLeft = x - textString.offsetWidth / 2;
+    const textStringLeft = x - textString.offsetWidth;
 
     // Set the initial position and styles
     textString.style.position = 'absolute';
@@ -1659,10 +1641,9 @@ export function animatedTextString(x, y, displayString) {
         textString.style.color = 'black';
     }, 100);
 
-    // Remove the text element from the DOM after the animation completes
     setTimeout(() => {
         document.body.removeChild(textString);
-    }, 1000); // 1000ms = 1s to ensure the text is removed after the fade-out
+    }, 2100);
 
     return displayString;
 }

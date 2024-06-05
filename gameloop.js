@@ -606,7 +606,7 @@ function checkRiskAgainstThreshold(doubleRisk) {
     const threshold = getRiskThreshold();
     if (getCurrentRiskLevel() >= threshold && getAmountInvestmentCash() > getZero()) {
         console.log("DEVALUE investment");
-        const amountToLose = devalueInvestment(doubleRisk);
+        const amountToLose = formatToCashNotation(devalueInvestment(doubleRisk));
         setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2))); //start from a non-zero random risk level
         const midpointCoords = getElementMidpoint(getElements().investmentDataScreenBottomRowColumn3.id);
         const x = midpointCoords.x;

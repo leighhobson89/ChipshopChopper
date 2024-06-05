@@ -888,7 +888,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
     transform: translateX(-50%);
 }
 
-.wheel-stop-text-string {
+.animated-text-string {
     position: absolute;
     opacity: 1;
     transition: top 2s ease-out, opacity 2s ease-out, color 2s ease-out;
