@@ -17,7 +17,8 @@ import {
     getAutoChipperCapped,
     getAutoCustomerServerCapped,
     getAutoFryerCapped,
-    getAutoPeelerCapped, getAutoSaveOn,
+    getAutoPeelerCapped,
+    getAutoSaveOn,
     getAutoStorageCollectorCapped,
     getCapAutoChipper,
     getCapAutoCustomerServer,
@@ -118,7 +119,8 @@ import {
     setAutoChipperCapped,
     setAutoCustomerServerCapped,
     setAutoFryerCapped,
-    setAutoPeelerCapped, setAutoSaveOn,
+    setAutoPeelerCapped,
+    setAutoSaveOn,
     setAutoStorageCollectorCapped,
     setCurrentCash,
     setCurrentRotation,
@@ -141,7 +143,9 @@ import {
     setWinResult,
     wheelColors
 } from './constantsAndGlobalVars.js';
-import {initialiseNewGame} from "./gameloop.js";
+import {
+    initialiseNewGame
+} from "./gameloop.js";
 
 export function createTitleScreen() {
     const titleScreen = document.createElement('div');
@@ -749,7 +753,11 @@ export function createEndOfShiftOrGamePopup() {
         }
     });
 
-    observer.observe(popupContentInnerLeft, { childList: true, subtree: true, characterData: true });
+    observer.observe(popupContentInnerLeft, {
+        childList: true,
+        subtree: true,
+        characterData: true
+    });
 
     setTimeout(() => {
         popupContentInnerRight.style.height = `${popupContentInnerLeft.offsetHeight}px`;
@@ -1656,7 +1664,8 @@ export function getElementMidpoint(elementId) {
     const midX = rect.left + rect.width / 2;
     const midY = rect.top + rect.height / 2;
 
-    return { x: midX, y: midY };
+    return {
+        x: midX,
+        y: midY
+    };
 }
-
-

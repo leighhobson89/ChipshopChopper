@@ -196,7 +196,10 @@ import {
     setTotalServedCustomers,
     getTotalServedCustomers,
     setTotalWastedChips,
-    getTotalWastedChips, wheelColors, Role, prizes,
+    getTotalWastedChips,
+    wheelColors,
+    Role,
+    prizes,
 } from './constantsAndGlobalVars.js';
 
 import {

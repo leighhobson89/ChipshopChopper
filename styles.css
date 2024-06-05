@@ -130,7 +130,8 @@ body {
     top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: none; /* Initially hidden */
+    display: none;
+    /* Initially hidden */
     border: 4px white solid;
     border-radius: 20px;
 }
@@ -220,7 +221,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
     height: 18%;
 }
 
-.second-row-main-buttons > input {
+.second-row-main-buttons>input {
     pointer-events: auto;
 }
 
@@ -717,19 +718,23 @@ div[id^="subInnerDivMid"][id$="_2"] {
 }
 
 @keyframes bounce {
+
     0%,
     100% {
         top: 0;
         left: 0;
     }
+
     25% {
         top: 85%;
         left: 38%;
     }
+
     50% {
         top: 0;
         left: 38%;
     }
+
     75% {
         top: 85%;
         left: 0;
@@ -737,10 +742,12 @@ div[id^="subInnerDivMid"][id$="_2"] {
 }
 
 @keyframes fade {
+
     0%,
     100% {
         opacity: 0.2;
     }
+
     50% {
         opacity: 1;
     }
@@ -750,27 +757,35 @@ div[id^="subInnerDivMid"][id$="_2"] {
     0% {
         color: red;
     }
+
     12.5% {
         color: orange;
     }
+
     25% {
         color: yellow;
     }
+
     37.5% {
         color: green;
     }
+
     50% {
         color: blue;
     }
+
     62.5% {
         color: indigo;
     }
+
     75% {
         color: violet;
     }
+
     87.5% {
         color: red;
     }
+
     100% {
         color: orange;
     }
@@ -780,9 +795,11 @@ div[id^="subInnerDivMid"][id$="_2"] {
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.7);
     }
+
     100% {
         transform: scale(1);
     }
@@ -793,6 +810,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
         transform: translateX(100%);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
@@ -804,6 +822,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
         transform: translateX(-100%);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
@@ -814,6 +833,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -824,6 +844,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
         color: lightcoral;
         background-color: darkred;
     }
+
     to {
         color: darkred;
         background-color: lightcoral;
@@ -835,6 +856,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
         color: chartreuse;
         background-color: darkgreen;
     }
+
     to {
         color: darkgreen;
         background-color: chartreuse;
