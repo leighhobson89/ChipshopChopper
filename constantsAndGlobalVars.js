@@ -208,6 +208,7 @@ export const wheelColors = {
 }
 
 //FLAGS
+let autoSaveOn = false;
 export let pauseAutoSaveCountdown = true;
 export let gameInProgress = false;
 export let shiftInProgress = false;
@@ -316,7 +317,7 @@ export function setElements() {
         option2: document.getElementById('option2'),
         option3: document.getElementById('option3'),
         option4: document.getElementById('option4'),
-        option5: document.getElementById('option4'),
+        option5: document.getElementById('option5'),
         bottomRowContainer: document.getElementById('bottomRowContainer'),
         mainButtonContainer: document.getElementById('mainButtonContainer'),
         optionsWindow: document.getElementById('optionsWindow'),
@@ -1631,6 +1632,14 @@ export function getPauseAutoSaveCountdown() {
 
 export function setPauseAutoSaveCountdown(value) {
     pauseAutoSaveCountdown = value;
+}
+
+export function getAutoSaveOn() {
+    return autoSaveOn;
+}
+
+export function setAutoSaveOn(value) {
+    autoSaveOn = value;
 }
 
 

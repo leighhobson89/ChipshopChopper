@@ -17,7 +17,7 @@ import {
     getAutoChipperCapped,
     getAutoCustomerServerCapped,
     getAutoFryerCapped,
-    getAutoPeelerCapped,
+    getAutoPeelerCapped, getAutoSaveOn,
     getAutoStorageCollectorCapped,
     getCapAutoChipper,
     getCapAutoCustomerServer,
@@ -118,7 +118,7 @@ import {
     setAutoChipperCapped,
     setAutoCustomerServerCapped,
     setAutoFryerCapped,
-    setAutoPeelerCapped,
+    setAutoPeelerCapped, setAutoSaveOn,
     setAutoStorageCollectorCapped,
     setCurrentCash,
     setCurrentRotation,
@@ -191,8 +191,8 @@ export function createTitleScreen() {
             name: 'Help'
         },
         {
-            name: 'Toggle Sound',
-            color: '#00cc00'
+            name: 'AutoSave On/Off (will download a .txt to Downloads folder)',
+            color: 'red'
         }
     ];
 
@@ -233,7 +233,6 @@ export function createTitleScreen() {
     document.body.appendChild(titleScreen);
 
     document.getElementById('option2').classList.add('option-disabled'); //DISABLE SAVE GAME FOR FIRST OPEN OF GAME OR BROWSER REFRESH
-    document.getElementById('option5').style.display = 'none'; //HIDE SOUND OPTION
 }
 export function createGameWindow(titleScreenCreatedEvent) {
     const gameWindow = document.createElement('div');
@@ -600,18 +599,15 @@ export function hideUpgradeButtonsGameStart(bottomButtonsContainer) {
     }
 }
 
-export function toggleSound() {
-    const soundOption = getElements().option4;
-    const isSoundOn = soundOption.style.backgroundColor === 'rgb(255, 0, 0)'; // Red color
+export function toggleAutoSave() {
+    const autoSaveOption = getElements().option5;
 
-    if (isSoundOn) {
-        soundOption.style.backgroundColor = '#00cc00'; // Green
-        // console.log('Sound turned on');
-        // Call your "toggleSound(on)" function here
+    if (!getAutoSaveOn()) {
+        autoSaveOption.style.backgroundColor = '#28a745';
+        setAutoSaveOn(true);
     } else {
-        soundOption.style.backgroundColor = 'rgb(255, 0, 0)'; // Red
-        // console.log('Sound turned off');
-        // Call your "toggleSound(off)" function here
+        autoSaveOption.style.backgroundColor = 'red';
+        setAutoSaveOn(false);
     }
 }
 
@@ -1047,7 +1043,7 @@ function createOptionScreenEventListeners() {
         // Add functionality for help
     });
     getElements().option5.addEventListener('click', function() {
-        toggleSound();
+        toggleAutoSave();
     });
     getElements().resumeGameButton.addEventListener('click', function() {
         toggleMenu(getElements().gameWindow.style.display === 'block');

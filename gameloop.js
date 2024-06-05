@@ -141,7 +141,7 @@ import {
     getShiftPoints,
     getWheelSpinning,
     getTextAnimationDone,
-    popupContinueButton,
+    popupContinueButton, getAutoSaveOn,
 } from './constantsAndGlobalVars.js';
 
 let autoSaveInterval;
@@ -167,7 +167,7 @@ function main() {
         //console.log("Pause auto save timer state (true = paused):" + getPauseAutoSaveCountdown());
         if (!getPauseAutoSaveCountdown()) {
             //console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
-            if (nextAutoSaveTime <= Date.now()) {
+            if (nextAutoSaveTime <= Date.now() && getAutoSaveOn()) {
                 saveGame(false);
                 nextAutoSaveTime = Date.now() + autoSaveInterval;
             }

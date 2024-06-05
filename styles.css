@@ -118,7 +118,7 @@ body {
 }
 
 .debug-toggledOn {
-    background-color: green;
+    background-color: #28a745;
     color: black;
     pointer-events: none;
 }
