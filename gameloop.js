@@ -1,10 +1,10 @@
 import {
-    addCheckbox,
+    addCheckbox, animatedTextString,
     changePlayerRole,
     checkAndSetFlagCapOnUpgrades,
     createGameWindow,
     createTitleScreen,
-    formatToCashNotation, getColorsForWheel,
+    formatToCashNotation, getColorsForWheel, getElementMidpoint,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
     updateButtonStyle,
@@ -606,8 +606,12 @@ function checkRiskAgainstThreshold(doubleRisk) {
     const threshold = getRiskThreshold();
     if (getCurrentRiskLevel() >= threshold && getAmountInvestmentCash() > getZero()) {
         console.log("DEVALUE investment");
-        devalueInvestment(doubleRisk);
+        const amountToLose = devalueInvestment(doubleRisk);
         setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2))); //start from a non-zero random risk level
+        const midpointCoords = getElementMidpoint(getElements().investmentDataScreenBottomRowColumn3.id);
+        const x = midpointCoords.x;
+        const y = midpointCoords.y;
+        animatedTextString(x, y, `-${amountToLose.toString()}`);
     } else {
         //console.log("no devalue of investment");
     }
@@ -624,6 +628,8 @@ function devalueInvestment(doubleRisk) {
     }
     setGrowthInvestment(getGrowthInvestment() - amountOfInvestmentToLose);
     setCurrentValueOfInvestment(getCurrentValueOfInvestment() - amountOfInvestmentToLose);
+
+    return amountOfInvestmentToLose;
 }
 
 export function calculateForthcomingTotalInvestment() {

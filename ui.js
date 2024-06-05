@@ -1064,7 +1064,7 @@ function createOptionScreenEventListeners() {
     getElements().debug1.addEventListener('click', function() {
         setDebugFlag(true);
         getElements().debug1.classList.add('debug-toggledOn');
-        let donation = 7200000;
+        let donation = 25000;
         setCurrentCash(donation);
         getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
         console.log("$" + donation + " given (debug)");
@@ -1630,4 +1630,55 @@ function extractPrizeNames(htmlString) {
     const prizeDivs = tempContainer.querySelectorAll('.prize-item');
     return Array.from(prizeDivs).map(div => div.innerHTML);
 }
+
+export function animatedTextString(x, y, displayString) {
+    // Create the text element
+    const textString = document.createElement('div');
+    textString.classList.add('stroke-text');
+    textString.textContent = displayString;
+    textString.classList.add('animated-text-string');
+
+    // Calculate the initial position
+    document.body.appendChild(textString);
+    const textStringTop = y - textString.offsetHeight;
+    const textStringLeft = x - textString.offsetWidth / 2;
+
+    // Set the initial position and styles
+    textString.style.position = 'absolute';
+    textString.style.top = textStringTop + 'px';
+    textString.style.left = textStringLeft + 'px';
+
+    // Apply the initial styles to the text element
+    textString.style.opacity = '1';
+    textString.style.color = 'white';
+
+    // Start the animation after a short delay
+    setTimeout(() => {
+        textString.style.top = '30%';
+        textString.style.opacity = '0';
+        textString.style.color = 'black';
+    }, 100);
+
+    // Remove the text element from the DOM after the animation completes
+    setTimeout(() => {
+        document.body.removeChild(textString);
+    }, 1000); // 1000ms = 1s to ensure the text is removed after the fade-out
+
+    return displayString;
+}
+
+export function getElementMidpoint(elementId) {
+    const element = document.getElementById(elementId);
+
+    if (!element) {
+        throw new Error(`Element with ID ${elementId} not found`);
+    }
+
+    const rect = element.getBoundingClientRect();
+    const midX = rect.left + rect.width / 2;
+    const midY = rect.top + rect.height / 2;
+
+    return { x: midX, y: midY };
+}
+
 
