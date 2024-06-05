@@ -272,7 +272,7 @@ let priceToImproveFryTimer = 100;
 let priceToDoubleSpudsMax = 100;
 let priceToIncreaseFootfall = 300;
 let priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
-//
+
 //AUTO SPEEDS
 let currentSpeedAutoPeeler = "N/A";
 let nextSpeedAutoPeeler = 1;
@@ -311,7 +311,6 @@ let totalCut = 0;
 let totalWastedChips = 0;
 let totalServedCustomers = 0;
 
-
 //STRING LITERAL ENUMS
 export const Role = {
     ONE: 'Chip Shop Prepper',
@@ -322,6 +321,7 @@ export const Role = {
     SIX: 'Rich Lazy Director',
     SEVEN: 'President of Potatoes'
 }
+
 //BATCH TIMER VARIABLE
 export let batchTimers = {};
 
@@ -1473,6 +1473,139 @@ export function getNumberOfWheelSections() {
     return NUMBER_OF_WHEEL_SECTIONS;
 }
 
+export function getInitialStateMainButtons() {
+    return initialStateMainButtons;
+}
+
+export function setInitialStateMainButtons(value) {
+    initialStateMainButtons = value;
+}
+
+export function getInitialStateBottomRowButtons() {
+    return initialStateBottomRowButtons;
+}
+
+export function setInitialStateBottomRowButtons(value) {
+    initialStateBottomRowButtons = value;
+}
+
+export function getStateLoading() {
+    return stateLoading;
+}
+
+export function setStateLoading(value) {
+    stateLoading = value;
+}
+
+export function getShiftPoints() {
+    return shiftPoints;
+}
+
+export function setShiftPoints(value) {
+    shiftPoints = value;
+}
+
+export function getAutoSaveInterval() {
+    return AUTO_SAVE_INTERVAL;
+}
+
+export function getPauseAutoSaveCountdown() {
+    return pauseAutoSaveCountdown;
+}
+
+export function setPauseAutoSaveCountdown(value) {
+    pauseAutoSaveCountdown = value;
+}
+
+export function getAutoSaveOn() {
+    return autoSaveOn;
+}
+
+export function setAutoSaveOn(value) {
+    autoSaveOn = value;
+}
+
+
+export function getTotalEarnedInSales() {
+    return totalEarnedInSales;
+}
+
+export function setTotalEarnedInSales(value) {
+    totalEarnedInSales = value;
+}
+
+export function getTotalSpentExcludingInvestments() {
+    return totalSpentExcludingInvestments;
+}
+
+export function setTotalSpentExcludingInvestments(value) {
+    totalSpentExcludingInvestments = value;
+}
+
+export function getTotalPeeled() {
+    return totalPeeled;
+}
+
+export function setTotalPeeled(value) {
+    totalPeeled = value;
+}
+
+export function getTotalCut() {
+    return totalCut;
+}
+
+export function setTotalCut(value) {
+    totalCut = value;
+}
+
+export function getTotalWastedChips() {
+    return totalWastedChips;
+}
+
+export function setTotalWastedChips(value) {
+    totalWastedChips = value;
+}
+
+export function getTotalServedCustomers() {
+    return totalServedCustomers;
+}
+
+export function setTotalServedCustomers(value) {
+    totalServedCustomers = value;
+}
+
+export function getCurrentRotation() {
+    return currentRotation;
+}
+
+export function setCurrentRotation(value) {
+    currentRotation = value;
+}
+
+export function getWheelSpinning() {
+    return wheelSpinning;
+}
+
+export function setWheelSpinning(value) {
+    wheelSpinning = value;
+}
+
+export function getTextAnimationDone() {
+    return textAnimationDone;
+}
+
+export function setTextAnimationDone(value) {
+    textAnimationDone = value;
+}
+
+export function getWinResult() {
+    return winResult;
+}
+
+export function setWinResult(value) {
+    winResult = value;
+}
+
 export function resetAllVariables() {
     // GLOBAL VARIABLES
     currentMaxValueWaitForNewCustomer = 10;
@@ -1611,139 +1744,6 @@ export function resetCounterUiElements() {
     getElements().investmentDataScreenBottomRowColumn1.innerHTML = formatToCashNotation(getAmountInvestmentCash());
     getElements().investmentDataScreenBottomRowColumn2.innerHTML = getAmountInvestmentRisk() + "%";
     getElements().investmentDataScreenBottomRowColumn3.innerHTML = formatToCashNotation(getCurrentValueOfInvestment());
-}
-
-export function getInitialStateMainButtons() {
-    return initialStateMainButtons;
-}
-
-export function setInitialStateMainButtons(value) {
-    initialStateMainButtons = value;
-}
-
-export function getInitialStateBottomRowButtons() {
-    return initialStateBottomRowButtons;
-}
-
-export function setInitialStateBottomRowButtons(value) {
-    initialStateBottomRowButtons = value;
-}
-
-export function getStateLoading() {
-    return stateLoading;
-}
-
-export function setStateLoading(value) {
-    stateLoading = value;
-}
-
-export function getShiftPoints() {
-    return shiftPoints;
-}
-
-export function setShiftPoints(value) {
-    shiftPoints = value;
-}
-
-export function getAutoSaveInterval() {
-    return AUTO_SAVE_INTERVAL;
-}
-
-export function getPauseAutoSaveCountdown() {
-    return pauseAutoSaveCountdown;
-}
-
-export function setPauseAutoSaveCountdown(value) {
-    pauseAutoSaveCountdown = value;
-}
-
-export function getAutoSaveOn() {
-    return autoSaveOn;
-}
-
-export function setAutoSaveOn(value) {
-    autoSaveOn = value;
-}
-
-
-export function getTotalEarnedInSales() {
-    return totalEarnedInSales;
-}
-
-export function setTotalEarnedInSales(value) {
-    totalEarnedInSales = value;
-}
-
-export function getTotalSpentExcludingInvestments() {
-    return totalSpentExcludingInvestments;
-}
-
-export function setTotalSpentExcludingInvestments(value) {
-    totalSpentExcludingInvestments = value;
-}
-
-export function getTotalPeeled() {
-    return totalPeeled;
-}
-
-export function setTotalPeeled(value) {
-    totalPeeled = value;
-}
-
-export function getTotalCut() {
-    return totalCut;
-}
-
-export function setTotalCut(value) {
-    totalCut = value;
-}
-
-export function getTotalWastedChips() {
-    return totalWastedChips;
-}
-
-export function setTotalWastedChips(value) {
-    totalWastedChips = value;
-}
-
-export function getTotalServedCustomers() {
-    return totalServedCustomers;
-}
-
-export function setTotalServedCustomers(value) {
-    totalServedCustomers = value;
-}
-
-export function getCurrentRotation() {
-    return currentRotation;
-}
-
-export function setCurrentRotation(value) {
-    currentRotation = value;
-}
-
-export function getWheelSpinning() {
-    return wheelSpinning;
-}
-
-export function setWheelSpinning(value) {
-    wheelSpinning = value;
-}
-
-export function getTextAnimationDone() {
-    return textAnimationDone;
-}
-
-export function setTextAnimationDone(value) {
-    textAnimationDone = value;
-}
-
-export function getWinResult() {
-    return winResult;
-}
-
-export function setWinResult(value) {
-    winResult = value;
 }
 
 export function captureGameStatusForSaving() {
