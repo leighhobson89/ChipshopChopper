@@ -1490,6 +1490,34 @@ export function addPrizeToPlayerStats(prizeString) {
             setCurrentCash(getCurrentCash() * 2);
             getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
             break;
+        case "Customer Walkout":
+            setCustomersWaiting(getZero());
+            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            break;
+        case "+5 Customers":
+            setCustomersWaiting(getCustomersWaiting() + 5);
+            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            break;
+        case "+10 Customers":
+            setCustomersWaiting(getCustomersWaiting() + 10);
+            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            break;
+        case "+15 Customers":
+            setCustomersWaiting(getCustomersWaiting() + 15);
+            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            break;
+        case "+25 Customers":
+            setCustomersWaiting(getCustomersWaiting() + 25);
+            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            break;
+        case "+50 Customers":
+            setCustomersWaiting(getCustomersWaiting() + 50);
+            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            break;
+        case "+100 Customers":
+            setCustomersWaiting(getCustomersWaiting() + 100);
+            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            break;
         case "Delivery Cancelled":
             setSpudsToAddToShift(getZero());
             getElements().startShiftButton.innerHTML = 'Start Shift <br> (+ ' + getSpudsToAddToShift() + ' Potatoes)';
