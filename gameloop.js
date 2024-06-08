@@ -1,10 +1,13 @@
 import {
-    addCheckbox, animatedTextString,
+    addCheckbox,
+    animatedTextString,
     changePlayerRole,
     checkAndSetFlagCapOnUpgrades,
     createGameWindow,
     createTitleScreen,
-    formatToCashNotation, getColorsForWheel, getElementMidpoint,
+    formatToCashNotation,
+    getColorsForWheel,
+    getElementMidpoint,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
     updateButtonStyle,
@@ -141,7 +144,10 @@ import {
     getShiftPoints,
     getWheelSpinning,
     getTextAnimationDone,
-    popupContinueButton, getAutoSaveOn, setDebugOptionFlag, debugOptionFlag,
+    popupContinueButton,
+    getAutoSaveOn,
+    setDebugOptionFlag,
+    debugOptionFlag,
 } from './constantsAndGlobalVars.js';
 
 let autoSaveInterval;
@@ -725,4 +731,3 @@ function disableEnableContinueButtonIfWheelSpinningNotSpinning() {
         popupContinueButton.classList.remove('disabled');
     }
 }
-
