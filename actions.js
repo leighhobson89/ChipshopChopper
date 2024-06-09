@@ -1332,7 +1332,8 @@ export function toggleMenu(inGame) {
 export function saveGame(isManualSave) {
     const gameState = captureGameStatusForSaving();
     const serializedGameState = JSON.stringify(gameState);
-    const blob = new Blob([serializedGameState], {
+    let compressed = LZString.compressToEncodedURIComponent(serializedGameState);
+    const blob = new Blob([compressed], {
         type: 'text/plain'
     });
     const url = URL.createObjectURL(blob);
@@ -1383,10 +1384,11 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
-            const result = e.target.result;
+            const compressed = e.target.result;
 
-            if (typeof result === 'string') {
-                const gameState = JSON.parse(result);
+            if (typeof compressed === 'string') {
+                let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
+                let gameState = JSON.parse(decompressedJson);
                 initialiseLoadedGame(gameState);
                 alert('Game loaded successfully!');
             }
