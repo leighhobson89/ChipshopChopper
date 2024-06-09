@@ -203,7 +203,7 @@ import {
     endOfShiftOrGamePopupObject,
     setEndOfShiftOrGamePopupObject,
     setEndOfShiftOrGamePopup,
-    setPopupContinueButton, setPopupOverlay
+    setPopupContinueButton, setPopupOverlay, getInvestmentFundUnlockable, setInvestmentFundUnlockable
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -1424,13 +1424,13 @@ function initialiseLoadedGame(gameState) {
     toggleMenu(false);
     setPauseAutoSaveCountdown(false);
     setInvestmentFundUnlocked(gameState.investmentFundUnlocked);
+    setInvestmentFundUnlockable(gameState.investmentFundUnlockable);
     console.log(getInvestmentFundUnlocked());
-    if(getInvestmentFundUnlocked()) {
+    if (getInvestmentFundUnlocked() && getInvestmentFundUnlockable()) {
         getElements().investmentCashComponent.remove();
         getElements().investmentRiskComponent.remove();
         getElements().investmentDataScreen.remove();
         createInvestmentComponents(document.getElementById('bottomRowContainer'));
-        // createInvestmentDataScreen(document.getElementById('mainButtonContainer'));
         initialiseInvestmentScreenText();
     }
 
