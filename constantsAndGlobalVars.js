@@ -87,10 +87,10 @@ const CAP_FRYER_SPEED = 2.5;
 const CAP_MAX_DELIVERY = 1280;
 const CAP_MAX_WAIT_CUSTOMER = 0;
 
-export const endOfShiftOrGamePopupObject = createEndOfShiftOrGamePopup();
-export const endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
-export const popupContinueButton = endOfShiftOrGamePopupObject.continueButton;
-export const popupOverlay = createOverlay();
+export let endOfShiftOrGamePopupObject = createEndOfShiftOrGamePopup();
+export let endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
+export let popupContinueButton = endOfShiftOrGamePopupObject.continueButton;
+export let popupOverlay = createOverlay();
 
 //GLOBAL VARIABLES
 let initialStateMainButtons;
@@ -1809,6 +1809,22 @@ export function setWinResult(value) {
     winResult = value;
 }
 
+export function setEndOfShiftOrGamePopupObject(value) {
+    endOfShiftOrGamePopupObject = value;
+}
+
+export function setEndOfShiftOrGamePopup(value) {
+    endOfShiftOrGamePopup = value;
+}
+
+export function setPopupContinueButton(value) {
+    popupContinueButton = value;
+}
+
+export function setPopupOverlay(value) {
+    popupOverlay = value;
+}
+
 export function resetAllVariables() {
     // GLOBAL VARIABLES
     currentMaxValueWaitForNewCustomer = 10;
@@ -2005,6 +2021,8 @@ export function captureGameStatusForSaving() {
     gameState.doubleMaxSpudsDeliveryBought = doubleMaxSpudsDeliveryBought;
     gameState.investmentFundUnlocked = investmentFundUnlocked;
     gameState.investmentFundUnlockable = investmentFundUnlockable;
+    console.log(investmentFundUnlocked);
+    console.log(investmentFundUnlockable);
     gameState.autoShiftStartUpgradeUnlocked = autoShiftStartUpgradeUnlocked;
     gameState.autoShiftStatus = autoShiftStatus;
     gameState.promotionFlag = promotionFlag;
@@ -2149,6 +2167,8 @@ export function restoreGameStatus(gameState) {
     doubleMaxSpudsDeliveryBought = gameState.doubleMaxSpudsDeliveryBought;
     investmentFundUnlocked = gameState.investmentFundUnlocked;
     investmentFundUnlockable = gameState.investmentFundUnlockable;
+    console.log(investmentFundUnlocked);
+    console.log(investmentFundUnlockable);
     autoShiftStartUpgradeUnlocked = gameState.autoShiftStartUpgradeUnlocked;
     autoShiftStatus = gameState.autoShiftStatus;
     promotionFlag = gameState.promotionFlag;

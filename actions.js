@@ -200,6 +200,10 @@ import {
     wheelColors,
     Role,
     prizes,
+    endOfShiftOrGamePopupObject,
+    setEndOfShiftOrGamePopupObject,
+    setEndOfShiftOrGamePopup,
+    setPopupContinueButton, setPopupOverlay
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -209,9 +213,10 @@ import {
 } from './gameloop.js';
 
 import {
-    addCheckbox,
+    addCheckbox, createAndAttachContinueButtonEventListener, createEndOfShiftOrGamePopup, createGameWindow,
     createInvestmentComponents,
-    createInvestmentDataScreen,
+    createOverlay,
+    createTitleScreen,
     formatToCashNotation,
     hideButtonsReadyForEndGame,
     hideDoublePeelerChipperAndShowInvestmentComponents,
@@ -1389,6 +1394,20 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
             if (typeof compressed === 'string') {
                 let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
                 let gameState = JSON.parse(decompressedJson);
+
+                getElements().titleScreen.remove();
+                document.querySelector('.popup-container').remove();
+                document.getElementById('overlay').remove();
+
+                const titleScreenCreatedEvent = new Event('titleScreenCreated');
+                createTitleScreen();
+                createGameWindow(titleScreenCreatedEvent);
+                setEndOfShiftOrGamePopupObject(createEndOfShiftOrGamePopup());
+                setEndOfShiftOrGamePopup(endOfShiftOrGamePopupObject.popupContainer);
+                setPopupContinueButton(endOfShiftOrGamePopupObject.continueButton);
+                setPopupOverlay(createOverlay());
+                createAndAttachContinueButtonEventListener();
+
                 initialiseLoadedGame(gameState);
                 alert('Game loaded successfully!');
             }
@@ -1404,12 +1423,17 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
 function initialiseLoadedGame(gameState) {
     toggleMenu(false);
     setPauseAutoSaveCountdown(false);
-    getElements().investmentCashComponent.remove();
-    getElements().investmentRiskComponent.remove();
-    getElements().investmentDataScreen.remove();
-    createInvestmentComponents(document.getElementById('bottomRowContainer'));
-    createInvestmentDataScreen(document.getElementById('mainButtonContainer'));
-    initialiseInvestmentScreenText();
+    setInvestmentFundUnlocked(gameState.investmentFundUnlocked);
+    console.log(getInvestmentFundUnlocked());
+    if(getInvestmentFundUnlocked()) {
+        getElements().investmentCashComponent.remove();
+        getElements().investmentRiskComponent.remove();
+        getElements().investmentDataScreen.remove();
+        createInvestmentComponents(document.getElementById('bottomRowContainer'));
+        // createInvestmentDataScreen(document.getElementById('mainButtonContainer'));
+        initialiseInvestmentScreenText();
+    }
+
     restoreGameStatus(gameState);
     setElements();
 }

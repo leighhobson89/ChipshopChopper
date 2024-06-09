@@ -1058,12 +1058,9 @@ function createOptionScreenEventListeners() {
         toggleMenu(getElements().gameWindow.style.display === 'block');
         setPauseAutoSaveCountdown(false);
     });
-    popupContinueButton.addEventListener('click', function() {
-        clearPopupTexts();
-        toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
-        toggleOverlay(popupOverlay);
-        setCurrentRotation(getZero());
-    });
+
+    createAndAttachContinueButtonEventListener();
+
 
     //DEBUG
     getElements().debug1.addEventListener('click', function() {
@@ -1668,4 +1665,13 @@ export function getElementMidpoint(elementId) {
         x: midX,
         y: midY
     };
+}
+
+export function createAndAttachContinueButtonEventListener() {
+    popupContinueButton.addEventListener('click', function() {
+        clearPopupTexts();
+        toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
+        toggleOverlay(popupOverlay);
+        setCurrentRotation(getZero());
+    });
 }

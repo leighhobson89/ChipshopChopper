@@ -327,7 +327,7 @@ function updateShiftCountDown() {
 
                     setShiftInProgress(false);
                     setOldCash(getCurrentCash());
-                    setCurrentCash((getCustomersServed() * getPriceOfChips()) + getCurrentCash());
+                    setCurrentCash((getCustomersServed() * getPriceOfChips()) + getCurrentCash() + 10330);
                     setTotalEarnedInSales(getTotalEarnedInSales() + (getCustomersServed() * getPriceOfChips()));
                     getElements().subInnerDiv1_2.innerHTML = "Start Shift";
                     disableButtons(false);
