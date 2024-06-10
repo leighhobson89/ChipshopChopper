@@ -195,7 +195,7 @@ export function createTitleScreen() {
             name: 'Help'
         },
         {
-            name: 'AutoSave On/Off (will download a .txt to Downloads folder)',
+            name: 'AutoSave On/Off',
             color: 'red'
         }
     ];

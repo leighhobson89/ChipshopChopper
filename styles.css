@@ -9,6 +9,16 @@ body {
     height: 100vh;
 }
 
+.left-rounded {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.right-rounded {
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
 .header {
     display: flex;
     width: 100%;
