@@ -44,7 +44,7 @@ import {
     getCurrentValueOfInvestment,
     getCustomersServed,
     getCustomersWaiting,
-    getCustomersWaitingBeforeEndOfShift,
+    getCustomersWaitingBeforeEndOfShift, getDebugFlag,
     getElements,
     getFloatOnStockMarketUnlockedAndEndGameFlowStarted,
     getFryerCapacity,
@@ -149,6 +149,10 @@ export function createTitleScreen() {
     getElements().resumeGameButton.classList.add('option-disabled');
 
     getElements().option2.classList.add('option-disabled'); //DISABLE SAVE GAME FOR FIRST OPEN OF GAME OR BROWSER REFRESH
+    getElements().option5.classList.add('bg-danger');
+    getElements().debugCash.style.color = 'white';
+    getElements().debugCash.classList.add('bg-danger');
+
 }
 export function createGameWindow() {
     setInitialStateMainButtons();
@@ -234,11 +238,11 @@ export function toggleAutoSave() {
     const autoSaveOption = getElements().option5;
 
     if (!getAutoSaveOn()) {
-        autoSaveOption.classList.remove('bg-warning');
+        autoSaveOption.classList.remove('bg-danger');
         autoSaveOption.classList.add('bg-success');
         setAutoSaveOn(true);
     } else {
-        autoSaveOption.classList.add('bg-warning');
+        autoSaveOption.classList.add('bg-danger');
         autoSaveOption.classList.remove('bg-success');
         setAutoSaveOn(false);
     }
@@ -688,7 +692,25 @@ function createOptionScreenEventListeners() {
     createAndAttachContinueButtonEventListener();
 
     //DEBUG
+    getElements().debugCash.addEventListener('mouseenter', function() {
+        if (!getDebugFlag()) {
+            getElements().debugCash.classList.remove('bg-danger');
+            getElements().debugCash.style.color = 'black';
+        } else {
+            getElements().debugCash.style.color = 'white';
+        }
+    });
+
+    getElements().debugCash.addEventListener('mouseleave', function() {
+        if (!getDebugFlag()) {
+            getElements().debugCash.classList.add('bg-danger');
+            getElements().debugCash.style.color = 'white';
+        }
+    });
+
     getElements().debugCash.addEventListener('click', function() {
+        getElements().debugCash.classList.remove('bg-danger');
+        getElements().debugCash.style.color = 'white';
         setDebugFlag(true);
         getElements().debugCash.classList.add('debug-toggledOn');
         let donation = 25000;

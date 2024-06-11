@@ -196,8 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function gameLoop() {
-    if (debugOptionFlag && getElements().debugCash.style.visibility === 'hidden') {
-        document.getElementById('debug1').style.visibility = 'visible';
+    if (debugOptionFlag && getElements().debugCash.classList.contains('d-none')) {
+        getElements().debugCash.classList.remove('d-none');
     }
     setGameInProgress(!!getGameInProgress());
     updateClock();

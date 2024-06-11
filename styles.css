@@ -67,16 +67,7 @@ body {
 /*}*/
 
 .option {
-    background-color: #007bff;
-    color: #fff;
-    margin: 5px;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-    padding: 10px 0;
 }
 
 .option-resume-game {
@@ -99,27 +90,8 @@ body {
     pointer-events: none;
 }
 
-.debugs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    height: 10vh;
-    margin: auto;
-}
-
 .debug {
-    background-color: red;
-    color: white;
-    margin: 5px;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-    padding: 10px 0;
 }
 
 .debug:hover {
