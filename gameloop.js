@@ -347,7 +347,7 @@ function updateShiftCountDown() {
                     getElements().customersWaitingCount.innerHTML = `<h4>${getCustomersWaiting()}</h4>`;
 
                     setChipsReadyToServeQuantity(null, 'clear');
-                    getElements().readyToServeCount.innerHTML = getZero().toString();
+                    getElements().readyToServeCount.innerHTML = `<h3>${getZero().toString()}</h3>`;
                     resetBatchTimers();
 
                     setTotalWastedChips(getTotalWastedChips() + getChipsWastedThisShift());
@@ -482,7 +482,7 @@ export function wasteChipsStillInFryerOrFryingAtEndOfShift() {
         updateButtonStyle(fryerButton.id, getStop());
     }
     updateButtonStyle(fryerButton.id, null);
-    getElements().chuckedInFryerCount.innerHTML = getZero().toString();
+    getElements().chuckedInFryerCount.innerHTML = `<h3>${getZero().toString()}</h3>`;
 }
 
 function selectHowManyCustomersLeftAfterWalkOutAtShiftEnd() {

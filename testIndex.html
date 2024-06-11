@@ -77,7 +77,7 @@
     </div>
 	  
     <!-- Game Window -->
-    <div id="gameWindow" class="container mt-3 text-white d-none">
+    <div id="gameWindow" class="container mt-4 text-white d-none">
       <!-- First section with 5 columns by 3 rows -->
       <div id="div3" class="row justify-content-center font-weight-bold">
         <div id="div4" class="col-12">
@@ -200,7 +200,47 @@
           </div>
         </div>
       </div>
-      <div class="row justify-content-center mt-4">
+
+      <div class="container">
+        <div class="row d-flex justify-content-center">
+          <!-- Investment Cash Component -->
+          <div id="div95" class="col-5 mt-4">
+            <div id="investmentCashComponent" class="investmentComponent d-none">
+              <div class="investmentComponent_title d-flex align-items-center justify-content-center">
+                Change<br>Investment<br>Amount
+              </div>
+              <div class="investmentComponent_Buttons_Container d-flex flex-column align-items-center">
+                <div class="investmentComponent_Buttons_Inner_Container justify-content-end">
+                  <button id="investmentCashComponent_IncrementButton" class="investmentComponent-button-top btn btn-primary btn-block">+1000$</button>
+                </div>
+                <div class="investmentComponent_Buttons_Inner_Container">
+                  <button id="investmentCashComponent_DecrementButton" class="investmentComponent-button-bottom btn btn-danger btn-block">-1000$</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Investment Risk Component -->
+          <div id="div97" class="col-5 mt-4">
+            <div id="investmentRiskComponent" class="investmentComponent d-none">
+              <div class="investmentComponent_title d-flex align-items-center">
+                Change<br>Risk<br>Amount
+              </div>
+              <div class="investmentComponent_Buttons_Container d-flex flex-column align-items-center">
+                <div class="investmentComponent_Buttons_Inner_Container">
+                  <button id="investmentRiskComponent_IncrementButton" class="investmentComponent-button-top btn btn-primary btn-block">+1% Risk</button>
+                </div>
+                <div class="investmentComponent_Buttons_Inner_Container">
+                  <button id="investmentRiskComponent_DecrementButton" class="investmentComponent-button-bottom btn btn-danger btn-block">-1% Risk</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+      <div class="row justify-content-center mt-2">
         <div id="mainButtonContainer" class="col-12">
           <div id="div50" class="row">
             <div id="div51" class="col-1"></div>
@@ -266,12 +306,6 @@
             </div>
             <div id="div93" class="col-2 p-2">
               <button id="twoHandedChippingButton" upgrade="true" repeatableUpgrade="false" class="action-button-main gameButton btn btn-secondary w-100 h-100">Double Chipping Tool $30</button>
-            </div>
-            <div id="div95" class="col-2 p-2 d-none">
-              <button id="investmentCashComponent" upgrade="false" repeatableUpgrade="false" class="action-button-main gameButton btn btn-secondary w-100 h-100">Investment Cash</button>
-            </div>
-            <div id="div97" class="col-2 p-2 d-none">
-              <button id="investmentRiskComponent" upgrade="false" repeatableUpgrade="false" class="action-button-main gameButton btn btn-secondary w-100 h-100">Investment Risk</button>
             </div>
             <div id="div99" class="col-2 p-2">
               <button id="investmentFundUnlockOrFloatButton" upgrade="true" repeatableUpgrade="false" class="action-button-main gameButton btn btn-secondary w-100 h-100">Buy Investment Fund $20000</button>

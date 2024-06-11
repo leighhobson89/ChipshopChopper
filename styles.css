@@ -546,15 +546,10 @@ div[id^="subInnerDivMid"][id$="_2"] {
 
 .investmentComponent {
     display: flex;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    color: white;
-    border: 2px solid white;
-    border-radius: 10px;
+    border: 1px solid white;
+    border-radius: 30px;
     visibility: visible;
     font-weight: bold;
-    font-size: 0.7em;
 }
 
 .investmentComponent_title {
@@ -579,44 +574,28 @@ div[id^="subInnerDivMid"][id$="_2"] {
     width: 100%;
 }
 
-/*.menuButtonDiv,*/
-/*.customerServedCountDiv {*/
-/*    display: flex;*/
-/*    height: 100%;*/
-/*    width: 50%;*/
-/*    align-items: center;*/
-/*    justify-content: left;*/
-/*}*/
-
 .investmentComponent-button-top {
     display: flex;
-    background-color: transparent;
     color: white;
-    border: 2px solid white;
-    border-right: none;
-    border-top: none;
     cursor: pointer;
+    border-top-right-radius: 30px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-left: 2px white solid !important;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    font-weight: bold;
-    font-size: 0.9em;
-    height: 100%;
-    width: 100%;
     justify-content: center;
     align-items: center;
 }
 
 .investmentComponent-button-bottom {
     display: flex;
-    background-color: transparent;
     color: white;
-    border: 2px none white;
-    border-left-style: solid;
     cursor: pointer;
+    border-bottom-right-radius: 30px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-left: 2px white solid !important;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    font-weight: bold;
-    font-size: 0.9em;
-    height: 100%;
-    width: 100%;
     justify-content: center;
     align-items: center;
 }

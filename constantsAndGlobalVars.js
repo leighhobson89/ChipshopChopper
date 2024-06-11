@@ -3,8 +3,7 @@
 import {
     createEndOfShiftOrGamePopup,
     createOverlay,
-    formatToCashNotation,
-    hideDoublePeelerChipperAndShowInvestmentComponents
+    formatToCashNotation
 } from './ui.js';
 import {
     disableButtons

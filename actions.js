@@ -213,12 +213,10 @@ import {
 } from './gameloop.js';
 
 import {
-    addCheckbox, createAndAttachContinueButtonEventListener, createEndOfShiftOrGamePopup,
-    createInvestmentComponents,
+    addCheckbox, createAndAttachContinueButtonEventListener,
     createOverlay,
     formatToCashNotation,
     hideButtonsReadyForEndGame,
-    hideDoublePeelerChipperAndShowInvestmentComponents,
     initialiseInvestmentScreenText,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
@@ -707,7 +705,6 @@ function handleInvestmentFundUnlockButton(buttonId) {
     updateButtonStyle(buttonId, null);
     if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         updateStorageBinHeaterToAutoShiftStartButton();
-        hideDoublePeelerChipperAndShowInvestmentComponents();
         setUpFloatButton();
     }
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
