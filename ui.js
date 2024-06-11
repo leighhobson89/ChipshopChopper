@@ -192,10 +192,10 @@ export function createGameWindow() {
     handleButtonClick(getElements().potatoDeliveryDoublerButton.id, getPriceToDoubleSpudsMax());
     handleButtonClick(getElements().investmentFundUnlockOrFloatButton.id, getPriceToUnlockInvestmentFundOrFloatOnStockMarket());
     handleButtonClick(getElements().customerFrequencyIncreaser.id, getPriceToIncreaseFootfall());
-    //TODO handleButtonClick(getElements().investmentCashComponent_IncrementButton.id, getInvestmentCashIncrementDecrement());
-    //TODO handleButtonClick(getElements().investmentCashComponent_DecrementButton.id, getInvestmentCashIncrementDecrement());
-    //TODO handleButtonClick(getElements().investmentRiskComponent_IncrementButton.id, getInvestmentRiskIncrementDecrement());
-    //TODO handleButtonClick(getElements().investmentRiskComponent_DecrementButton.id, getInvestmentRiskIncrementDecrement());
+    handleButtonClick(getElements().investmentCashComponent_IncrementButton.id, getInvestmentCashIncrementDecrement());
+    handleButtonClick(getElements().investmentCashComponent_DecrementButton.id, getInvestmentCashIncrementDecrement());
+    handleButtonClick(getElements().investmentRiskComponent_IncrementButton.id, getInvestmentRiskIncrementDecrement());
+    handleButtonClick(getElements().investmentRiskComponent_DecrementButton.id, getInvestmentRiskIncrementDecrement());
     handleButtonClick(getElements().withdrawInvestmentButton.id, null);
 }
 
@@ -232,9 +232,6 @@ export function hideUpgradeButtonsGameStart() {
     if (document.getElementById('option1').innerText === 'Click again to start a New Game...') {
         getElements().autoPeelerUpgradeButton.classList.add('hidden-button');
         getElements().investmentDataScreen.classList.add('hidden-button');
-        //TODO getElements().investmentDataScreenButton.classList.add('hidden-button');
-        //TODO getElements().investmentCashComponent.classList.add('hidden-button');
-        //TODO getElements().investmentRiskComponent.classList.add('hidden-button');
         getElements().withdrawInvestmentButton.classList.add('hidden-button');
     }
 }
@@ -586,7 +583,7 @@ export function updateVisibleButtons() {
             getElements().investmentFundUnlockOrFloatButton.classList.remove('hidden-button');
         }
 
-        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.style.display === 'none') {
+        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.classList.contains('d-none')) {
             getElements().investmentDataScreen.classList.remove('d-none');
             initialiseInvestmentScreenText();
         }
@@ -687,10 +684,12 @@ export function initialiseInvestmentScreenText() {
         'Cash Invested:',
         'Current Risk:',
         'Current Value:',
+        'Gain / Loss:',
         'Withdraw All:',
         `${formatToCashNotation(getAmountInvestmentCash())}`,
         `${getAmountInvestmentRisk()}%`,
         `${formatToCashNotation(getCurrentValueOfInvestment())}`,
+        `${formatToCashNotation(getCurrentValueOfInvestment() - getAmountInvestmentCash())}`
     ];
 
     const keys = [
@@ -698,15 +697,17 @@ export function initialiseInvestmentScreenText() {
         'investmentDataScreenTopRowColumn2',
         'investmentDataScreenTopRowColumn3',
         'investmentDataScreenTopRowColumn4',
+        'investmentDataScreenTopRowColumn5',
         'investmentDataScreenBottomRowColumn1',
         'investmentDataScreenBottomRowColumn2',
         'investmentDataScreenBottomRowColumn3',
+        'investmentDataScreenBottomRowColumn4'
     ];
 
     keys.forEach((key, index) => {
         const element = elements[key];
         if (element) {
-            element.innerHTML = strings[index];
+            element.innerHTML = `<h5>${strings[index]}</h5>`;
         }
     });
 }

@@ -808,8 +808,8 @@ export function decrementCounter(counterId, value) {
 
 export function disableButtons(init) {
     let mainButtons;
-    //TODO let investmentCashComponent_DecrementButton = getElements().investmentCashComponent_DecrementButton;
-    //TODO let investmentRiskComponent_DecrementButton = getElements().investmentRiskComponent_DecrementButton;
+    let investmentCashComponent_DecrementButton = getElements().investmentCashComponent_DecrementButton;
+    let investmentRiskComponent_DecrementButton = getElements().investmentRiskComponent_DecrementButton;
     let withdrawInvestmentButton = getElements().withdrawInvestmentButton;
 
     const pricesArrayButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), getPriceToImprovePotatoStorage(), getPriceToImproveFryerCapacity(), getPriceToImproveFryTimer(), getPriceToDoubleSpudsMax(), getPriceToIncreaseFootfall(), 0, 0, 0, 0, 0];
@@ -830,10 +830,9 @@ export function disableButtons(init) {
 
         if (!getShiftInProgress()) {
             toggleDisable(false, getElements().menuButton);
-            //TODO investmentCashComponent_DecrementButton.disabled = false;
-            //TODO investmentCashComponent_DecrementButton.classList.remove('disabled');
-            //TODO investmentRiskComponent_DecrementButton.disabled = false;
-            //TODO investmentRiskComponent_DecrementButton.classList.remove('disabled');
+            toggleDisable(false, investmentRiskComponent_DecrementButton);
+            toggleDisable(false, investmentCashComponent_DecrementButton);
+
             if (getCurrentValueOfInvestment() > getZero()) {
                 toggleDisable(false, getElements().withdrawInvestmentButton);
                 changeWithdrawInvestmentButtonText(true);
@@ -966,10 +965,8 @@ export function disableButtons(init) {
             }
 
             if (getShiftInProgress()) {
-                //TODO investmentCashComponent_DecrementButton.disabled = true;
-                //TODO investmentCashComponent_DecrementButton.classList.add('disabled');
-                //TODO investmentRiskComponent_DecrementButton.disabled = true;
-                //TODO investmentRiskComponent_DecrementButton.classList.add('disabled');
+                toggleDisable(true, investmentCashComponent_DecrementButton);
+                toggleDisable(true, investmentRiskComponent_DecrementButton);
 
                 toggleDisable(true, getElements().withdrawInvestmentButton);
                 changeWithdrawInvestmentButtonText(false);
@@ -1227,7 +1224,7 @@ function cleanUpArray(array) {
 }
 
 function changeWithdrawInvestmentButtonText(value) {
-    value ? getElements().withdrawInvestmentButton.innerHTML = 'Withdraw Now!' : getElements().withdrawInvestmentButton.innerHTML = 'Cannot Withdraw';
+    value ? getElements().withdrawInvestmentButton.innerHTML = '<h5>Withdraw Now!</h5>' : getElements().withdrawInvestmentButton.innerHTML = '<h5>Cannot Withdraw</h5>';
 }
 
 function setUpFloatButton() {
@@ -1358,14 +1355,8 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
                 let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
                 let gameState = JSON.parse(decompressedJson);
 
-                // document.querySelector('.popup-container').remove();
-                // document.getElementById('overlay').remove();
-
-                ///TODO setEndOfShiftOrGamePopupObject(createEndOfShiftOrGamePopup());
-                //TODO setEndOfShiftOrGamePopup(endOfShiftOrGamePopupObject.popupContainer);
-                //TODO setPopupContinueButton(endOfShiftOrGamePopupObject.continueButton);
-                //TODO setPopupOverlay(createOverlay());
-                //TODO createAndAttachContinueButtonEventListener();
+                document.getElementById('overlay').remove();
+                setPopupOverlay(createOverlay());
 
                 initialiseLoadedGame(gameState);
                 alert('Game loaded successfully!');
@@ -1581,6 +1572,8 @@ export function toggleDisable(disableItNow, element) {
             if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
                 element.classList.remove('bg-success');
                 element.classList.remove('white-important');
+            } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
+                element.classList.remove('bg-danger');
             } else {
                 element.classList.remove('bg-warning');
             }
@@ -1595,10 +1588,11 @@ export function toggleDisable(disableItNow, element) {
             if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
                 element.classList.add('bg-success');
                 element.classList.add('white-important');
+            } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
+                element.classList.add('bg-danger');
             } else {
                 element.classList.add('bg-warning');
             }
-
             break;
     }
 }
