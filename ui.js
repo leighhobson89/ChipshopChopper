@@ -4,7 +4,7 @@ import {
     getPrizes,
     handleButtonClick,
     loadGame,
-    saveGame,
+    saveGame, toggleDisable,
     toggleMenu
 } from './actions.js';
 import {
@@ -463,8 +463,7 @@ export function writePopupText() {
     titleElement.style.animation = 'slideInRight 0.5s forwards';
 
     setTimeout(() => {
-        spinButton.classList.add('disabled');
-        spinButton.disabled = true;
+        toggleDisable(true, document.getElementById('spinButton'));
         const popupContentElement = popupContentInnerLeft;
         const lines = popupContentElement.innerHTML.split('<br>');
         popupContentElement.innerHTML = '';
@@ -517,8 +516,7 @@ export function writePopupText() {
                 buttonElement.style.animation = 'fadeIn 1.5s forwards';
 
                 setTextAnimationDone(true);
-                spinButton.classList.remove('disabled');
-                spinButton.disabled = false;
+                toggleDisable(false, spinButton);
 
                 const prizes = getPrizes();
 
@@ -1012,8 +1010,7 @@ function createWheelOfFortune() {
             const maxRotation = 3570;
             const rotation = Math.floor(Math.random() * (maxRotation - minRotation + 1)) + minRotation;
             setWheelSpinning(true);
-            spinButton.disabled = true;
-            spinButton.classList.add('disabled');
+            toggleDisable(true, spinButton);
             setCurrentRotation(getCurrentRotation() + rotation);
             wheel.style.transform = `rotate(${getCurrentRotation()}deg)`;
 
@@ -1060,6 +1057,7 @@ function createWheelOfFortune() {
 function createSpinButton() {
     const spinButton = document.createElement('button');
     spinButton.id = 'spinButton';
+    spinButton.classList.add('bg-secondary');
     if (getShiftPoints() > getZero()) {
         spinButton.innerHTML = 'Spin the Wheel';
     } else {

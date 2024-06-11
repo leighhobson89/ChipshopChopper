@@ -1580,14 +1580,26 @@ export function toggleDisable(disableItNow, element) {
         case true:
             element.disabled = true;
             element.classList.add('disabled');
-            element.classList.remove('bg-warning');
+
+            if (element === document.getElementById('spinButton')) {
+                element.classList.remove('bg-success');
+            } else {
+                element.classList.remove('bg-warning');
+            }
+
             element.classList.add('bg-secondary');
             break;
         case false:
             element.disabled = false;
             element.classList.remove('disabled');
             element.classList.remove('bg-secondary');
-            element.classList.add('bg-warning');
+
+            if (element === document.getElementById('spinButton')) {
+                element.classList.add('bg-success');
+            } else {
+                element.classList.add('bg-warning');
+            }
+
             break;
     }
 }
