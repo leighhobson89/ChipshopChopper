@@ -287,6 +287,39 @@
         </div>
       </div>
 	  </div>
+
+    <!-- Popup HTML structure -->
+    <div id="endOfShiftOrGamePopup" class="popup-container bg-light p-4 rounded shadow-lg d-none">
+      <div id="endOfShiftOrGamePopupTitle" class="popup-row popup-row-1 d-flex justify-content-between align-items-center mb-3">
+        <div class="popup-title-left">
+          <h5 class="m-0">End of Shift</h5>
+        </div>
+        <div class="popup-title-right">
+          <button class="btn btn-sm btn-danger">Close</button>
+        </div>
+      </div>
+      <div id="endOfShiftOrGamePopupContent" class="popup-row popup-row-2 d-flex mb-3">
+        <div id="popupContentInnerLeft" class="popup-content-inner-left flex-fill p-3 border-right">
+          <!-- Left content here -->
+        </div>
+        <div id="popupContentInnerRight" class="popup-content-inner-right flex-fill p-3">
+          <div id="popupContentInnerRight1" class="inner-right-div-1 mb-2">
+            <!-- Right inner div 1 content here -->
+          </div>
+          <div id="popupContentInnerRight2" class="inner-right-div-2">
+            <!-- Right inner div 2 content here -->
+          </div>
+        </div>
+      </div>
+      <div class="popup-row popup-row-3 d-flex justify-content-between">
+        <div class="popup-row-3-left">
+          <button id="popupContinueButton" class="popup-continue-button btn btn-primary">Continue</button>
+        </div>
+        <div class="popup-row-3-right">
+          <!-- Additional controls can be added here -->
+        </div>
+      </div>
+    </div>
       <script type="module" src="actions.js"></script>
       <script type="module" src="gameloop.js"></script>
       <script type="module" src="ui.js"></script>

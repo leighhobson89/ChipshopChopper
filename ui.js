@@ -307,93 +307,26 @@ export function updateButtonStyle(buttonId, startStop) {
 }
 
 export function createEndOfShiftOrGamePopup() {
-    const popupContainer = document.createElement('div');
-    popupContainer.classList.add('popup-container');
-
-    const popupTitle = document.createElement('div');
-    popupTitle.id = 'endOfShiftOrGamePopupTitle';
-    popupTitle.classList.add('popup-row');
-    popupTitle.classList.add('popup-row-1');
-
-    const popupTitleLeft = document.createElement('div');
-    popupTitleLeft.classList.add('popup-title-left');
-
-    const popupTitleRight = document.createElement('div');
-    popupTitleRight.classList.add('popup-title-right');
-
-    popupTitle.appendChild(popupTitleLeft);
-    popupTitle.appendChild(popupTitleRight);
-
-    const popupContent = document.createElement('div');
-    popupContent.id = 'endOfShiftOrGamePopupContent';
-    popupContent.classList.add('popup-row');
-    popupContent.classList.add('popup-row-2');
-
-    const popupContentInnerLeft = document.createElement('div');
-    popupContentInnerLeft.id = 'popupContentInnerLeft';
-    popupContentInnerLeft.classList.add('popup-content-inner-left');
-
-    const popupContentInnerRight = document.createElement('div');
-    popupContentInnerRight.id = 'popupContentInnerRight';
-    popupContentInnerRight.classList.add('popup-content-inner-right');
-
-    const innerRightDiv1 = document.createElement('div');
-    innerRightDiv1.classList.add('inner-right-div-1');
-    innerRightDiv1.id = 'popupContentInnerRight1';
-
-    const innerRightDiv2 = document.createElement('div');
-    innerRightDiv2.classList.add('inner-right-div-2');
-    innerRightDiv2.id = 'popupContentInnerRight2';
-
-    // Append the three div elements directly to the right container
-    popupContentInnerRight.appendChild(innerRightDiv1);
-    popupContentInnerRight.appendChild(innerRightDiv2);
-
-    popupContent.appendChild(popupContentInnerLeft);
-    popupContent.appendChild(popupContentInnerRight);
-
-    const popupRow3 = document.createElement('div');
-    popupRow3.classList.add('popup-row');
-    popupRow3.classList.add('popup-row-3');
-
-    const popupRow3Left = document.createElement('div');
-    popupRow3Left.classList.add('popup-row-3-left');
-
-    const popupRow3Right = document.createElement('div');
-    popupRow3Right.classList.add('popup-row-3-right');
-
-    popupRow3.appendChild(popupRow3Left);
-    popupRow3.appendChild(popupRow3Right);
-
-    const continueButton = document.createElement('button');
-    continueButton.innerHTML = 'Continue';
-    continueButton.classList.add('popup-continue-button');
-    popupRow3Left.appendChild(continueButton);
-    popupContainer.style.display = "none";
-
-    popupContainer.appendChild(popupTitle);
-    popupContainer.appendChild(popupContent);
-    popupContainer.appendChild(popupRow3);
-    document.body.appendChild(popupContainer);
-
     const observer = new MutationObserver(() => {
-        popupContentInnerRight.style.height = `${popupContentInnerLeft.offsetHeight}px`;
+        document.getElementById('popupContentInnerRight').style.height = `${document.getElementById('popupContentInnerLeft').offsetHeight}px`;
         const popupContentInnerRight2 = document.getElementById('popupContentInnerRight2');
         if (popupContentInnerRight2) {
             popupContentInnerRight2.style.width = `${popupContentInnerRight2.offsetHeight}px`;
         }
     });
 
-    observer.observe(popupContentInnerLeft, {
+    observer.observe(document.getElementById('popupContentInnerLeft'), {
         childList: true,
         subtree: true,
         characterData: true
     });
 
     setTimeout(() => {
-        popupContentInnerRight.style.height = `${popupContentInnerLeft.offsetHeight}px`;
+        document.getElementById('popupContentInnerRight').style.height = `${document.getElementById('popupContentInnerLeft').offsetHeight}px`;
     }, 0);
 
+    const popupContainer = document.getElementById('endOfShiftOrGamePopup');
+    const continueButton = document.getElementById('popupContinueButton');
     return {
         popupContainer,
         continueButton
@@ -419,10 +352,10 @@ export function createOverlay() {
 }
 
 export function toggleEndOfShiftOrGamePopup(popupContainer) {
-    if (popupContainer.style.display === 'none') {
-        popupContainer.style.display = 'block';
+    if (popupContainer.classList.contains('d-none')) {
+        popupContainer.classList.remove('d-none');
     } else {
-        popupContainer.style.display = 'none';
+        popupContainer.classList.add('d-none');
     }
 }
 
