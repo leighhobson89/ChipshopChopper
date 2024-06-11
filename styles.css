@@ -95,7 +95,7 @@ body {
 }
 
 .debug:hover {
-    background-color: yellow;
+    background-color: #FFC107;
     color: black;
 }
 

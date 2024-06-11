@@ -1293,7 +1293,7 @@ export function toggleMenu(inGame) {
             getElements().gameWindow.classList.add('d-none');
             break;
         case false:
-            getElements().option1.innerHTML = 'New Game';
+            getElements().option1.innerHTML = '<h2>New Game</h2>';
             getElements().optionsWindow.classList.add('d-none');
             getElements().gameWindow.classList.remove('d-none');
             break;

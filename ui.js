@@ -149,8 +149,14 @@ export function createTitleScreen() {
 
     getElements().option2.classList.add('option-disabled'); //DISABLE SAVE GAME FOR FIRST OPEN OF GAME OR BROWSER REFRESH
     getElements().option5.classList.add('bg-danger');
+
+    getElements().resumeGameButton.classList.add('bg-secondary');
+    getElements().resumeGameButton.style.color = 'white';
+
     getElements().debugCash.style.color = 'white';
     getElements().debugCash.classList.add('bg-danger');
+
+    getElements().menuButton.classList.add('bg-warning');
 
 }
 export function createGameWindow() {
@@ -590,7 +596,7 @@ export function updateVisibleButtons() {
 
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function() {
-        if (getElements().option1.innerHTML === 'Click again to start a New Game...') {
+        if (getElements().option1.innerText === 'Click again to start a New Game...') {
             resetAllVariables();
             resetCounterUiElements();
             setInitialStateMainButtons();
@@ -601,6 +607,9 @@ function createOptionScreenEventListeners() {
         setGameInProgress(initialiseNewGame());
         updateVisibleButtons(); //for debug if money given
         setPauseAutoSaveCountdown(false);
+        getElements().resumeGameButton.classList.remove('bg-secondary');
+        getElements().resumeGameButton.classList.add('bg-warning');
+        getElements().resumeGameButton.style.color = 'black';
     });
     getElements().option2.addEventListener('click', function() {
         saveGame(true);

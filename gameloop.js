@@ -457,7 +457,7 @@ export function initialiseNewGame() {
         return askUserToConfirmRestart();
     } else {
         getElements().resumeGameButton.classList.remove('option-disabled');
-        getElements().option1.innerHTML = 'New Game';
+        getElements().option1.innerHTML = '<h2>New Game</h2>';
         getElements().optionsWindow.classList.add('d-none');
         createRandomCustomerTime();
         getElements().gameWindow.classList.remove('d-none');
@@ -466,7 +466,7 @@ export function initialiseNewGame() {
 }
 
 function askUserToConfirmRestart() {
-    getElements().option1.innerHTML = 'Click again to start a New Game...';
+    getElements().option1.innerHTML = '<h2>Click again to start a New Game...</h2>';
 }
 
 export function wasteChipsStillInFryerOrFryingAtEndOfShift() {
