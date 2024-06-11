@@ -125,7 +125,6 @@ import {
     setFryerCapacityCapped,
     setFryerSpeedCapped,
     setGameInProgress,
-    setInitialStateBottomRowButtons,
     setInitialStateMainButtons,
     setMaxDeliveryCapped,
     setMaxWaitCustomerCapped,
@@ -227,9 +226,9 @@ export function hideUpgradeButtonsGameStart() {
     if (document.getElementById('option1').innerText === 'Click again to start a New Game...') {
         getElements().autoPeelerUpgradeButton.classList.add('hidden-button');
         getElements().investmentDataScreen.classList.add('hidden-button');
-        getElements().investmentDataScreenButton.classList.add('hidden-button');
-        getElements().investmentCashComponent.classList.add('hidden-button');
-        getElements().investmentRiskComponent.classList.add('hidden-button');
+        //TODO getElements().investmentDataScreenButton.classList.add('hidden-button');
+        //TODO getElements().investmentCashComponent.classList.add('hidden-button');
+        //TODO getElements().investmentRiskComponent.classList.add('hidden-button');
         getElements().withdrawInvestmentButton.classList.add('hidden-button');
     }
 }
@@ -477,7 +476,7 @@ export function writePopupText() {
 
         let promotionMessage = "";
         if (getPromotionFlag()) {
-            promotionMessage = `You were Promoted to ${getElements().playerRoleText.innerHTML}!<br><br>`;
+            promotionMessage = `You were Promoted to ${getElements().playerRoleText.innerText}!<br><br>`;
             setPromotionFlag(false);
         }
 
@@ -953,49 +952,49 @@ export function checkAndSetFlagCapOnUpgrades() {
 
 export function updateTextAndDisableButtonsForCappedUpgrades() {
     if (getAutoPeelerCapped()) {
-        getElements().autoPeelerUpgradeButton.classList.add('capped');
+        setCapped(getElements().autoPeelerUpgradeButton);
         if (getElements().autoPeelerUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoPeelerUpgradeButton, getElements().autoPeelerUpgradeButton.classList.contains('autoUpgradeEnabled'));
         }
     }
     if (getAutoChipperCapped()) {
-        getElements().autoChipperUpgradeButton.classList.add('capped');
+        setCapped(getElements().autoChipperUpgradeButton);
         if (getElements().autoChipperUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoChipperUpgradeButton, getElements().autoChipperUpgradeButton.classList.contains('autoUpgradeEnabled'));
         }
     }
     if (getAutoFryerCapped()) {
-        getElements().autoFryerUpgradeButton.classList.add('capped');
+        setCapped(getElements().autoFryerUpgradeButton);
         if (getElements().autoFryerUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoFryerUpgradeButton, getElements().autoFryerUpgradeButton.classList.contains('autoUpgradeEnabled'));
         }
     }
     if (getAutoStorageCollectorCapped()) {
-        getElements().autoStorageCollectorUpgradeButton.classList.add('capped');
+        setCapped(getElements().autoStorageCollectorUpgradeButton);
         if (getElements().autoStorageCollectorUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoStorageCollectorUpgradeButton, getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled'));
         }
     }
     if (getAutoCustomerServerCapped()) {
-        getElements().autoCustomerServerUpgradeButton.classList.add('capped');
+        setCapped(getElements().autoCustomerServerUpgradeButton);
         if (getElements().autoCustomerServerUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoCustomerServerUpgradeButton, getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled'));
         }
     }
     if (getPotatoCapacityCapped()) {
-        getElements().improvePotatoStorageButton.classList.add('capped');
+        setCapped(getElements().improvePotatoStorageButton);
     }
     if (getFryerCapacityCapped()) {
-        getElements().improveFryerCapacityButton.classList.add('capped');
+        setCapped(getElements().improveFryerCapacityButton);
     }
     if (getFryerSpeedCapped()) {
-        getElements().fastFryerUpgradeButton.classList.add('capped');
+        setCapped(getElements().fastFryerUpgradeButton);
     }
     if (getMaxDeliveryCapped()) {
-        getElements().potatoDeliveryDoublerButton.classList.add('capped');
+        setCapped(getElements().potatoDeliveryDoublerButton);
     }
     if (getMaxWaitCustomerCapped()) {
-        getElements().customerFrequencyIncreaser.classList.add('capped');
+        setCapped(getElements().customerFrequencyIncreaser);
     }
 }
 
@@ -1287,4 +1286,10 @@ export function createAndAttachContinueButtonEventListener() {
         //TODO toggleOverlay(popupOverlay);
         setCurrentRotation(getZero());
     });
+}
+
+function setCapped(element) {
+    element.classList.remove('bg-warning');
+    element.classList.add('bg-secondary');
+    element.classList.add('capped');
 }

@@ -350,7 +350,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
 #investmentRiskComponent_DecrementButton.disabled,
 #spinButton.disabled,
 .capped {
-    background-color: #b7b7b7;
     color: black;
     pointer-events: none;
     font-weight: bold;

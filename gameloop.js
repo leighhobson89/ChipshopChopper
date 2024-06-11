@@ -27,7 +27,7 @@ import {
     incrementCustomersWaiting,
     peelPotato,
     saveGame,
-    serveCustomer
+    serveCustomer, toggleDisable
 } from './actions.js';
 
 import {
@@ -201,20 +201,23 @@ function gameLoop() {
     }
     setGameInProgress(!!getGameInProgress());
     updateClock();
-    updateCustomerCountdown();
-    updateShiftCountDown();
-    updateChipsFryingTimer();
-    updateVisibleButtons();
-    checkPlayerRole();
-    if (endOfShiftOrGamePopup.style.display === 'block') {
-        checkSpinButtonStatusAndSetColors();
-        disableEnableContinueButtonIfWheelSpinningNotSpinning();
+
+    if (getGameInProgress()) {
+        updateCustomerCountdown();
+        updateShiftCountDown();
+        updateChipsFryingTimer();
+        updateVisibleButtons();
+        checkPlayerRole();
+        if (endOfShiftOrGamePopup.style.display === 'block') {
+            checkSpinButtonStatusAndSetColors();
+            disableEnableContinueButtonIfWheelSpinningNotSpinning();
+        }
+        if (getInvestmentFundUnlocked()) {
+            updateInvestmentPlanData();
+        }
+        checkAndSetFlagCapOnUpgrades();
+        updateTextAndDisableButtonsForCappedUpgrades();
     }
-    if (getInvestmentFundUnlocked()) {
-        updateInvestmentPlanData();
-    }
-    checkAndSetFlagCapOnUpgrades();
-    updateTextAndDisableButtonsForCappedUpgrades();
 
     // Request the next frame
     requestAnimationFrame(gameLoop);
@@ -721,10 +724,8 @@ function setWheelOpacity(state) {
 
 function disableEnableContinueButtonIfWheelSpinningNotSpinning() {
     if (getWheelSpinning()) {
-        popupContinueButton.disabled = true;
-        popupContinueButton.classList.add('disabled');
+        toggleDisable(true, popupContinueButton);
     } else {
-        popupContinueButton.disabled = false;
-        popupContinueButton.classList.remove('disabled');
+        toggleDisable(false, popupContinueButton);
     }
 }

@@ -578,7 +578,6 @@ export function setElements() {
         endOfShiftOrGamePopupContentInnerRight3: document.getElementById('popupContentInnerRight3'),
         clock: document.getElementById('clock'),
         customerFrequencyIncreaser: document.getElementById('customerFrequencyIncreaser'),
-        allBottomButtons: document.querySelectorAll('.action-button-bottom-row'),
         allMainButtons: document.querySelectorAll('.action-button-main'),
         debugCash: document.getElementById('debugCash'),
         resumeGameWindow: document.getElementById('resumeGameWindow'),
@@ -1683,11 +1682,23 @@ export function setInitialStateMainButtons() {
     getElements().servingStorageButton.innerHTML = `Serving Storage`;
     getElements().serveCustomerButton.innerHTML = `Serve Customer`;
 
+    getElements().peelPotatoButton.classList.add('bg-secondary');
+    getElements().cutChipsButton.classList.add('bg-secondary');
+    getElements().fryChipsButton.classList.add('bg-secondary');
+    getElements().servingStorageButton.classList.add('bg-secondary');
+    getElements().serveCustomerButton.classList.add('bg-secondary');
+
     getElements().autoPeelerUpgradeButton.innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()})<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(getPriceToImproveAutoPeeler())}`;
     getElements().autoChipperUpgradeButton.innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()})<br> ${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(getPriceToImproveAutoChipper())}`;
     getElements().autoFryerUpgradeButton.innerHTML = `Auto Fryer (${getCurrentSpeedAutoFryer()})<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}`;
     getElements().autoStorageCollectorUpgradeButton.innerHTML = `Auto Collect (${getCurrentSpeedAutoStorageCollector()})<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}`;
     getElements().autoCustomerServerUpgradeButton.innerHTML = `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}`;
+
+    getElements().autoPeelerUpgradeButton.classList.add('bg-secondary');
+    getElements().autoChipperUpgradeButton.classList.add('bg-secondary');
+    getElements().autoFryerUpgradeButton.classList.add('bg-secondary');
+    getElements().autoStorageCollectorUpgradeButton.classList.add('bg-secondary');
+    getElements().autoCustomerServerUpgradeButton.classList.add('bg-secondary');
 
     getElements().improvePotatoStorageButton.innerHTML = `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}`;
     getElements().improveFryerCapacityButton.innerHTML = `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`;
@@ -1695,19 +1706,23 @@ export function setInitialStateMainButtons() {
     getElements().potatoDeliveryDoublerButton.innerHTML = `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`;
     getElements().customerFrequencyIncreaser.innerHTML = `Max Wait Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}`;
 
+    getElements().improvePotatoStorageButton.classList.add('bg-secondary');
+    getElements().improveFryerCapacityButton.classList.add('bg-secondary');
+    getElements().fastFryerUpgradeButton.classList.add('bg-secondary');
+    getElements().potatoDeliveryDoublerButton.classList.add('bg-secondary');
+    getElements().customerFrequencyIncreaser.classList.add('bg-secondary');
+
     getElements().twoHandedPeelingButton.innerHTML = `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`;
     getElements().twoHandedChippingButton.innerHTML = `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`;
     getElements().investmentFundUnlockOrFloatButton.innerHTML = `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}`;
     getElements().addStorageHeaterAutoShiftStartButton.innerHTML = `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`;
     getElements().startShiftButton.innerHTML = `Start Shift`;
-}
 
-export function getInitialStateBottomRowButtons() {
-    return initialStateBottomRowButtons;
-}
-
-export function setInitialStateBottomRowButtons(value) {
-    initialStateBottomRowButtons = value;
+    getElements().twoHandedPeelingButton.classList.add('bg-secondary');
+    getElements().twoHandedChippingButton.classList.add('bg-secondary');
+    getElements().investmentFundUnlockOrFloatButton.classList.add('bg-secondary');
+    getElements().addStorageHeaterAutoShiftStartButton.classList.add('bg-secondary');
+    getElements().startShiftButton.classList.add('bg-warning');
 }
 
 export function getStateLoading() {

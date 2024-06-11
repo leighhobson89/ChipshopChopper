@@ -811,45 +811,38 @@ export function decrementCounter(counterId, value) {
 
 export function disableButtons(init) {
     let mainButtons;
-    let bottomRowButtons;
-    let investmentCashComponent_DecrementButton = getElements().investmentCashComponent_DecrementButton;
-    let investmentRiskComponent_DecrementButton = getElements().investmentRiskComponent_DecrementButton;
+    //TODO let investmentCashComponent_DecrementButton = getElements().investmentCashComponent_DecrementButton;
+    //TODO let investmentRiskComponent_DecrementButton = getElements().investmentRiskComponent_DecrementButton;
     let withdrawInvestmentButton = getElements().withdrawInvestmentButton;
 
-    const pricesArrayMainButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), getPriceToImprovePotatoStorage(), getPriceToImproveFryerCapacity(), 0, 0, 0, 0, 0, 0, 0, 0];
-    //const pricesArrayBottomRow = [getPriceToEnableDoublePeeling(), getPriceToEnableDoubleChipping(), getPriceToImproveFryerCapacity(), getPriceToAddStorageHeater(), 0];
+    const pricesArrayButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), getPriceToImprovePotatoStorage(), getPriceToImproveFryerCapacity(), getPriceToImproveFryTimer(), getPriceToDoubleSpudsMax(), getPriceToIncreaseFootfall(), 0, 0, 0, 0, 0];
 
     if (getGameInProgress()) {
         mainButtons = getElements().allMainButtons;
-        bottomRowButtons = getElements().allBottomButtons;
     }
 
     if (!init) {
         mainButtons = getElements().allMainButtons;
-        bottomRowButtons = getElements().allBottomButtons;
 
-        const spudCount = parseInt(getElements().subInnerDivMid1_2.innerHTML);
-        const peeledCount = parseInt(getElements().peeledCount.innerHTML);
-        const cutCount = parseInt(getElements().cutCount.innerHTML);
-        const inFryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
-        const readyToServeCount = parseInt(getElements().readyToServeCount.innerHTML);
-        const customerCount = parseInt(getElements().customersWaitingCount.innerHTML);
+        const spudCount = parseInt(getElements().subInnerDivMid1_2.innerText);
+        const peeledCount = parseInt(getElements().peeledCount.innerText);
+        const cutCount = parseInt(getElements().cutCount.innerText);
+        const inFryerCount = parseInt(getElements().chuckedInFryerCount.innerText);
+        const readyToServeCount = parseInt(getElements().readyToServeCount.innerText);
+        const customerCount = parseInt(getElements().customersWaitingCount.innerText);
 
         if (!getShiftInProgress()) {
-            getElements().menuButton.disabled = false;
-            getElements().menuButton.classList.remove('disabled');
+            toggleDisable(false, getElements().menuButton);
             //TODO investmentCashComponent_DecrementButton.disabled = false;
             //TODO investmentCashComponent_DecrementButton.classList.remove('disabled');
             //TODO investmentRiskComponent_DecrementButton.disabled = false;
             //TODO investmentRiskComponent_DecrementButton.classList.remove('disabled');
             if (getCurrentValueOfInvestment() > getZero()) {
-                withdrawInvestmentButton.disabled = false;
-                withdrawInvestmentButton.classList.remove('disabled');
+                toggleDisable(false, getElements().withdrawInvestmentButton);
                 changeWithdrawInvestmentButtonText(true);
             }
         } else {
-            getElements().menuButton.disabled = true;
-            getElements().menuButton.classList.add('disabled');
+            toggleDisable(true, getElements().menuButton);
         }
 
         mainButtons.forEach(button => {
@@ -906,99 +899,83 @@ export function disableButtons(init) {
                         break;
                 }
             }
-            if (button.disabled) {
-                button.classList.add('disabled');
-            } else {
-                button.classList.remove('disabled');
+
+            if (!button.classList.contains('capped') && !getInvestmentFundUnlocked()) {
+                switch (button.id) {
+                    case getElements().twoHandedPeelingButton.id:
+                        if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
+                            button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
+                        }
+                        break;
+                    case getElements().twoHandedChippingButton.id:
+                        if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
+                            button.disabled = getCurrentCash() < getPriceToEnableDoubleChipping();
+                        }
+                        break;
+                    case getElements().addStorageHeaterAutoShiftStartButton.id:
+                        if (!getHeaterUpgradeBought()) {
+                            if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
+                                button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
+                            }
+                        } else {
+                            if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
+                                button.disabled = (getCurrentCash() < getPriceToUnlockAutoShiftStart() && getInvestmentFundUnlocked());
+                            }
+                        }
+                        break;
+                    case getElements().startShiftButton.id:
+                        button.disabled = getShiftTime() > getZero() && !getFloatOnStockMarketUnlockedAndEndGameFlowStarted();
+                        break;
+                    case getElements().investmentFundUnlockOrFloatButton.id:
+                        if (getInvestmentFundUnlocked()) {
+                            button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
+                        } else {
+                            button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
+                        }
+                        break;
+                }
             }
-        });
 
-        bottomRowButtons.forEach(button => {
-            if (!button.classList.contains('capped')) {
-                if (!getInvestmentFundUnlocked()) {
-                    switch (button.id) {
-                        case getElements().twoHandedPeelingButton.id:
+            if (!button.classList.contains('capped') && getInvestmentFundUnlocked()) {
+                switch (button.id) {
+                    case getElements().addStorageHeaterAutoShiftStartButton.id:
+                        if (!getHeaterUpgradeBought()) {
                             if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                button.disabled = getCurrentCash() < getPriceToEnableDoublePeeling();
+                                button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
                             }
-                            break;
-                        case getElements().twoHandedChippingButton.id:
+                        } else {
                             if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                button.disabled = getCurrentCash() < getPriceToEnableDoubleChipping();
+                                button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
                             }
-                            break;
-                        case getElements().addStorageHeaterAutoShiftStartButton.id:
-                            if (!getHeaterUpgradeBought()) {
-                                if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                    button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
-                                }
-                            } else {
-                                if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                    button.disabled = (getCurrentCash() < getPriceToUnlockAutoShiftStart() && getInvestmentFundUnlocked());
-                                }
-                            }
-                            break;
-                        case getElements().startShiftButton.id:
-                            button.disabled = getShiftTime() > getZero() && !getFloatOnStockMarketUnlockedAndEndGameFlowStarted();
-                            break;
-                        case getElements().investmentFundUnlockOrFloatButton.id:
-                            if (getInvestmentFundUnlocked()) {
-                                button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
-                            } else {
-                                button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
-                            }
-                            break;
-                        default:
-                            button.disabled = false;
-                            break;
-                    }
+                        }
+                        break;
+                    case getElements().startShiftButton.id:
+                        button.disabled = getShiftTime() > getZero() && !getFloatOnStockMarketUnlockedAndEndGameFlowStarted();
+                        break;
+                    case getElements().investmentFundUnlockOrFloatButton.id:
+                        if (getInvestmentFundUnlocked()) {
+                            button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
+                        } else {
+                            button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
+                        }
+                        break;
                 }
+            }
 
-                if (getInvestmentFundUnlocked()) {
-                    switch (button.id) {
-                        case getElements().addStorageHeaterAutoShiftStartButton.id:
-                            if (!getHeaterUpgradeBought()) {
-                                if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                    button.disabled = getCurrentCash() < getPriceToAddStorageHeater();
-                                }
-                            } else {
-                                if (!checkIfNonRepeatableUpgradePurchased(button, null)) {
-                                    button.disabled = getCurrentCash() < getPriceToUnlockAutoShiftStart();
-                                }
-                            }
-                            break;
-                        case getElements().startShiftButton.id:
-                            button.disabled = getShiftTime() > getZero() && !getFloatOnStockMarketUnlockedAndEndGameFlowStarted();
-                            break;
-                        case getElements().investmentFundUnlockOrFloatButton.id:
-                            if (getInvestmentFundUnlocked()) {
-                                button.disabled = getCurrentCash() < getPriceToFloatOnStockMarket();
-                            } else {
-                                button.disabled = getCurrentCash() < getPriceToUnlockInvestmentFundOrFloatOnStockMarket() || !getShiftInProgress();
-                            }
-                            break;
-                        default:
-                            button.disabled = false;
-                            break;
-                    }
-                }
+            if (button.disabled) {
+                toggleDisable(true, button);
+            } else {
+                toggleDisable(false, button);
+            }
 
-                if (getShiftInProgress()) {
-                    investmentCashComponent_DecrementButton.disabled = true;
-                    investmentCashComponent_DecrementButton.classList.add('disabled');
-                    investmentRiskComponent_DecrementButton.disabled = true;
-                    investmentRiskComponent_DecrementButton.classList.add('disabled');
+            if (getShiftInProgress()) {
+                //TODO investmentCashComponent_DecrementButton.disabled = true;
+                //TODO investmentCashComponent_DecrementButton.classList.add('disabled');
+                //TODO investmentRiskComponent_DecrementButton.disabled = true;
+                //TODO investmentRiskComponent_DecrementButton.classList.add('disabled');
 
-                    withdrawInvestmentButton.disabled = true;
-                    withdrawInvestmentButton.classList.add('disabled');
-                    changeWithdrawInvestmentButtonText(false);
-                }
-
-                if (button.disabled) {
-                    button.classList.add('disabled');
-                } else {
-                    button.classList.remove('disabled');
-                }
+                toggleDisable(true, getElements().withdrawInvestmentButton);
+                changeWithdrawInvestmentButtonText(false);
             }
         });
     } else if (getGameInProgress() && getShiftCounter() > getZero()) {
@@ -1006,19 +983,16 @@ export function disableButtons(init) {
             if (!button.classList.contains('capped')) {
                 if (!checkIfNonRepeatableUpgradePurchased(button)) {
                     if (!checkIfRepeatableUpgrade(button) || button.id === 'menuButton') {
-                        button.disabled = true;
-                        button.classList.add('disabled');
+                        toggleDisable(true, button);
                     }
                 }
             }
         });
-        disableButtonsHelper(mainButtons, pricesArrayMainButtons);
-        disableButtonsHelper(bottomRowButtons, pricesArrayMainButtons);
+        disableButtonsHelper(mainButtons, pricesArrayButtons);
     } else {
         mainButtons = getElements().allMainButtons;
-        disableButtonsHelper(mainButtons, pricesArrayMainButtons);
-        getElements().startShiftButton.disabled = false;
-        getElements().startShiftButton.classList.remove('disabled');
+        disableButtonsHelper(mainButtons, pricesArrayButtons);
+        toggleDisable(false, getElements().startShiftButton);
     }
 }
 
@@ -1028,8 +1002,7 @@ function disableButtonsHelper(buttons, pricesArray) {
         if (!button.classList.contains('capped')) {
             if (button.id !== getElements().startShiftButton.id && !checkIfNonRepeatableUpgradePurchased(button, null)) {
                 if (getCurrentCash() < pricesArray[i] || pricesArray[i] === getZero()) {
-                    button.disabled = true;
-                    button.classList.add('disabled');
+                    toggleDisable(true, button);
                 }
             }
         }
@@ -1416,7 +1389,7 @@ function initialiseLoadedGame(gameState) {
 }
 
 export function getPrizes() {
-    const playerRoleString = getElements().playerRoleText.innerHTML;
+    const playerRoleString = getElements().playerRoleText.innerText;
     let playerRoleKey = null;
 
     for (const key in Role) {
@@ -1598,6 +1571,23 @@ export function addPrizeToPlayerStats(prizeString) {
             break;
         default:
             console.log("Unknown prize: " + prizeString);
+            break;
+    }
+}
+
+export function toggleDisable(disableItNow, element) {
+    switch (disableItNow) {
+        case true:
+            element.disabled = true;
+            element.classList.add('disabled');
+            element.classList.remove('bg-warning');
+            element.classList.add('bg-secondary');
+            break;
+        case false:
+            element.disabled = false;
+            element.classList.remove('disabled');
+            element.classList.remove('bg-secondary');
+            element.classList.add('bg-warning');
             break;
     }
 }
