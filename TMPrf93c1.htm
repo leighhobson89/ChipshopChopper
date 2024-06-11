@@ -11,57 +11,65 @@
   <body class="bg-dark">
 	  
     <!-- Full-width title banner -->
-    <div id="div1" class="container-fluid text-white text-center p-3">
-      <h1>Chip Shop Imperium</h1>
+<div id="div1" class="container-fluid text-white text-center p-3">
+  <div class="row  d-flex align-items-end justify-content-center">
+    <div class="col-4">
     </div>
-	  
+    <div class="col-4"><h1>Chip Shop Imperium</h1>
+    </div>
+    <div id="clock" class="col-4">
+		<h2>00.00:00</h2>
+    </div>
+  </div>
+</div>
+  
     <!-- Menu Options -->
-    <div class="container mt-3 d-none">
-      <div id="Option1" class="row">
+    <div class="container mt-3  d-none">
+      <div class="row">
         <div class="col">
-          <div class="border-dark p-1 rounded-pill bg-primary text-white text-center">
+          <div id="option1" class="border-dark p-1 rounded-pill bg-primary text-white text-center">
             <h2>New Game</h2>
           </div>
         </div>
       </div>
-      <div id="Option2" class="row mt-2">
+      <div class="row mt-2">
         <div class="col">
-          <div class="border-dark p-1 rounded-pill bg-secondary text-white text-center">
+          <div id="option2" class="border-dark p-1 rounded-pill bg-secondary text-white text-center">
             <h2>Save Game</h2>
           </div>
         </div>
       </div>
-      <div id="Option3" class="row mt-2">
+      <div class="row mt-2">
         <div class="col">
-          <div class="border-dark p-1 rounded-pill bg-primary text-white text-center">
+          <div id="option3" class="border-dark p-1 rounded-pill bg-primary text-white text-center">
             <h2>Load Game</h2>
           </div>
         </div>
       </div>
-      <div id="Option4" class="row mt-2">
+      <div class="row mt-2">
         <div class="col">
-          <div class="border-dark p-1 rounded-pill bg-primary text-white text-center">
+          <div id="option4" class="border-dark p-1 rounded-pill bg-primary text-white text-center">
             <h2>Help</h2>
           </div>
         </div>
       </div>
-      <div id="Option5" class="row mt-2">
+      <div class="row mt-2">
         <div class="col">
-          <div class="border-dark p-1 rounded-pill bg-danger text-white text-center">
+          <div id="option5" class="border-dark p-1 rounded-pill bg-danger text-white text-center">
             <h2>AutoSave On/Off</h2>
           </div>
         </div>
       </div>
-      <div id="Option6" class="row mt-2">
+      <div class="row mt-2">
         <div class="col">
-          <div class="border-dark p-1 rounded-pill bg-secondary text-white text-center">
+          <div id="resumeGameButton" class="border-dark p-1 rounded-pill bg-secondary text-white text-center">
             <h2>Resume Game</h2>
           </div>
         </div>
       </div>
-      <div id="Option7" class="row mt-2">
+      <div class="row mt-2 d-none">
         <div class="col">
-          <div class="border-dark p-1 rounded-pill bg-danger text-white text-center">
+          <div id="debugCash" class="border-dark p-1 rounded-pill bg-danger text-white text-center">
             <h2>Debug : Give $25000</h2>
           </div>
         </div>
@@ -69,25 +77,25 @@
     </div>
 	  
     <!-- Game Window -->
-    <div id="div2" class="container mt-3 text-white">
+    <div id="gameWindow" class="container mt-3 text-white">
       <!-- First section with 5 columns by 3 rows -->
       <div id="div3" class="row justify-content-center font-weight-bold">
         <div id="div4" class="col-12">
-          <div id="div5" class="row">
+          <div id="topRow1" class="row">
             <div id="div6" class="col-1"></div>
-            <div id="div7" class="col-1 p-2 text-left">
+            <div id="subInnerDiv1_1" class="col-1 p-2 text-left">
               <h4>Shift:</h4>
             </div>
-            <div id="div8" class="col-2 p-2 text-left">
+            <div id="subInnerDiv1_2" class="col-2 p-2 text-left">
               <h4>Start Shift</h4>
             </div>
-            <div id="div9" class="col-4 p-2 text-center text-warning">
-              <h2>Chip Shop Prepper</h2>
+            <div id="playerRoleText" class="col-4 p-2 text-center text-warning">
+              <h2>PlaceHolder</h2>
             </div>
-            <div id="div10" class="col-2 p-2 text-right">
+            <div id="subInnerDiv3_1" class="col-2 p-2 text-right">
               <h4>Served:</h4>
             </div>
-            <div id="div11" class="col-1 p-2 text-left">
+            <div id="customersServedCount" class="col-1 p-2 text-left">
               <h4>0</h4>
               <div id="div12" class="col-1"></div>
             </div>
@@ -100,7 +108,7 @@
             <div id="div16" class="col-2 p-2 text-left">
               <h4>0/200</h4>
             </div>
-            <div id="div17" class="col-4 p-2"></div>
+            <div id="div17" class="col-4 p-2"><button class="btn btn-secondary w-100 h-100">Menu</button></div>
             <div id="div18" class="col-2 p-2 text-right">
               <h4>Money:</h4>
             </div>
@@ -185,7 +193,7 @@
             </div>
             <div id="div45" class="col-2 border p-2 text-center justify-content-center d-flex align-items-center">
               <button id="div46" class="btn btn-secondary w-100 h-100">
-                <h6>Cannot Withdraw</h6>
+                Cannot Withdraw
               </button>
             </div>
             <div id="div47" class="col-1"></div>
@@ -278,6 +286,7 @@
           </div>
         </div>
       </div>
+	  </div>
       <script type="module" src="actions.js"></script>
       <script type="module" src="gameloop.js"></script>
       <script type="module" src="ui.js"></script>

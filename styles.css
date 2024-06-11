@@ -56,15 +56,15 @@ body {
     color: #fff;
 }
 
-.options {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    height: 50vh;
-    margin: auto;
-}
+/*.options {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    width: 50%;*/
+/*    height: 50vh;*/
+/*    margin: auto;*/
+/*}*/
 
 .option {
     background-color: #007bff;
@@ -133,18 +133,18 @@ body {
     pointer-events: none;
 }
 
-.game-window {
-    width: 80%;
-    height: 85%;
-    position: fixed;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: none;
-    /* Initially hidden */
-    border: 4px white solid;
-    border-radius: 20px;
-}
+/*.game-window {*/
+/*    width: 80%;*/
+/*    height: 85%;*/
+/*    position: fixed;*/
+/*    top: 55%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*    display: none;*/
+/*    !* Initially hidden *!*/
+/*    border: 4px white solid;*/
+/*    border-radius: 20px;*/
+/*}*/
 
 .top-section {
     width: 100%;
@@ -167,16 +167,16 @@ body {
     align-items: center;
 }
 
-.inner-div-topDivRow1,
-.inner-div-topDivRowMid {
-    width: 33%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    font-size: 24px;
-}
+/*.inner-div-topDivRow1,*/
+/*.inner-div-topDivRowMid {*/
+/*    width: 33%;*/
+/*    height: 100%;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    font-family: Arial, sans-serif;*/
+/*    font-size: 24px;*/
+/*}*/
 
 div[id^="playerRoleText"] {
     font-weight: bold;
@@ -218,18 +218,18 @@ div[id^="subInnerDivMid"][id$="_2"] {
     height: 75%;
 }
 
-.bottom-section-container {
-    height: 60%;
-}
+/*.bottom-section-container {*/
+/*    height: 60%;*/
+/*}*/
 
-.bottom-row-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6%;
-    padding: 4% 2% 1% 2%;
-    justify-items: center;
-    height: 18%;
-}
+/*.bottom-row-container {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(5, 1fr);*/
+/*    gap: 6%;*/
+/*    padding: 4% 2% 1% 2%;*/
+/*    justify-items: center;*/
+/*    height: 18%;*/
+/*}*/
 
 .second-row-main-buttons>input {
     pointer-events: auto;
@@ -310,11 +310,11 @@ div[id^="subInnerDivMid"][id$="_2"] {
     min-height: 50px;
 }
 
-.fourth-row-main-buttons {
-    min-height: 40px;
-    grid-column-end: span 5;
-    width: 100%;
-}
+/*.fourth-row-main-buttons {*/
+/*    min-height: 40px;*/
+/*    grid-column-end: span 5;*/
+/*    width: 100%;*/
+/*}*/
 
 .action-button-main:hover,
 .action-button-bottom-row:hover,
@@ -608,14 +608,14 @@ div[id^="subInnerDivMid"][id$="_2"] {
     width: 100%;
 }
 
-.menuButtonDiv,
-.customerServedCountDiv {
-    display: flex;
-    height: 100%;
-    width: 50%;
-    align-items: center;
-    justify-content: left;
-}
+/*.menuButtonDiv,*/
+/*.customerServedCountDiv {*/
+/*    display: flex;*/
+/*    height: 100%;*/
+/*    width: 50%;*/
+/*    align-items: center;*/
+/*    justify-content: left;*/
+/*}*/
 
 .investmentComponent-button-top {
     display: flex;
@@ -650,41 +650,41 @@ div[id^="subInnerDivMid"][id$="_2"] {
     align-items: center;
 }
 
-.investment-data-screen {
-    height: 100%;
-    border: 2px white solid;
-    border-radius: 10px;
-}
+/*.investment-data-screen {*/
+/*    height: 100%;*/
+/*    border: 2px white solid;*/
+/*    border-radius: 10px;*/
+/*}*/
 
-.investment-data-grid {
-    display: grid;
-    grid-template-columns: 20% 20% 35% 25%;
-    grid-template-rows: 45% 55%;
-    width: 100%;
-    height: 100%;
-}
+/*.investment-data-grid {*/
+/*    display: grid;*/
+/*    grid-template-columns: 20% 20% 35% 25%;*/
+/*    grid-template-rows: 45% 55%;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
 
-.investment-data-grid div {
-    border-right: 1px solid white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: bold;
-}
+/*.investment-data-grid div {*/
+/*    border-right: 1px solid white;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    text-align: center;*/
+/*    font-weight: bold;*/
+/*}*/
 
-.investment-data-grid .top-row {
-    height: 100%;
-    border-bottom: 2px solid white;
-}
+/*.investment-data-grid .top-row {*/
+/*    height: 100%;*/
+/*    border-bottom: 2px solid white;*/
+/*}*/
 
-.investment-data-grid .bottom-row {
-    height: 100%;
-}
+/*.investment-data-grid .bottom-row {*/
+/*    height: 100%;*/
+/*}*/
 
-.investment-data-grid div:nth-child(4n) {
-    border-right: none;
-}
+/*.investment-data-grid div:nth-child(4n) {*/
+/*    border-right: none;*/
+/*}*/
 
 .investment-withdraw-button {
     border: none;

@@ -52,8 +52,6 @@ import {
     getFryerSpeedCapped,
     getFryTimer,
     getGrowthInvestment,
-    getInitialStateBottomRowButtons,
-    getInitialStateMainButtons,
     getInvestmentCashIncrementDecrement,
     getInvestmentFundUnlockable,
     getInvestmentFundUnlocked,
@@ -114,7 +112,6 @@ import {
     popupOverlay,
     resetAllVariables,
     resetCounterUiElements,
-    resetUiButtonElements,
     Role,
     setAutoChipperCapped,
     setAutoCustomerServerCapped,
@@ -148,388 +145,22 @@ import {
 } from "./gameloop.js";
 
 export function createTitleScreen() {
-    const titleScreen = document.createElement('div');
-    titleScreen.classList.add('title-screen');
-    titleScreen.id = 'titleScreen';
+    getElements().resumeGameButton.classList.add('option-resume-game');
+    getElements().resumeGameButton.classList.add('option-disabled');
 
-    const header = document.createElement('div');
-    header.classList.add('header');
-
-    const left = document.createElement('div');
-    left.classList.add('header-left');
-
-    const title = document.createElement('div');
-    title.classList.add('header-title');
-
-    const titleText = document.createElement('div');
-    titleText.innerHTML = 'Chip Shop Imperium';
-    titleText.classList.add('title');
-    title.appendChild(titleText);
-
-    const clock = document.createElement('div');
-    clock.classList.add('header-clock');
-    clock.id = 'clock';
-
-    header.appendChild(left);
-    header.appendChild(title);
-    header.appendChild(clock);
-
-    const options = document.createElement('div');
-    options.classList.add('options');
-    options.id = 'optionsWindow';
-
-    const resumeGameWindow = document.createElement('div');
-    resumeGameWindow.classList.add('debugs');
-    resumeGameWindow.id = 'resumeGameWindow';
-
-    const optionInfo = [{
-        name: 'New Game'
-    },
-        {
-            name: 'Save Game'
-        },
-        {
-            name: 'Load Game'
-        },
-        {
-            name: 'Help'
-        },
-        {
-            name: 'AutoSave On/Off',
-            color: 'red'
-        }
-    ];
-
-    const debugInfo = [{
-        name: 'Give $25000',
-        color: 'Black'
-    }, ];
-
-    for (let i = 0; i < optionInfo.length; i++) {
-        const option = document.createElement('div');
-        option.innerHTML = optionInfo[i].name;
-        option.classList.add('option');
-        option.style.backgroundColor = optionInfo[i].color;
-        option.id = `option${i + 1}`;
-        options.appendChild(option);
-    }
-
-    const resumeGameButton = document.createElement('div');
-    resumeGameButton.innerHTML = 'Resume Game';
-    resumeGameButton.classList.add('option');
-    resumeGameButton.classList.add('option-resume-game');
-    resumeGameButton.classList.add('option-disabled');
-    resumeGameButton.id = `resumeGameButton`;
-    resumeGameWindow.appendChild(resumeGameButton);
-
-    for (let i = 0; i < debugInfo.length; i++) { //uncomment this loop to see the option to give $25000 for testing
-        const debug = document.createElement('div');
-        debug.innerHTML = debugInfo[i].name;
-        debug.classList.add('debug');
-        debug.id = `debug${i + 1}`;
-        debug.style.visibility = 'hidden';
-        resumeGameWindow.appendChild(debug);
-    }
-
-    titleScreen.appendChild(header);
-    titleScreen.appendChild(options);
-    titleScreen.appendChild(resumeGameWindow);
-
-    document.body.appendChild(titleScreen);
-
-    document.getElementById('option2').classList.add('option-disabled'); //DISABLE SAVE GAME FOR FIRST OPEN OF GAME OR BROWSER REFRESH
+    getElements().option2.classList.add('option-disabled'); //DISABLE SAVE GAME FOR FIRST OPEN OF GAME OR BROWSER REFRESH
 }
-export function createGameWindow(titleScreenCreatedEvent) {
-    const gameWindow = document.createElement('div');
-    gameWindow.classList.add('game-window');
-    gameWindow.id = "gameWindow";
+export function createGameWindow() {
+    setInitialStateMainButtons();
+    //TODO createInvestmentComponents(bottomRowContainer);
+    initialiseInvestmentDataScreen();
 
-    const topSection = document.createElement('div');
-    topSection.classList.add('top-section');
-
-    const topDivRow1 = document.createElement('div');
-    topDivRow1.classList.add('top-div-row-1');
-
-    for (let i = 1; i <= 3; i++) {
-        const innerDiv = document.createElement('div');
-        innerDiv.classList.add('inner-div-topDivRow1');
-        if (i === 2) {
-            innerDiv.id = 'playerRoleText';
-        } else {
-            innerDiv.id = `innerDiv${i}`;
-        }
-
-        topDivRow1.appendChild(innerDiv);
-
-        if (i === 1 || i === 3) {
-            for (let j = 1; j <= 2; j++) {
-                const subInnerDiv = document.createElement('div');
-                subInnerDiv.classList.add('sub-inner-div-topDivRow1');
-                subInnerDiv.id = `subInnerDiv${i}_${j}`;
-
-                if (i === 3 && j === 2) {
-                    subInnerDiv.classList.add('sub-inner-div-topDivRow1-side-by-side');
-
-                    const div1 = document.createElement('div');
-                    div1.id = 'customersServedCount';
-                    div1.classList.add('customerServedCountDiv');
-                    subInnerDiv.appendChild(div1);
-
-                    const div2 = document.createElement('div');
-                    div2.id = 'menuButtonDiv';
-                    div2.classList.add('menuButtonDiv');
-                    subInnerDiv.appendChild(div2);
-
-                    const menuButton = document.createElement('button');
-                    menuButton.id = "menuButton";
-                    menuButton.classList.add('menu-button');
-                    menuButton.innerText = 'Menu';
-
-                    div2.appendChild(menuButton);
-                }
-
-                innerDiv.appendChild(subInnerDiv);
-            }
-        }
-    }
-
-    topSection.appendChild(topDivRow1);
-
-    const topDivRowMid = document.createElement('div');
-    topDivRowMid.classList.add('top-div-row-mid');
-
-    for (let i = 1; i <= 3; i++) {
-        const innerDiv = document.createElement('div');
-        innerDiv.classList.add('inner-div-topDivRowMid');
-        innerDiv.id = `innerDivRowMid${i}`;
-
-        topDivRowMid.appendChild(innerDiv);
-
-        if (i === 1 || i === 3) {
-            for (let j = 1; j <= 2; j++) {
-                const subInnerDivMid = document.createElement('div');
-                subInnerDivMid.classList.add('sub-inner-div-topDivRowMid');
-                subInnerDivMid.id = `subInnerDivMid${i}_${j}`;
-
-                innerDiv.appendChild(subInnerDivMid);
-            }
-        }
-    }
-
-    topSection.appendChild(topDivRowMid);
-
-    const topDivRow2 = document.createElement('div');
-    topDivRow2.classList.add('top-div-row-2');
-
-    const counterIds = ['peeledCount', 'cutCount', 'chuckedInFryerCount', 'readyToServeCount', 'customersWaitingCount'];
-
-    for (let i = 0; i < counterIds.length; i++) {
-        let valuesCounterRow = document.createElement('div');
-        valuesCounterRow.classList.add('counter-columns');
-        valuesCounterRow.innerHTML = '0';
-
-        valuesCounterRow.id = counterIds[i];
-
-        topDivRow2.appendChild(valuesCounterRow);
-    }
-
-    topSection.appendChild(topDivRow2);
-    gameWindow.appendChild(topSection);
-
-    const mainButtonContainer = document.createElement('div');
-    mainButtonContainer.classList.add('main-button-container');
-    mainButtonContainer.id = 'mainButtonContainer';
-
-    const bottomSectionContainer = document.createElement('div');
-    bottomSectionContainer.classList.add('bottom-section-container');
-    bottomSectionContainer.id = 'bottomSectionContainer';
-
-    const bottomRowContainer = document.createElement('div');
-    bottomRowContainer.classList.add('bottom-row-container');
-    bottomRowContainer.id = 'bottomRowContainer';
-
-    let mainButtonDetails = [{
-        id: 'peelPotatoButton',
-        name: 'Peel Potato',
-        upgrade: 'false',
-        repeatableUpgrade: 'false'
-    },
-        {
-            id: 'cutChipsButton',
-            name: 'Cut Chips',
-            upgrade: 'false',
-            repeatableUpgrade: 'false'
-        },
-        {
-            id: 'fryChipsButton',
-            name: `Fry Chips<br> (Capacity: ${getFryerCapacity()})`,
-            upgrade: 'false',
-            repeatableUpgrade: 'false'
-        },
-        {
-            id: 'servingStorageButton',
-            name: 'Serving Storage',
-            upgrade: 'false',
-            repeatableUpgrade: 'false'
-        },
-        {
-            id: 'serveCustomerButton',
-            name: 'Serve Customer',
-            upgrade: 'false',
-            repeatableUpgrade: 'false'
-        },
-        {
-            id: 'autoPeelerUpgradeButton',
-            name: `Auto Peeler (${getCurrentSpeedAutoPeeler()})<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(getPriceToImproveAutoPeeler())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'autoChipperUpgradeButton',
-            name: `Auto Chipper (${getCurrentSpeedAutoChipper()})<br> ${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(getPriceToImproveAutoChipper())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'autoFryerUpgradeButton',
-            name: `Auto Fryer (${getCurrentSpeedAutoFryer()})<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'autoStorageCollectorUpgradeButton',
-            name: `Auto Collect (${getCurrentSpeedAutoStorageCollector()})<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'autoCustomerServerUpgradeButton',
-            name: `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'improvePotatoStorageButton',
-            name: `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'improveFryerCapacityButton',
-            name: `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'fastFryerUpgradeButton',
-            name: `Improve Fry Speed<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'potatoDeliveryDoublerButton',
-            name: `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'customerFrequencyIncreaser',
-            name: `Max Wait Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'true'
-        },
-        {
-            id: 'investmentDataScreenButton',
-            name: `Investment Data Screen Placeholder`,
-            upgrade: 'false',
-            repeatableUpgrade: 'false'
-        },
-    ];
-
-    let bottomButtonDetails = [{
-        id: 'twoHandedPeelingButton',
-        name: `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`,
-        upgrade: 'true',
-        repeatableUpgrade: 'false'
-    },
-        {
-            id: 'twoHandedChippingButton',
-            name: `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'false'
-        },
-        {
-            id: 'investmentFundUnlockOrFloatButton',
-            name: `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'false'
-        },
-        {
-            id: 'addStorageHeaterAutoShiftStartButton',
-            name: `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`,
-            upgrade: 'true',
-            repeatableUpgrade: 'false'
-        },
-        {
-            id: 'startShiftButton',
-            name: 'Start Shift',
-            upgrade: 'false',
-            repeatableUpgrade: 'false'
-        }
-    ];
-
-    setInitialStateMainButtons(mainButtonDetails);
-    setInitialStateBottomRowButtons(bottomButtonDetails);
-
-    createInvestmentComponents(bottomRowContainer);
-    createInvestmentDataScreen(mainButtonContainer);
-
-    for (let i = 0; i < mainButtonDetails.length; i++) {
-        const button = document.createElement('button');
-        button.id = mainButtonDetails[i].id;
-        button.innerHTML = mainButtonDetails[i].name;
-        button.classList.add('action-button-main');
-
-        if (i <= 4) {
-            button.classList.add('first-row-main-buttons');
-            button.style.height = '40px';
-        } else if (i >= 5 && i <= 9) {
-            button.classList.add('second-row-main-buttons');
-            button.style.height = '60px';
-        } else if (i >= 10 && i <= 14) {
-            button.classList.add('third-row-main-buttons');
-            button.style.height = '30px';
-        } else if (i === 15) {
-            button.classList.add('fourth-row-main-buttons');
-            button.style.height = '50px';
-        }
-
-        mainButtonContainer.appendChild(button);
-    }
-
-    for (let i = 0; i < bottomButtonDetails.length; i++) {
-        const button = document.createElement('button');
-        button.id = bottomButtonDetails[i].id;
-        button.innerHTML = bottomButtonDetails[i].name;
-        button.classList.add('action-button-bottom-row');
-        bottomRowContainer.appendChild(button);
-    }
-
-    bottomSectionContainer.appendChild(mainButtonContainer);
-    bottomSectionContainer.appendChild(bottomRowContainer);
-
-    gameWindow.appendChild(bottomSectionContainer);
-
-    hideUpgradeButtonsGameStart(bottomSectionContainer);
-
-    document.getElementById('titleScreen').appendChild(gameWindow);
-
-    document.dispatchEvent(titleScreenCreatedEvent);
+    hideUpgradeButtonsGameStart();
     disableButtons(true);
 
     createOptionScreenEventListeners();
 
-    writeTextInSections(mainButtonDetails);
+    writeTextInSections();
 
     handleButtonClick(getElements().menuButton.id, null);
     handleButtonClick(getElements().startShiftButton.id, null);
@@ -552,14 +183,14 @@ export function createGameWindow(titleScreenCreatedEvent) {
     handleButtonClick(getElements().potatoDeliveryDoublerButton.id, getPriceToDoubleSpudsMax());
     handleButtonClick(getElements().investmentFundUnlockOrFloatButton.id, getPriceToUnlockInvestmentFundOrFloatOnStockMarket());
     handleButtonClick(getElements().customerFrequencyIncreaser.id, getPriceToIncreaseFootfall());
-    handleButtonClick(getElements().investmentCashComponent_IncrementButton.id, getInvestmentCashIncrementDecrement());
-    handleButtonClick(getElements().investmentCashComponent_DecrementButton.id, getInvestmentCashIncrementDecrement());
-    handleButtonClick(getElements().investmentRiskComponent_IncrementButton.id, getInvestmentRiskIncrementDecrement());
-    handleButtonClick(getElements().investmentRiskComponent_DecrementButton.id, getInvestmentRiskIncrementDecrement());
+    //TODO handleButtonClick(getElements().investmentCashComponent_IncrementButton.id, getInvestmentCashIncrementDecrement());
+    //TODO handleButtonClick(getElements().investmentCashComponent_DecrementButton.id, getInvestmentCashIncrementDecrement());
+    //TODO handleButtonClick(getElements().investmentRiskComponent_IncrementButton.id, getInvestmentRiskIncrementDecrement());
+    //TODO handleButtonClick(getElements().investmentRiskComponent_DecrementButton.id, getInvestmentRiskIncrementDecrement());
     handleButtonClick(getElements().withdrawInvestmentButton.id, null);
 }
 
-export function writeTextInSections(buttonDetails) {
+export function writeTextInSections() {
     getElements().playerRoleText.innerHTML = Role.ONE;
 
     getElements().subInnerDiv1_1.innerHTML = 'Shift rem. (s):';
@@ -574,9 +205,8 @@ export function writeTextInSections(buttonDetails) {
     getElements().subInnerDivMid3_1.innerHTML = 'Money:';
     getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getStartingCash());
 
-    buttonDetails.forEach(buttonInfo => {
+    document.querySelectorAll('.gameButton').forEach(buttonInfo => {
         const button = getElements()[buttonInfo.id];
-        button.innerHTML = buttonInfo.name;
 
         if (button.classList.contains('second-row-main-buttons')) {
             // Create and append checkbox
@@ -585,11 +215,8 @@ export function writeTextInSections(buttonDetails) {
     });
 }
 
-export function hideUpgradeButtonsGameStart(bottomButtonsContainer) {
-    bottomButtonsContainer.querySelectorAll('.action-button-main:nth-child(n+7)').forEach(button => {
-        button.classList.add('hidden-button');
-    });
-    bottomButtonsContainer.querySelectorAll('.action-button-bottom-row:not(:last-child)').forEach(button => {
+export function hideUpgradeButtonsGameStart() {
+    getElements().mainButtonContainer.querySelectorAll('.gameButton').forEach(button => {
         button.classList.add('hidden-button');
     });
 
@@ -599,7 +226,6 @@ export function hideUpgradeButtonsGameStart(bottomButtonsContainer) {
         getElements().investmentDataScreenButton.classList.add('hidden-button');
         getElements().investmentCashComponent.classList.add('hidden-button');
         getElements().investmentRiskComponent.classList.add('hidden-button');
-
         getElements().withdrawInvestmentButton.classList.add('hidden-button');
     }
 }
@@ -608,10 +234,12 @@ export function toggleAutoSave() {
     const autoSaveOption = getElements().option5;
 
     if (!getAutoSaveOn()) {
-        autoSaveOption.style.backgroundColor = '#28a745';
+        autoSaveOption.classList.remove('bg-warning');
+        autoSaveOption.classList.add('bg-success');
         setAutoSaveOn(true);
     } else {
-        autoSaveOption.style.backgroundColor = 'red';
+        autoSaveOption.classList.add('bg-warning');
+        autoSaveOption.classList.remove('bg-success');
         setAutoSaveOn(false);
     }
 }
@@ -1030,9 +658,8 @@ function createOptionScreenEventListeners() {
         if (getElements().option1.innerHTML === 'Click again to start a New Game...') {
             resetAllVariables();
             resetCounterUiElements();
-            resetUiButtonElements(getInitialStateMainButtons());
-            resetUiButtonElements(getInitialStateBottomRowButtons());
-            hideUpgradeButtonsGameStart(getElements().bottomSectionContainer);
+            setInitialStateMainButtons();
+            hideUpgradeButtonsGameStart();
             toggleMenu(false);
             disableButtons(true);
         }
@@ -1055,17 +682,16 @@ function createOptionScreenEventListeners() {
         toggleAutoSave();
     });
     getElements().resumeGameButton.addEventListener('click', function() {
-        toggleMenu(getElements().gameWindow.style.display === 'block');
+        toggleMenu(!getElements().gameWindow.classList.contains('d-none'));
         setPauseAutoSaveCountdown(false);
     });
 
     createAndAttachContinueButtonEventListener();
 
-
     //DEBUG
-    getElements().debug1.addEventListener('click', function() {
+    getElements().debugCash.addEventListener('click', function() {
         setDebugFlag(true);
-        getElements().debug1.classList.add('debug-toggledOn');
+        getElements().debugCash.classList.add('debug-toggledOn');
         let donation = 25000;
         setCurrentCash(donation);
         getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
@@ -1175,44 +801,10 @@ export function createInvestmentComponents(bottomRowContainer) {
     investmentRiskComponent_DecrementButton.innerHTML = `-1% Risk`;
 }
 
-export function createInvestmentDataScreen(mainButtonContainer) {
-
-    const investmentDataScreen = document.createElement('div');
-    investmentDataScreen.id = 'investmentDataScreen';
-    investmentDataScreen.style.display = 'none';
-    investmentDataScreen.classList.add('investment-data-screen');
-    investmentDataScreen.classList.add('fourth-row-main-buttons');
-
-    const divGrid = document.createElement('div');
-    divGrid.classList.add('investment-data-grid');
-
-    for (let i = 0; i < 8; i++) {
-        const divElement = document.createElement('div');
-        divElement.classList.add('investment-data-item');
-
-        if (i < 4) {
-            divElement.classList.add('top-row');
-            divElement.id = `investmentDataScreenTopRowColumn${i+1}`;
-        } else {
-            divElement.classList.add('bottom-row');
-            divElement.id = `investmentDataScreenBottomRowColumn${i-3}`;
-
-            if (i === 7) {
-                const withdrawButton = document.createElement('button');
-                withdrawButton.id = 'withdrawInvestmentButton';
-                withdrawButton.innerHTML = 'Cannot Withdraw';
-                withdrawButton.classList.add('investment-withdraw-button');
-                withdrawButton.disabled = true;
-                withdrawButton.classList.add('disabled');
-                divElement.appendChild(withdrawButton);
-            }
-        }
-
-        divGrid.appendChild(divElement);
-    }
-
-    investmentDataScreen.appendChild(divGrid);
-    mainButtonContainer.appendChild(investmentDataScreen);
+export function initialiseInvestmentDataScreen() {
+    getElements().withdrawInvestmentButton.classList.add('investment-withdraw-button');
+    getElements().withdrawInvestmentButton.disabled = true;
+    getElements().withdrawInvestmentButton.classList.add('disabled');
 }
 
 export function initialiseInvestmentScreenText() {
@@ -1669,9 +1261,9 @@ export function getElementMidpoint(elementId) {
 
 export function createAndAttachContinueButtonEventListener() {
     popupContinueButton.addEventListener('click', function() {
-        clearPopupTexts();
-        toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
-        toggleOverlay(popupOverlay);
+        //TODO clearPopupTexts();
+        //TODO toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
+        //TODO toggleOverlay(popupOverlay);
         setCurrentRotation(getZero());
     });
 }

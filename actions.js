@@ -213,10 +213,9 @@ import {
 } from './gameloop.js';
 
 import {
-    addCheckbox, createAndAttachContinueButtonEventListener, createEndOfShiftOrGamePopup, createGameWindow,
+    addCheckbox, createAndAttachContinueButtonEventListener, createEndOfShiftOrGamePopup,
     createInvestmentComponents,
     createOverlay,
-    createTitleScreen,
     formatToCashNotation,
     hideButtonsReadyForEndGame,
     hideDoublePeelerChipperAndShowInvestmentComponents,
@@ -1317,19 +1316,13 @@ function setupEndGameFlow() {
 export function toggleMenu(inGame) {
     switch (inGame) {
         case true:
-            getElements().optionsWindow.style.display = 'flex';
-            //debug
-            getElements().resumeGameWindow.style.display = 'flex';
-            //
-            getElements().gameWindow.style.display = "none";
+            getElements().optionsWindow.classList.remove('d-none');
+            getElements().gameWindow.classList.add('d-none');
             break;
         case false:
             getElements().option1.innerHTML = "New Game";
-            getElements().optionsWindow.style.display = 'none';
-            //debug
-            getElements().resumeGameWindow.style.display = 'none';
-            //
-            getElements().gameWindow.style.display = "block";
+            getElements().optionsWindow.classList.add('d-none');
+            getElements().gameWindow.classList.remove('d-none');
             break;
     }
 }
@@ -1395,18 +1388,14 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
                 let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
                 let gameState = JSON.parse(decompressedJson);
 
-                getElements().titleScreen.remove();
-                document.querySelector('.popup-container').remove();
-                document.getElementById('overlay').remove();
+                // document.querySelector('.popup-container').remove();
+                // document.getElementById('overlay').remove();
 
-                const titleScreenCreatedEvent = new Event('titleScreenCreated');
-                createTitleScreen();
-                createGameWindow(titleScreenCreatedEvent);
-                setEndOfShiftOrGamePopupObject(createEndOfShiftOrGamePopup());
-                setEndOfShiftOrGamePopup(endOfShiftOrGamePopupObject.popupContainer);
-                setPopupContinueButton(endOfShiftOrGamePopupObject.continueButton);
-                setPopupOverlay(createOverlay());
-                createAndAttachContinueButtonEventListener();
+                ///TODO setEndOfShiftOrGamePopupObject(createEndOfShiftOrGamePopup());
+                //TODO setEndOfShiftOrGamePopup(endOfShiftOrGamePopupObject.popupContainer);
+                //TODO setPopupContinueButton(endOfShiftOrGamePopupObject.continueButton);
+                //TODO setPopupOverlay(createOverlay());
+                //TODO createAndAttachContinueButtonEventListener();
 
                 initialiseLoadedGame(gameState);
                 alert('Game loaded successfully!');
@@ -1423,19 +1412,7 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
 function initialiseLoadedGame(gameState) {
     toggleMenu(false);
     setPauseAutoSaveCountdown(false);
-    setInvestmentFundUnlocked(gameState.investmentFundUnlocked);
-    setInvestmentFundUnlockable(gameState.investmentFundUnlockable);
-    console.log(getInvestmentFundUnlocked());
-    if (getInvestmentFundUnlocked() && getInvestmentFundUnlockable()) {
-        getElements().investmentCashComponent.remove();
-        getElements().investmentRiskComponent.remove();
-        getElements().investmentDataScreen.remove();
-        createInvestmentComponents(document.getElementById('bottomRowContainer'));
-        initialiseInvestmentScreenText();
-    }
-
     restoreGameStatus(gameState);
-    setElements();
 }
 
 export function getPrizes() {

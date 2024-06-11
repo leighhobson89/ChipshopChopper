@@ -167,12 +167,11 @@ function main() {
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
     window.addEventListener('blur', handleVisibilityChange, false);
     window.addEventListener('focus', handleVisibilityChange, false);
-    document.addEventListener('titleScreenCreated', setElements);
+
     autoSaveInterval = getAutoSaveInterval();
     nextAutoSaveTime = Date.now() + autoSaveInterval;
-    const titleScreenCreatedEvent = new Event('titleScreenCreated');
     createTitleScreen();
-    createGameWindow(titleScreenCreatedEvent);
+    createGameWindow();
 
     setInterval(() => {
         //console.log("Pause auto save timer state (true = paused):" + getPauseAutoSaveCountdown());
@@ -192,11 +191,12 @@ function main() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    setElements();
     main();
 });
 
 function gameLoop() {
-    if (debugOptionFlag && document.getElementById('debug1').style.visibility === 'hidden') {
+    if (debugOptionFlag && getElements().debugCash.style.visibility === 'hidden') {
         document.getElementById('debug1').style.visibility = 'visible';
     }
     setGameInProgress(!!getGameInProgress());
