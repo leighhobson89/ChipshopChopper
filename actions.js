@@ -238,7 +238,7 @@ export function handleButtonClick(buttonId, value) {
                     if (getGameInProgress() && getElements().option2.classList.contains('option-disabled')) {
                         getElements().option2.classList.remove('option-disabled');
                     }
-                    toggleMenu(getElements().gameWindow.style.display === 'block');
+                    toggleMenu(!getElements().gameWindow.classList.contains('d-none'));
                     setPauseAutoSaveCountdown(true);
                     break;
                 case getElements().peelPotatoButton.id:
@@ -328,7 +328,7 @@ export function handleButtonClick(buttonId, value) {
                     if (getGameInProgress() && getElements().option2.classList.contains('option-disabled')) {
                         getElements().option2.classList.remove('option-disabled');
                     }
-                    toggleMenu(getElements().gameWindow.style.display === 'block');
+                    toggleMenu(!getElements().gameWindow.classList.contains('d-none'));
                     setPauseAutoSaveCountdown(true);
                     break;
                 case getElements().peelPotatoButton.id:
@@ -420,19 +420,19 @@ function handlePeelPotato(element) {
 
 function handleCutChips() {
     const peeledCount = getElements().peeledCount;
-    if (parseInt(peeledCount.innerHTML) > getOddNumberLeftOverAfterDoublePeelingChipping()) { //normal case
+    if (parseInt(peeledCount.innerText) > getOddNumberLeftOverAfterDoublePeelingChipping()) { //normal case
         cutChips(getNumberOfChipsFromPotato() * getCutChipsRate(), getCutChipsRate());
-    } else if (parseInt(peeledCount.innerHTML) > getZero()) { //odd number left handles case of double cutter
+    } else if (parseInt(peeledCount.innerText) > getZero()) { //odd number left handles case of double cutter
         cutChips(getNumberOfChipsFromPotato(), getOddNumberLeftOverAfterDoublePeelingChipping());
     }
 }
 
 function handleFryChips(buttonId) {
     let cutChipsCounterElement = getElements().cutCount;
-    if (parseInt(cutChipsCounterElement.innerHTML) >= getFryerCapacity()) {
+    if (parseInt(cutChipsCounterElement.innerText) >= getFryerCapacity()) {
         setQuantityOfChipsFrying(getFryerCapacity());
     } else {
-        setQuantityOfChipsFrying(parseInt(cutChipsCounterElement.innerHTML));
+        setQuantityOfChipsFrying(parseInt(cutChipsCounterElement.innerText));
     }
     fryChips();
     decrementCounter(cutChipsCounterElement.id, getQuantityOfChipsFrying());
@@ -441,13 +441,13 @@ function handleFryChips(buttonId) {
 
 export function handleServingStorage() {
     const fryerButton = getElements().fryChipsButton;
-    let chuckedInFryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
+    let chuckedInFryerCount = parseInt(getElements().chuckedInFryerCount.innerText);
     let newBatchId = getChipsReadyToServeQuantity().length;
 
     let cleanArray = cleanUpArray(getChipsReadyToServeQuantity()); //clean any NaN or Empty elements from array added by mistake
     setChipsReadyToServeQuantity(cleanArray, 'clean');
     getChipsReadyToServeQuantity().push(chuckedInFryerCount);
-    getElements().chuckedInFryerCount.innerHTML = getZero().toString();
+    getElements().chuckedInFryerCount.innerHTML = `<h3>${getZero().toString()}</h3>`;
     if (fryerButton.classList.contains('action-button-main-flashing')) {
         updateButtonStyle(fryerButton.id, getStop());
     }
@@ -456,7 +456,7 @@ export function handleServingStorage() {
     for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
         total += getChipsReadyToServeQuantity()[i];
     }
-    getElements().readyToServeCount.innerHTML = total.toString();
+    getElements().readyToServeCount.innerHTML = `<h3>${total.toString()}</h3>`;
     startBatchTimer(newBatchId);
 }
 
@@ -464,7 +464,7 @@ function handleServeCustomer() {
     serveCustomer();
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         setCurrentCash(getCurrentCash() + getPriceOfChips());
-        getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+        getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
         triggerEndGameScreen();
     }
 }
@@ -543,23 +543,23 @@ export function handleStartShift() {
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         setShiftInProgress(true);
         console.log("Started Final Shift!");
-        getElements().startShiftButton.style.display = 'none';
+        getElements().startShiftButton.classList.add('d-none');
     } else {
         setShiftLengthTimerVariable(getShiftLength());
         setShiftInProgress(true);
         setShiftCounter(getShiftCounter() + getStandardDecrementIncrementOfOne());
 
-        getElements().subInnerDiv1_1.innerHTML = 'Shift Left (s):';
-        getElements().subInnerDiv1_2.innerHTML = getShiftTime();
+        getElements().subInnerDiv1_1.innerHTML = '<h4>Shift:</h4>';
+        getElements().subInnerDiv1_2.innerHTML = `<h4>${getShiftTime()}</h4>`;
 
         switch (getShiftCounter()) {
             case getOnShiftOne():
-                if (!getDebugFlag() || (getDebugFlag() && !getImprovePotatoStorageNotClickedYet())) { //debug fix init of potatoes
-                    getElements().subInnerDivMid1_2.innerHTML = addShiftSpuds(getStartingSpuds()).toString() + "/" + getPotatoStorageQuantity().toString();
+                if (!getDebugFlag() || (getDebugFlag() && !getImprovePotatoStorageNotClickedYet())) {
+                    getElements().subInnerDivMid1_2.innerHTML = `<h4>${addShiftSpuds(getStartingSpuds()).toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
                 }
                 break;
             default:
-                getElements().subInnerDivMid1_2.innerHTML = addShiftSpuds(getSpudsToAddToShift()).toString() + "/" + getPotatoStorageQuantity().toString();
+                getElements().subInnerDivMid1_2.innerHTML = `<h4>${addShiftSpuds(getSpudsToAddToShift()).toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
                 break;
         }
 
@@ -791,20 +791,20 @@ function updateStorageBinHeaterToAutoShiftStartButton() {
 }
 
 export function incrementCounter(counterElement, value) {
-    let count = parseInt(counterElement.innerHTML);
+    let count = parseInt(counterElement.innerText);
     count += value;
-    counterElement.innerHTML = count.toString();
+    counterElement.innerHTML = "<h3>" + count.toString() + "</h3>";
     disableButtons(false);
 }
 
 export function decrementCounter(counterId, value) {
     const counterElement = getElements()[counterId];
-    let count = parseInt(counterElement.innerHTML);
+    let count = parseInt(counterElement.innerText);
     count = Math.max(getZero(), count - value);
     if (counterId === "subInnerDivMid1_2") {
-        counterElement.innerHTML = count.toString() + "/" + getPotatoStorageQuantity().toString();
+        counterElement.innerHTML = "<h4>" + count.toString() + "/" + getPotatoStorageQuantity().toString() + "</h4>";
     } else {
-        counterElement.innerHTML = count.toString();
+        counterElement.innerHTML = "<h3>" + count.toString() + "</h3>";
     }
     disableButtons(false);
 }
@@ -838,10 +838,10 @@ export function disableButtons(init) {
         if (!getShiftInProgress()) {
             getElements().menuButton.disabled = false;
             getElements().menuButton.classList.remove('disabled');
-            investmentCashComponent_DecrementButton.disabled = false;
-            investmentCashComponent_DecrementButton.classList.remove('disabled');
-            investmentRiskComponent_DecrementButton.disabled = false;
-            investmentRiskComponent_DecrementButton.classList.remove('disabled');
+            //TODO investmentCashComponent_DecrementButton.disabled = false;
+            //TODO investmentCashComponent_DecrementButton.classList.remove('disabled');
+            //TODO investmentRiskComponent_DecrementButton.disabled = false;
+            //TODO investmentRiskComponent_DecrementButton.classList.remove('disabled');
             if (getCurrentValueOfInvestment() > getZero()) {
                 withdrawInvestmentButton.disabled = false;
                 withdrawInvestmentButton.classList.remove('disabled');
@@ -1046,16 +1046,16 @@ export function createRandomCustomerTime() {
 }
 
 export function incrementCustomersWaiting() {
-    let customerCount = parseInt(getElements().customersWaitingCount.innerHTML);
+    let customerCount = parseInt(getElements().customersWaitingCount.innerText);
     customerCount += getStandardDecrementIncrementOfOne();
     if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
-        getElements().customersWaitingCount.innerHTML = customerCount.toString();
+        getElements().customersWaitingCount.innerHTML = `<h3>${customerCount.toString()}</h3>`;
     }
     disableButtons(false);
 }
 
 function addShiftSpuds(quantity) {
-    let currentSpuds = parseInt(getElements().subInnerDivMid1_2.innerHTML);
+    let currentSpuds = parseInt(getElements().subInnerDivMid1_2.innerText);
     if (currentSpuds + quantity > getPotatoStorageQuantity()) {
         return getPotatoStorageQuantity();
     }

@@ -26,7 +26,7 @@ const END_GAME_POTATOES = 8;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const SHIFT_LENGTH = 10; //45
+const SHIFT_LENGTH = 60; //45
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
@@ -669,7 +669,7 @@ export function getShiftInProgress() {
 
 export function setCustomersServed(value) {
     customersServed = value;
-    document.getElementById('customersServedCount').innerHTML = value;
+    getElements().customersServedCount.innerHTML = `<h4>${value}</h4>`;
 }
 
 export function getCustomersServed() {

@@ -193,17 +193,17 @@ export function createGameWindow() {
 export function writeTextInSections() {
     getElements().playerRoleText.innerHTML = Role.ONE;
 
-    getElements().subInnerDiv1_1.innerHTML = 'Shift rem. (s):';
-    getElements().subInnerDiv1_2.innerHTML = "Start Shift";
+    getElements().subInnerDiv1_1.innerHTML = '<h4>Shift:</h4>';
+    getElements().subInnerDiv1_2.innerHTML = "<h4>Start Shift</h4>";
 
-    getElements().subInnerDiv3_1.innerHTML = 'Served:';
-    getElements().customersServedCount.innerHTML = "0";
+    getElements().subInnerDiv3_1.innerHTML = '<h4>Served:</h4>';
+    getElements().customersServedCount.innerHTML = "<h4>0</h4>";
 
-    getElements().subInnerDivMid1_1.innerHTML = 'Potatoes:';
-    getElements().subInnerDivMid1_2.innerHTML = "0/" + getPotatoStorageQuantity().toString();
+    getElements().subInnerDivMid1_1.innerHTML = '<h4>Potato:</h4>';
+    getElements().subInnerDivMid1_2.innerHTML = `<h4>0/${getPotatoStorageQuantity()}</h4>`;
 
-    getElements().subInnerDivMid3_1.innerHTML = 'Money:';
-    getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getStartingCash());
+    getElements().subInnerDivMid3_1.innerHTML = '<h4>Money:</h4>';
+    getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getStartingCash())}</h4>`;
 
     document.querySelectorAll('.gameButton').forEach(buttonInfo => {
         const button = getElements()[buttonInfo.id];
@@ -704,7 +704,7 @@ export function changePlayerRole(element, newText, animation1, animation2) {
     element.classList.add(animation1);
     element.classList.add(animation2);
 
-    element.innerHTML = newText;
+    element.innerHTML = `<h2>${newText}</h2>`;
 
     setTimeout(() => {
         element.classList.remove(animation1);
