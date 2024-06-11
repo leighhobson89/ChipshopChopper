@@ -4,7 +4,7 @@ import {
     changePlayerRole,
     checkAndSetFlagCapOnUpgrades,
     createGameWindow,
-    createTitleScreen,
+    initialiseOptionsClasses,
     formatToCashNotation,
     getColorsForWheel,
     getElementMidpoint,
@@ -170,7 +170,7 @@ function main() {
 
     autoSaveInterval = getAutoSaveInterval();
     nextAutoSaveTime = Date.now() + autoSaveInterval;
-    createTitleScreen();
+    initialiseOptionsClasses();
     createGameWindow();
 
     setInterval(() => {

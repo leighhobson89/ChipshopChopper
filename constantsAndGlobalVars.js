@@ -677,7 +677,7 @@ export function getCustomersServed() {
 
 export function setCurrentCash(value) {
     currentCash = value;
-    document.getElementById('subInnerDivMid3_2').innerHTML = formatToCashNotation(getCurrentCash());
+    document.getElementById('subInnerDivMid3_2').innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
 }
 
 export function getCurrentCash() {

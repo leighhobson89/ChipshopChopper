@@ -8,8 +8,7 @@ import {
     toggleMenu
 } from './actions.js';
 import {
-    debugFlag,
-    endOfShiftOrGamePopup,
+    debugFlag, endOfShiftOrGamePopup,
     getActualPotatoesInStorage,
     getAmountInvestmentCash,
     getAmountInvestmentRisk,
@@ -143,7 +142,7 @@ import {
     initialiseNewGame
 } from "./gameloop.js";
 
-export function createTitleScreen() {
+export function initialiseOptionsClasses() {
     getElements().resumeGameButton.classList.add('option-resume-game');
     getElements().resumeGameButton.classList.add('option-disabled');
 
@@ -160,7 +159,6 @@ export function createTitleScreen() {
 
     document.getElementById('popupContinueButton').classList.add('bg-secondary');
     document.getElementById('popupContinueButton').classList.add('white-important');
-
 }
 export function createGameWindow() {
     setInitialStateMainButtons();
@@ -361,7 +359,7 @@ export function createOverlay() {
 }
 
 export function toggleEndOfShiftOrGamePopup(popupContainer) {
-    if (popupContainer.classList.contains('d-none')) {
+    if (document.getElementById('endOfShiftOrGamePopup').classList.contains('d-none')) {
         popupContainer.classList.remove('d-none');
     } else {
         popupContainer.classList.add('d-none');
@@ -1225,10 +1223,10 @@ export function getElementMidpoint(elementId) {
 }
 
 export function createAndAttachContinueButtonEventListener() {
-    popupContinueButton.addEventListener('click', function() {
-        //TODO clearPopupTexts();
-        //TODO toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
-        //TODO toggleOverlay(popupOverlay);
+    document.getElementById('popupContinueButton').addEventListener('click', function() {
+        clearPopupTexts();
+        toggleEndOfShiftOrGamePopup(document.getElementById('endOfShiftOrGamePopup'));
+        toggleOverlay(popupOverlay);
         setCurrentRotation(getZero());
     });
 }
