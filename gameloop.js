@@ -341,7 +341,7 @@ function updateShiftCountDown() {
 
                     setCustomersWaitingBeforeEndOfShift(getCustomersWaiting());
                     setCustomersWaiting(selectHowManyCustomersLeftAfterWalkOutAtShiftEnd());
-                    getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+                    getElements().customersWaitingCount.innerHTML = `<h4>${getCustomersWaiting()}</h4>`;
 
                     setChipsReadyToServeQuantity(null, 'clear');
                     getElements().readyToServeCount.innerHTML = getZero().toString();
@@ -454,7 +454,7 @@ export function initialiseNewGame() {
         return askUserToConfirmRestart();
     } else {
         getElements().resumeGameButton.classList.remove('option-disabled');
-        getElements().option1.innerHTML = "New Game";
+        getElements().option1.innerHTML = 'New Game';
         getElements().optionsWindow.classList.add('d-none');
         createRandomCustomerTime();
         getElements().gameWindow.classList.remove('d-none');
@@ -463,7 +463,7 @@ export function initialiseNewGame() {
 }
 
 function askUserToConfirmRestart() {
-    getElements().option1.innerHTML = "Click again to start a New Game...";
+    getElements().option1.innerHTML = 'Click again to start a New Game...';
 }
 
 export function wasteChipsStillInFryerOrFryingAtEndOfShift() {

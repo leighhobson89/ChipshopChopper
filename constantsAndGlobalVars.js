@@ -1965,18 +1965,18 @@ export function resetAllVariables() {
 // }
 
 export function resetCounterUiElements() {
-    getElements().peeledCount.innerHTML = '0';
-    getElements().cutCount.innerHTML = '0';
-    getElements().chuckedInFryerCount.innerHTML = '0';
-    getElements().readyToServeCount.innerHTML = '0';
-    getElements().customersWaitingCount.innerHTML = '0';
-    getElements().customersServedCount.innerHTML = '0';
-    getElements().playerRoleText.innerHTML = Role.ONE;
+    getElements().peeledCount.innerHTML = '<h3>0</h3>';
+    getElements().cutCount.innerHTML = '<h3>0</h3>';
+    getElements().chuckedInFryerCount.innerHTML = '<h3>0</h3>';
+    getElements().readyToServeCount.innerHTML = '<h3>0</h3>';
+    getElements().customersWaitingCount.innerHTML = '<h3>0</h3>';
+    getElements().customersServedCount.innerHTML = '<h4>0</h4>';
+    getElements().playerRoleText.innerHTML = `<h2>${Role.ONE}</h2>`;
 
-    getElements().subInnerDiv1_2.innerHTML = "Start Shift";
+    getElements().subInnerDiv1_2.innerHTML = '<h4>Start Shift</h4>';
 
-    getElements().subInnerDivMid1_2.innerHTML = ('0/' + getPotatoStorageQuantity().toString());
-    getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getStartingCash());
+    getElements().subInnerDivMid1_2.innerHTML = `<h4>0/${getPotatoStorageQuantity().toString()}</h4>`;
+    getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getStartingCash())}</h4>`;
 
     getElements().investmentDataScreenBottomRowColumn1.innerHTML = formatToCashNotation(getAmountInvestmentCash());
     getElements().investmentDataScreenBottomRowColumn2.innerHTML = getAmountInvestmentRisk() + "%";

@@ -191,13 +191,13 @@ export function createGameWindow() {
 }
 
 export function writeTextInSections() {
-    getElements().playerRoleText.innerHTML = Role.ONE;
+    getElements().playerRoleText.innerHTML = `<h2>${Role.ONE}</h2>`;
 
     getElements().subInnerDiv1_1.innerHTML = '<h4>Shift:</h4>';
-    getElements().subInnerDiv1_2.innerHTML = "<h4>Start Shift</h4>";
+    getElements().subInnerDiv1_2.innerHTML = '<h4>Start Shift</h4>';
 
     getElements().subInnerDiv3_1.innerHTML = '<h4>Served:</h4>';
-    getElements().customersServedCount.innerHTML = "<h4>0</h4>";
+    getElements().customersServedCount.innerHTML = '<h4>0</h4>';
 
     getElements().subInnerDivMid1_1.innerHTML = '<h4>Potato:</h4>';
     getElements().subInnerDivMid1_2.innerHTML = `<h4>0/${getPotatoStorageQuantity()}</h4>`;
@@ -220,7 +220,7 @@ export function hideUpgradeButtonsGameStart() {
         button.classList.add('hidden-button');
     });
 
-    if (document.getElementById('option1').innerHTML === 'Click again to start a New Game...') {
+    if (document.getElementById('option1').innerText === 'Click again to start a New Game...') {
         getElements().autoPeelerUpgradeButton.classList.add('hidden-button');
         getElements().investmentDataScreen.classList.add('hidden-button');
         getElements().investmentDataScreenButton.classList.add('hidden-button');
@@ -636,17 +636,16 @@ export function updateVisibleButtons() {
             getElements().customerFrequencyIncreaser.classList.remove('hidden-button');
         }
         //third phase upgrades
-        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && (getElements().playerRoleText.innerHTML === Role.FIVE || getElements().playerRoleText.innerHTML === Role.SIX || getElements().playerRoleText.innerHTML === Role.SEVEN)) {
+        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && (getElements().playerRoleText.innerText === Role.FIVE || getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN)) {
             getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
             getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
         }
-        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && (getElements().playerRoleText.innerHTML === Role.SIX || getElements().playerRoleText.innerHTML === Role.SEVEN)) {
+        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && (getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN)) {
             getElements().investmentFundUnlockOrFloatButton.classList.remove('hidden-button');
         }
 
-        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerHTML === Role.SIX || getElements().playerRoleText.innerHTML === Role.SEVEN) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.style.display === 'none') {
-            getElements().investmentDataScreen.style.display = 'flex';
-            getElements().mainButtonContainer.replaceChild(getElements().investmentDataScreen, getElements().investmentDataScreenButton);
+        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.style.display === 'none') {
+            getElements().investmentDataScreen.classList.remove('d-none');
             initialiseInvestmentScreenText();
         }
         disableButtons(false);

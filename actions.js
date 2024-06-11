@@ -478,7 +478,7 @@ function handleImprovePotatoStorage(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity());
     getElements()[buttonId].innerHTML = `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(newPriceOfUpgrade)}`;
-    getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + '/' + getPotatoStorageQuantity().toString();
+    getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
 }
 
 function handleTwoHandedPeeling(button, buttonId) {
@@ -1284,7 +1284,7 @@ function setupEndGameFlow() {
         setChipsWastedThisShift(getChipsWastedThisShift() + getChipsReadyToServeQuantity()[i]);
     }
 
-    getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+    getElements().customersWaitingCount.innerHTML = `<h4>${getCustomersWaiting()}</h4>`;
 
     setChipsReadyToServeQuantity(null, 'clear');
     getElements().readyToServeCount.innerHTML = getZero().toString();
@@ -1320,7 +1320,7 @@ export function toggleMenu(inGame) {
             getElements().gameWindow.classList.add('d-none');
             break;
         case false:
-            getElements().option1.innerHTML = "New Game";
+            getElements().option1.innerHTML = 'New Game';
             getElements().optionsWindow.classList.add('d-none');
             getElements().gameWindow.classList.remove('d-none');
             break;
@@ -1478,7 +1478,7 @@ export function addPrizeToPlayerStats(prizeString) {
     switch (prizeString) {
         case "Potato Storage Filled":
             setActualPotatoesInStorage(getPotatoStorageQuantity());
-            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
             break;
         case "+10 Potatoes":
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 10)) {
@@ -1486,43 +1486,43 @@ export function addPrizeToPlayerStats(prizeString) {
             } else {
                 setActualPotatoesInStorage(getPotatoStorageQuantity());
             }
-            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`
             break;
         case "+$5":
             setCurrentCash(getCurrentCash() + 5);
-            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case "Money Doubled":
             setCurrentCash(getCurrentCash() * 2);
-            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case "Customer Walkout":
             setCustomersWaiting(getZero());
-            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
         case "+5 Customers":
             setCustomersWaiting(getCustomersWaiting() + 5);
-            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
         case "+10 Customers":
             setCustomersWaiting(getCustomersWaiting() + 10);
-            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
         case "+15 Customers":
             setCustomersWaiting(getCustomersWaiting() + 15);
-            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
         case "+25 Customers":
             setCustomersWaiting(getCustomersWaiting() + 25);
-            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
         case "+50 Customers":
             setCustomersWaiting(getCustomersWaiting() + 50);
-            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
         case "+100 Customers":
             setCustomersWaiting(getCustomersWaiting() + 100);
-            getElements().customersWaitingCount.innerHTML = getCustomersWaiting();
+            getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
         case "Delivery Cancelled":
             setSpudsToAddToShift(getZero());
@@ -1532,13 +1532,13 @@ export function addPrizeToPlayerStats(prizeString) {
             if (getCurrentCash() > 0) {
                 setCurrentCash(getCurrentCash() / 2);
             }
-            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case "Half Of Potatoes Rot":
             if (getActualPotatoesInStorage() > 0) {
                 setActualPotatoesInStorage(Math.floor(getActualPotatoesInStorage() / 2));
             }
-            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`
             break;
         case "+100 Potatoes":
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 100)) {
@@ -1546,11 +1546,11 @@ export function addPrizeToPlayerStats(prizeString) {
             } else {
                 setActualPotatoesInStorage(getPotatoStorageQuantity());
             }
-            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`
             break;
         case "+$15":
             setCurrentCash(getCurrentCash() + 15);
-            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case "+200 Potatoes":
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 200)) {
@@ -1558,11 +1558,11 @@ export function addPrizeToPlayerStats(prizeString) {
             } else {
                 setActualPotatoesInStorage(getPotatoStorageQuantity());
             }
-            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`
             break;
         case "+$50":
             setCurrentCash(getCurrentCash() + 50);
-            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case "+300 Potatoes":
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 300)) {
@@ -1570,11 +1570,11 @@ export function addPrizeToPlayerStats(prizeString) {
             } else {
                 setActualPotatoesInStorage(getPotatoStorageQuantity());
             }
-            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`
             break;
         case "+$100":
             setCurrentCash(getCurrentCash() + 100);
-            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case "+500 Potatoes":
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 500)) {
@@ -1582,19 +1582,19 @@ export function addPrizeToPlayerStats(prizeString) {
             } else {
                 setActualPotatoesInStorage(getPotatoStorageQuantity());
             }
-            getElements().subInnerDivMid1_2.innerHTML = getActualPotatoesInStorage().toString() + "/" + getPotatoStorageQuantity().toString();
+            getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`
             break;
         case "+$1000":
             setCurrentCash(getCurrentCash() + 1000);
-            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case "+$3000":
             setCurrentCash(getCurrentCash() + 3000);
-            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case "+$5000":
             setCurrentCash(getCurrentCash() + 5000);
-            getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         default:
             console.log("Unknown prize: " + prizeString);
