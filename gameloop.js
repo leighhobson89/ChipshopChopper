@@ -330,9 +330,9 @@ function updateShiftCountDown() {
 
                     setShiftInProgress(false);
                     setOldCash(getCurrentCash());
-                    setCurrentCash((getCustomersServed() * getPriceOfChips()) + getCurrentCash() + 10330);
+                    setCurrentCash((getCustomersServed() * getPriceOfChips()) + getCurrentCash());
                     setTotalEarnedInSales(getTotalEarnedInSales() + (getCustomersServed() * getPriceOfChips()));
-                    getElements().subInnerDiv1_2.innerHTML = "Start Shift";
+                    getElements().subInnerDiv1_2.innerHTML = '<h4>Start Shift</h4>';
                     disableButtons(false);
 
                     wasteChipsStillInFryerOrFryingAtEndOfShift();
@@ -471,7 +471,7 @@ function askUserToConfirmRestart() {
 
 export function wasteChipsStillInFryerOrFryingAtEndOfShift() {
     const fryerButton = getElements().fryChipsButton;
-    const fryerCount = parseInt(getElements().chuckedInFryerCount.innerHTML);
+    const fryerCount = parseInt(getElements().chuckedInFryerCount.innerText);
 
     setAreChipsFrying(false);
     setFryTimeRemaining(getZero());

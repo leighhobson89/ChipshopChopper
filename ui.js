@@ -714,7 +714,7 @@ function createOptionScreenEventListeners() {
         getElements().debugCash.classList.add('debug-toggledOn');
         let donation = 25000;
         setCurrentCash(donation);
-        getElements().subInnerDivMid3_2.innerHTML = formatToCashNotation(getCurrentCash());
+        getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
         console.log("$" + donation + " given (debug)");
     });
 }
