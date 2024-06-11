@@ -1581,8 +1581,9 @@ export function toggleDisable(disableItNow, element) {
             element.disabled = true;
             element.classList.add('disabled');
 
-            if (element === document.getElementById('spinButton')) {
+            if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
                 element.classList.remove('bg-success');
+                element.classList.remove('white-important');
             } else {
                 element.classList.remove('bg-warning');
             }
@@ -1594,8 +1595,9 @@ export function toggleDisable(disableItNow, element) {
             element.classList.remove('disabled');
             element.classList.remove('bg-secondary');
 
-            if (element === document.getElementById('spinButton')) {
+            if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
                 element.classList.add('bg-success');
+                element.classList.add('white-important');
             } else {
                 element.classList.add('bg-warning');
             }

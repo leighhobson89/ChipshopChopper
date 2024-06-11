@@ -123,7 +123,7 @@ let investmentRiskIncrementDecrement = 1;
 let currentValueOfInvestment = 0;
 let currentRiskLevel = 0;
 let growthInvestment = 0;
-let shiftPoints = 0;
+let shiftPoints = 2;
 
 //WHEEL OF FORTUNE
 let currentRotation = 0;

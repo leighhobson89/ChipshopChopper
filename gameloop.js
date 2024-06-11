@@ -208,7 +208,7 @@ function gameLoop() {
         updateChipsFryingTimer();
         updateVisibleButtons();
         checkPlayerRole();
-        if (endOfShiftOrGamePopup.style.display === 'block') {
+        if (!endOfShiftOrGamePopup.classList.contains('d-none')) {
             checkSpinButtonStatusAndSetColors();
             disableEnableContinueButtonIfWheelSpinningNotSpinning();
         }
@@ -724,8 +724,8 @@ function setWheelOpacity(state) {
 
 function disableEnableContinueButtonIfWheelSpinningNotSpinning() {
     if (getWheelSpinning()) {
-        toggleDisable(true, popupContinueButton);
+        toggleDisable(true, document.getElementById('popupContinueButton'));
     } else {
-        toggleDisable(false, popupContinueButton);
+        toggleDisable(false, document.getElementById('popupContinueButton'));
     }
 }

@@ -158,6 +158,9 @@ export function createTitleScreen() {
 
     getElements().menuButton.classList.add('bg-warning');
 
+    document.getElementById('popupContinueButton').classList.add('bg-secondary');
+    document.getElementById('popupContinueButton').classList.add('white-important');
+
 }
 export function createGameWindow() {
     setInitialStateMainButtons();
@@ -510,7 +513,9 @@ export function writePopupText() {
             const rightTotalAnimationTime = rightTotalLines * 0.2;
 
             setTimeout(() => {
-                const buttonElement = document.querySelector('.popup-continue-button');
+                const buttonElement = document.getElementById('popupContinueButton');
+                buttonElement.classList.remove('bg-secondary');
+                buttonElement.classList.add('bg-success');
                 buttonElement.style.opacity = '0';
                 buttonElement.style.animation = '';
                 buttonElement.style.animation = 'fadeIn 1.5s forwards';
@@ -969,7 +974,7 @@ function clearPopupTexts() {
     popupContentElementRight1.innerHTML = '';
     popupContentElementRight2.innerHTML = '';
 
-    const buttonElement = document.querySelector('.popup-continue-button');
+    const buttonElement = document.getElementById('popupContinueButton');
     buttonElement.style.opacity = '0';
     buttonElement.style.animation = '';
 }
@@ -1043,8 +1048,7 @@ function createWheelOfFortune() {
         addPrizeToPlayerStats(prizeString);
 
         if (getShiftPoints() > getZero()) {
-            spinButton.disabled = false;
-            spinButton.classList.remove('disabled');
+            toggleDisable(false, spinButton);
         } else {
             spinButton.innerHTML = 'No Shift Points!';
         }
@@ -1057,6 +1061,7 @@ function createWheelOfFortune() {
 function createSpinButton() {
     const spinButton = document.createElement('button');
     spinButton.id = 'spinButton';
+    spinButton.classList.add('btn');
     spinButton.classList.add('bg-secondary');
     if (getShiftPoints() > getZero()) {
         spinButton.innerHTML = 'Spin the Wheel';

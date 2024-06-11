@@ -525,14 +525,16 @@ div[id^="subInnerDivMid"][id$="_2"] {
 .popup-continue-button {
     width: 60%;
     padding: 10px 20px;
-    background-color: #28a745;
-    color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1.2em;
     font-weight: bold;
+    font-size: 1.2em !important;
     opacity: 0;
+}
+
+.popup-continue-button.white-important {
+    color: #ffffff !important;
 }
 
 .popup-continue-button:hover {
@@ -868,7 +870,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.2em;
-    font-weight: bold;
     display: block;
 }
 
