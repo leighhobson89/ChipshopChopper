@@ -242,7 +242,7 @@ export function handleButtonClick(buttonId, value, loading) {
             switch (buttonId) {
                 case getElements().menuButton.id:
                     if (getGameInProgress() && getElements().option2.classList.contains('option-disabled')) {
-                        getElements().option2.classList.remove('option-disabled');
+                        toggleDisable(false, getElements().option2);
                     }
                     toggleMenu(!getElements().gameWindow.classList.contains('d-none'));
                     setPauseAutoSaveCountdown(true);
@@ -1606,6 +1606,10 @@ export function toggleDisable(disableItNow, element) {
                 element.classList.remove('bg-danger');
             } else if (element === getElements().resumeGameButton) {
                 element.classList.add('option-disabled');
+            } else if (element === getElements().option2) {
+                getElements().option2.classList.add('option-disabled');
+                getElements().option2.classList.add('bg-secondary');
+                getElements().option2.classList.remove('bg-primary');
             } else {
                 element.classList.remove('bg-warning');
             }
@@ -1627,7 +1631,12 @@ export function toggleDisable(disableItNow, element) {
             } else if (element === getElements().resumeGameButton) {
                 element.classList.remove('option-disabled');
                 element.style.color = 'black';
-            } else {
+            } else if (element === getElements().option2) {
+                getElements().option2.classList.remove('option-disabled');
+                getElements().option2.classList.remove('bg-secondary');
+                getElements().option2.classList.add('bg-primary');
+            }
+            else {
                 element.classList.add('bg-warning');
             }
             break;

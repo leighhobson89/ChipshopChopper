@@ -146,7 +146,9 @@ export function initialiseOptionsClasses() {
     getElements().resumeGameButton.classList.add('option-resume-game');
     getElements().resumeGameButton.classList.add('option-disabled');
 
-    getElements().option2.classList.add('option-disabled'); //DISABLE SAVE GAME FOR FIRST OPEN OF GAME OR BROWSER REFRESH
+    getElements().option2.classList.add('bg-secondary');
+    getElements().option2.classList.add('option-disabled');
+
     getElements().option5.classList.add('bg-danger');
 
     getElements().resumeGameButton.classList.add('bg-secondary');
