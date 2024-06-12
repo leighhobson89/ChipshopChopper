@@ -180,19 +180,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
     height: 75%;
 }
 
-/*.bottom-section-container {*/
-/*    height: 60%;*/
-/*}*/
-
-/*.bottom-row-container {*/
-/*    display: grid;*/
-/*    grid-template-columns: repeat(5, 1fr);*/
-/*    gap: 6%;*/
-/*    padding: 4% 2% 1% 2%;*/
-/*    justify-items: center;*/
-/*    height: 18%;*/
-/*}*/
-
 .second-row-main-buttons>input {
     pointer-events: auto;
 }
@@ -239,7 +226,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
 }
 
 .action-button-main,
-.action-button-bottom-row,
 .investment-withdraw-button,
 .menu-button {
     width: 100%;
@@ -273,14 +259,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
     min-height: 50px;
 }
 
-/*.fourth-row-main-buttons {*/
-/*    min-height: 40px;*/
-/*    grid-column-end: span 5;*/
-/*    width: 100%;*/
-/*}*/
-
 .action-button-main:hover,
-.action-button-bottom-row:hover,
 .investmentComponent-button-top:hover,
 .investmentComponent-button-bottom:hover,
 .menu-button:hover {
@@ -301,40 +280,38 @@ div[id^="subInnerDivMid"][id$="_2"] {
     color: black;
 }
 
-.action-button-bottom-row.toggleable-button-off-state {
+.action-button-main.toggleable-button-off-state {
     background-color: white;
     color: black;
 }
 
-.action-button-bottom-row.non-repeatable-upgrade-purchased.toggleable-button-off-state {
-    background-color: white;
-    color: black;
+.action-button-main.non-repeatable-upgrade-purchased.toggleable-button-off-state {
+    background-color: white !important;
+    color: black !important;
 }
 
-.action-button-bottom-row.toggleable-button-off-state:hover {
-    color: black;
+.action-button-main.toggleable-button-off-state:hover {
+    color: black !important;
 }
 
-.action-button-bottom-row.toggleable-button-on-state {
-    background-color: chartreuse;
-    color: black;
+.action-button-main.toggleable-button-on-state {
+    background-color: #198754 !important;
+    color: black !important;
 }
 
-.action-button-bottom-row.toggleable-button-on-state:hover {
-    color: black;
+.action-button-main.toggleable-button-on-state:hover {
+    color: black !important;
 }
 
-.action-button-main.non-repeatable-upgrade-purchased,
-.action-button-bottom-row.non-repeatable-upgrade-purchased {
-    background-color: chartreuse;
-    color: black;
+.action-button-main.non-repeatable-upgrade-purchased {
+    background-color: #198754 !important;
+    color: black !important;
     font-weight: bold;
 }
 
 .popup-continue-button.disabled,
 .menu-button.disabled,
 .action-button-main.disabled,
-.action-button-bottom-row.disabled,
 .investment-withdraw-button.disabled,
 .investmentComponent-button.disabled,
 #investmentCashComponent_DecrementButton.disabled,
@@ -854,10 +831,27 @@ button.btn.end-game-shift-button {
     -webkit-text-stroke-color: grey;
 }
 
-/*button.bg-warning.no-hover:hover,*/
-/*button.bg-warning.no-hover:focus {*/
-/*    font-weight: normal;*/
-/*}*/
+button.non-repeatable-upgrade-purchased.no-hover:hover,
+button.non-repeatable-upgrade-purchased.no-hover:focus {
+    background-color: #198754 !important;
+    color: white !important;
+}
+
+#twoHandedChippingButton.non-repeatable-upgrade-purchased,
+#twoHandedPeelingButton.non-repeatable-upgrade-purchased,
+#addStorageHeaterAutoShiftStartButton.non-repeatable-upgrade-purchased {
+    color: white !important;
+}
+
+#addStorageHeaterAutoShiftStartButton.toggleable-button-off-state {
+    background-color: white !important;
+    color: black !important;
+}
+
+#addStorageHeaterAutoShiftStartButton.toggleable-button-on-state {
+    background-color: #198754 !important;
+    color: white !important;
+}
 
 button.bg-warning.smaller-text {
     line-height: 1.1;

@@ -251,7 +251,7 @@ export function updateButtonStyle(buttonId, startStop) {
                 break;
             case getElements().investmentFundUnlockOrFloatButton.id:
                 element.innerHTML = `Float on Stock Market<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}`;
-                element.classList.add('disabled');
+                toggleDisable(true, getElements().investmentFundUnlockOrFloatButton);
                 break;
             case getElements().addStorageHeaterAutoShiftStartButton.id: //used only for auto shift start
                 if (getInvestmentFundUnlocked()) {
