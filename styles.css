@@ -290,7 +290,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
 }
 
 .action-button-main.cooking {
-    background-color: darkkhaki;
+    background-color: #198754;
     color: black;
     font-weight: bold;
     pointer-events: none;
@@ -350,7 +350,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
     color: lightcoral;
     background-color: darkred;
     pointer-events: none;
-    font-weight: bold;
+    font-weight: bold !important;
     animation: flash 0.5s infinite alternate;
 }
 

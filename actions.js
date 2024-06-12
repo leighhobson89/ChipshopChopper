@@ -1155,11 +1155,11 @@ function checkIfRepeatableUpgrade(button) {
 
 function checkIfChipsStillInFryer() {
     const fryerButton = getElements().fryChipsButton;
-    const fryerElementText = getElements().chuckedInFryerCount.innerHTML;
+    const fryerElementText = getElements().chuckedInFryerCount.innerText;
 
     if (parseInt(fryerElementText) > getZero()) {
         updateButtonStyle(fryerButton.id, getStart());
-        fryerButton.innerHTML = 'Empty Fryer!';
+        fryerButton.innerHTML = 'Empty Fryer<br>To Use Again!';
     }
 }
 
@@ -1591,49 +1591,53 @@ export function toggleDisable(disableItNow, element) {
         case true:
             element.disabled = true;
             element.classList.add('disabled');
+            if (!element.classList.contains('action-button-main-flashing')) {
+                if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
+                    element.classList.remove('bg-success');
+                    element.classList.remove('white-important');
+                } else if (element === getElements().withdrawInvestmentButton) {
+                    element.classList.remove('bg-success');
+                } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
+                    element.classList.remove('bg-danger');
+                } else if (element === getElements().resumeGameButton) {
+                    element.classList.add('option-disabled');
+                } else if (element === getElements().option2) {
+                    getElements().option2.classList.add('option-disabled');
+                    getElements().option2.classList.add('bg-secondary');
+                    getElements().option2.classList.remove('bg-primary');
+                } else {
+                    element.classList.remove('bg-warning');
+                }
 
-            if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
-                element.classList.remove('bg-success');
-                element.classList.remove('white-important');
-            } else if (element === getElements().withdrawInvestmentButton) {
-                element.classList.remove('bg-success');
-            } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
-                element.classList.remove('bg-danger');
-            } else if (element === getElements().resumeGameButton) {
-                element.classList.add('option-disabled');
-            } else if (element === getElements().option2) {
-                getElements().option2.classList.add('option-disabled');
-                getElements().option2.classList.add('bg-secondary');
-                getElements().option2.classList.remove('bg-primary');
-            } else {
-                element.classList.remove('bg-warning');
+                element.classList.add('bg-secondary');
             }
-
-            element.classList.add('bg-secondary');
             break;
         case false:
             element.disabled = false;
             element.classList.remove('disabled');
             element.classList.remove('bg-secondary');
+            if (!element.classList.contains('action-button-main-flashing')) {
+                if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
+                    element.classList.add('bg-success');
+                    element.classList.add('white-important');
+                } else if (element === getElements().withdrawInvestmentButton) {
+                    element.classList.add('bg-success');
+                } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
+                    element.classList.add('bg-danger');
+                } else if (element === getElements().resumeGameButton) {
+                    element.classList.remove('option-disabled');
+                    element.style.color = 'black';
+                } else if (element === getElements().option2) {
+                    getElements().option2.classList.remove('option-disabled');
+                    getElements().option2.classList.remove('bg-secondary');
+                    getElements().option2.classList.add('bg-primary');
+                } else if (element === getElements().fryChipsButton && getElements().fryChipsButton.classList.contains('cooking')) {
+                    getElements().fryChipsButton.classList.remove('bg-warning');
+                } else {
+                    element.classList.add('bg-warning');
+                }
+            }
 
-            if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
-                element.classList.add('bg-success');
-                element.classList.add('white-important');
-            } else if (element === getElements().withdrawInvestmentButton) {
-                element.classList.add('bg-success');
-            } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
-                element.classList.add('bg-danger');
-            } else if (element === getElements().resumeGameButton) {
-                element.classList.remove('option-disabled');
-                element.style.color = 'black';
-            } else if (element === getElements().option2) {
-                getElements().option2.classList.remove('option-disabled');
-                getElements().option2.classList.remove('bg-secondary');
-                getElements().option2.classList.add('bg-primary');
-            }
-            else {
-                element.classList.add('bg-warning');
-            }
             break;
     }
 }

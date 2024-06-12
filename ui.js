@@ -243,10 +243,10 @@ export function updateButtonStyle(buttonId, startStop) {
             case getElements().fryChipsButton.id:
                 if (getAreChipsFrying()) {
                     element.classList.add('cooking');
-                    element.classList.remove('disabled');
+                    toggleDisable(false, getElements().fryChipsButton);
                 } else {
                     element.classList.remove('cooking');
-                    element.classList.add('disabled');
+                    toggleDisable(true, getElements().fryChipsButton);
                 }
                 break;
             case getElements().investmentFundUnlockOrFloatButton.id:
@@ -280,12 +280,12 @@ export function updateButtonStyle(buttonId, startStop) {
     if (startStop !== null) {
         switch (startStop) {
             case getZero():
-                element.classList.remove('action-button-main-disabled');
                 element.classList.add('action-button-main-flashing');
+                toggleDisable(false, getElements().fryChipsButton);
                 break;
             case getOne():
                 element.classList.remove('action-button-main-flashing');
-                element.classList.add('action-button-main-disabled');
+                toggleDisable(true, getElements().fryChipsButton);
                 break;
         }
     }
