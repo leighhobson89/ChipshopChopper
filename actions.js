@@ -332,7 +332,7 @@ export function handleButtonClick(buttonId, value, loading) {
             switch (buttonId) {
                 case getElements().menuButton.id:
                     if (getGameInProgress() && getElements().option2.classList.contains('option-disabled')) {
-                        getElements().option2.classList.remove('option-disabled');
+                        toggleDisable(false, getElements().option2);
                     }
                     toggleMenu(!getElements().gameWindow.classList.contains('d-none'));
                     setPauseAutoSaveCountdown(true);

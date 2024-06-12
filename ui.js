@@ -606,6 +606,13 @@ function createOptionScreenEventListeners() {
             setElements();
             handleButtonClickEventListenerInitialisation(true);
             toggleDisable(false, getElements().resumeGameButton);
+            if (!getInvestmentFundUnlocked()) {
+                getElements().investmentCashComponent.classList.add('d-none');
+                getElements().investmentRiskComponent.classList.add('d-none');
+            }
+            if (!getInvestmentFundUnlockable()) {
+                getElements().investmentDataScreen.classList.add('d-none');
+            }
             setStateLoading(false);
         }
     });
