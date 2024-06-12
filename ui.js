@@ -120,7 +120,7 @@ import {
     setAutoStorageCollectorCapped,
     setCurrentCash,
     setCurrentRotation,
-    setDebugFlag,
+    setDebugFlag, setElements,
     setFryerCapacityCapped,
     setFryerSpeedCapped,
     setGameInProgress,
@@ -139,7 +139,7 @@ import {
     wheelColors
 } from './constantsAndGlobalVars.js';
 import {
-    initialiseNewGame
+    initialiseNewGame, main
 } from "./gameloop.js";
 
 export function initialiseOptionsClasses() {
@@ -174,7 +174,7 @@ export function createGameWindow() {
 
     writeTextInSections();
 
-    handleButtonClickEventListenerInitialisation();
+    handleButtonClickEventListenerInitialisation(false);
 }
 
 export function writeTextInSections() {
@@ -594,10 +594,18 @@ function createOptionScreenEventListeners() {
     getElements().option2.addEventListener('click', function() {
         saveGame(true);
     });
-    getElements().option3.addEventListener('click', function() {
-        setStateLoading(true);
-        loadGame();
-        setStateLoading(false);
+    getElements().option3.addEventListener('click', async function() {
+        try {
+            setStateLoading(true);
+
+            await loadGame();
+
+        } finally {
+            setElements();
+            handleButtonClickEventListenerInitialisation(true);
+            toggleDisable(false, getElements().resumeGameButton);
+            setStateLoading(false);
+        }
     });
     getElements().option4.addEventListener('click', function() {
         // Add functionality for help
@@ -1130,31 +1138,31 @@ function setCapped(element) {
     element.classList.add('capped');
 }
 
-export function handleButtonClickEventListenerInitialisation() {
-    handleButtonClick(getElements().menuButton.id, null);
-    handleButtonClick(getElements().startShiftButton.id, null);
-    handleButtonClick(getElements().peelPotatoButton.id, getElements().peeledCount.id);
-    handleButtonClick(getElements().cutChipsButton.id, getElements().cutCount.id);
-    handleButtonClick(getElements().fryChipsButton.id, getElements().chuckedInFryerCount.id);
-    handleButtonClick(getElements().servingStorageButton.id, getElements().readyToServeCount.id);
-    handleButtonClick(getElements().serveCustomerButton.id, getElements().customersWaitingCount.id);
-    handleButtonClick(getElements().improvePotatoStorageButton.id, getPriceToImprovePotatoStorage());
-    handleButtonClick(getElements().twoHandedPeelingButton.id, getPriceToEnableDoublePeeling());
-    handleButtonClick(getElements().twoHandedChippingButton.id, getPriceToEnableDoubleChipping());
-    handleButtonClick(getElements().improveFryerCapacityButton.id, getPriceToImproveFryerCapacity());
-    handleButtonClick(getElements().addStorageHeaterAutoShiftStartButton.id, getPriceToAddStorageHeater());
-    handleButtonClick(getElements().autoPeelerUpgradeButton.id, getPriceToImproveAutoPeeler());
-    handleButtonClick(getElements().autoChipperUpgradeButton.id, getPriceToImproveAutoChipper());
-    handleButtonClick(getElements().autoFryerUpgradeButton.id, getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
-    handleButtonClick(getElements().autoStorageCollectorUpgradeButton.id, getPriceToImproveAutoMoverFromFryerToStorage());
-    handleButtonClick(getElements().autoCustomerServerUpgradeButton.id, getPriceToImproveAutoCustomerServer());
-    handleButtonClick(getElements().fastFryerUpgradeButton.id, getPriceToImproveFryTimer());
-    handleButtonClick(getElements().potatoDeliveryDoublerButton.id, getPriceToDoubleSpudsMax());
-    handleButtonClick(getElements().investmentFundUnlockOrFloatButton.id, getPriceToUnlockInvestmentFundOrFloatOnStockMarket());
-    handleButtonClick(getElements().customerFrequencyIncreaser.id, getPriceToIncreaseFootfall());
-    handleButtonClick(getElements().investmentCashComponent_IncrementButton.id, getInvestmentCashIncrementDecrement());
-    handleButtonClick(getElements().investmentCashComponent_DecrementButton.id, getInvestmentCashIncrementDecrement());
-    handleButtonClick(getElements().investmentRiskComponent_IncrementButton.id, getInvestmentRiskIncrementDecrement());
-    handleButtonClick(getElements().investmentRiskComponent_DecrementButton.id, getInvestmentRiskIncrementDecrement());
-    handleButtonClick(getElements().withdrawInvestmentButton.id, null);
+export function handleButtonClickEventListenerInitialisation(loading) {
+    handleButtonClick(getElements().menuButton.id, null, loading);
+    handleButtonClick(getElements().startShiftButton.id, null, loading);
+    handleButtonClick(getElements().peelPotatoButton.id, getElements().peeledCount.id, loading);
+    handleButtonClick(getElements().cutChipsButton.id, getElements().cutCount.id, loading);
+    handleButtonClick(getElements().fryChipsButton.id, getElements().chuckedInFryerCount.id, loading);
+    handleButtonClick(getElements().servingStorageButton.id, getElements().readyToServeCount.id, loading);
+    handleButtonClick(getElements().serveCustomerButton.id, getElements().customersWaitingCount.id, loading);
+    handleButtonClick(getElements().improvePotatoStorageButton.id, getPriceToImprovePotatoStorage(), loading);
+    handleButtonClick(getElements().twoHandedPeelingButton.id, getPriceToEnableDoublePeeling(), loading);
+    handleButtonClick(getElements().twoHandedChippingButton.id, getPriceToEnableDoubleChipping(), loading);
+    handleButtonClick(getElements().improveFryerCapacityButton.id, getPriceToImproveFryerCapacity(), loading);
+    handleButtonClick(getElements().addStorageHeaterAutoShiftStartButton.id, getPriceToAddStorageHeater(), loading);
+    handleButtonClick(getElements().autoPeelerUpgradeButton.id, getPriceToImproveAutoPeeler(), loading);
+    handleButtonClick(getElements().autoChipperUpgradeButton.id, getPriceToImproveAutoChipper(), loading);
+    handleButtonClick(getElements().autoFryerUpgradeButton.id, getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), loading);
+    handleButtonClick(getElements().autoStorageCollectorUpgradeButton.id, getPriceToImproveAutoMoverFromFryerToStorage(), loading);
+    handleButtonClick(getElements().autoCustomerServerUpgradeButton.id, getPriceToImproveAutoCustomerServer(), loading);
+    handleButtonClick(getElements().fastFryerUpgradeButton.id, getPriceToImproveFryTimer(), loading);
+    handleButtonClick(getElements().potatoDeliveryDoublerButton.id, getPriceToDoubleSpudsMax(), loading);
+    handleButtonClick(getElements().investmentFundUnlockOrFloatButton.id, getPriceToUnlockInvestmentFundOrFloatOnStockMarket(), loading);
+    handleButtonClick(getElements().customerFrequencyIncreaser.id, getPriceToIncreaseFootfall(), loading);
+    handleButtonClick(getElements().investmentCashComponent_IncrementButton.id, getInvestmentCashIncrementDecrement(), loading);
+    handleButtonClick(getElements().investmentCashComponent_DecrementButton.id, getInvestmentCashIncrementDecrement(), loading);
+    handleButtonClick(getElements().investmentRiskComponent_IncrementButton.id, getInvestmentRiskIncrementDecrement(), loading);
+    handleButtonClick(getElements().investmentRiskComponent_DecrementButton.id, getInvestmentRiskIncrementDecrement(), loading);
+    handleButtonClick(getElements().withdrawInvestmentButton.id, null, loading);
 }

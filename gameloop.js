@@ -13,7 +13,7 @@ import {
     updateButtonStyle,
     updateTextAndDisableButtonsForCappedUpgrades,
     updateVisibleButtons,
-    writePopupText
+    writePopupText, handleButtonClickEventListenerInitialisation
 } from './ui.js';
 
 import {
@@ -158,7 +158,7 @@ let lastCustomerUpdateTime = new Date().getTime();
 let lastFryingUpdateTime = new Date().getTime();
 let lastAutoUpgradesUpdateTime = new Date().getTime();
 
-function main() {
+export function main() {
     document.addEventListener('keydown', function(event) {
         if (event.key === '-') {
             setDebugOptionFlag(true);
@@ -171,6 +171,7 @@ function main() {
     autoSaveInterval = getAutoSaveInterval();
     nextAutoSaveTime = Date.now() + autoSaveInterval;
     initialiseOptionsClasses();
+
     createGameWindow();
 
     setInterval(() => {

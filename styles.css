@@ -71,7 +71,7 @@ body {
 }
 
 .option-resume-game {
-    background-color: yellow;
+    background-color: #FFC107;
     color: black;
 }
 
@@ -80,7 +80,7 @@ body {
 }
 
 .option-resume-game:hover {
-    background-color: rgb(173, 153, 72);
+    background-color: #FFC107;
     color: white;
 }
 

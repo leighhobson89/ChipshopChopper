@@ -225,9 +225,17 @@ import {
     writePopupText
 } from "./ui.js";
 
-export function handleButtonClick(buttonId, value) {
+export function handleButtonClick(buttonId, value, loading) {
     const button = getElements()[buttonId];
     const element = getElements()[value];
+
+    if ((buttonId === getElements().menuButton.id ||
+    buttonId === getElements().investmentCashComponent_IncrementButton.id ||
+        buttonId === getElements().investmentCashComponent_DecrementButton.id ||
+        buttonId === getElements().investmentRiskComponent_IncrementButton.id ||
+        buttonId === getElements().investmentRiskComponent_DecrementButton.id) && loading) {
+        return;
+    }
 
     button.addEventListener('click', () => {
         if (!getInvestmentFundUnlocked()) {
@@ -1334,41 +1342,59 @@ function padZero(num) {
 }
 
 export function loadGame() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.txt';
+    return new Promise((resolve, reject) => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.txt';
 
-    input.addEventListener('change', handleFileSelectAndInitialiseLoadedGame);
-    input.click();
+        input.addEventListener('change', (event) => {
+            handleFileSelectAndInitialiseLoadedGame(event)
+                .then(resolve)
+                .catch(reject);
+        });
+        input.click();
+    });
 }
 
 function handleFileSelectAndInitialiseLoadedGame(event) {
-    const file = event.target.files[0];
-    if (!file) {
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const compressed = e.target.result;
-
-            if (typeof compressed === 'string') {
-                let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
-                let gameState = JSON.parse(decompressedJson);
-
-                document.getElementById('overlay').remove();
-                setPopupOverlay(createOverlay());
-
-                initialiseLoadedGame(gameState).then(r => alert('Game loaded successfully!'));
-            }
-        } catch (error) {
-            console.error('Error loading game:', error);
-            alert('Error loading game. Please make sure the file contains valid game data.');
+    return new Promise((resolve, reject) => {
+        const file = event.target.files[0];
+        if (!file) {
+            return reject('No file selected');
         }
-    };
 
-    reader.readAsText(file);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const compressed = e.target.result;
+
+                if (typeof compressed === 'string') {
+                    let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
+                    let gameState = JSON.parse(decompressedJson);
+
+                    document.getElementById('overlay').remove();
+                    setPopupOverlay(createOverlay());
+
+                    initialiseLoadedGame(gameState).then(() => {
+                        alert('Game loaded successfully!');
+                        resolve();
+                    });
+                } else {
+                    reject('Invalid file content');
+                }
+            } catch (error) {
+                console.error('Error loading game:', error);
+                alert('Error loading game. Please make sure the file contains valid game data.');
+                reject(error);
+            }
+        };
+
+        reader.onerror = () => {
+            reject('Error reading file');
+        };
+
+        reader.readAsText(file);
+    });
 }
 
 async function initialiseLoadedGame(gameState) {
@@ -1376,8 +1402,6 @@ async function initialiseLoadedGame(gameState) {
     setPauseAutoSaveCountdown(false);
 
     await restoreGameStatus(gameState);
-
-    handleButtonClickEventListenerInitialisation();
 }
 
 export function getPrizes() {
@@ -1580,6 +1604,8 @@ export function toggleDisable(disableItNow, element) {
                 element.classList.remove('bg-success');
             } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
                 element.classList.remove('bg-danger');
+            } else if (element === getElements().resumeGameButton) {
+                element.classList.add('option-disabled');
             } else {
                 element.classList.remove('bg-warning');
             }
@@ -1598,6 +1624,9 @@ export function toggleDisable(disableItNow, element) {
                 element.classList.add('bg-success');
             } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
                 element.classList.add('bg-danger');
+            } else if (element === getElements().resumeGameButton) {
+                element.classList.remove('option-disabled');
+                element.style.color = 'black';
             } else {
                 element.classList.add('bg-warning');
             }
