@@ -546,35 +546,30 @@ function handleAddStorageHeater(button, buttonId) {
 }
 
 export function handleStartShift() {
-    if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
-        setShiftInProgress(true);
-        console.log("Started Final Shift!");
-        getElements().startShiftButton.classList.add('d-none');
-    } else {
-        setShiftLengthTimerVariable(getShiftLength());
-        setShiftInProgress(true);
-        setShiftCounter(getShiftCounter() + getStandardDecrementIncrementOfOne());
 
-        getElements().subInnerDiv1_1.innerHTML = '<h4>Shift:</h4>';
-        getElements().subInnerDiv1_2.innerHTML = `<h4>${getShiftTime()}</h4>`;
+    setShiftLengthTimerVariable(getShiftLength());
+    setShiftInProgress(true);
+    setShiftCounter(getShiftCounter() + getStandardDecrementIncrementOfOne());
 
-        switch (getShiftCounter()) {
-            case getOnShiftOne():
-                if (!getDebugFlag() || (getDebugFlag() && !getImprovePotatoStorageNotClickedYet())) {
-                    getElements().subInnerDivMid1_2.innerHTML = `<h4>${addShiftSpuds(getStartingSpuds()).toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
-                }
-                break;
-            default:
-                getElements().subInnerDivMid1_2.innerHTML = `<h4>${addShiftSpuds(getSpudsToAddToShift()).toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
-                break;
-        }
+    getElements().subInnerDiv1_1.innerHTML = '<h4>Shift:</h4>';
+    getElements().subInnerDiv1_2.innerHTML = `<h4>${getShiftTime()}</h4>`;
 
-        let newPotatoesToDeliverForNextShift = Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity());
-        setActualPotatoesInStorage(newPotatoesToDeliverForNextShift);
-        getElements().startShiftButton.innerHTML = 'Start Shift <br> (+ ' + selectARandomNumberOfSpudsForNextShift() + ' Potatoes)';
-
-        calculateForthcomingTotalInvestment();
+    switch (getShiftCounter()) {
+        case getOnShiftOne():
+            if (!getDebugFlag() || (getDebugFlag() && !getImprovePotatoStorageNotClickedYet())) {
+                getElements().subInnerDivMid1_2.innerHTML = `<h4>${addShiftSpuds(getStartingSpuds()).toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
+            }
+            break;
+        default:
+            getElements().subInnerDivMid1_2.innerHTML = `<h4>${addShiftSpuds(getSpudsToAddToShift()).toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
+            break;
     }
+
+    let newPotatoesToDeliverForNextShift = Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity());
+    setActualPotatoesInStorage(newPotatoesToDeliverForNextShift);
+    getElements().startShiftButton.innerHTML = 'Start Shift <br> (+ ' + selectARandomNumberOfSpudsForNextShift() + ' Potatoes)';
+
+    calculateForthcomingTotalInvestment();
     disableButtons(false);
 }
 
@@ -1244,11 +1239,11 @@ function setUpFloatButton() {
 function setupEndGameFlow() {
     setTotalWastedChips(getTotalWastedChips() + getQuantityOfChipsFrying() + (getChipsReadyToServeQuantity().reduce((total, num) => total + num, 0)));
     writePopupText();
-    toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
+    toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup, true );
     toggleOverlay(popupOverlay);
     setShiftInProgress(false);
     setCurrentCash(getEndGameCash());
-    getElements().subInnerDiv1_2.innerHTML = "Final Shift!";
+    getElements().subInnerDiv1_2.innerHTML = '<h4>Final Shift!</h4>';
     disableButtons(false);
 
     wasteChipsStillInFryerOrFryingAtEndOfShift();
@@ -1261,12 +1256,13 @@ function setupEndGameFlow() {
         setChipsWastedThisShift(getChipsWastedThisShift() + getChipsReadyToServeQuantity()[i]);
     }
 
-    getElements().customersWaitingCount.innerHTML = `<h4>${getCustomersWaiting()}</h4>`;
+    getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
 
     setChipsReadyToServeQuantity(null, 'clear');
-    getElements().readyToServeCount.innerHTML = getZero().toString();
-    getElements().peeledCount.innerHTML = getZero().toString();
-    getElements().cutCount.innerHTML = getZero().toString();
+    getElements().peeledCount.innerHTML = `<h3>${getZero().toString()}</h3>`;
+    getElements().cutCount.innerHTML = `<h3>${getZero().toString()}</h3>`;
+    getElements().readyToServeCount.innerHTML = `<h3>${getZero().toString()}</h3>`;
+
     resetBatchTimers();
 
     setCustomersServed(getZero());
@@ -1277,14 +1273,13 @@ function setupEndGameFlow() {
 
     hideButtonsReadyForEndGame();
 
-    getElements().startShiftButton.innerHTML = 'Start Final Shift!';
     getElements().serveCustomerButton.innerHTML = 'Serve Last Customer and Win Game!';
 
     setActualPotatoesInStorage(getEndGamePotatoes());
-    getElements().subInnerDivMid1_2.innerHTML = `${getEndGamePotatoes().toString()}/${getPotatoStorageQuantity().toString()}`;
+    getElements().subInnerDivMid1_2.innerHTML = `<h4>${getEndGamePotatoes().toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
 
     setCustomersWaiting(getOne());
-    getElements().customersWaitingCount.innerHTML = getOne().toString();
+    getElements().customersWaitingCount.innerHTML = `<h4>${getOne().toString()}</h4>`;
 
     setCurrentMaxValueWaitForNewCustomer(getEndGameCash()); //sets it to 999998 so player can't get any other customers arrive
     setNextMaxValueWaitForNewCustomer(getEndGameCash());

@@ -129,7 +129,7 @@ import {
     setMaxWaitCustomerCapped,
     setPauseAutoSaveCountdown,
     setPotatoCapacityCapped,
-    setPromotionFlag,
+    setPromotionFlag, setShiftInProgress,
     setShiftPoints,
     setShiftPrizePot,
     setStateLoading,
@@ -161,6 +161,8 @@ export function initialiseOptionsClasses() {
 
     getElements().withdrawInvestmentButton.classList.add('bg-secondary');
     getElements().withdrawInvestmentButton.classList.add('white-important');
+
+    getElements().endGameStartShiftButton.classList.add('bg-success');
 
     document.getElementById('popupContinueButton').classList.add('bg-secondary');
     document.getElementById('popupContinueButton').classList.add('white-important');
@@ -334,11 +336,22 @@ export function createOverlay() {
     return overlay;
 }
 
-export function toggleEndOfShiftOrGamePopup(popupContainer) {
+export function toggleEndOfShiftOrGamePopup(popupContainer, endOfGame) {
     if (document.getElementById('endOfShiftOrGamePopup').classList.contains('d-none')) {
         popupContainer.classList.remove('d-none');
     } else {
         popupContainer.classList.add('d-none');
+    }
+    if (endOfGame) {
+        document.querySelector('.popup-title-right').classList.add('d-none');
+        document.getElementById('popupContentInnerRight').classList.add('d-none');
+        document.querySelector('.popup-row-3-right').classList.add('d-none');
+        document.querySelector('.popup-title-right').style.width = '0';
+        document.querySelector('.popup-row-3-right').style.width = '0';
+        document.querySelector('.popup-row-3-right').style.width = '0';
+
+        document.querySelector('.popup-title-left').style.width = '100%';
+        document.querySelector('.popup-row-3-left').style.width = '100%';
     }
 }
 
@@ -628,6 +641,7 @@ function createOptionScreenEventListeners() {
     });
 
     createAndAttachContinueButtonEventListener();
+    createAndAttachEndGameShiftStartEventListener();
 
     //DEBUG
     getElements().debugCash.addEventListener('mouseenter', function() {
@@ -651,7 +665,7 @@ function createOptionScreenEventListeners() {
         getElements().debugCash.style.color = 'white';
         setDebugFlag(true);
         getElements().debugCash.classList.add('debug-toggledOn');
-        let donation = 25000;
+        let donation = 250000;
         setCurrentCash(donation);
         getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
         console.log("$" + donation + " given (debug)");
@@ -736,13 +750,6 @@ export function hideButtonsReadyForEndGame() {
         mainButtons[i].style.display = 'none';
     }
 
-    const bottomRowContainer = getElements().bottomRowContainer;
-    const bottomButtons = bottomRowContainer.getElementsByClassName('action-button-bottom-row');
-    for (let i = 0; i < bottomButtons.length - 1; i++) {
-        bottomButtons[i].classList.add('hidden-button');
-        bottomButtons[i].classList.add('d-none');
-    }
-
     getElements().investmentDataScreen.classList.add('hidden-button');
     getElements().investmentDataScreen.classList.add('d-none');
 
@@ -755,7 +762,7 @@ export function hideButtonsReadyForEndGame() {
     getElements().withdrawInvestmentButton.classList.add('hidden-button');
     getElements().withdrawInvestmentButton.classList.add('d-none');
 
-    getElements().bottomRowContainer.classList.add('end-game-position-start-shift-button');
+    getElements().endGameStartShiftButton.classList.remove('d-none');
 
 }
 
@@ -1135,9 +1142,19 @@ export function getElementMidpoint(elementId) {
 export function createAndAttachContinueButtonEventListener() {
     document.getElementById('popupContinueButton').addEventListener('click', function() {
         clearPopupTexts();
-        toggleEndOfShiftOrGamePopup(document.getElementById('endOfShiftOrGamePopup'));
+        toggleEndOfShiftOrGamePopup(document.getElementById('endOfShiftOrGamePopup'), false);
         toggleOverlay(popupOverlay);
         setCurrentRotation(getZero());
+    });
+}
+
+export function createAndAttachEndGameShiftStartEventListener() {
+    document.getElementById('endGameStartShiftButton').addEventListener('click', function() {
+        if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
+            setShiftInProgress(true);
+            console.log("Started Final Shift!");
+            getElements().endGameStartShiftButton.classList.add('d-none');
+        }
     });
 }
 

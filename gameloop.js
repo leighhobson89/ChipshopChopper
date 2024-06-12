@@ -356,7 +356,7 @@ function updateShiftCountDown() {
 
                     if (!getAutoShiftStatus()) { //no popup if autoShiftStartIsEnabled
                         writePopupText();
-                        toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup);
+                        toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup, false);
                         toggleOverlay(popupOverlay);
                     }
                     consoleOutTotalStats(); //debug
