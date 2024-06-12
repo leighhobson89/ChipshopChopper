@@ -1689,11 +1689,11 @@ export function setInitialStateMainButtons() {
     getElements().servingStorageButton.classList.add('bg-secondary');
     getElements().serveCustomerButton.classList.add('bg-secondary');
 
-    getElements().autoPeelerUpgradeButton.innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()})<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(getPriceToImproveAutoPeeler())}`;
-    getElements().autoChipperUpgradeButton.innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()})<br> ${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(getPriceToImproveAutoChipper())}`;
-    getElements().autoFryerUpgradeButton.innerHTML = `Auto Fryer (${getCurrentSpeedAutoFryer()})<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}`;
-    getElements().autoStorageCollectorUpgradeButton.innerHTML = `Auto Collect (${getCurrentSpeedAutoStorageCollector()})<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}`;
-    getElements().autoCustomerServerUpgradeButton.innerHTML = `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}`;
+    getElements().autoPeelerUpgradeButton.innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()})<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(getPriceToImproveAutoPeeler())}<br>Buy To Activate`;
+    getElements().autoChipperUpgradeButton.innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()})<br> ${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(getPriceToImproveAutoChipper())}<br>Buy To Activate`;
+    getElements().autoFryerUpgradeButton.innerHTML = `Auto Fryer (${getCurrentSpeedAutoFryer()})<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}<br>Buy To Activate`;
+    getElements().autoStorageCollectorUpgradeButton.innerHTML = `Auto Collect (${getCurrentSpeedAutoStorageCollector()})<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}<br>Buy To Activate`;
+    getElements().autoCustomerServerUpgradeButton.innerHTML = `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}<br>Buy To Activate`;
 
     getElements().autoPeelerUpgradeButton.classList.add('bg-secondary');
     getElements().autoChipperUpgradeButton.classList.add('bg-secondary');

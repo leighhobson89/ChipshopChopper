@@ -582,9 +582,10 @@ function checkPlayerRole() {
 }
 
 function updateInvestmentPlanData() {
-    getElements().investmentDataScreenBottomRowColumn1.innerHTML = formatToCashNotation(getAmountInvestmentCash());
-    getElements().investmentDataScreenBottomRowColumn2.innerHTML = getAmountInvestmentRisk() + "%";
-    getElements().investmentDataScreenBottomRowColumn3.innerHTML = formatToCashNotation(getCurrentValueOfInvestment());
+    getElements().investmentDataScreenBottomRowColumn1.innerHTML = `<h3>${formatToCashNotation(getAmountInvestmentCash())}</h3>`;
+    getElements().investmentDataScreenBottomRowColumn2.innerHTML = `<h3>${getAmountInvestmentRisk()}%</h3>`;
+    getElements().investmentDataScreenBottomRowColumn3.innerHTML = `<h3>${formatToCashNotation(getCurrentValueOfInvestment())}</h3>`;
+    getElements().investmentDataScreenBottomRowColumn4.innerHTML = `<h3>${formatToCashNotation(getCurrentValueOfInvestment() - getAmountInvestmentCash())}</h3>`;
     // console.log(getElements().investmentDataScreenBottomRowColumn3);
     // console.log(getCurrentValueOfInvestment());
     // console.log('Cash Invested:' + getAmountInvestmentCash());

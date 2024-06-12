@@ -1224,7 +1224,7 @@ function cleanUpArray(array) {
 }
 
 function changeWithdrawInvestmentButtonText(value) {
-    value ? getElements().withdrawInvestmentButton.innerHTML = '<h5>Withdraw Now!</h5>' : getElements().withdrawInvestmentButton.innerHTML = '<h5>Cannot Withdraw</h5>';
+    value ? getElements().withdrawInvestmentButton.innerHTML = 'Withdraw Now!' : getElements().withdrawInvestmentButton.innerHTML = 'Cannot Withdraw';
 }
 
 function setUpFloatButton() {
@@ -1572,6 +1572,8 @@ export function toggleDisable(disableItNow, element) {
             if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
                 element.classList.remove('bg-success');
                 element.classList.remove('white-important');
+            } else if (element === getElements().withdrawInvestmentButton) {
+                element.classList.remove('bg-success');
             } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
                 element.classList.remove('bg-danger');
             } else {
@@ -1588,6 +1590,8 @@ export function toggleDisable(disableItNow, element) {
             if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
                 element.classList.add('bg-success');
                 element.classList.add('white-important');
+            } else if (element === getElements().withdrawInvestmentButton) {
+                element.classList.add('bg-success');
             } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
                 element.classList.add('bg-danger');
             } else {

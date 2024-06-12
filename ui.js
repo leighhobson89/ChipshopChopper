@@ -157,6 +157,9 @@ export function initialiseOptionsClasses() {
 
     getElements().menuButton.classList.add('bg-warning');
 
+    getElements().withdrawInvestmentButton.classList.add('bg-secondary');
+    getElements().withdrawInvestmentButton.classList.add('white-important');
+
     document.getElementById('popupContinueButton').classList.add('bg-secondary');
     document.getElementById('popupContinueButton').classList.add('white-important');
 }
@@ -673,8 +676,7 @@ export function changePlayerRole(element, newText, animation1, animation2) {
 
 export function initialiseInvestmentDataScreen() {
     getElements().withdrawInvestmentButton.classList.add('investment-withdraw-button');
-    getElements().withdrawInvestmentButton.disabled = true;
-    getElements().withdrawInvestmentButton.classList.add('disabled');
+    toggleDisable(true, getElements().withdrawInvestmentButton);
 }
 
 export function initialiseInvestmentScreenText() {
@@ -686,10 +688,10 @@ export function initialiseInvestmentScreenText() {
         'Current Value:',
         'Gain / Loss:',
         'Withdraw All:',
-        `${formatToCashNotation(getAmountInvestmentCash())}`,
-        `${getAmountInvestmentRisk()}%`,
-        `${formatToCashNotation(getCurrentValueOfInvestment())}`,
-        `${formatToCashNotation(getCurrentValueOfInvestment() - getAmountInvestmentCash())}`
+        `<h3>${formatToCashNotation(getAmountInvestmentCash())}</h3>`,
+        `<h3>${getAmountInvestmentRisk()}%</h3>`,
+        `<h3>${formatToCashNotation(getCurrentValueOfInvestment())}</h3>`,
+        `<h3>${formatToCashNotation(getCurrentValueOfInvestment() - getAmountInvestmentCash())}</h3>`
     ];
 
     const keys = [

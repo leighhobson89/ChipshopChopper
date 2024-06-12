@@ -208,6 +208,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
 }
 
 .button-checkbox {
+    margin: 4px 3px 3px 6px;
     appearance: none;
     width: 20px;
     height: 14px;
@@ -533,7 +534,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
     opacity: 0;
 }
 
-.popup-continue-button.white-important {
+.white-important {
     color: #ffffff !important;
 }
 
@@ -637,12 +638,7 @@ div[id^="subInnerDivMid"][id$="_2"] {
 /*}*/
 
 .investment-withdraw-button {
-    border: none;
-    border-radius: 0 0 7px 0;
-    color: white;
-    background-color: darkgreen;
-    width: 100%;
-    height: 100%;
+    font-size: 0.8em;
 }
 
 .investment-withdraw-button:hover {
@@ -880,4 +876,13 @@ div[id^="subInnerDivMid"][id$="_2"] {
 .stroke-text {
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: grey;
+}
+
+button.bg-warning.no-hover:hover,
+button.bg-warning.no-hover:focus {
+    font-weight: normal;
+}
+
+button.bg-warning.smaller-text {
+    line-height: 1.1;
 }
