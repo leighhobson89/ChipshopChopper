@@ -590,6 +590,11 @@ export function updateVisibleButtons() {
             getElements().investmentDataScreen.classList.remove('d-none');
             initialiseInvestmentScreenText();
         }
+
+        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN) && getInvestmentFundUnlocked() && getElements().investmentCashComponent.classList.contains('d-none') && getElements().investmentRiskComponent.classList.contains('d-none')) {
+            getElements().investmentCashComponent.classList.remove('d-none');
+            getElements().investmentRiskComponent.classList.remove('d-none');
+        }
         disableButtons(false);
     }
 }
@@ -743,20 +748,20 @@ export function hideButtonsReadyForEndGame() {
     const bottomButtons = bottomRowContainer.getElementsByClassName('action-button-bottom-row');
     for (let i = 0; i < bottomButtons.length - 1; i++) {
         bottomButtons[i].classList.add('hidden-button');
-        bottomButtons[i].style.display = 'none';
+        bottomButtons[i].classList.add('d-none');
     }
 
     getElements().investmentDataScreen.classList.add('hidden-button');
-    getElements().investmentDataScreen.style.display = 'none';
+    getElements().investmentDataScreen.classList.add('d-none');
 
     getElements().investmentCashComponent.classList.add('hidden-button');
-    getElements().investmentCashComponent.style.display = 'none';
+    getElements().investmentCashComponent.classList.add('d-none');
 
     getElements().investmentRiskComponent.classList.add('hidden-button');
-    getElements().investmentRiskComponent.style.display = 'none';
+    getElements().investmentRiskComponent.classList.add('d-none');
 
     getElements().withdrawInvestmentButton.classList.add('hidden-button');
-    getElements().withdrawInvestmentButton.style.display = 'none';
+    getElements().withdrawInvestmentButton.classList.add('d-none');
 
     getElements().bottomRowContainer.classList.add('end-game-position-start-shift-button');
 

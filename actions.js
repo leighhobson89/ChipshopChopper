@@ -758,6 +758,8 @@ function handleDecreaseCashInvested() {
     }
     if (getAmountInvestmentCash() === 0) {
         setAmountInvestmentRisk(getZero());
+        toggleDisable(true, getElements().withdrawInvestmentButton);
+        changeWithdrawInvestmentButtonText(false);
     }
 }
 
@@ -778,8 +780,8 @@ function handleWithDrawNowButton() {
     setCurrentValueOfInvestment(getZero());
     setAmountInvestmentCash(getZero());
     setAmountInvestmentRisk(getZero());
-    getElements().withdrawInvestmentButton.classList.add('disabled');
-    getElements().withdrawInvestmentButton.disabled = true;
+    toggleDisable(true, getElements().withdrawInvestmentButton);
+    changeWithdrawInvestmentButtonText(false);
 }
 
 function updateStorageBinHeaterToAutoShiftStartButton() {
