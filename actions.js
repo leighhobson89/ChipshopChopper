@@ -185,7 +185,6 @@ import {
     getEndGameFryTimer,
     captureGameStatusForSaving,
     restoreGameStatus,
-    setElements,
     setPauseAutoSaveCountdown,
     setTotalSpentExcludingInvestments,
     getTotalSpentExcludingInvestments,
@@ -200,10 +199,7 @@ import {
     wheelColors,
     Role,
     prizes,
-    endOfShiftOrGamePopupObject,
-    setEndOfShiftOrGamePopupObject,
-    setEndOfShiftOrGamePopup,
-    setPopupContinueButton, setPopupOverlay, getInvestmentFundUnlockable, setInvestmentFundUnlockable, gameInProgress
+    setPopupOverlay
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -213,11 +209,10 @@ import {
 } from './gameloop.js';
 
 import {
-    addCheckbox, createAndAttachContinueButtonEventListener,
+    addCheckbox,
     createOverlay,
-    formatToCashNotation, handleButtonClickEventListenerInitialisation,
+    formatToCashNotation,
     hideButtonsReadyForEndGame,
-    initialiseInvestmentScreenText,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
     triggerEndGameScreen,
@@ -230,7 +225,7 @@ export function handleButtonClick(buttonId, value, loading) {
     const element = getElements()[value];
 
     if ((buttonId === getElements().menuButton.id ||
-    buttonId === getElements().investmentCashComponent_IncrementButton.id ||
+        buttonId === getElements().investmentCashComponent_IncrementButton.id ||
         buttonId === getElements().investmentCashComponent_DecrementButton.id ||
         buttonId === getElements().investmentRiskComponent_IncrementButton.id ||
         buttonId === getElements().investmentRiskComponent_DecrementButton.id) && loading) {
@@ -815,7 +810,6 @@ export function disableButtons(init) {
     let mainButtons;
     let investmentCashComponent_DecrementButton = getElements().investmentCashComponent_DecrementButton;
     let investmentRiskComponent_DecrementButton = getElements().investmentRiskComponent_DecrementButton;
-    let withdrawInvestmentButton = getElements().withdrawInvestmentButton;
 
     const pricesArrayButtons = [0, 0, 0, 0, 0, getPriceToImproveAutoPeeler(), getPriceToImproveAutoChipper(), getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut(), getPriceToImproveAutoMoverFromFryerToStorage(), getPriceToImproveAutoCustomerServer(), getPriceToImprovePotatoStorage(), getPriceToImproveFryerCapacity(), getPriceToImproveFryTimer(), getPriceToDoubleSpudsMax(), getPriceToIncreaseFootfall(), 0, 0, 0, 0, 0];
 
@@ -1150,7 +1144,10 @@ function checkIfNonRepeatableUpgradePurchased(button, upgrade) {
 }
 
 function checkIfRepeatableUpgrade(button) {
-    return button.upgrade === 'true' && button.repeatableUpgrade === 'true';
+    const isUpgradeTrue = button.getAttribute('upgrade') === 'true';
+    const isRepeatableUpgradeTrue = button.getAttribute('repeatableUpgrade') === 'true';
+
+    return isUpgradeTrue && isRepeatableUpgradeTrue;
 }
 
 function checkIfChipsStillInFryer() {
@@ -1239,7 +1236,7 @@ function setUpFloatButton() {
 function setupEndGameFlow() {
     setTotalWastedChips(getTotalWastedChips() + getQuantityOfChipsFrying() + (getChipsReadyToServeQuantity().reduce((total, num) => total + num, 0)));
     writePopupText();
-    toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup, true );
+    toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup, true);
     toggleOverlay(popupOverlay);
     setShiftInProgress(false);
     setCurrentCash(getEndGameCash());

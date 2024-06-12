@@ -4,11 +4,12 @@ import {
     getPrizes,
     handleButtonClick,
     loadGame,
-    saveGame, toggleDisable,
+    saveGame,
+    toggleDisable,
     toggleMenu
 } from './actions.js';
 import {
-    debugFlag, endOfShiftOrGamePopup,
+    debugFlag,
     getActualPotatoesInStorage,
     getAmountInvestmentCash,
     getAmountInvestmentRisk,
@@ -43,7 +44,8 @@ import {
     getCurrentValueOfInvestment,
     getCustomersServed,
     getCustomersWaiting,
-    getCustomersWaitingBeforeEndOfShift, getDebugFlag,
+    getCustomersWaitingBeforeEndOfShift,
+    getDebugFlag,
     getElements,
     getFloatOnStockMarketUnlockedAndEndGameFlowStarted,
     getFryerCapacity,
@@ -58,14 +60,6 @@ import {
     getMaxDeliveryCapped,
     getMaxSpudsDelivery,
     getMaxWaitCustomerCapped,
-    getNextMaxSpudsDelivery,
-    getNextMaxValueWaitForNewCustomer,
-    getNextSpeedAutoChipper,
-    getNextSpeedAutoCustomerServer,
-    getNextSpeedAutoFryer,
-    getNextSpeedAutoPeeler,
-    getNextSpeedAutoStorageCollector,
-    getNextSpeedFryTimer,
     getNumberOfWheelSections,
     getOldCash,
     getOne,
@@ -102,12 +96,9 @@ import {
     getTotalServedCustomers,
     getTotalSpentExcludingInvestments,
     getTotalWastedChips,
-    getUpgradeFryerCapacityAmount,
-    getUpgradePotatoStorageQuantity,
     getWheelSpinning,
     getWinResult,
     getZero,
-    popupContinueButton,
     popupOverlay,
     resetAllVariables,
     resetCounterUiElements,
@@ -120,7 +111,8 @@ import {
     setAutoStorageCollectorCapped,
     setCurrentCash,
     setCurrentRotation,
-    setDebugFlag, setElements,
+    setDebugFlag,
+    setElements,
     setFryerCapacityCapped,
     setFryerSpeedCapped,
     setGameInProgress,
@@ -129,7 +121,8 @@ import {
     setMaxWaitCustomerCapped,
     setPauseAutoSaveCountdown,
     setPotatoCapacityCapped,
-    setPromotionFlag, setShiftInProgress,
+    setPromotionFlag,
+    setShiftInProgress,
     setShiftPoints,
     setShiftPrizePot,
     setStateLoading,
@@ -139,7 +132,7 @@ import {
     wheelColors
 } from './constantsAndGlobalVars.js';
 import {
-    initialiseNewGame, main
+    initialiseNewGame
 } from "./gameloop.js";
 
 export function initialiseOptionsClasses() {
@@ -619,6 +612,9 @@ function createOptionScreenEventListeners() {
             setElements();
             handleButtonClickEventListenerInitialisation(true);
             toggleDisable(false, getElements().resumeGameButton);
+            if (getInvestmentFundUnlockable() && getCurrentValueOfInvestment() === getZero()) {
+                toggleDisable(true, getElements().withdrawInvestmentButton);
+            }
             if (!getInvestmentFundUnlocked()) {
                 getElements().investmentCashComponent.classList.add('d-none');
                 getElements().investmentRiskComponent.classList.add('d-none');
@@ -815,30 +811,35 @@ export function updateTextAndDisableButtonsForCappedUpgrades() {
         setCapped(getElements().autoPeelerUpgradeButton);
         if (getElements().autoPeelerUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoPeelerUpgradeButton, getElements().autoPeelerUpgradeButton.classList.contains('autoUpgradeEnabled'));
+            getElements().autoPeelerUpgradeButton.classList.remove('bg-secondary');
         }
     }
     if (getAutoChipperCapped()) {
         setCapped(getElements().autoChipperUpgradeButton);
         if (getElements().autoChipperUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoChipperUpgradeButton, getElements().autoChipperUpgradeButton.classList.contains('autoUpgradeEnabled'));
+            getElements().autoChipperUpgradeButton.classList.remove('bg-secondary');
         }
     }
     if (getAutoFryerCapped()) {
         setCapped(getElements().autoFryerUpgradeButton);
         if (getElements().autoFryerUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoFryerUpgradeButton, getElements().autoFryerUpgradeButton.classList.contains('autoUpgradeEnabled'));
+            getElements().autoFryerUpgradeButton.classList.remove('bg-secondary');
         }
     }
     if (getAutoStorageCollectorCapped()) {
         setCapped(getElements().autoStorageCollectorUpgradeButton);
         if (getElements().autoStorageCollectorUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoStorageCollectorUpgradeButton, getElements().autoStorageCollectorUpgradeButton.classList.contains('autoUpgradeEnabled'));
+            getElements().autoStorageCollectorUpgradeButton.classList.remove('bg-secondary');
         }
     }
     if (getAutoCustomerServerCapped()) {
         setCapped(getElements().autoCustomerServerUpgradeButton);
         if (getElements().autoCustomerServerUpgradeButton.querySelector('input') === null) {
             addCheckbox(getElements().autoCustomerServerUpgradeButton, getElements().autoCustomerServerUpgradeButton.classList.contains('autoUpgradeEnabled'));
+            getElements().autoCustomerServerUpgradeButton.classList.remove('bg-secondary');
         }
     }
     if (getPotatoCapacityCapped()) {

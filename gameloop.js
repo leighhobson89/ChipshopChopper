@@ -13,7 +13,7 @@ import {
     updateButtonStyle,
     updateTextAndDisableButtonsForCappedUpgrades,
     updateVisibleButtons,
-    writePopupText, handleButtonClickEventListenerInitialisation
+    writePopupText
 } from './ui.js';
 
 import {
@@ -27,7 +27,8 @@ import {
     incrementCustomersWaiting,
     peelPotato,
     saveGame,
-    serveCustomer, toggleDisable
+    serveCustomer,
+    toggleDisable
 } from './actions.js';
 
 import {
@@ -144,7 +145,6 @@ import {
     getShiftPoints,
     getWheelSpinning,
     getTextAnimationDone,
-    popupContinueButton,
     getAutoSaveOn,
     setDebugOptionFlag,
     debugOptionFlag,

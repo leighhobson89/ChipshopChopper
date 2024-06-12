@@ -88,12 +88,9 @@ const CAP_MAX_WAIT_CUSTOMER = 0;
 
 export let endOfShiftOrGamePopupObject = createEndOfShiftOrGamePopup();
 export let endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
-export let popupContinueButton = endOfShiftOrGamePopupObject.continueButton;
 export let popupOverlay = createOverlay();
 
 //GLOBAL VARIABLES
-let initialStateMainButtons;
-let initialStateBottomRowButtons;
 let currentMaxValueWaitForNewCustomer = 10;
 let nextMaxValueWaitForNewCustomer = 8;
 let multipleForHeaterEffectOnCoolDown = 1;
@@ -1844,18 +1841,6 @@ export function setWinResult(value) {
     winResult = value;
 }
 
-export function setEndOfShiftOrGamePopupObject(value) {
-    endOfShiftOrGamePopupObject = value;
-}
-
-export function setEndOfShiftOrGamePopup(value) {
-    endOfShiftOrGamePopup = value;
-}
-
-export function setPopupContinueButton(value) {
-    popupContinueButton = value;
-}
-
 export function setPopupOverlay(value) {
     popupOverlay = value;
 }
@@ -2150,7 +2135,7 @@ export function captureGameStatusForSaving() {
 
     return gameState;
 }
- export function restoreGameStatus(gameState) {
+export function restoreGameStatus(gameState) {
     return new Promise((resolve, reject) => {
         try {
             // Game variables

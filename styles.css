@@ -19,43 +19,6 @@ body {
     border-bottom-right-radius: 30px;
 }
 
-.header {
-    display: flex;
-    width: 100%;
-}
-
-.header-left {
-    width: 10%;
-}
-
-.header-title {
-    display: flex;
-    width: 80%;
-    text-align: center;
-    justify-content: center;
-    align-items: start;
-    font-weight: bold;
-    font-size: 4em;
-}
-
-.header-clock {
-    display: flex;
-    width: 10%;
-    text-align: center;
-    align-items: center;
-    font-size: 24px;
-}
-
-.title-screen {
-    text-align: center;
-    width: 100%;
-}
-
-.title {
-    font-size: 36px;
-    color: #fff;
-}
-
 .option {
     cursor: pointer;
 }
@@ -87,97 +50,6 @@ body {
 .debug:hover {
     background-color: #FFC107;
     color: black;
-}
-
-.debug-toggledOn {
-    background-color: #28a745;
-    color: black;
-    pointer-events: none;
-}
-
-/*.game-window {*/
-/*    width: 80%;*/
-/*    height: 85%;*/
-/*    position: fixed;*/
-/*    top: 55%;*/
-/*    left: 50%;*/
-/*    transform: translate(-50%, -50%);*/
-/*    display: none;*/
-/*    !* Initially hidden *!*/
-/*    border: 4px white solid;*/
-/*    border-radius: 20px;*/
-/*}*/
-
-.top-section {
-    width: 100%;
-    height: 20%;
-    border-bottom: 3px white solid;
-}
-
-.bottom-section {
-    width: 100%;
-    height: 80%;
-}
-
-.top-div-row-1,
-.top-div-row-mid,
-.top-div-row-2 {
-    width: 100%;
-    height: 33%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/*.inner-div-topDivRow1,*/
-/*.inner-div-topDivRowMid {*/
-/*    width: 33%;*/
-/*    height: 100%;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    font-family: Arial, sans-serif;*/
-/*    font-size: 24px;*/
-/*}*/
-
-div[id^="playerRoleText"] {
-    font-weight: bold;
-    color: yellow;
-}
-
-.sub-inner-div-topDivRow1,
-.sub-inner-div-topDivRowMid {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    font-size: 24px;
-}
-
-div[id^="subInnerDiv"][id$="_1"],
-div[id^="subInnerDivMid"][id$="_1"] {
-    justify-content: right;
-    padding-right: 20px;
-}
-
-div[id^="subInnerDiv"][id$="_1"] {
-    font-size: 20px;
-}
-
-div[id^="subInnerDiv"][id$="_2"],
-div[id^="subInnerDivMid"][id$="_2"] {
-    justify-content: left;
-}
-
-.main-button-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    row-gap: 11%;
-    column-gap: 6%;
-    padding: 2% 2% 4% 2%;
-    justify-items: center;
-    height: 75%;
 }
 
 .second-row-main-buttons>input {
@@ -241,10 +113,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
     font-size: 0.75em;
 }
 
-.first-row-main-buttons {
-    min-height: 40px;
-}
-
 .second-row-main-buttons {
     min-height: 60px;
     display: grid;
@@ -253,10 +121,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
     bottom: 5px;
     right: 2px;
     z-index: 999;
-}
-
-.third-row-main-buttons {
-    min-height: 50px;
 }
 
 .action-button-main:hover,
@@ -273,11 +137,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
     color: black;
     font-weight: bold;
     pointer-events: none;
-}
-
-.auto-shift-start-purchased {
-    font-weight: bold;
-    color: black;
 }
 
 .action-button-main.toggleable-button-off-state {
@@ -320,7 +179,11 @@ div[id^="subInnerDivMid"][id$="_2"] {
 .capped {
     color: black;
     pointer-events: none;
-    font-weight: bold;
+    font-weight: bold !important;
+}
+
+.capped {
+    background-color: #198754 !important;
 }
 
 .action-button-main-flashing {
@@ -340,17 +203,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
 
 .hidden-button {
     visibility: hidden !important;
-}
-
-.counter-columns {
-    text-align: center;
-    width: 20%;
-    margin: 0 5%;
-    box-sizing: border-box;
-    color: white;
-    display: inline-block;
-    font-family: Arial, sans-serif;
-    font-size: 24px;
 }
 
 /* End of Shift Popup CSS */
@@ -593,12 +445,6 @@ div[id^="subInnerDivMid"][id$="_2"] {
     background-color: chartreuse;
 }
 
-.end-game-position-start-shift-button {
-    display: flex;
-    justify-content: flex-end;
-    font-size: 4em !important;
-}
-
 button.btn.end-game-shift-button {
     font-size: 2.2em;
     font-weight: bold;
@@ -609,10 +455,6 @@ button.btn.end-game-shift-button {
     position: absolute;
     font-size: 4rem;
     color: yellow;
-}
-
-.sub-inner-div-topDivRow1-side-by-side {
-    display: flex;
 }
 
 /*animations*/
