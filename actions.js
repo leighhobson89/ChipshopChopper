@@ -203,7 +203,7 @@ import {
     endOfShiftOrGamePopupObject,
     setEndOfShiftOrGamePopupObject,
     setEndOfShiftOrGamePopup,
-    setPopupContinueButton, setPopupOverlay, getInvestmentFundUnlockable, setInvestmentFundUnlockable
+    setPopupContinueButton, setPopupOverlay, getInvestmentFundUnlockable, setInvestmentFundUnlockable, gameInProgress
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -215,7 +215,7 @@ import {
 import {
     addCheckbox, createAndAttachContinueButtonEventListener,
     createOverlay,
-    formatToCashNotation,
+    formatToCashNotation, handleButtonClickEventListenerInitialisation,
     hideButtonsReadyForEndGame,
     initialiseInvestmentScreenText,
     toggleEndOfShiftOrGamePopup,
@@ -1360,8 +1360,7 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
                 document.getElementById('overlay').remove();
                 setPopupOverlay(createOverlay());
 
-                initialiseLoadedGame(gameState);
-                alert('Game loaded successfully!');
+                initialiseLoadedGame(gameState).then(r => alert('Game loaded successfully!'));
             }
         } catch (error) {
             console.error('Error loading game:', error);
@@ -1372,10 +1371,13 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
     reader.readAsText(file);
 }
 
-function initialiseLoadedGame(gameState) {
+async function initialiseLoadedGame(gameState) {
     toggleMenu(false);
     setPauseAutoSaveCountdown(false);
-    restoreGameStatus(gameState);
+
+    await restoreGameStatus(gameState);
+
+    handleButtonClickEventListenerInitialisation();
 }
 
 export function getPrizes() {

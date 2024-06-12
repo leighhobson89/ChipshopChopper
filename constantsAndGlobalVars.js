@@ -2149,146 +2149,153 @@ export function captureGameStatusForSaving() {
 
     return gameState;
 }
+ export function restoreGameStatus(gameState) {
+    return new Promise((resolve, reject) => {
+        try {
+            // Game variables
+            setShiftPoints(gameState.shiftPoints);
+            currentMaxValueWaitForNewCustomer = gameState.currentMaxValueWaitForNewCustomer;
+            nextMaxValueWaitForNewCustomer = gameState.nextMaxValueWaitForNewCustomer;
+            multipleForHeaterEffectOnCoolDown = gameState.multipleForHeaterEffectOnCoolDown;
+            customerTime = gameState.customerTime;
+            shiftTimeRemaining = gameState.shiftTimeRemaining;
+            fryTimer = gameState.fryTimer;
+            fryTimeRemaining = gameState.fryTimeRemaining;
+            coolDownTimeRemaining = gameState.coolDownTimeRemaining;
+            shiftCounter = gameState.shiftCounter;
+            customersServed = gameState.customersServed;
+            currentCash = gameState.currentCash;
+            quantityFrying = gameState.quantityFrying;
+            spudsToAddToShift = gameState.spudsToAddToShift;
+            maxSpudsDelivery = gameState.maxSpudsDelivery;
+            actualPotatoesInStorage = gameState.actualPotatoesInStorage;
+            potatoStorage = gameState.potatoStorage;
+            cutChipsRate = gameState.cutChipsRate;
+            peelPotatoesRate = gameState.peelPotatoesRate;
+            chipsReadyToServeQuantity = gameState.chipsReadyToServeQuantity.slice();
+            fryerCapacity = gameState.fryerCapacity;
+            autoFryerEfficiency = gameState.autoFryerEfficiency;
+            amountInvestmentCash = gameState.amountInvestmentCash;
+            amountInvestmentRisk = gameState.amountInvestmentRisk;
+            investmentCashIncrementDecrement = gameState.investmentCashIncrementDecrement;
+            investmentRiskIncrementDecrement = gameState.investmentRiskIncrementDecrement;
+            currentValueOfInvestment = gameState.currentValueOfInvestment;
+            currentRiskLevel = gameState.currentRiskLevel;
+            growthInvestment = gameState.growthInvestment;
+            //matches capture
 
-export function restoreGameStatus(gameState) {
-    // Game variables
-    setShiftPoints(gameState.shiftPoints);
-    currentMaxValueWaitForNewCustomer = gameState.currentMaxValueWaitForNewCustomer;
-    nextMaxValueWaitForNewCustomer = gameState.nextMaxValueWaitForNewCustomer;
-    multipleForHeaterEffectOnCoolDown = gameState.multipleForHeaterEffectOnCoolDown;
-    customerTime = gameState.customerTime;
-    shiftTimeRemaining = gameState.shiftTimeRemaining;
-    fryTimer = gameState.fryTimer;
-    fryTimeRemaining = gameState.fryTimeRemaining;
-    coolDownTimeRemaining = gameState.coolDownTimeRemaining;
-    shiftCounter = gameState.shiftCounter;
-    customersServed = gameState.customersServed;
-    currentCash = gameState.currentCash;
-    quantityFrying = gameState.quantityFrying;
-    spudsToAddToShift = gameState.spudsToAddToShift;
-    maxSpudsDelivery = gameState.maxSpudsDelivery;
-    actualPotatoesInStorage = gameState.actualPotatoesInStorage;
-    potatoStorage = gameState.potatoStorage;
-    cutChipsRate = gameState.cutChipsRate;
-    peelPotatoesRate = gameState.peelPotatoesRate;
-    chipsReadyToServeQuantity = gameState.chipsReadyToServeQuantity.slice();
-    fryerCapacity = gameState.fryerCapacity;
-    autoFryerEfficiency = gameState.autoFryerEfficiency;
-    amountInvestmentCash = gameState.amountInvestmentCash;
-    amountInvestmentRisk = gameState.amountInvestmentRisk;
-    investmentCashIncrementDecrement = gameState.investmentCashIncrementDecrement;
-    investmentRiskIncrementDecrement = gameState.investmentRiskIncrementDecrement;
-    currentValueOfInvestment = gameState.currentValueOfInvestment;
-    currentRiskLevel = gameState.currentRiskLevel;
-    growthInvestment = gameState.growthInvestment;
-    //matches capture
+            // Flags
+            gameInProgress = true;
+            shiftInProgress = gameState.shiftInProgress;
+            chipsFrying = gameState.chipsFrying;
+            peelerUpgradeBought = gameState.peelerUpgradeBought;
+            chipperUpgradeBought = gameState.chipperUpgradeBought;
+            heaterUpgradeBought = gameState.heaterUpgradeBought;
+            autoPeelerBought = gameState.autoPeelerBought;
+            autoChipperBought = gameState.autoChipperBought;
+            autoFryerBought = gameState.autoFryerBought;
+            autoStorageCollectorBought = gameState.autoStorageCollectorBought;
+            autoCustomerServerBought = gameState.autoCustomerServerBought;
+            improveFryTimerBought = gameState.improveFryTimerBought;
+            doubleMaxSpudsDeliveryBought = gameState.doubleMaxSpudsDeliveryBought;
+            investmentFundUnlocked = gameState.investmentFundUnlocked;
+            investmentFundUnlockable = gameState.investmentFundUnlockable;
+            autoShiftStartUpgradeUnlocked = gameState.autoShiftStartUpgradeUnlocked;
+            autoShiftStatus = gameState.autoShiftStatus;
+            promotionFlag = gameState.promotionFlag;
+            floatOnStockMarketUnlocked = gameState.floatOnStockMarketUnlocked;
+            autoPeelerCapped = gameState.autoPeelerCapped;
+            autoChipperCapped = gameState.autoChipperCapped;
+            autoFryerCapped = gameState.autoFryerCapped;
+            autoStorageCollectorCapped = gameState.autoStorageCollectorCapped;
+            autoCustomerServerCapped = gameState.autoCustomerServerCapped;
+            potatoCapacityCapped = gameState.potatoCapacityCapped;
+            fryerCapacityCapped = gameState.fryerCapacityCapped;
+            fryerSpeedCapped = gameState.fryerSpeedCapped;
+            maxDeliveryCapped = gameState.maxDeliveryCapped;
+            maxWaitCustomerCapped = gameState.maxWaitCustomerCapped;
+            //matches capture
 
-    // Flags
-    gameInProgress = true;
-    shiftInProgress = gameState.shiftInProgress;
-    chipsFrying = gameState.chipsFrying;
-    peelerUpgradeBought = gameState.peelerUpgradeBought;
-    chipperUpgradeBought = gameState.chipperUpgradeBought;
-    heaterUpgradeBought = gameState.heaterUpgradeBought;
-    autoPeelerBought = gameState.autoPeelerBought;
-    autoChipperBought = gameState.autoChipperBought;
-    autoFryerBought = gameState.autoFryerBought;
-    autoStorageCollectorBought = gameState.autoStorageCollectorBought;
-    autoCustomerServerBought = gameState.autoCustomerServerBought;
-    improveFryTimerBought = gameState.improveFryTimerBought;
-    doubleMaxSpudsDeliveryBought = gameState.doubleMaxSpudsDeliveryBought;
-    investmentFundUnlocked = gameState.investmentFundUnlocked;
-    investmentFundUnlockable = gameState.investmentFundUnlockable;
-    autoShiftStartUpgradeUnlocked = gameState.autoShiftStartUpgradeUnlocked;
-    autoShiftStatus = gameState.autoShiftStatus;
-    promotionFlag = gameState.promotionFlag;
-    floatOnStockMarketUnlocked = gameState.floatOnStockMarketUnlocked;
-    autoPeelerCapped = gameState.autoPeelerCapped;
-    autoChipperCapped = gameState.autoChipperCapped;
-    autoFryerCapped = gameState.autoFryerCapped;
-    autoStorageCollectorCapped = gameState.autoStorageCollectorCapped;
-    autoCustomerServerCapped = gameState.autoCustomerServerCapped;
-    potatoCapacityCapped = gameState.potatoCapacityCapped;
-    fryerCapacityCapped = gameState.fryerCapacityCapped;
-    fryerSpeedCapped = gameState.fryerSpeedCapped;
-    maxDeliveryCapped = gameState.maxDeliveryCapped;
-    maxWaitCustomerCapped = gameState.maxWaitCustomerCapped;
-    //matches capture
+            // Prices
+            priceToImprovePotatoStorage = gameState.priceToImprovePotatoStorage;
+            priceToEnableDoubleChipping = gameState.priceToEnableDoubleChipping;
+            priceToEnableDoublePeeling = gameState.priceToEnableDoublePeeling;
+            priceToImproveFryerCapacity = gameState.priceToImproveFryerCapacity;
+            priceToAddStorageHeater = gameState.priceToAddStorageHeater;
+            priceToImproveAutoPeeler = gameState.priceToImproveAutoPeeler;
+            priceToImproveAutoChipper = gameState.priceToImproveAutoChipper;
+            priceToImproveAutoFryer = gameState.priceToImproveAutoFryer;
+            priceToImproveAutoStorageCollector = gameState.priceToImproveAutoStorageCollector;
+            priceToImproveAutoCustomerServer = gameState.priceToImproveAutoCustomerServer;
+            priceToImproveFryTimer = gameState.priceToImproveFryTimer;
+            priceToDoubleSpudsMax = gameState.priceToDoubleSpudsMax;
+            priceToIncreaseFootfall = gameState.priceToIncreaseFootfall;
+            priceToUnlockInvestmentFundOrFloatOnStockMarket = gameState.priceToUnlockInvestmentFundOrFloatOnStockMarket;
+            //matches capture
 
-    // Prices
-    priceToImprovePotatoStorage = gameState.priceToImprovePotatoStorage;
-    priceToEnableDoubleChipping = gameState.priceToEnableDoubleChipping;
-    priceToEnableDoublePeeling = gameState.priceToEnableDoublePeeling;
-    priceToImproveFryerCapacity = gameState.priceToImproveFryerCapacity;
-    priceToAddStorageHeater = gameState.priceToAddStorageHeater;
-    priceToImproveAutoPeeler = gameState.priceToImproveAutoPeeler;
-    priceToImproveAutoChipper = gameState.priceToImproveAutoChipper;
-    priceToImproveAutoFryer = gameState.priceToImproveAutoFryer;
-    priceToImproveAutoStorageCollector = gameState.priceToImproveAutoStorageCollector;
-    priceToImproveAutoCustomerServer = gameState.priceToImproveAutoCustomerServer;
-    priceToImproveFryTimer = gameState.priceToImproveFryTimer;
-    priceToDoubleSpudsMax = gameState.priceToDoubleSpudsMax;
-    priceToIncreaseFootfall = gameState.priceToIncreaseFootfall;
-    priceToUnlockInvestmentFundOrFloatOnStockMarket = gameState.priceToUnlockInvestmentFundOrFloatOnStockMarket;
-    //matches capture
+            // Auto speeds
+            currentSpeedAutoPeeler = gameState.currentSpeedAutoPeeler;
+            nextSpeedAutoPeeler = gameState.nextSpeedAutoPeeler;
+            currentSpeedAutoChipper = gameState.currentSpeedAutoChipper;
+            nextSpeedAutoChipper = gameState.nextSpeedAutoChipper;
+            currentSpeedAutoFryer = gameState.currentSpeedAutoFryer;
+            nextSpeedAutoFryer = gameState.nextSpeedAutoFryer;
+            currentSpeedAutoStorageCollector = gameState.currentSpeedAutoStorageCollector;
+            nextSpeedAutoStorageCollector = gameState.nextSpeedAutoStorageCollector;
+            currentSpeedAutoCustomerServer = gameState.currentSpeedAutoCustomerServer;
+            nextSpeedAutoCustomerServer = gameState.nextSpeedAutoCustomerServer;
+            currentSpeedFryTimer = gameState.currentSpeedFryTimer;
+            nextSpeedFryTimer = gameState.nextSpeedFryTimer;
+            currentMaxSpudsDelivery = gameState.currentMaxSpudsDelivery;
+            nextMaxSpudsDelivery = gameState.nextMaxSpudsDelivery;
 
-    // Auto speeds
-    currentSpeedAutoPeeler = gameState.currentSpeedAutoPeeler;
-    nextSpeedAutoPeeler = gameState.nextSpeedAutoPeeler;
-    currentSpeedAutoChipper = gameState.currentSpeedAutoChipper;
-    nextSpeedAutoChipper = gameState.nextSpeedAutoChipper;
-    currentSpeedAutoFryer = gameState.currentSpeedAutoFryer;
-    nextSpeedAutoFryer = gameState.nextSpeedAutoFryer;
-    currentSpeedAutoStorageCollector = gameState.currentSpeedAutoStorageCollector;
-    nextSpeedAutoStorageCollector = gameState.nextSpeedAutoStorageCollector;
-    currentSpeedAutoCustomerServer = gameState.currentSpeedAutoCustomerServer;
-    nextSpeedAutoCustomerServer = gameState.nextSpeedAutoCustomerServer;
-    currentSpeedFryTimer = gameState.currentSpeedFryTimer;
-    nextSpeedFryTimer = gameState.nextSpeedFryTimer;
-    currentMaxSpudsDelivery = gameState.currentMaxSpudsDelivery;
-    nextMaxSpudsDelivery = gameState.nextMaxSpudsDelivery;
+            autoPeelerCounter = gameState.autoPeelerCounter;
+            autoChipperCounter = gameState.autoPeelerCounter;
+            autoFryerCounter = gameState.autoFryerCounter;
+            autoStorageCollectorCounter = gameState.autoStorageCollectorCounter;
+            autoCustomerServerCounter = gameState.autoCustomerServerCounter;
 
-    autoPeelerCounter = gameState.autoPeelerCounter;
-    autoChipperCounter = gameState.autoPeelerCounter;
-    autoFryerCounter = gameState.autoFryerCounter;
-    autoStorageCollectorCounter = gameState.autoStorageCollectorCounter;
-    autoCustomerServerCounter = gameState.autoCustomerServerCounter;
+            //STATS
+            oldCash = gameState.oldCash;
+            potatoesPeeledThisShift = gameState.potatoesPeeledThisShift;
+            chipsCutThisShift = gameState.chipsCutThisShift;
+            chipsFriedThisShift = gameState.chipsFriedThisShift;
+            customersWaitingAtEndOfShift = gameState.customersWaitingAtEndOfShift;
+            customersWaiting = gameState.customersWaiting;
+            chipsWastedThisShift = gameState.chipsWastedThisShift;
 
-    //STATS
-    oldCash = gameState.oldCash;
-    potatoesPeeledThisShift = gameState.potatoesPeeledThisShift;
-    chipsCutThisShift = gameState.chipsCutThisShift;
-    chipsFriedThisShift = gameState.chipsFriedThisShift;
-    customersWaitingAtEndOfShift = gameState.customersWaitingAtEndOfShift;
-    customersWaiting = gameState.customersWaiting;
-    chipsWastedThisShift = gameState.chipsWastedThisShift;
+            setTotalEarnedInSales(gameState.totalEarned);
+            setTotalSpentExcludingInvestments(gameState.totalSpent);
+            setTotalPeeled(gameState.totalPeeled);
+            setTotalCut(gameState.totalCut);
+            setTotalWastedChips(gameState.totalWastedChips);
+            setTotalServedCustomers(gameState.totalServedCustomers);
 
-    setTotalEarnedInSales(gameState.totalEarned);
-    setTotalSpentExcludingInvestments(gameState.totalSpent);
-    setTotalPeeled(gameState.totalPeeled);
-    setTotalCut(gameState.totalCut);
-    setTotalWastedChips(gameState.totalWastedChips);
-    setTotalServedCustomers(gameState.totalServedCustomers);
+            // UI elements
+            getElements().peeledCount.innerHTML = gameState.uiElements.peeledCount;
+            getElements().cutCount.innerHTML = gameState.uiElements.cutCount;
+            getElements().chuckedInFryerCount.innerHTML = gameState.uiElements.chuckedInFryerCount;
+            getElements().readyToServeCount.innerHTML = gameState.uiElements.readyToServeCount;
+            getElements().customersWaitingCount.innerHTML = gameState.uiElements.customersWaitingCount;
+            getElements().customersServedCount.innerHTML = gameState.uiElements.customersServedCount;
+            getElements().playerRoleText.innerHTML = gameState.uiElements.playerRoleText;
+            getElements().subInnerDiv1_2.innerHTML = gameState.uiElements.subInnerDiv1_2;
+            getElements().subInnerDivMid1_2.innerHTML = gameState.uiElements.subInnerDivMid1_2;
+            getElements().subInnerDivMid3_2.innerHTML = gameState.uiElements.subInnerDivMid3_2;
+            getElements().investmentDataScreenBottomRowColumn1.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn1;
+            getElements().investmentDataScreenBottomRowColumn2.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn2;
+            getElements().investmentDataScreenBottomRowColumn3.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn3;
 
-    // UI elements
-    getElements().peeledCount.innerHTML = gameState.uiElements.peeledCount;
-    getElements().cutCount.innerHTML = gameState.uiElements.cutCount;
-    getElements().chuckedInFryerCount.innerHTML = gameState.uiElements.chuckedInFryerCount;
-    getElements().readyToServeCount.innerHTML = gameState.uiElements.readyToServeCount;
-    getElements().customersWaitingCount.innerHTML = gameState.uiElements.customersWaitingCount;
-    getElements().customersServedCount.innerHTML = gameState.uiElements.customersServedCount;
-    getElements().playerRoleText.innerHTML = gameState.uiElements.playerRoleText;
-    getElements().subInnerDiv1_2.innerHTML = gameState.uiElements.subInnerDiv1_2;
-    getElements().subInnerDivMid1_2.innerHTML = gameState.uiElements.subInnerDivMid1_2;
-    getElements().subInnerDivMid3_2.innerHTML = gameState.uiElements.subInnerDivMid3_2;
-    getElements().investmentDataScreenBottomRowColumn1.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn1;
-    getElements().investmentDataScreenBottomRowColumn2.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn2;
-    getElements().investmentDataScreenBottomRowColumn3.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn3;
+            batchTimers = gameState.batchTimers;
 
-    batchTimers = gameState.batchTimers;
+            restoreButtonStates(gameState);
+            addAutoUpgradeEnabledStates(gameState);
 
-    restoreButtonStates(gameState);
-    //TODO addAutoUpgradeEnabledStates(gameState);
+            resolve();
+        } catch (error) {
+            reject(error);
+        }
+    });
 }
 
 function addAutoUpgradeEnabledStates(gameState) {
