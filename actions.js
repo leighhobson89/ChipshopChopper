@@ -197,9 +197,7 @@ import {
     setTotalWastedChips,
     getTotalWastedChips,
     wheelColors,
-    Role,
-    prizes,
-    setPopupOverlay
+    setPopupOverlay, getLanguage, getLocalization
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -1399,9 +1397,10 @@ async function initialiseLoadedGame(gameState) {
 export function getPrizes() {
     const playerRoleString = getElements().playerRoleText.innerText;
     let playerRoleKey = null;
+    const role = getLocalization()[getLanguage()];
 
-    for (const key in Role) {
-        if (Role[key] === playerRoleString) {
+    for (const key in role) {
+        if (role[key] === playerRoleString) {
             playerRoleKey = key;
             break;
         }
@@ -1412,15 +1411,15 @@ export function getPrizes() {
         return '';
     }
 
-    const rolePrizes = prizes[playerRoleKey];
+    const rolePrizes = getLocalization()['prizes'][getLanguage()][playerRoleKey];
 
     if (!rolePrizes) {
         console.error(`No prizes found for player role: ${playerRoleKey}`);
         return '';
     }
 
-    const goodPrizes = rolePrizes.filter(prize => prize.classification === 'good');
-    const badPrizes = rolePrizes.filter(prize => prize.classification === 'bad');
+    const goodPrizes = rolePrizes.filter(prize => prize['classification'] === 'good');
+    const badPrizes = rolePrizes.filter(prize => prize['classification'] === 'bad');
 
     function getRandomItems(array, count) {
         const result = [];

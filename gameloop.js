@@ -108,7 +108,6 @@ import {
     getZero,
     popupOverlay,
     resetBatchTimers,
-    Role,
     setAutoChipperCounter,
     setAutoCustomerServerCounter,
     setAutoFryerCounter,
@@ -148,9 +147,9 @@ import {
     getAutoSaveOn,
     setDebugOptionFlag,
     debugOptionFlag,
-    setPopupOverlayAtStartOfGame
+    setPopupOverlayAtStartOfGame, getLanguage
 } from './constantsAndGlobalVars.js';
-import {initLocalization} from "./localization.js";
+import {initLocalization, localize} from "./localization.js";
 
 let autoSaveInterval;
 let nextAutoSaveTime;
@@ -563,30 +562,30 @@ function updateButtonClass(buttonElement, value) {
 
 function checkPlayerRole() {
     let existingRoleText = getElements().playerRoleText.innerText;
-    if (existingRoleText === Role.ONE) {
+    if (existingRoleText === `${localize('roleOne', getLanguage())}`) {
         if (getPeelerUpgradeBought() || getChipperUpgradeBought()) {
-            changePlayerRole(getElements().playerRoleText, Role.TWO, 'text-bounce-animation', 'fade-text-animation');
+            changePlayerRole(getElements().playerRoleText, `${localize('roleTwo', getLanguage())}`, 'text-bounce-animation', 'fade-text-animation');
         }
-    } else if (existingRoleText === Role.TWO && getPeelerUpgradeBought() && getChipperUpgradeBought()) {
+    } else if (existingRoleText === `${localize('roleTwo', getLanguage())}` && getPeelerUpgradeBought() && getChipperUpgradeBought()) {
         if (getAutoPeelerBought() || getAutoChipperBought() || getAutoFryerBought() || getAutoStorageCollectorBought() || getAutoCustomerServerBought()) {
-            changePlayerRole(getElements().playerRoleText, Role.THREE, 'text-bounce-animation', 'fade-text-animation');
+            changePlayerRole(getElements().playerRoleText, `${localize('roleThree', getLanguage())}`, 'text-bounce-animation', 'fade-text-animation');
         }
-    } else if (existingRoleText === Role.THREE && getAutoPeelerBought() && getAutoChipperBought() && getAutoFryerBought() && getAutoStorageCollectorBought() && getAutoCustomerServerBought()) {
+    } else if (existingRoleText === `${localize('roleThree', getLanguage())}` && getAutoPeelerBought() && getAutoChipperBought() && getAutoFryerBought() && getAutoStorageCollectorBought() && getAutoCustomerServerBought()) {
         if (getFryerCapacity() >= 200 && getHeaterUpgradeBought()) {
-            changePlayerRole(getElements().playerRoleText, Role.FOUR, 'text-bounce-animation', 'fade-text-animation');
+            changePlayerRole(getElements().playerRoleText,`${localize('roleFour', getLanguage())}`, 'text-bounce-animation', 'fade-text-animation');
         }
-    } else if (existingRoleText === Role.FOUR) {
-        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR)) {
-            changePlayerRole(getElements().playerRoleText, Role.FIVE, 'text-bounce-animation', 'fade-text-animation');
+    } else if (existingRoleText === `${localize('roleFour', getLanguage())}`) {
+        if (getCurrentCash() >= getRoleUpgrade(`${localize('roleFour', getLanguage())}`)) {
+            changePlayerRole(getElements().playerRoleText, `${localize('roleFive', getLanguage())}`, 'text-bounce-animation', 'fade-text-animation');
         }
-    } else if (existingRoleText === Role.FIVE) {
-        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE)) {
-            changePlayerRole(getElements().playerRoleText, Role.SIX, 'text-bounce-animation', 'fade-text-animation');
+    } else if (existingRoleText === `${localize('roleFive', getLanguage())}`) {
+        if (getCurrentCash() >= getRoleUpgrade(`${localize('roleFive', getLanguage())}`)) {
+            changePlayerRole(getElements().playerRoleText, `${localize('roleSix', getLanguage())}`, 'text-bounce-animation', 'fade-text-animation');
             setInvestmentFundUnlockable(true);
         }
-    } else if (existingRoleText === Role.SIX) {
-        if (getCurrentCash() >= getRoleUpgrade(Role.SIX)) {
-            changePlayerRole(getElements().playerRoleText, Role.SEVEN, 'text-bounce-animation', 'fade-text-animation');
+    } else if (existingRoleText === `${localize('roleSix', getLanguage())}`) {
+        if (getCurrentCash() >= getRoleUpgrade(`${localize('roleSix', getLanguage())}`)) {
+            changePlayerRole(getElements().playerRoleText, `${localize('roleSeven', getLanguage())}`, 'text-bounce-animation', 'fade-text-animation');
         }
     }
 }

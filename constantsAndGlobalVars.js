@@ -7,6 +7,7 @@ import {
 import {
     disableButtons
 } from "./actions.js";
+import {localize} from "./localization.js";
 
 //DEBUG
 export let debugFlag = false;
@@ -127,296 +128,6 @@ let currentRotation = 0;
 let winResult = {};
 let shiftPrizePot = [];
 
-export const prizes = {
-    ONE: [{
-        name: "Potato Storage Filled",
-        classification: "good"
-    },
-        {
-            name: "+10 Potatoes",
-            classification: "good"
-        },
-        {
-            name: "+$5",
-            classification: "good"
-        },
-        {
-            name: "Money Doubled",
-            classification: "good"
-        },
-        {
-            name: "+5 Customers",
-            classification: "good"
-        },
-        {
-            name: "Nothing",
-            classification: "bad"
-        },
-        {
-            name: "Delivery Cancelled",
-            classification: "bad"
-        },
-        {
-            name: "Fine of half of money",
-            classification: "bad"
-        },
-        {
-            name: "Half Of Potatoes Rot",
-            classification: "bad"
-        },
-        {
-            name: "Customer Walkout",
-            classification: "bad"
-        },
-    ],
-    TWO: [{
-        name: "Potato Storage Filled",
-        classification: "good"
-    },
-        {
-            name: "+100 Potatoes",
-            classification: "good"
-        },
-        {
-            name: "+$15",
-            classification: "good"
-        },
-        {
-            name: "Money Doubled",
-            classification: "good"
-        },
-        {
-            name: "+10 Customers",
-            classification: "good"
-        },
-        {
-            name: "Nothing",
-            classification: "bad"
-        },
-        {
-            name: "Delivery Cancelled",
-            classification: "bad"
-        },
-        {
-            name: "Fine of half of money",
-            classification: "bad"
-        },
-        {
-            name: "Half Of Potatoes Rot",
-            classification: "bad"
-        },
-        {
-            name: "Customer Walkout",
-            classification: "bad"
-        },
-    ],
-    THREE: [{
-        name: "Potato Storage Filled",
-        classification: "good"
-    },
-        {
-            name: "+200 Potatoes",
-            classification: "good"
-        },
-        {
-            name: "+$50",
-            classification: "good"
-        },
-        {
-            name: "Money Doubled",
-            classification: "good"
-        },
-        {
-            name: "+15 Customers",
-            classification: "good"
-        },
-        {
-            name: "Nothing",
-            classification: "bad"
-        },
-        {
-            name: "Delivery Cancelled",
-            classification: "bad"
-        },
-        {
-            name: "Fine of half of money",
-            classification: "bad"
-        },
-        {
-            name: "Half Of Potatoes Rot",
-            classification: "bad"
-        },
-        {
-            name: "Customer Walkout",
-            classification: "bad"
-        },
-    ],
-    FOUR: [{
-        name: "Potato Storage Filled",
-        classification: "good"
-    },
-        {
-            name: "+300 Potatoes",
-            classification: "good"
-        },
-        {
-            name: "+$100",
-            classification: "good"
-        },
-        {
-            name: "Money Doubled",
-            classification: "good"
-        },
-        {
-            name: "+25 Customers",
-            classification: "good"
-        },
-        {
-            name: "Nothing",
-            classification: "bad"
-        },
-        {
-            name: "Delivery Cancelled",
-            classification: "bad"
-        },
-        {
-            name: "Fine of half of money",
-            classification: "bad"
-        },
-        {
-            name: "Half Of Potatoes Rot",
-            classification: "bad"
-        },
-        {
-            name: "Customer Walkout",
-            classification: "bad"
-        },
-    ],
-    FIVE: [{
-        name: "Potato Storage Filled",
-        classification: "good"
-    },
-        {
-            name: "+500 Potatoes",
-            classification: "good"
-        },
-        {
-            name: "+$1000",
-            classification: "good"
-        },
-        {
-            name: "Money Doubled",
-            classification: "good"
-        },
-        {
-            name: "+50 Customers",
-            classification: "good"
-        },
-        {
-            name: "Nothing",
-            classification: "bad"
-        },
-        {
-            name: "Delivery Cancelled",
-            classification: "bad"
-        },
-        {
-            name: "Fine of half of money",
-            classification: "bad"
-        },
-        {
-            name: "Half Of Potatoes Rot",
-            classification: "bad"
-        },
-        {
-            name: "Customer Walkout",
-            classification: "bad"
-        },
-    ],
-    SIX: [{
-        name: "Potato Storage Filled",
-        classification: "good"
-    },
-        {
-            name: "+500 Potatoes",
-            classification: "good"
-        },
-        {
-            name: "+$3000",
-            classification: "good"
-        },
-        {
-            name: "Money Doubled",
-            classification: "good"
-        },
-        {
-            name: "+100 Customers",
-            classification: "good"
-        },
-        {
-            name: "Nothing",
-            classification: "bad"
-        },
-        {
-            name: "Delivery Cancelled",
-            classification: "bad"
-        },
-        {
-            name: "Fine of half of money",
-            classification: "bad"
-        },
-        {
-            name: "Half Of Potatoes Rot",
-            classification: "bad"
-        },
-        {
-            name: "Customer Walkout",
-            classification: "bad"
-        },
-    ],
-    SEVEN: [{
-        name: "Potato Storage Filled",
-        classification: "good"
-    },
-        {
-            name: "+500 Potatoes",
-            classification: "good"
-        },
-        {
-            name: "+$5000",
-            classification: "good"
-        },
-        {
-            name: "Money Doubled",
-            classification: "good"
-        },
-        {
-            name: "+100 Customers",
-            classification: "good"
-        },
-        {
-            name: "Nothing",
-            classification: "bad"
-        },
-        {
-            name: "Delivery Cancelled",
-            classification: "bad"
-        },
-        {
-            name: "Fine of half of money",
-            classification: "bad"
-        },
-        {
-            name: "Half Of Potatoes Rot",
-            classification: "bad"
-        },
-        {
-            name: "Customer Walkout",
-            classification: "bad"
-        },
-    ],
-}
-
 export const wheelColors = {
     NORMAL: ['#ff0000', '#07b3e7', '#ffff00', '#00ff00'],
     TRANSPARENT: ['#ff000030', '#07b3e730', '#ffff0030', '#00ff0030']
@@ -474,17 +185,17 @@ let priceToIncreaseFootfall = 180;
 let priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
 
 //AUTO SPEEDS
-let currentSpeedAutoPeeler = "N/A";
+let currentSpeedAutoPeeler = '-';
 let nextSpeedAutoPeeler = 1;
-let currentSpeedAutoChipper = "N/A";
+let currentSpeedAutoChipper = '-';
 let nextSpeedAutoChipper = 1;
-let currentSpeedAutoFryer = "N/A";
+let currentSpeedAutoFryer = '-';
 let nextSpeedAutoFryer = 30;
-let currentSpeedAutoStorageCollector = "N/A";
+let currentSpeedAutoStorageCollector = '-';
 let nextSpeedAutoStorageCollector = 30;
-let currentSpeedAutoCustomerServer = "N/A";
+let currentSpeedAutoCustomerServer = '-';
 let nextSpeedAutoCustomerServer = 30;
-let currentSpeedFryTimer = "N/A";
+let currentSpeedFryTimer = '-';
 let nextSpeedFryTimer = 12.5;
 let currentMaxSpudsDelivery = maxSpudsDelivery;
 let nextMaxSpudsDelivery = 160;
@@ -511,17 +222,6 @@ let totalCut = 0;
 let totalWastedChips = 0;
 let totalServedCustomers = 0;
 
-//STRING LITERAL ENUMS
-export const Role = {
-    ONE: 'Chip Shop Prepper',
-    TWO: 'Smart Prepper',
-    THREE: 'Chip Shop Manager',
-    FOUR: 'Chip Shop Owner',
-    FIVE: 'Chip Empire Executive',
-    SIX: 'Rich Lazy Director',
-    SEVEN: 'President of Potatoes'
-}
-
 //BATCH TIMER VARIABLE
 export let batchTimers = {};
 
@@ -537,7 +237,6 @@ export function setElements() {
         mainButtonContainer: document.getElementById('mainButtonContainer'),
         optionsWindow: document.getElementById('optionsWindow'),
         gameWindow: document.getElementById('gameWindow'),
-
         subInnerDiv1_1: document.getElementById('subInnerDiv1_1'),
         subInnerDiv1_2: document.getElementById('subInnerDiv1_2'),
         subInnerDiv3_1: document.getElementById('subInnerDiv3_1'),
@@ -547,14 +246,12 @@ export function setElements() {
         subInnerDivMid3_1: document.getElementById('subInnerDivMid3_1'),
         subInnerDivMid3_2: document.getElementById('subInnerDivMid3_2'),
         playerRoleText: document.getElementById('playerRoleText'),
-
         peeledCount: document.getElementById('peeledCount'),
         cutCount: document.getElementById('cutCount'),
         chuckedInFryerCount: document.getElementById('chuckedInFryerCount'),
         customersWaitingCount: document.getElementById('customersWaitingCount'),
         readyToServeCount: document.getElementById('readyToServeCount'),
         customersServedCount: document.getElementById('customersServedCount'),
-
         improvePotatoStorageButton: document.getElementById('improvePotatoStorageButton'),
         twoHandedPeelingButton: document.getElementById('twoHandedPeelingButton'),
         twoHandedChippingButton: document.getElementById('twoHandedChippingButton'),
@@ -1321,13 +1018,13 @@ export function setShiftPrizePot(value) {
 
 export function getRoleUpgrade(currentRole) {
     switch (currentRole) {
-        case Role.FOUR:
+        case `${localize('roleFour', getLanguage())}`:
             return ROLE_FIVE_UPGRADE;
-        case Role.FIVE:
+        case `${localize('roleFive', getLanguage())}`:
             return ROLE_SIX_UPGRADE;
-        case Role.SIX:
+        case `${localize('roleSix', getLanguage())}`:
             return ROLE_SEVEN_UPGRADE;
-        case Role.SEVEN:
+        case `${localize('roleSeven', getLanguage())}`:
             return ROLE_GAME_WINNER;
     }
 }
@@ -1676,11 +1373,11 @@ export function getNumberOfWheelSections() {
 }
 
 export function setInitialStateMainButtons() {
-    getElements().peelPotatoButton.innerHTML = `Peel Potato`;
-    getElements().cutChipsButton.innerHTML = `Cut Chips`;
-    getElements().fryChipsButton.innerHTML = `Fry Chips<br> (Capacity: ${getFryerCapacity()})`;
-    getElements().servingStorageButton.innerHTML = `Serving Storage`;
-    getElements().serveCustomerButton.innerHTML = `Serve Customer`;
+    getElements().peelPotatoButton.innerHTML = `${localize('peelPotato', getLanguage())}`;
+    getElements().cutChipsButton.innerHTML = `${localize('cutChips', getLanguage())}`;
+    getElements().fryChipsButton.innerHTML = `${localize('fryChips', getLanguage())}`;
+    getElements().servingStorageButton.innerHTML = `${localize('servingStorage', getLanguage())}`;
+    getElements().serveCustomerButton.innerHTML = `${localize('serveCustomer', getLanguage())}`;
 
     getElements().peelPotatoButton.classList.add('bg-secondary');
     getElements().cutChipsButton.classList.add('bg-secondary');
@@ -1688,11 +1385,11 @@ export function setInitialStateMainButtons() {
     getElements().servingStorageButton.classList.add('bg-secondary');
     getElements().serveCustomerButton.classList.add('bg-secondary');
 
-    getElements().autoPeelerUpgradeButton.innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()})<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(getPriceToImproveAutoPeeler())}<br>Buy To Activate`;
-    getElements().autoChipperUpgradeButton.innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()})<br> ${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(getPriceToImproveAutoChipper())}<br>Buy To Activate`;
-    getElements().autoFryerUpgradeButton.innerHTML = `Auto Fryer (${getCurrentSpeedAutoFryer()})<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}s<br> ${formatToCashNotation(getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut())}<br>Buy To Activate`;
-    getElements().autoStorageCollectorUpgradeButton.innerHTML = `Auto Collect (${getCurrentSpeedAutoStorageCollector()})<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}s<br> ${formatToCashNotation(getPriceToImproveAutoMoverFromFryerToStorage())}<br>Buy To Activate`;
-    getElements().autoCustomerServerUpgradeButton.innerHTML = `Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}<br>Buy To Activate`;
+    getElements().autoPeelerUpgradeButton.innerHTML = `${localize('autoPeelerUpgradeButton', getLanguage())}`;
+    getElements().autoChipperUpgradeButton.innerHTML = `${localize('autoChipperUpgradeButton', getLanguage())}`;
+    getElements().autoFryerUpgradeButton.innerHTML = `${localize('autoFryerUpgradeButton', getLanguage())}`;
+    getElements().autoStorageCollectorUpgradeButton.innerHTML = `${localize('autoStorageCollectorUpgradeButton', getLanguage())}`;
+    getElements().autoCustomerServerUpgradeButton.innerHTML = `${localize('autoCustomerServerUpgradeButton', getLanguage())}`;
 
     getElements().autoPeelerUpgradeButton.classList.add('bg-secondary');
     getElements().autoChipperUpgradeButton.classList.add('bg-secondary');
@@ -1700,11 +1397,12 @@ export function setInitialStateMainButtons() {
     getElements().autoStorageCollectorUpgradeButton.classList.add('bg-secondary');
     getElements().autoCustomerServerUpgradeButton.classList.add('bg-secondary');
 
-    getElements().improvePotatoStorageButton.innerHTML = `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}`;
-    getElements().improveFryerCapacityButton.innerHTML = `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}`;
-    getElements().fastFryerUpgradeButton.innerHTML = `Improve Fry Speed<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}`;
-    getElements().potatoDeliveryDoublerButton.innerHTML = `Double Max Delivery<br>${getMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(getPriceToDoubleSpudsMax())}`;
-    getElements().customerFrequencyIncreaser.innerHTML = `Max Wait Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}`;
+
+    getElements().improvePotatoStorageButton.innerHTML = `${localize('improvePotatoStorageButton', getLanguage())}`;
+    getElements().improveFryerCapacityButton.innerHTML = `${localize('improveFryerCapacityButton', getLanguage())}`;
+    getElements().fastFryerUpgradeButton.innerHTML = `${localize('fastFryerUpgradeButton', getLanguage())}`;
+    getElements().potatoDeliveryDoublerButton.innerHTML = `${localize('potatoDeliveryDoublerButton', getLanguage())}`;
+    getElements().customerFrequencyIncreaser.innerHTML = `${localize('customerFrequencyIncreaser', getLanguage())}`;
 
     getElements().improvePotatoStorageButton.classList.add('bg-secondary');
     getElements().improveFryerCapacityButton.classList.add('bg-secondary');
@@ -1712,11 +1410,12 @@ export function setInitialStateMainButtons() {
     getElements().potatoDeliveryDoublerButton.classList.add('bg-secondary');
     getElements().customerFrequencyIncreaser.classList.add('bg-secondary');
 
-    getElements().twoHandedPeelingButton.innerHTML = `Double Peeling Tool <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}`;
-    getElements().twoHandedChippingButton.innerHTML = `Double Chipping Tool <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}`;
-    getElements().investmentFundUnlockOrFloatButton.innerHTML = `Buy Investment Fund <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}`;
-    getElements().addStorageHeaterAutoShiftStartButton.innerHTML = `Buy Storage Heater <br> ${formatToCashNotation(getPriceToAddStorageHeater())}`;
-    getElements().startShiftButton.innerHTML = `Start Shift`;
+    getElements().twoHandedPeelingButton.innerHTML = `${localize('twoHandedPeelingButton', getLanguage())}`;
+    getElements().twoHandedChippingButton.innerHTML = `${localize('twoHandedChippingButton', getLanguage())}`;
+    getElements().investmentFundUnlockOrFloatButton.innerHTML = `${localize('investmentFundUnlockOrFloatButton', getLanguage())}`;
+    getElements().addStorageHeaterAutoShiftStartButton.innerHTML = `${localize('addStorageHeaterAutoShiftStartButton', getLanguage())}`;
+    getElements().startShiftButton.innerHTML = `${localize('startShiftButton', getLanguage())}`;
+
 
     getElements().twoHandedPeelingButton.classList.add('bg-secondary');
     getElements().twoHandedChippingButton.classList.add('bg-secondary');
@@ -1925,17 +1624,17 @@ export function resetAllVariables() {
     priceToUnlockInvestmentFundOrFloatOnStockMarket = 20000;
 
     // AUTO SPEEDS
-    currentSpeedAutoPeeler = "N/A";
+    currentSpeedAutoPeeler = '-';
     nextSpeedAutoPeeler = 1;
-    currentSpeedAutoChipper = "N/A";
+    currentSpeedAutoChipper = '-';
     nextSpeedAutoChipper = 1;
-    currentSpeedAutoFryer = "N/A";
+    currentSpeedAutoFryer = '-';
     nextSpeedAutoFryer = 30;
-    currentSpeedAutoStorageCollector = "N/A";
+    currentSpeedAutoStorageCollector = '-';
     nextSpeedAutoStorageCollector = 30;
-    currentSpeedAutoCustomerServer = "N/A";
+    currentSpeedAutoCustomerServer = '-';
     nextSpeedAutoCustomerServer = 30;
-    currentSpeedFryTimer = "N/A";
+    currentSpeedFryTimer = '-';
     nextSpeedFryTimer = 12.5;
     currentMaxSpudsDelivery = maxSpudsDelivery;
     nextMaxSpudsDelivery = 160;
@@ -1958,15 +1657,6 @@ export function resetAllVariables() {
     batchTimers = {};
 }
 
-// export function resetUiButtonElements(buttonDetails) {
-//     buttonDetails.forEach(button => {
-//         let element = document.getElementById(button.id);
-//         if (element) {
-//             element.innerHTML = button.name;
-//         }
-//     });
-// }
-
 export function resetCounterUiElements() {
     getElements().peeledCount.innerHTML = '<h3>0</h3>';
     getElements().cutCount.innerHTML = '<h3>0</h3>';
@@ -1974,9 +1664,9 @@ export function resetCounterUiElements() {
     getElements().readyToServeCount.innerHTML = '<h3>0</h3>';
     getElements().customersWaitingCount.innerHTML = '<h3>0</h3>';
     getElements().customersServedCount.innerHTML = '<h4>0</h4>';
-    getElements().playerRoleText.innerHTML = `<h2>${Role.ONE}</h2>`;
+    getElements().playerRoleText.innerHTML = `<h2>${localize('roleOne', getLanguage())}</h2>`;
 
-    getElements().subInnerDiv1_2.innerHTML = '<h4>Start Shift</h4>';
+    getElements().subInnerDiv1_2.innerHTML = `<h4>${localize('startShift', getLanguage())}</h4>`;
 
     getElements().subInnerDivMid1_2.innerHTML = `<h4>0/${getPotatoStorageQuantity().toString()}</h4>`;
     getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getStartingCash())}</h4>`;

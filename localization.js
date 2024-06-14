@@ -2,7 +2,6 @@
 
 import {
     getLocalization, setLanguage, setLocalization,
-    Role,
     getTotalEarnedInSales,
     getTotalSpentExcludingInvestments,
     getTotalPeeled,
@@ -40,7 +39,37 @@ import {
     getCapFryerCapacity,
     getCapFryerSpeed,
     getCapMaxDelivery,
-    getCapMaxWaitCustomer
+    getCapMaxWaitCustomer,
+    getFryerCapacity,
+    getCurrentSpeedAutoPeeler,
+    getNextSpeedAutoPeeler,
+    getCurrentSpeedAutoChipper,
+    getNextSpeedAutoChipper,
+    getNextSpeedAutoFryer,
+    getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
+    getNextSpeedAutoStorageCollector,
+    getPriceToImproveAutoMoverFromFryerToStorage,
+    getNextSpeedAutoCustomerServer,
+    getPriceToImproveAutoCustomerServer,
+    getUpgradePotatoStorageQuantity,
+    getPriceToImprovePotatoStorage,
+    getUpgradeFryerCapacityAmount,
+    getPriceToImproveFryerCapacity,
+    getFryTimer,
+    getNextSpeedFryTimer,
+    getPriceToImproveFryTimer,
+    getMaxSpudsDelivery,
+    getNextMaxSpudsDelivery,
+    getPriceToDoubleSpudsMax,
+    getCurrentMaxValueWaitForNewCustomer,
+    getNextMaxValueWaitForNewCustomer,
+    getPriceToIncreaseFootfall,
+    getPriceToEnableDoublePeeling,
+    getPriceToEnableDoubleChipping,
+    getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
+    getPriceToAddStorageHeater,
+    getPriceToImproveAutoPeeler,
+    getPriceToImproveAutoChipper
 } from './constantsAndGlobalVars.js';
 import {formatToCashNotation} from "./ui.js";
 

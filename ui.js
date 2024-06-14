@@ -88,7 +88,6 @@ import {
     popupOverlay,
     resetAllVariables,
     resetCounterUiElements,
-    Role,
     setAutoChipperCapped,
     setAutoCustomerServerCapped,
     setAutoFryerCapped,
@@ -160,7 +159,7 @@ export function createGameWindow() {
 }
 
 export function writeTextInSections() {
-    getElements().playerRoleText.innerHTML = `<h2>${Role.ONE}</h2>`;
+    getElements().playerRoleText.innerHTML = `<h2>${localize('roleOne', getLanguage())}</h2>`;
 
     getElements().subInnerDiv1_1.innerHTML = `<h4>${localize('shift', getLanguage())}</h4>`;
     getElements().subInnerDiv1_2.innerHTML = `<h4>${localize('startShift', getLanguage())}</h4>`;
@@ -543,20 +542,20 @@ export function updateVisibleButtons() {
             getElements().customerFrequencyIncreaser.classList.remove('hidden-button');
         }
         //third phase upgrades
-        if (getCurrentCash() >= getRoleUpgrade(Role.FOUR) && (getElements().playerRoleText.innerText === Role.FIVE || getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN)) {
+        if (getCurrentCash() >= getRoleUpgrade(`${localize('roleFour', getLanguage())}`) && (getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleFive'] || getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSix'] || getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSeven'])) {
             getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
             getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
         }
-        if (getCurrentCash() >= getRoleUpgrade(Role.FIVE) && (getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN)) {
+        if (getCurrentCash() >= getRoleUpgrade(`${localize('roleFive', getLanguage())}`) && (getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSix'] || getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSeven'])) {
             getElements().investmentFundUnlockOrFloatButton.classList.remove('hidden-button');
         }
 
-        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.classList.contains('d-none')) {
+        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSix'] || getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSeven']) && getInvestmentFundUnlockable() && getElements().investmentDataScreen.classList.contains('d-none')) {
             getElements().investmentDataScreen.classList.remove('d-none');
             initialiseInvestmentScreenText();
         }
 
-        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerText === Role.SIX || getElements().playerRoleText.innerText === Role.SEVEN) && getInvestmentFundUnlocked() && getElements().investmentCashComponent.classList.contains('d-none') && getElements().investmentRiskComponent.classList.contains('d-none')) {
+        if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted() && (getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSix'] || getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSeven']) && getInvestmentFundUnlocked() && getElements().investmentCashComponent.classList.contains('d-none') && getElements().investmentRiskComponent.classList.contains('d-none')) {
             getElements().investmentCashComponent.classList.remove('d-none');
             getElements().investmentRiskComponent.classList.remove('d-none');
         }
