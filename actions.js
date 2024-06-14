@@ -217,6 +217,7 @@ import {
     updateButtonStyle,
     writePopupText
 } from "./ui.js";
+import {localize} from "./localization.js";
 
 export function handleButtonClick(buttonId, value, loading) {
     const button = getElements()[buttonId];
@@ -450,7 +451,7 @@ export function handleServingStorage() {
     if (fryerButton.classList.contains('action-button-main-flashing')) {
         updateButtonStyle(fryerButton.id, getStop());
     }
-    fryerButton.innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
+    fryerButton.innerHTML = `${localize('fryChips', getLanguage())}`;
     let total = getZero();
     for (let i = 0; i < getChipsReadyToServeQuantity().length; i++) {
         total += getChipsReadyToServeQuantity()[i];
@@ -474,9 +475,8 @@ function handleImprovePotatoStorage(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImprovePotatoStorage());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity());
-    getElements()[buttonId].innerHTML = `Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(newPriceOfUpgrade)}`;
+    getElements()[buttonId].innerHTML = `${localize('improvePotatoStorageButton', getLanguage())}`;
     getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
 }
 
@@ -484,7 +484,7 @@ function handleTwoHandedPeeling(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button, 'peeler')) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
         setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToEnableDoublePeeling());
-        getElements()[buttonId].innerHTML = 'Double Peeling Tool PURCHASED';
+        getElements()[buttonId].innerHTML = `${localize('doublePeelingToolPurchase', getLanguage())}`
         updateButtonStyle(buttonId, null);
         setPeelPotatoesRate(getPeelPotatoesRate() * getUpgradeDoublePeelerMultiple());
     }
@@ -494,7 +494,7 @@ function handleTwoHandedChipping(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button, 'chipper')) {
         setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChipping());
         setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToEnableDoubleChipping());
-        getElements()[buttonId].innerHTML = 'Double Chipping Tool PURCHASED';
+        getElements()[buttonId].innerHTML = `${localize('doubleChippingToolPurchase', getLanguage())}`;
         updateButtonStyle(buttonId, null);
         setCutChipsRate(getCutChipsRate() * getUpgradeDoubleChopperMultiple());
     }
@@ -503,10 +503,9 @@ function handleTwoHandedChipping(button, buttonId) {
 function handleImproveFryerCapacity(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToImproveFryerCapacity());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveFryerCapacity());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setFryerCapacity(getFryerCapacity() + getUpgradeFryerCapacityAmount());
-    getElements()[buttonId].innerHTML = `Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(newPriceOfUpgrade)}`;
-    getElements().fryChipsButton.innerHTML = 'Fry Chips (Capacity: ' + getFryerCapacity() + ')';
+    getElements()[buttonId].innerHTML = `${localize('improveFryerCapacityButtonSomeBought', getLanguage())}`;
+    getElements().fryChipsButton.innerHTML = `${localize('fryChips', getLanguage())}`;
 }
 
 function handleAddStorageHeater(button, buttonId) {
@@ -514,7 +513,7 @@ function handleAddStorageHeater(button, buttonId) {
         if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
             setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
             setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToAddStorageHeater());
-            getElements()[buttonId].innerHTML = 'Storage Bin Heater PURCHASED';
+            getElements()[buttonId].innerHTML = `${localize('storageBinHeaterPurchase', getLanguage())}`;
             updateButtonStyle(buttonId, null);
             setMultipleForHeaterEffectOnCoolDown(getUpgradeHeaterMultiple());
         }
@@ -522,7 +521,7 @@ function handleAddStorageHeater(button, buttonId) {
         if (!checkIfNonRepeatableUpgradePurchased(button, 'autoShift')) { //if auto shift start not bought yet
             setCurrentCash(getCurrentCash() - getPriceToUnlockAutoShiftStart());
             setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToUnlockAutoShiftStart());
-            getElements()[buttonId].innerHTML = `Auto Shift Start Upgrade<br>DISABLED`;
+            getElements()[buttonId].innerHTML = `${localize('autoShiftUpgradeDisabled', getLanguage())}`;
             getElements()[buttonId].classList.add('toggleable-button-on-state'); //initialisation leave as this
             updateButtonStyle(buttonId, null);
             setAutoShiftStatus(false);
@@ -544,7 +543,7 @@ export function handleStartShift() {
     setShiftInProgress(true);
     setShiftCounter(getShiftCounter() + getStandardDecrementIncrementOfOne());
 
-    getElements().subInnerDiv1_1.innerHTML = '<h4>Shift:</h4>';
+    getElements().subInnerDiv1_1.innerHTML = `<h4>${localize('shift', getLanguage())}</h4>`;
     getElements().subInnerDiv1_2.innerHTML = `<h4>${getShiftTime()}</h4>`;
 
     switch (getShiftCounter()) {
@@ -560,7 +559,7 @@ export function handleStartShift() {
 
     let newPotatoesToDeliverForNextShift = Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity());
     setActualPotatoesInStorage(newPotatoesToDeliverForNextShift);
-    getElements().startShiftButton.innerHTML = 'Start Shift <br> (+ ' + selectARandomNumberOfSpudsForNextShift() + ' Potatoes)';
+    getElements().startShiftButton.innerHTML = `${localize('startShiftButton', getLanguage())} <br> (+ ${selectARandomNumberOfSpudsForNextShift()} ${localize('potatoes', getLanguage())})`;
 
     calculateForthcomingTotalInvestment();
     disableButtons(false);
@@ -574,13 +573,12 @@ function handleAutoPeeler(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoPeeler());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoPeeler());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoPeeler(getNextSpeedAutoPeeler());
     setNextSpeedAutoPeeler(getCurrentSpeedAutoPeeler() + getStandardDecrementIncrementOfOne());
 
     const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
 
-    button.innerHTML = `Auto Peeler (${getCurrentSpeedAutoPeeler()}/s)<br>${getCurrentSpeedAutoPeeler()} → ${getNextSpeedAutoPeeler()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+    button.innerHTML = `${localize('autoPeelerUpgradeButtonSomeBought', getLanguage())}`;
 
     addCheckbox(button, upgradeEnabledState);
 }
@@ -593,13 +591,12 @@ function handleAutoChipper(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoChipper());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoChipper());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoChipper(getNextSpeedAutoChipper());
     setNextSpeedAutoChipper(getCurrentSpeedAutoChipper() + getStandardDecrementIncrementOfOne());
 
     const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
 
-    button.innerHTML = `Auto Chipper (${getCurrentSpeedAutoChipper()}/s)<br>${getCurrentSpeedAutoChipper()} → ${getNextSpeedAutoChipper()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}`;
+    button.innerHTML = `${localize('autoChipperUpgradeButtonSomeBought', getLanguage())}`;
 
     addCheckbox(button, upgradeEnabledState);
 }
@@ -613,13 +610,12 @@ function handleAutoFryer(buttonId) {
     setAutoFryerCounter(getZero());
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoFryer(getNextSpeedAutoFryer());
     setNextSpeedAutoFryer(getCurrentSpeedAutoFryer() - getAutoFryerUpgradeDecrement());
 
     const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
 
-    button.innerHTML = `Auto Fryer (${getCurrentSpeedAutoFryer()}s)<br>${getCurrentSpeedAutoFryer()} → ${getNextSpeedAutoFryer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoFryer())}s`;
+    button.innerHTML = `${localize('autoFryerUpgradeButtonSomeBought', getLanguage())}`;
 
     addCheckbox(button, upgradeEnabledState);
 }
@@ -633,13 +629,12 @@ function handleAutoStorageCollector(buttonId) {
     setAutoStorageCollectorCounter(getZero());
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoMoverFromFryerToStorage());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoMoverFromFryerToStorage());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoStorageCollector(getNextSpeedAutoStorageCollector());
     setNextSpeedAutoStorageCollector(getCurrentSpeedAutoStorageCollector() - getAutoStorageCollectorUpgradeDecrement());
 
     const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
 
-    button.innerHTML = `Auto Collect (${getCurrentSpeedAutoStorageCollector()}s)<br>${getCurrentSpeedAutoStorageCollector()} → ${getNextSpeedAutoStorageCollector()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoStorageCollector())}s`;
+    button.innerHTML = `${localize('autoStorageCollectorUpgradeButtonSomeBought', getLanguage())}`;
 
     addCheckbox(button, upgradeEnabledState);
 }
@@ -652,13 +647,12 @@ function handleAutoCustomerServer(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveAutoCustomerServer());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveAutoCustomerServer());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedAutoCustomerServer(getNextSpeedAutoCustomerServer());
     setNextSpeedAutoCustomerServer(getCurrentSpeedAutoCustomerServer() - getAutoCustomerServerUpgradeDecrement());
 
     const upgradeEnabledState = getElements()[buttonId].classList.contains('autoUpgradeEnabled');
 
-    button.innerHTML = `Auto Server (${getCurrentSpeedAutoCustomerServer()}s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}/s<br> ${formatToCashNotation(newPriceOfUpgrade)}<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s`;
+    button.innerHTML = `${localize('autoCustomerServerUpgradeButtonSomeBought', getLanguage())}`;
 
     addCheckbox(button, upgradeEnabledState);
 }
@@ -673,7 +667,7 @@ function handleImproveFryTimer(buttonId) {
     setCurrentSpeedFryTimer(getNextSpeedFryTimer());
     setFryTimer(Math.floor(getCurrentSpeedFryTimer()));
     setNextSpeedFryTimer(getCurrentSpeedFryTimer() - getUpgradeFryTimeDecrement());
-    getElements()[buttonId].innerHTML = `Improve Fry Speed<br>${getCurrentSpeedFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(newPriceOfUpgrade)}`
+    getElements()[buttonId].innerHTML = `${localize('fastFryerUpgradeButtonSomeBought', getLanguage())}`;
 }
 
 function handleDoubleMaxSpudsDelivery(buttonId) {
@@ -686,7 +680,7 @@ function handleDoubleMaxSpudsDelivery(buttonId) {
     setCurrentMaxSpudsDelivery(getNextMaxSpudsDelivery());
     setMaxSpudsDelivery(getCurrentMaxSpudsDelivery());
     setNextMaxSpudsDelivery(getCurrentMaxSpudsDelivery() * getUpgradeMaxSpudsIncrement());
-    getElements()[buttonId].innerHTML = `Double Max Delivery<br>${getCurrentMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(newPriceOfUpgrade)}`
+    getElements()[buttonId].innerHTML = `${localize('potatoDeliveryDoublerButtonSomeBought', getLanguage())}`;
 
 }
 
@@ -715,7 +709,7 @@ function handleIncreaseFootfall(buttonId) {
     let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentMaxValueWaitForNewCustomer(getNextMaxValueWaitForNewCustomer());
     setNextMaxValueWaitForNewCustomer(getCurrentMaxValueWaitForNewCustomer() - getIncreaseFootfallDecrement());
-    getElements()[buttonId].innerHTML = `Max Wait Customer<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(newPriceOfUpgrade)}`
+    getElements()[buttonId].innerHTML = `${localize('customerFrequencyIncreaserSomeBought', getLanguage())}`;
 }
 
 function handleIncreaseCashInvested() {
@@ -781,7 +775,7 @@ function handleWithDrawNowButton() {
 }
 
 function updateStorageBinHeaterToAutoShiftStartButton() {
-    getElements().addStorageHeaterAutoShiftStartButton.innerHTML = `Auto Shift Start Upgrade<br>${formatToCashNotation(getPriceToUnlockAutoShiftStart())})`;
+    getElements().addStorageHeaterAutoShiftStartButton.innerHTML = `${localize('autoShiftStartUpgrade', getLanguage())}`;
     getElements().addStorageHeaterAutoShiftStartButton.classList.remove('non-repeatable-upgrade-purchased');
 }
 
@@ -1037,7 +1031,7 @@ function selectARandomNumberOfSpudsForNextShift() {
     return spudsToAddToNextShift;
 }
 
-function calculateAndSetNewPriceOfUpgrade(buttonId) {
+export function calculateAndSetNewPriceOfUpgrade(buttonId) {
     if (!getInvestmentFundUnlocked()) {
         switch (buttonId) {
             //Manual Upgrades
@@ -1154,7 +1148,7 @@ function checkIfChipsStillInFryer() {
 
     if (parseInt(fryerElementText) > getZero()) {
         updateButtonStyle(fryerButton.id, getStart());
-        fryerButton.innerHTML = 'Empty Fryer<br>To Use Again!';
+        fryerButton.innerHTML = `${localize('emptyFryerToUseAgain', getLanguage())}`;
     }
 }
 
@@ -1224,7 +1218,7 @@ function cleanUpArray(array) {
 }
 
 function changeWithdrawInvestmentButtonText(value) {
-    value ? getElements().withdrawInvestmentButton.innerHTML = 'Withdraw Now!' : getElements().withdrawInvestmentButton.innerHTML = 'Cannot Withdraw';
+    value ? getElements().withdrawInvestmentButton.innerHTML = `${localize('withdrawNow', getLanguage())}` : getElements().withdrawInvestmentButton.innerHTML = `${localize('cannotWithdraw', getLanguage())}`;
 }
 
 function setUpFloatButton() {
@@ -1238,7 +1232,7 @@ function setupEndGameFlow() {
     toggleOverlay(popupOverlay);
     setShiftInProgress(false);
     setCurrentCash(getEndGameCash());
-    getElements().subInnerDiv1_2.innerHTML = '<h4>Final Shift!</h4>';
+    getElements().subInnerDiv1_2.innerHTML = `<h4>${localize('finalShift', getLanguage())}</h4>`;
     disableButtons(false);
 
     wasteChipsStillInFryerOrFryingAtEndOfShift();
@@ -1268,7 +1262,7 @@ function setupEndGameFlow() {
 
     hideButtonsReadyForEndGame();
 
-    getElements().serveCustomerButton.innerHTML = 'Serve Last Customer and Win Game!';
+    getElements().serveCustomerButton.innerHTML = `${localize('serveLastCustomerAndWin', getLanguage())}`;
 
     setActualPotatoesInStorage(getEndGamePotatoes());
     getElements().subInnerDivMid1_2.innerHTML = `<h4>${getEndGamePotatoes().toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
@@ -1633,7 +1627,6 @@ export function toggleDisable(disableItNow, element) {
                     element.classList.add('bg-warning');
                 }
             }
-
             break;
     }
 }

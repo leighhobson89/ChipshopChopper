@@ -69,9 +69,10 @@ import {
     getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
     getPriceToAddStorageHeater,
     getPriceToImproveAutoPeeler,
-    getPriceToImproveAutoChipper
+    getPriceToImproveAutoChipper,
 } from './constantsAndGlobalVars.js';
 import {formatToCashNotation} from "./ui.js";
+import {calculateAndSetNewPriceOfUpgrade} from "./actions.js";
 
 let localizationData = {};
 
