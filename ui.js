@@ -176,16 +176,16 @@ export function createGameWindow() {
 export function writeTextInSections() {
     getElements().playerRoleText.innerHTML = `<h2>${Role.ONE}</h2>`;
 
-    getElements().subInnerDiv1_1.innerHTML = `<h4>${localize('shift', getLanguage(), null)}</h4>`;
-    getElements().subInnerDiv1_2.innerHTML = `<h4>${localize('startShift', getLanguage(), null)}</h4>`;
+    getElements().subInnerDiv1_1.innerHTML = `<h4>${localize('shift', getLanguage())}</h4>`;
+    getElements().subInnerDiv1_2.innerHTML = `<h4>${localize('startShift', getLanguage())}</h4>`;
 
-    getElements().subInnerDiv3_1.innerHTML = `<h4>${localize('served', getLanguage(), null)}</h4>`;
+    getElements().subInnerDiv3_1.innerHTML = `<h4>${localize('served', getLanguage())}</h4>`;
     getElements().customersServedCount.innerHTML = '<h4>0</h4>';
 
-    getElements().subInnerDivMid1_1.innerHTML = `<h4>${localize('potato', getLanguage(), null)}</h4>`;
+    getElements().subInnerDivMid1_1.innerHTML = `<h4>${localize('potato', getLanguage())}</h4>`;
     getElements().subInnerDivMid1_2.innerHTML = `<h4>0/${getPotatoStorageQuantity()}</h4>`;
 
-    getElements().subInnerDivMid3_1.innerHTML = `<h4>${localize('money', getLanguage(), null)}</h4>`;
+    getElements().subInnerDivMid3_1.innerHTML = `<h4>${localize('money', getLanguage())}</h4>`;
     getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getStartingCash())}</h4>`;
 
     document.querySelectorAll('.gameButton').forEach(buttonInfo => {
@@ -201,8 +201,8 @@ export function hideUpgradeButtonsGameStart() {
     getElements().mainButtonContainer.querySelectorAll('.gameButton').forEach(button => {
         button.classList.add('hidden-button');
     });
-console.log(getLocalization()[getLanguage()]);
-    if (document.getElementById('option1').innerText === getLocalization()[getLanguage()]) {
+console.log(getLocalization()[getLanguage()]['clickAgainNewGame']);
+    if (document.getElementById('option1').innerText === getLocalization()[getLanguage()]['clickAgainNewGame']) {
         getElements().autoPeelerUpgradeButton.classList.add('hidden-button');
         getElements().investmentDataScreen.classList.add('hidden-button');
         getElements().withdrawInvestmentButton.classList.add('hidden-button');
@@ -250,12 +250,12 @@ export function updateButtonStyle(buttonId, startStop) {
                         element.classList.add('toggleable-button-off-state');
                         element.classList.remove('toggleable-button-on-state');
                         element.classList.add('non-repeatable-upgrade-purchased');
-                        element.innerHTML = `Auto Shift Start Upgrade<br>DISABLED`;
+                        element.innerHTML = `${localize('autoShiftUpgradeDisabled', getLanguage())}<br>`;
                         break;
                     } else {
                         element.classList.add('toggleable-button-on-state');
                         element.classList.remove('toggleable-button-off-state');
-                        element.innerHTML = `Auto Shift Start Upgrade<br>ENABLED`;
+                        element.innerHTML = `${localize('autoShiftUpgradeEnabled', getLanguage())}<br>`;
                         break;
                     }
                 } else {
@@ -318,7 +318,7 @@ export function createOverlay() {
     const overlayText = document.createElement('div');
     overlayText.id = 'overlayText';
     overlayText.className = 'overlay-text';
-    overlayText.innerHTML = 'Congratulations, You Won!';
+    overlayText.innerHTML = `${localize('congratulations', getLanguage())}`;
     overlayText.style.display = 'none';
 
     overlay.appendChild(overlayText);
@@ -363,7 +363,6 @@ export function writePopupText() {
     const spinButton = document.getElementById('spinButton');
 
     let walkOuts = getCustomersWaitingBeforeEndOfShift() - getCustomersWaiting();
-    let shiftCounter = getShiftCounter();
     let currentPotatoes = getActualPotatoesInStorage();
     let spudsToAdd = getSpudsToAddToShift();
     let storageQuantity = getPotatoStorageQuantity();
@@ -378,20 +377,20 @@ export function writePopupText() {
         popupTitleLeft.innerHTML = `<div class="popup-title" style="opacity: 0;">Congratulations!!</div>`;
         popupContentInnerLeft.innerHTML = `
             <div class="popup-content">
-                <span style="color: yellow;">You have beat the game, well done!</span><br><br>
-                You earned a total of ${formatToCashNotation(getTotalEarnedInSales())} in chip sales!<br>
-                You spent a total of ${formatToCashNotation(getTotalSpentExcludingInvestments())} excluding investments!<br>
-                You peeled a total of ${getTotalPeeled()} potatoes.<br>
-                You cut a total of ${getTotalCut()} chips.<br>
-                You wasted a total of ${getTotalWastedChips()} chips.<br>
-                You served a total of ${getTotalServedCustomers()} customers!<br>
-                Now please do the honours and fry up and serve the last customer their chips before you retire as a millionaire!
+                <span style="color: yellow;">${localize('beatTheGame', getLanguage())}</span><br><br>
+                ${localize('youEarnedATotalOf', getLanguage())}<br>
+                ${localize('youSpentATotalOf', getLanguage())}<br>
+                ${localize('youPeeledATotalOf', getLanguage())}<br>
+                ${localize('youCutATotalOf', getLanguage())}<br>
+                ${localize('youWastedATotalOf', getLanguage())}<br>
+                ${localize('youServedATotalOf', getLanguage())}<br>
+                ${localize('nowDoTheHonours', getLanguage())}<br>
             </div>`;
     } else {
-        popupTitleLeft.innerHTML = `<div class="popup-title">End Of Shift ${shiftCounter}</div>`;
-        let potatoesMessage = `Potatoes for next shift: ${currentPotatoes} + ${nextShiftPotatoes - currentPotatoes} to be delivered = ${nextShiftPotatoes}`;
+        popupTitleLeft.innerHTML = `<div class="popup-title">${localize('endOfShift', getLanguage())}</div>`;
+        let potatoesMessage = `${localize('potatoesNextShift', getLanguage())}`;
         if (nextShiftPotatoes === storageQuantity) {
-            potatoesMessage += " (due to max storage reached)";
+            potatoesMessage += `${localize('maxStorageReached', getLanguage())}`;
         }
 
         let promotionMessage = "";

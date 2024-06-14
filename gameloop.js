@@ -13,7 +13,7 @@ import {
     updateButtonStyle,
     updateTextAndDisableButtonsForCappedUpgrades,
     updateVisibleButtons,
-    writePopupText
+    writePopupText, createOverlay
 } from './ui.js';
 
 import {
@@ -147,7 +147,7 @@ import {
     getTextAnimationDone,
     getAutoSaveOn,
     setDebugOptionFlag,
-    debugOptionFlag, setLocalization, getLocalization,
+    debugOptionFlag, setLocalization, getLocalization, setPopupOverlay, setPopupOverlayAtStartOfGame,
 } from './constantsAndGlobalVars.js';
 import {initLocalization} from "./localization.js";
 
@@ -196,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let defaultLocalization = navigator.language;
     defaultLocalization = simplifyOSLanguageString(defaultLocalization);
     initLocalization(defaultLocalization).then(() => {
+        setPopupOverlayAtStartOfGame(createOverlay());
         setElements();
         main();
     }).catch(error => {
