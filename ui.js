@@ -30,9 +30,6 @@ import {
     getCapMaxDelivery,
     getCapMaxWaitCustomer,
     getCapPotatoCapacity,
-    getChipsCutThisShift,
-    getChipsFriedThisShift,
-    getChipsWastedThisShift,
     getCurrentCash,
     getCurrentMaxValueWaitForNewCustomer,
     getCurrentRotation,
@@ -42,9 +39,6 @@ import {
     getCurrentSpeedAutoPeeler,
     getCurrentSpeedAutoStorageCollector,
     getCurrentValueOfInvestment,
-    getCustomersServed,
-    getCustomersWaiting,
-    getCustomersWaitingBeforeEndOfShift,
     getDebugFlag,
     getElements,
     getFloatOnStockMarketUnlockedAndEndGameFlowStarted,
@@ -61,10 +55,8 @@ import {
     getMaxSpudsDelivery,
     getMaxWaitCustomerCapped,
     getNumberOfWheelSections,
-    getOldCash,
     getOne,
     getPotatoCapacityCapped,
-    getPotatoesPeeledThisShift,
     getPotatoStorageQuantity,
     getPriceToAddStorageHeater,
     getPriceToDoubleSpudsMax,
@@ -90,12 +82,6 @@ import {
     getSpudsToAddToShift,
     getStartingCash,
     getStateLoading,
-    getTotalCut,
-    getTotalEarnedInSales,
-    getTotalPeeled,
-    getTotalServedCustomers,
-    getTotalSpentExcludingInvestments,
-    getTotalWastedChips,
     getWheelSpinning,
     getWinResult,
     getZero,
@@ -362,7 +348,6 @@ export function writePopupText() {
 
     const spinButton = document.getElementById('spinButton');
 
-    let walkOuts = getCustomersWaitingBeforeEndOfShift() - getCustomersWaiting();
     let currentPotatoes = getActualPotatoesInStorage();
     let spudsToAdd = getSpudsToAddToShift();
     let storageQuantity = getPotatoStorageQuantity();
@@ -395,7 +380,7 @@ export function writePopupText() {
 
         let promotionMessage = "";
         if (getPromotionFlag()) {
-            promotionMessage = `You were Promoted to ${getElements().playerRoleText.innerText}!<br><br>`;
+            promotionMessage = `${localize('promotionMessage', getLanguage())}<br><br>`;
             setPromotionFlag(false);
         }
 
@@ -404,33 +389,33 @@ export function writePopupText() {
         let totalGrowthMessage = "";
 
         if (getCurrentValueOfInvestment() > getZero()) {
-            investmentMessage = `Your investments of ${formatToCashNotation(getAmountInvestmentCash())} returned ${formatToCashNotation(getCurrentValueOfInvestment())} at a risk level of ${getAmountInvestmentRisk()}%`;
+            investmentMessage = `${localize('investmentReturns', getLanguage())}`;
             if (getGrowthInvestment() >= getZero()) {
-                growthLossMessage = `A growth of ${formatToCashNotation(getGrowthInvestment())} this period`;
+                growthLossMessage = `${localize('investmentGrowth', getLanguage())}`;
             } else {
-                growthLossMessage = `A loss of ${formatToCashNotation(Math.abs(getGrowthInvestment()))} this period`;
+                growthLossMessage = `${localize('investmentLoss', getLanguage())}`;
             }
         }
 
         if (getCurrentValueOfInvestment() > getZero()) {
             if (getCurrentValueOfInvestment() - getAmountInvestmentCash() >= getZero()) {
-                totalGrowthMessage = `A total growth of ${formatToCashNotation(getCurrentValueOfInvestment() - getAmountInvestmentCash())}`;
+                totalGrowthMessage = `${localize('totalInvestmentGrowth', getLanguage())}`;
             } else {
-                totalGrowthMessage = `A total loss of ${formatToCashNotation(Math.abs(getCurrentValueOfInvestment() - getAmountInvestmentCash()))}`;
+                totalGrowthMessage = `${localize('totalInvestmentLoss', getLanguage())}`;
             }
         }
 
         popupContentInnerLeft.innerHTML = `
             <div>
                 Your shift has ended!<br>
-                Earnings: ${formatToCashNotation(getCurrentCash() - getOldCash())} this shift + ${formatToCashNotation(getOldCash())} in bank = ${formatToCashNotation(getCurrentCash())}<br>
-                Customers Served: ${getCustomersServed()}<br>
-                Potatoes Peeled: ${getPotatoesPeeledThisShift()}<br>
-                Chips Cut: ${getChipsCutThisShift()}<br>
-                Chips Fried: ${getChipsFriedThisShift()}<br>
-                Chips Wasted This Shift: ${getChipsWastedThisShift()}<br>
-                Customer Walkouts: ${walkOuts}<br>
-                Customers Still Waiting: ${getCustomersWaiting()}<br>
+                ${localize('earnings', getLanguage())}<br>
+                ${localize('customersServed', getLanguage())}<br>
+                ${localize('potatoesPeeled', getLanguage())}<br>
+                ${localize('chipsCut', getLanguage())}<br>
+                ${localize('chipsFried', getLanguage())}<br>
+                ${localize('chipsWastedThisShift', getLanguage())}<br>
+                ${localize('customerWalkouts', getLanguage())}<br>
+                ${localize('customersStillWaiting', getLanguage())}<br>
                 ${potatoesMessage}<br><br>
                 <span style="color: yellow;">${promotionMessage}</span>
                 ${investmentMessage}<br>
@@ -468,8 +453,8 @@ export function writePopupText() {
         setTimeout(() => {
             popupContentInnerRight1.innerHTML = `
                 <div>
-                    You gained a shift point!<br>
-                    Your total shift points are ${getShiftPoints()}
+                    ${localize('gainedAShiftPoint', getLanguage())}<br>
+                    ${localize('shiftPoints', getLanguage())}
                 </div>`;
 
             const rightLines = popupContentInnerRight1.innerHTML.split('<br>');
@@ -581,7 +566,7 @@ export function updateVisibleButtons() {
 
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function() {
-        if (getElements().option1.innerText === 'Click again to start a New Game...') {
+        if (getElements().option1.innerText === getLocalization()[getLanguage()]['clickAgainNewGame']) {
             resetAllVariables();
             resetCounterUiElements();
             setInitialStateMainButtons();
@@ -670,7 +655,7 @@ export function changePlayerRole(element, newText, animation1, animation2) {
     element.classList.add(animation1);
     element.classList.add(animation2);
 
-    element.innerHTML = `<h2>${newText}</h2>`;
+    element.innerHTML = `<h2>${newText}</h2>`; //localization handled in gameloop
 
     setTimeout(() => {
         element.classList.remove(animation1);
@@ -687,11 +672,11 @@ export function initialiseInvestmentScreenText() {
     const elements = getElements();
 
     const strings = [
-        'Cash Invested:',
-        'Current Risk:',
-        'Current Value:',
-        'Gain / Loss:',
-        'Withdraw All:',
+        `${localize('cashInvested', getLanguage())}`,
+        `${localize('currentRisk', getLanguage())}`,
+        `${localize('currentValue', getLanguage())}`,
+        `${localize('gainLoss', getLanguage())}`,
+        `${localize('withdrawAll', getLanguage())}`,
         `<h3>${formatToCashNotation(getAmountInvestmentCash())}</h3>`,
         `<h3>${getAmountInvestmentRisk()}%</h3>`,
         `<h3>${formatToCashNotation(getCurrentValueOfInvestment())}</h3>`,
@@ -762,43 +747,43 @@ export function hideButtonsReadyForEndGame() {
 export function checkAndSetFlagCapOnUpgrades() {
     if (getCurrentSpeedAutoPeeler() >= getCapAutoPeeler() && !getAutoPeelerCapped()) {
         setAutoPeelerCapped(true);
-        getElements().autoPeelerUpgradeButton.innerHTML = `Capped: ${getCapAutoPeeler()}/s`;
+        getElements().autoPeelerUpgradeButton.innerHTML = `${localize('cappedAutoPeeler', getLanguage())}`;
     }
     if (getCurrentSpeedAutoChipper() >= getCapAutoChipper() && !getAutoChipperCapped()) {
         setAutoChipperCapped(true);
-        getElements().autoChipperUpgradeButton.innerHTML = `Capped: ${getCapAutoChipper()}/s`;
+        getElements().autoChipperUpgradeButton.innerHTML = `${localize('cappedAutoChipper', getLanguage())}`;
     }
     if (getCurrentSpeedAutoFryer() === getCapAutoFryer() && !getAutoFryerCapped()) {
         setAutoFryerCapped(true);
-        getElements().autoFryerUpgradeButton.innerHTML = `Capped: ${getCapAutoFryer()}s<br> Ready in ${Math.floor(getCurrentSpeedAutoFryer())}s`;
+        getElements().autoFryerUpgradeButton.innerHTML = `${localize('cappedAutoFryer', getLanguage())}`;
     }
     if (getCurrentSpeedAutoStorageCollector() === getCapAutoStorageCollector() && !getAutoStorageCollectorCapped()) {
         setAutoStorageCollectorCapped(true);
-        getElements().autoStorageCollectorUpgradeButton.innerHTML = `Capped: ${getCapAutoStorageCollector()}s<br> Ready in ${Math.floor(getCurrentSpeedAutoStorageCollector())}s`;
+        getElements().autoStorageCollectorUpgradeButton.innerHTML = `${localize('cappedAutoStorageCollector', getLanguage())}`;
     }
     if (getCurrentSpeedAutoCustomerServer() === getCapAutoCustomerServer() && !getAutoCustomerServerCapped()) {
         setAutoCustomerServerCapped(true);
-        getElements().autoCustomerServerUpgradeButton.innerHTML = `Capped: ${getCapAutoCustomerServer()}s<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s`;
+        getElements().autoCustomerServerUpgradeButton.innerHTML = `${localize('cappedAutoCustomerServer', getLanguage())}`;
     }
     if (getPotatoStorageQuantity() >= getCapPotatoCapacity() && !getPotatoCapacityCapped()) {
         setPotatoCapacityCapped(true);
-        getElements().improvePotatoStorageButton.innerHTML = `Capped: ${getCapPotatoCapacity()}`;
+        getElements().improvePotatoStorageButton.innerHTML = `${localize('cappedPotatoCapacity', getLanguage())}`;
     }
     if (getFryerCapacity() >= getCapFryerCapacity() && !getFryerCapacityCapped()) {
         setFryerCapacityCapped(true);
-        getElements().improveFryerCapacityButton.innerHTML = `Capped: ${getCapFryerCapacity()}`;
+        getElements().improveFryerCapacityButton.innerHTML = `${localize('cappedFryerCapacity', getLanguage())}`;
     }
     if (getFryTimer() <= getCapFryerSpeed() && !getFryerSpeedCapped()) {
         setFryerSpeedCapped(true);
-        getElements().fastFryerUpgradeButton.innerHTML = `Capped: ${getCapFryerSpeed()}s`;
+        getElements().fastFryerUpgradeButton.innerHTML = `${localize('cappedFryerSpeed', getLanguage())}`;
     }
     if (getMaxSpudsDelivery() >= getCapMaxDelivery() && !getMaxDeliveryCapped()) {
         setMaxDeliveryCapped(true);
-        getElements().potatoDeliveryDoublerButton.innerHTML = `Capped: ${getCapMaxDelivery()}`;
+        getElements().potatoDeliveryDoublerButton.innerHTML = `${localize('cappedMaxDelivery', getLanguage())}`;
     }
     if (getCurrentMaxValueWaitForNewCustomer() <= getCapMaxWaitCustomer() && !getMaxWaitCustomerCapped()) {
         setMaxWaitCustomerCapped(true);
-        getElements().customerFrequencyIncreaser.innerHTML = `Capped: ${getCapMaxWaitCustomer()}s`;
+        getElements().customerFrequencyIncreaser.innerHTML = `${localize('cappedMaxWaitCustomer', getLanguage())}`;
     }
 }
 
@@ -935,7 +920,7 @@ function createWheelOfFortune() {
             setShiftPoints(getShiftPoints() - getOne());
             const messageDiv = document.querySelector('#popupContentInnerRight1 div:nth-child(2)');
 
-            const message = "Your total shift points are ";
+            const message = `${localize('shiftPointsPartial', getLanguage())}`
 
             if (messageDiv.innerHTML.includes(message)) {
                 const numberString = messageDiv.innerHTML.match(/\d+/)[0];
@@ -952,10 +937,8 @@ function createWheelOfFortune() {
         setWinResult(findEndOfLineAndCheckWinningColor());
         if (getWinResult().colorsMatch) {
             winner = getWinResult().leftColor;
-            console.log('The winner is ' + winner);
         } else {
             winner = determineWinner(getWinResult().leftColor, getWinResult().rightColor);
-            console.log('The winner by determination is ' + winner);
         }
         const prizeString = showWheelPrizeString(winner);
         addPrizeToPlayerStats(prizeString);
@@ -963,7 +946,7 @@ function createWheelOfFortune() {
         if (getShiftPoints() > getZero()) {
             toggleDisable(false, spinButton);
         } else {
-            spinButton.innerHTML = 'No Shift Points!';
+            spinButton.innerHTML = `${localize('noShiftPoints', getLanguage())}`;
         }
         setTimeout(() => {
             wheel.style.transition = 'transform 5s cubic-bezier(0.2, 0.75, 0.5, 1)';
@@ -977,9 +960,9 @@ function createSpinButton() {
     spinButton.classList.add('btn');
     spinButton.classList.add('bg-secondary');
     if (getShiftPoints() > getZero()) {
-        spinButton.innerHTML = 'Spin the Wheel';
+        spinButton.innerHTML = `${localize('spinWheel', getLanguage())}`;
     } else {
-        spinButton.innerHTML = 'No Shift Points!';
+        spinButton.innerHTML = `${localize('noShiftPoints', getLanguage())}`;
     }
 
     document.querySelector('.popup-row-3-right').appendChild(spinButton);
@@ -1079,7 +1062,7 @@ function getPrizeFromWinningColor(winningColor) {
 
 function extractPrizeNames(htmlString) {
     const tempContainer = document.createElement('div');
-    tempContainer.innerHTML = htmlString;
+    tempContainer.innerHTML = htmlString; //no localization needed
 
     const prizeDivs = tempContainer.querySelectorAll('.prize-item');
     return Array.from(prizeDivs).map(div => div.innerHTML);

@@ -147,7 +147,8 @@ import {
     getTextAnimationDone,
     getAutoSaveOn,
     setDebugOptionFlag,
-    debugOptionFlag, setLocalization, getLocalization, setPopupOverlay, setPopupOverlayAtStartOfGame,
+    debugOptionFlag,
+    setPopupOverlayAtStartOfGame
 } from './constantsAndGlobalVars.js';
 import {initLocalization} from "./localization.js";
 

@@ -1,3 +1,5 @@
+// noinspection ES6UnusedImports
+
 import {
     getLocalization, setLanguage, setLocalization,
     Role,
@@ -10,7 +12,35 @@ import {
     getShiftCounter,
     getSpudsToAddToShift,
     getActualPotatoesInStorage,
-    getPotatoStorageQuantity
+    getPotatoStorageQuantity,
+    getElements,
+    getAmountInvestmentCash,
+    getCurrentValueOfInvestment,
+    getAmountInvestmentRisk,
+    getGrowthInvestment,
+    getCurrentCash,
+    getOldCash,
+    getCustomersServed,
+    getPotatoesPeeledThisShift,
+    getChipsCutThisShift,
+    getChipsFriedThisShift,
+    getChipsWastedThisShift,
+    getCustomersWaiting,
+    getCustomersWaitingBeforeEndOfShift,
+    getShiftPoints,
+    getCapAutoPeeler,
+    getCapAutoChipper,
+    getCapAutoFryer,
+    getCapAutoStorageCollector,
+    getCapAutoCustomerServer,
+    getCurrentSpeedAutoFryer,
+    getCurrentSpeedAutoStorageCollector,
+    getCurrentSpeedAutoCustomerServer,
+    getCapPotatoCapacity,
+    getCapFryerCapacity,
+    getCapFryerSpeed,
+    getCapMaxDelivery,
+    getCapMaxWaitCustomer
 } from './constantsAndGlobalVars.js';
 import {formatToCashNotation} from "./ui.js";
 

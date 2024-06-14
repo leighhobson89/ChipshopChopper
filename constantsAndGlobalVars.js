@@ -2,7 +2,6 @@
 
 import {
     createEndOfShiftOrGamePopup,
-    createOverlay,
     formatToCashNotation
 } from './ui.js';
 import {
