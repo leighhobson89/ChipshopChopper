@@ -56,7 +56,7 @@ import {
     getInvestmentCashIncrementDecrement,
     getInvestmentFundUnlockable,
     getInvestmentFundUnlocked,
-    getInvestmentRiskIncrementDecrement,
+    getInvestmentRiskIncrementDecrement, getLanguage, getLocalization,
     getMaxDeliveryCapped,
     getMaxSpudsDelivery,
     getMaxWaitCustomerCapped,
@@ -131,9 +131,8 @@ import {
     setWinResult,
     wheelColors
 } from './constantsAndGlobalVars.js';
-import {
-    initialiseNewGame
-} from "./gameloop.js";
+import {initialiseNewGame} from "./gameloop.js";
+import {localize} from "./localization.js";
 
 export function initialiseOptionsClasses() {
     getElements().resumeGameButton.classList.add('option-resume-game');
@@ -177,23 +176,22 @@ export function createGameWindow() {
 export function writeTextInSections() {
     getElements().playerRoleText.innerHTML = `<h2>${Role.ONE}</h2>`;
 
-    getElements().subInnerDiv1_1.innerHTML = '<h4>Shift:</h4>';
-    getElements().subInnerDiv1_2.innerHTML = '<h4>Start Shift</h4>';
+    getElements().subInnerDiv1_1.innerHTML = `<h4>${localize('shift', getLanguage(), null)}</h4>`;
+    getElements().subInnerDiv1_2.innerHTML = `<h4>${localize('startShift', getLanguage(), null)}</h4>`;
 
-    getElements().subInnerDiv3_1.innerHTML = '<h4>Served:</h4>';
+    getElements().subInnerDiv3_1.innerHTML = `<h4>${localize('served', getLanguage(), null)}</h4>`;
     getElements().customersServedCount.innerHTML = '<h4>0</h4>';
 
-    getElements().subInnerDivMid1_1.innerHTML = '<h4>Potato:</h4>';
+    getElements().subInnerDivMid1_1.innerHTML = `<h4>${localize('potato', getLanguage(), null)}</h4>`;
     getElements().subInnerDivMid1_2.innerHTML = `<h4>0/${getPotatoStorageQuantity()}</h4>`;
 
-    getElements().subInnerDivMid3_1.innerHTML = '<h4>Money:</h4>';
+    getElements().subInnerDivMid3_1.innerHTML = `<h4>${localize('money', getLanguage(), null)}</h4>`;
     getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getStartingCash())}</h4>`;
 
     document.querySelectorAll('.gameButton').forEach(buttonInfo => {
         const button = getElements()[buttonInfo.id];
 
         if (button.classList.contains('second-row-main-buttons')) {
-            // Create and append checkbox
             addCheckbox(button);
         }
     });
@@ -203,8 +201,8 @@ export function hideUpgradeButtonsGameStart() {
     getElements().mainButtonContainer.querySelectorAll('.gameButton').forEach(button => {
         button.classList.add('hidden-button');
     });
-
-    if (document.getElementById('option1').innerText === 'Click again to start a New Game...') {
+console.log(getLocalization()[getLanguage()]);
+    if (document.getElementById('option1').innerText === getLocalization()[getLanguage()]) {
         getElements().autoPeelerUpgradeButton.classList.add('hidden-button');
         getElements().investmentDataScreen.classList.add('hidden-button');
         getElements().withdrawInvestmentButton.classList.add('hidden-button');

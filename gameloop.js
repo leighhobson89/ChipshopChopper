@@ -147,8 +147,9 @@ import {
     getTextAnimationDone,
     getAutoSaveOn,
     setDebugOptionFlag,
-    debugOptionFlag,
+    debugOptionFlag, setLocalization, getLocalization,
 } from './constantsAndGlobalVars.js';
+import {initLocalization} from "./localization.js";
 
 let autoSaveInterval;
 let nextAutoSaveTime;
@@ -192,8 +193,14 @@ export function main() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    setElements();
-    main();
+    let defaultLocalization = navigator.language;
+    defaultLocalization = simplifyOSLanguageString(defaultLocalization);
+    initLocalization(defaultLocalization).then(() => {
+        setElements();
+        main();
+    }).catch(error => {
+        console.error('Error initializing localization:', error);
+    });
 });
 
 function gameLoop() {
@@ -730,4 +737,23 @@ function disableEnableContinueButtonIfWheelSpinningNotSpinning() {
     } else {
         toggleDisable(false, document.getElementById('popupContinueButton'));
     }
+}
+
+function simplifyOSLanguageString(string) {
+    if (string.includes('en')) {
+        return 'en';
+    }
+    if (string.includes('fr')) {
+        return 'fr';
+    }
+    if (string.includes('es')) {
+        return 'es';
+    }
+    if (string.includes('it')) {
+        return 'it';
+    }
+    if (string.includes('de')) {
+        return 'de';
+    }
+    return 'es';
 }

@@ -16,6 +16,8 @@ export let stateLoading = false;
 
 //ELEMENTS
 let elements;
+let localization = {};
+let language;
 
 //CONSTANTS
 const AUTO_SAVE_INTERVAL = 5 * 60 * 1000; //change first integer for mins e.g. 5 for 5 mins
@@ -2375,4 +2377,20 @@ export function restoreButtonStates(gameState) {
     if (gameState.mainButtonContainer) {
         restoreButtons('mainButtonContainer', gameState.mainButtonContainer);
     }
+}
+
+export function setLocalization(value) {
+    localization = value;
+}
+
+export function getLocalization() {
+    return localization;
+}
+
+export function setLanguage(value) {
+    language = value;
+}
+
+export function getLanguage() {
+    return language;
 }
