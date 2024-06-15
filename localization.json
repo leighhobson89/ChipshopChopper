@@ -110,7 +110,15 @@
     "customers": "Customers",
     "deliveryCancelled": "Delivery Cancelled",
     "fineOfHalfMoney": "Fine of Half Money",
-    "halfOfPotatoesRot": "Half of Potatoes Rot"
+    "halfOfPotatoesRot": "Half of Potatoes Rot",
+    "fryingChips": "Frying ' + getQuantityOfChipsFrying() + ' Chips <br> (' + getFryTimeRemaining() + 's)"
+    "newGame": "New Game",
+    "clickAgainToStartNewGame": "Click again to start a New Game...",
+    "loadGame": "Load Game",
+    "saveGame": "Save Game",
+    "help": "Help",
+    "resumeGame": "Resume Game",
+    "autoSaveOnOff": "AutoSave On/Off"
   },
   "es": {
     "potatoes": "Papas",
@@ -223,7 +231,15 @@
     "customers": "Clientes",
     "deliveryCancelled": "Entrega Cancelada",
     "fineOfHalfMoney": "Multa de 50% del dinero",
-    "halfOfPotatoesRot": "50% Papas Se Pudren"
+    "halfOfPotatoesRot": "50% Papas Se Pudren",
+    "fryingChips": "Friendo ' + getQuantityOfChipsFrying() + ' Papas <br> (' + getFryTimeRemaining() + 's)",
+    "newGame": "Nuevo Juego",
+    "clickAgainToStartNewGame": "Haz Clic de Nuevo Para Empezar un Nuevo Juego...",
+    "loadGame": "Cargar Juego",
+    "saveGame": "Guardar Juego",
+    "help": "Ayuda",
+    "resumeGame": "Reanudar Juego",
+    "autoSaveOnOff": "AutoGuardado Activado/Desactivado"
   },
   "prizes": {
     "en": {

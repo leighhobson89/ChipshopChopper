@@ -341,7 +341,7 @@ function updateShiftCountDown() {
                     setOldCash(getCurrentCash());
                     setCurrentCash((getCustomersServed() * getPriceOfChips()) + getCurrentCash());
                     setTotalEarnedInSales(getTotalEarnedInSales() + (getCustomersServed() * getPriceOfChips()));
-                    getElements().subInnerDiv1_2.innerHTML = '<h4>Start Shift</h4>';
+                    getElements().subInnerDiv1_2.innerHTML = `<h4>${localize('startShift', getLanguage())}</h4>`;
                     disableButtons(false);
 
                     wasteChipsStillInFryerOrFryingAtEndOfShift();
@@ -401,14 +401,13 @@ function updateChipsFryingTimer() {
         if (getFryTimeRemaining() > getZero()) {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setFryTimeRemaining(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
-                fryerButton.innerHTML = 'Frying ' + getQuantityOfChipsFrying() + ' Chips <br> (' + getFryTimeRemaining() + 's)';
+                fryerButton.innerHTML = `${localize('fryingChips', getLanguage())}`;
 
-                //console.log(`Fry time remaining: ${getFryTimeRemaining()} seconds`);
                 if (getFryTimeRemaining() === getZero()) {
                     setAreChipsFrying(false);
                     setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityOfChipsFrying());
                     getElements().chuckedInFryerCount.innerHTML = `<h3>${(parseInt(getElements().chuckedInFryerCount.innerText) + getQuantityOfChipsFrying()).toString()}</h3>`;
-                    fryerButton.innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
+                    fryerButton.innerHTML = `${localize('fryChips', getLanguage())}`;
                     updateButtonStyle(fryerButton.id, null);
                     setQuantityOfChipsFrying(getZero());
                     disableButtons(false);
@@ -421,7 +420,6 @@ function updateChipsFryingTimer() {
 
 export function startBatchTimer(batchId) {
     setCoolDownTimeRemaining(getCoolDownTimer() * getMultipleForHeaterEffectOnCoolDown());
-    // console.log("Going to start a batch timer with id:" + batchId);
     batchTimers[batchId] = setInterval(() => {
         updateChipsCoolDownTimer(batchId);
     }, getClockSpeed());
@@ -440,21 +438,14 @@ function updateChipsCoolDownTimer(batchId) {
 
 async function triggerWastingProcessForBatch(batchId) {
     if (!getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
-        // console.log(`Batch ${batchId} - wasting process triggered`);
-
         while (getChipsReadyToServeQuantity()[batchId] > getZero()) {
-            // console.log(`Batch ${batchId} - wasting one chip ${getChipsReadyToServeQuantity()[batchId]} remaining in [${batchId}]th element`);
-
             if (getChipsReadyToServeQuantity()[batchId] === getZero()) {
-                // console.log(`Batch ${batchId} - shifting array, element [${batchId}] has no chips left`);
                 getChipsReadyToServeQuantity().splice(batchId, getJustDeleteTheOneElementFromArray());
                 clearInterval(batchTimers[batchId]);
             } else {
                 await new Promise(resolve => setTimeout(resolve, getClockSpeed()));
-                // console.log(`Batch ${batchId} - going to waste a chip, ${getChipsReadyToServeQuantity()[batchId]} remaining`);
                 setChipsReadyToServeQuantity(batchId, getChipsReadyToServeQuantity()[batchId] - getStandardDecrementIncrementOfOne());
                 setChipsWastedThisShift(getChipsWastedThisShift() + getStandardDecrementIncrementOfOne());
-                // console.log(`Batch ${batchId} - A chip is wasted, ${getChipsReadyToServeQuantity()[batchId]} remaining in this batch`);
                 decrementCounter('readyToServeCount', getStandardDecrementIncrementOfOne());
             }
         }
@@ -466,7 +457,7 @@ export function initialiseNewGame() {
         return askUserToConfirmRestart();
     } else {
         getElements().resumeGameButton.classList.remove('option-disabled');
-        getElements().option1.innerHTML = '<h2>New Game</h2>';
+        getElements().option1.innerHTML = `<h2>${localize('newGame', getLanguage())}</h2>`;
         getElements().optionsWindow.classList.add('d-none');
         createRandomCustomerTime();
         getElements().gameWindow.classList.remove('d-none');
@@ -475,7 +466,7 @@ export function initialiseNewGame() {
 }
 
 function askUserToConfirmRestart() {
-    getElements().option1.innerHTML = '<h2>Click again to start a New Game...</h2>';
+    getElements().option1.innerHTML = `<h2>${localize('clickAgainToStartNewGame', getLanguage())}</h2>`;
 }
 
 export function wasteChipsStillInFryerOrFryingAtEndOfShift() {
@@ -484,7 +475,7 @@ export function wasteChipsStillInFryerOrFryingAtEndOfShift() {
 
     setAreChipsFrying(false);
     setFryTimeRemaining(getZero());
-    getElements().fryChipsButton.innerHTML = `Fry Chips (Capacity: ${getFryerCapacity()})`;
+    getElements().fryChipsButton.innerHTML = `<h2>${localize('fryChips', getLanguage())}</h2>`;
     setChipsWastedThisShift(fryerCount + getQuantityOfChipsFrying() + getChipsWastedThisShift());
     setQuantityOfChipsFrying(getZero());
     if (fryerButton.classList.contains('action-button-main-flashing')) {
