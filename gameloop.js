@@ -367,7 +367,7 @@ function updateShiftCountDown() {
                         toggleEndOfShiftOrGamePopup(endOfShiftOrGamePopup, false);
                         toggleOverlay(popupOverlay);
                     }
-                    consoleOutTotalStats(); //debug
+                    // consoleOutTotalStats(); //debug
                     setGrowthInvestment(getZero());
                     setCustomersServed(getZero());
                     setPotatoesPeeledThisShift(getZero());
@@ -519,7 +519,22 @@ function updateButtonCountdownText(buttonElement, action, resetElementSpeed, sta
     if (!state) {
         return;
     }
-    const regex = /Ready in (\d+)s/;
+
+    let regex;
+    let phrase;
+
+    switch (getLanguage()) {
+        case 'en':
+            phrase = 'Ready in';
+            regex = /Ready in (\d+)s/;
+            break;
+        case 'es':
+            phrase = 'Listo en';
+            regex = /Listo en (\d+)s/;
+            break;
+        default:
+            regex = /Ready in (\d+)s/;
+    }
     const match = buttonElement.innerHTML.match(regex);
     let newValue;
 
@@ -529,13 +544,13 @@ function updateButtonCountdownText(buttonElement, action, resetElementSpeed, sta
         if (action === "countDown") {
             if (currentValue > getZero()) {
                 newValue = currentValue - getOne();
-                buttonElement.innerHTML = buttonElement.innerHTML.replace(regex, `Ready in ${newValue}s`);
+                buttonElement.innerHTML = buttonElement.innerHTML.replace(regex, `${phrase} ${newValue}s`);
             } else {
                 return getZero();
             }
         }
         if (action === 'reset') {
-            buttonElement.innerHTML = buttonElement.innerHTML.replace(regex, `Ready in ${resetElementSpeed}s`);
+            buttonElement.innerHTML = buttonElement.innerHTML.replace(regex, `${phrase} ${resetElementSpeed}s`);
         }
     }
     buttonElement.querySelector('input').remove();
@@ -586,10 +601,6 @@ function updateInvestmentPlanData() {
     getElements().investmentDataScreenBottomRowColumn2.innerHTML = `<h3>${getAmountInvestmentRisk()}%</h3>`;
     getElements().investmentDataScreenBottomRowColumn3.innerHTML = `<h3>${formatToCashNotation(getCurrentValueOfInvestment())}</h3>`;
     getElements().investmentDataScreenBottomRowColumn4.innerHTML = `<h3>${formatToCashNotation(getCurrentValueOfInvestment() - getAmountInvestmentCash())}</h3>`;
-    // console.log(getElements().investmentDataScreenBottomRowColumn3);
-    // console.log(getCurrentValueOfInvestment());
-    // console.log('Cash Invested:' + getAmountInvestmentCash());
-    // console.log('Risk:' + getAmountInvestmentRisk());
 }
 
 function incrementRiskValue() {
@@ -598,11 +609,8 @@ function incrementRiskValue() {
         let currentRisk = getCurrentRiskLevel();
 
         let riskPercentage = getAmountInvestmentRisk() * 10;
-        // console.log("risk level %: " + getAmountInvestmentRisk());
         let randomAdjusterNumber = (Math.random() * getRiskAdjustmentCoefficient());
-        // console.log("randomAdjusterNumber: " + randomAdjusterNumber);
         let riskIncrementThisShift = baseRiskNumber - randomAdjusterNumber;
-        // console.log("riskIncrementThisShift: " + riskIncrementThisShift);
 
         currentRisk += riskIncrementThisShift + riskPercentage;
         let doubleRisk = Math.random() * 100 + 1 > 50;
@@ -610,7 +618,6 @@ function incrementRiskValue() {
             currentRisk *= ((getAmountInvestmentRisk() / 100) + 1);
         }
 
-        // console.log("currentRisk: " + currentRisk + "/" + getRiskThreshold());
         setCurrentRiskLevel(currentRisk);
         return doubleRisk;
     }
@@ -626,18 +633,13 @@ function checkRiskAgainstThreshold(doubleRisk) {
         const x = midpointCoords.x;
         const y = midpointCoords.y;
         animatedTextString(x, y, `-${amountToLose.toString()}`);
-    } else {
-        //console.log("no devalue of investment");
     }
 }
 
 function devalueInvestment(doubleRisk) {
     const percentageOverThreshold = (((getCurrentRiskLevel() - getRiskThreshold()) / getRiskThreshold()) * 100) * 2;
-    // console.log("percentage over threshold:" + percentageOverThreshold);
     let amountOfInvestmentToLose = getCurrentValueOfInvestment() * (percentageOverThreshold / 100);
-    // console.log("percentage of investment (amount to lose):" + amountOfInvestmentToLose);
     if (doubleRisk) {
-        //console.log("double risk means losing " + getAmountInvestmentRisk() + " extra.");
         amountOfInvestmentToLose *= ((getAmountInvestmentRisk() / 100) + 1);
     }
     setGrowthInvestment(getGrowthInvestment() - amountOfInvestmentToLose);
@@ -649,22 +651,11 @@ function devalueInvestment(doubleRisk) {
 export function calculateForthcomingTotalInvestment() {
     if (getAmountInvestmentCash() > getZero() && getAmountInvestmentRisk() > getZero()) {
         let remaining = getShiftTimeRemaining();
-        //console.log("Remaining time: " + remaining);
-
         let totalPercentageGainAtEndOfShiftIfFullShift = (getInterestRateBaseValue() + (getAmountInvestmentRisk() / 10)) * getCurrentValueOfInvestment();
-        //console.log("Total percentage gain at end of shift: " + totalPercentageGainAtEndOfShiftIfFullShift);
-
         let proportionOfShiftLeft = remaining / getShiftLength();
-        //console.log("Proportion of shift left: " + (proportionOfShiftLeft * 100) + "%");
-
         let gainIfThingsLeftAsTheyAre = (totalPercentageGainAtEndOfShiftIfFullShift * proportionOfShiftLeft) / 10;
-        //console.log("Cash gain this shift if nothing touched: " + gainIfThingsLeftAsTheyAre);
-
         let valueToIncreaseThisSecond = gainIfThingsLeftAsTheyAre / remaining;
-        //console.log("Cash gain this second: " + valueToIncreaseThisSecond);
-
         let newValueOfInvestment = getCurrentValueOfInvestment() + valueToIncreaseThisSecond;
-        //console.log("New value of investment: " + newValueOfInvestment);
 
         if (!isNaN(valueToIncreaseThisSecond)) {
             setGrowthInvestment(getGrowthInvestment() + valueToIncreaseThisSecond);
@@ -681,14 +672,14 @@ function handleVisibilityChange() {
     }
 }
 
-function consoleOutTotalStats() {
-    console.log('Total Earned in Sales: ' + getTotalEarnedInSales());
-    console.log('Total Spent: ' + getTotalSpentExcludingInvestments());
-    console.log('Total Peeled: ' + getTotalPeeled());
-    console.log('Total Cut: ' + getTotalCut());
-    console.log('Total Wasted Chips: ' + getTotalWastedChips());
-    console.log('Total Served Customers: ' + getTotalServedCustomers());
-}
+// function consoleOutTotalStats() {
+//     console.log('Total Earned in Sales: ' + getTotalEarnedInSales());
+//     console.log('Total Spent: ' + getTotalSpentExcludingInvestments());
+//     console.log('Total Peeled: ' + getTotalPeeled());
+//     console.log('Total Cut: ' + getTotalCut());
+//     console.log('Total Wasted Chips: ' + getTotalWastedChips());
+//     console.log('Total Served Customers: ' + getTotalServedCustomers());
+// }
 
 function checkSpinButtonStatusAndSetColors() {
     const spinButton = document.getElementById('spinButton');
