@@ -103,7 +103,14 @@
     "autoShiftStartUpgrade": "Auto Shift Start Upgrade<br>${formatToCashNotation(getPriceToUnlockAutoShiftStart())})",
     "emptyFryerToUseAgain": "Empty Fryer<br>To Use Again!",
     "finalShift": "Final Shift!",
-    "serveLastCustomerAndWin": "Serve Last Customer and Win Game!"
+    "serveLastCustomerAndWin": "Serve Last Customer and Win Game!",
+    "potatoStorageFilled": "Potato Storage Filled",
+    "moneyDoubled": "Money Doubled",
+    "customerWalkout": "Customer Walkout",
+    "customers": "Customers",
+    "deliveryCancelled": "Delivery Cancelled",
+    "fineOfHalfMoney": "Fine of Half Money",
+    "halfOfPotatoesRot": "Half of Potatoes Rot"
   },
   "es": {
     "potatoes": "Papas",
@@ -209,8 +216,14 @@
     "autoShiftStartUpgrade": "Inicio de Turno Auto.<br>${formatToCashNotation(getPriceToUnlockAutoShiftStart())})",
     "emptyFryerToUseAgain": "Sacar Fritas<br>Para Usar de Nuevo!",
     "finalShift": "¡Último Turno!",
-    "serveLastCustomerAndWin": "¡Atender al Último Cliente y Ganar el Juego!"
-
+    "serveLastCustomerAndWin": "¡Atender al Último Cliente y Ganar el Juego!",
+    "potatoStorageFilled": "Almacenamiento Lleno",
+    "moneyDoubled": "Dinero Duplicado",
+    "customerWalkout": "Cliente se Retira",
+    "customers": "Clientes",
+    "deliveryCancelled": "Entrega Cancelada",
+    "fineOfHalfMoney": "Multa de 50% del dinero",
+    "halfOfPotatoesRot": "50% Papas Se Pudren"
   },
   "prizes": {
     "en": {

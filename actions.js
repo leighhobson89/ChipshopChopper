@@ -1450,11 +1450,11 @@ export function getPrizes() {
 
 export function addPrizeToPlayerStats(prizeString) {
     switch (prizeString) {
-        case "Potato Storage Filled":
+        case `${localize('potatoStorageFilled', getLanguage())}`:
             setActualPotatoesInStorage(getPotatoStorageQuantity());
             getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
             break;
-        case "+10 Potatoes":
+        case `+10 ${localize('potatoes', getLanguage())}`:
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 10)) {
                 setActualPotatoesInStorage(getActualPotatoesInStorage() + 10);
             } else {
@@ -1466,55 +1466,55 @@ export function addPrizeToPlayerStats(prizeString) {
             setCurrentCash(getCurrentCash() + 5);
             getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
-        case "Money Doubled":
+        case `${localize('moneyDoubled', getLanguage())}`:
             setCurrentCash(getCurrentCash() * 2);
             getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
-        case "Customer Walkout":
+        case `${localize('customerWalkout', getLanguage())}`:
             setCustomersWaiting(getZero());
             getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
-        case "+5 Customers":
+        case `+5 ${localize('customers', getLanguage())}`:
             setCustomersWaiting(getCustomersWaiting() + 5);
             getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
-        case "+10 Customers":
+        case `+10 ${localize('customers', getLanguage())}`:
             setCustomersWaiting(getCustomersWaiting() + 10);
             getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
-        case "+15 Customers":
+        case `+15 ${localize('customers', getLanguage())}`:
             setCustomersWaiting(getCustomersWaiting() + 15);
             getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
-        case "+25 Customers":
+        case `+25 ${localize('customers', getLanguage())}`:
             setCustomersWaiting(getCustomersWaiting() + 25);
             getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
-        case "+50 Customers":
+        case `+50 ${localize('customers', getLanguage())}`:
             setCustomersWaiting(getCustomersWaiting() + 50);
             getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
-        case "+100 Customers":
+        case `+100 ${localize('customers', getLanguage())}`:
             setCustomersWaiting(getCustomersWaiting() + 100);
             getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
             break;
-        case "Delivery Cancelled":
+        case `${localize('deliveryCancelled', getLanguage())}`:
             setSpudsToAddToShift(getZero());
             getElements().startShiftButton.innerHTML = 'Start Shift <br> (+ ' + getSpudsToAddToShift() + ' Potatoes)';
             break;
-        case "Fine of half of money":
+        case `${localize('fineOfHalfMoney', getLanguage())}`:
             if (getCurrentCash() > 0) {
                 setCurrentCash(getCurrentCash() / 2);
             }
             getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
-        case "Half Of Potatoes Rot":
+        case `${localize('halfOfPotatoesRot', getLanguage())}`:
             if (getActualPotatoesInStorage() > 0) {
                 setActualPotatoesInStorage(Math.floor(getActualPotatoesInStorage() / 2));
             }
             getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`
             break;
-        case "+100 Potatoes":
+        case `+100 ${localize('potatoes', getLanguage())}`:
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 100)) {
                 setActualPotatoesInStorage(getActualPotatoesInStorage() + 100);
             } else {
@@ -1526,7 +1526,7 @@ export function addPrizeToPlayerStats(prizeString) {
             setCurrentCash(getCurrentCash() + 15);
             getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
-        case "+200 Potatoes":
+        case `+200 ${localize('potatoes', getLanguage())}`:
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 200)) {
                 setActualPotatoesInStorage(getActualPotatoesInStorage() + 200);
             } else {
@@ -1538,7 +1538,7 @@ export function addPrizeToPlayerStats(prizeString) {
             setCurrentCash(getCurrentCash() + 50);
             getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
-        case "+300 Potatoes":
+        case `+300 ${localize('potatoes', getLanguage())}`:
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 300)) {
                 setActualPotatoesInStorage(getActualPotatoesInStorage() + 300);
             } else {
@@ -1550,7 +1550,7 @@ export function addPrizeToPlayerStats(prizeString) {
             setCurrentCash(getCurrentCash() + 100);
             getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
-        case "+500 Potatoes":
+        case `+500 ${localize('potatoes', getLanguage())}`:
             if (getActualPotatoesInStorage() <= (getPotatoStorageQuantity() - 500)) {
                 setActualPotatoesInStorage(getActualPotatoesInStorage() + 500);
             } else {
