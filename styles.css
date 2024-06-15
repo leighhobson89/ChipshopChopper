@@ -21,7 +21,25 @@ body {
 
 .option {
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.language-option {
+    height: 4em;
+    width: 4em;
+    background-size: cover;
+    background-position: center;
+    border: 3px solid black; /* Adjust border width and color as needed */
+    border-radius: 50%; /* Ensures circular shape */
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.8);
+}
+#language_en { background-image: url('./resources/flags/en.png'); }
+#language_es { background-image: url('./resources/flags/es.png'); }
+#language_de { background-image: url('./resources/flags/de.png'); }
+#language_it { background-image: url('./resources/flags/it.png'); }
+#language_fr { background-image: url('./resources/flags/fr.png'); }
 
 .option-resume-game {
     background-color: #FFC107;

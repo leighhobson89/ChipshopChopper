@@ -99,11 +99,7 @@ import {
     getShiftTimeRemaining,
     getStandardDecrementIncrementOfOne,
     getStop,
-    getTotalCut,
     getTotalEarnedInSales,
-    getTotalPeeled,
-    getTotalServedCustomers,
-    getTotalSpentExcludingInvestments,
     getTotalWastedChips,
     getZero,
     popupOverlay,
@@ -475,7 +471,7 @@ export function wasteChipsStillInFryerOrFryingAtEndOfShift() {
 
     setAreChipsFrying(false);
     setFryTimeRemaining(getZero());
-    getElements().fryChipsButton.innerHTML = `<h2>${localize('fryChips', getLanguage())}</h2>`;
+    getElements().fryChipsButton.innerHTML = `${localize('fryChips', getLanguage())}`;
     setChipsWastedThisShift(fryerCount + getQuantityOfChipsFrying() + getChipsWastedThisShift());
     setQuantityOfChipsFrying(getZero());
     if (fryerButton.classList.contains('action-button-main-flashing')) {
@@ -532,9 +528,24 @@ function updateButtonCountdownText(buttonElement, action, resetElementSpeed, sta
             phrase = 'Listo en';
             regex = /Listo en (\d+)s/;
             break;
+        case 'it':
+            phrase = 'Pronto in';
+            regex = /Pronto in (\d+)s/;
+            break;
+        case 'fr':
+            phrase = 'Prêt en';
+            regex = /Prêt en (\d+)s/;
+            break;
+        case 'de':
+            phrase = 'Bereit in';
+            regex = /Bereit in (\d+)s/;
+            break;
         default:
+            phrase = 'Ready in';
             regex = /Ready in (\d+)s/;
+            break;
     }
+
     const match = buttonElement.innerHTML.match(regex);
     let newValue;
 

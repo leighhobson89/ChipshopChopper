@@ -141,8 +141,8 @@ export function initialiseOptionsClasses() {
 
     getElements().endGameStartShiftButton.classList.add('bg-success');
 
-    document.getElementById('popupContinueButton').classList.add('bg-secondary');
-    document.getElementById('popupContinueButton').classList.add('white-important');
+    getElements().continueButton.classList.add('bg-secondary');
+    getElements().continueButton.classList.add('white-important');
 }
 export function createGameWindow() {
     setInitialStateMainButtons();
@@ -340,6 +340,7 @@ export function toggleOverlay(popupOverlay) {
 }
 
 export function writePopupText() {
+    getElements().continueButton.innerHTML = `${localize('continue', getLanguage())}`;
     setTextAnimationDone(false);
     document.querySelector('.popup-row-3-right').innerHTML = '';
     createSpinButton();
@@ -406,7 +407,7 @@ export function writePopupText() {
 
         popupContentInnerLeft.innerHTML = `
             <div>
-                Your shift has ended!<br>
+                ${localize('shiftEnded', getLanguage())}<br>
                 ${localize('earnings', getLanguage())}<br>
                 ${localize('customersServed', getLanguage())}<br>
                 ${localize('potatoesPeeled', getLanguage())}<br>
@@ -474,7 +475,7 @@ export function writePopupText() {
             const rightTotalAnimationTime = rightTotalLines * 0.2;
 
             setTimeout(() => {
-                const buttonElement = document.getElementById('popupContinueButton');
+                const buttonElement = getElements().continueButton;
                 buttonElement.classList.remove('bg-secondary');
                 buttonElement.classList.add('bg-success');
                 buttonElement.style.opacity = '0';
@@ -871,7 +872,7 @@ function clearPopupTexts() {
     popupContentElementRight1.innerHTML = '';
     popupContentElementRight2.innerHTML = '';
 
-    const buttonElement = document.getElementById('popupContinueButton');
+    const buttonElement = getElements().continueButton;
     buttonElement.style.opacity = '0';
     buttonElement.style.animation = '';
 }
@@ -1120,7 +1121,7 @@ export function getElementMidpoint(elementId) {
 }
 
 export function createAndAttachContinueButtonEventListener() {
-    document.getElementById('popupContinueButton').addEventListener('click', function() {
+    getElements().continueButton.addEventListener('click', function() {
         clearPopupTexts();
         toggleEndOfShiftOrGamePopup(document.getElementById('endOfShiftOrGamePopup'), false);
         toggleOverlay(popupOverlay);

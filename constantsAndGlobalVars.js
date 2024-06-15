@@ -307,7 +307,8 @@ export function setElements() {
         menuButton: document.getElementById('menuButton'),
         titleScreen: document.getElementById('titleScreen'),
         bottomSectionContainer: document.getElementById('bottomSectionContainer'),
-        endGameStartShiftButton: document.getElementById('endGameStartShiftButton')
+        endGameStartShiftButton: document.getElementById('endGameStartShiftButton'),
+        continueButton: document.getElementById('popupContinueButton')
     };
 }
 
