@@ -101,9 +101,9 @@ import {
     setFryerCapacityCapped,
     setFryerSpeedCapped,
     setGameInProgress,
-    setInitialStateMainButtons,
+    setInitialStateMainButtons, setLanguage, setLanguageChangedFlag,
     setMaxDeliveryCapped,
-    setMaxWaitCustomerCapped,
+    setMaxWaitCustomerCapped, setOldLanguage,
     setPauseAutoSaveCountdown,
     setPotatoCapacityCapped,
     setPromotionFlag,
@@ -226,7 +226,7 @@ export function updateButtonStyle(buttonId, startStop) {
                 }
                 break;
             case getElements().investmentFundUnlockOrFloatButton.id:
-                element.innerHTML = `Float on Stock Market<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}`;
+                element.innerHTML = `${localize('floatStockMarket', getLanguage())}<br>`;;
                 toggleDisable(true, getElements().investmentFundUnlockOrFloatButton);
                 break;
             case getElements().addStorageHeaterAutoShiftStartButton.id: //used only for auto shift start
@@ -1173,3 +1173,44 @@ export function handleButtonClickEventListenerInitialisation(loading) {
     handleButtonClick(getElements().investmentRiskComponent_DecrementButton.id, getInvestmentRiskIncrementDecrement(), loading);
     handleButtonClick(getElements().withdrawInvestmentButton.id, null, loading);
 }
+
+document.getElementById('language_en').addEventListener('click', function() {
+    setOldLanguage(getLanguage());
+    setLanguage('en');
+    setLanguageChangedFlag(true);
+});
+document.getElementById('language_es').addEventListener('click', function() {
+    setOldLanguage(getLanguage());
+    setLanguage('es');
+    setLanguageChangedFlag(true);
+});
+document.getElementById('language_de').addEventListener('click', function() {
+    setOldLanguage(getLanguage());
+    setLanguage('de');
+    setLanguageChangedFlag(true);
+});
+document.getElementById('language_it').addEventListener('click', function() {
+    setOldLanguage(getLanguage());
+    setLanguage('it');
+    setLanguageChangedFlag(true);
+});
+document.getElementById('language_fr').addEventListener('click', function() {
+    setOldLanguage(getLanguage());
+    setLanguage('fr');
+    setLanguageChangedFlag(true);
+});
+
+function addMouseOverOutEvents(id) {
+    document.getElementById(id).addEventListener('mouseover', function() {
+        this.style.opacity = '0.5';
+    });
+    document.getElementById(id).addEventListener('mouseout', function() {
+        this.style.opacity = '1';
+    });
+}
+
+const languageButtons = ['language_en', 'language_es', 'language_de', 'language_it', 'language_fr'];
+
+languageButtons.forEach(function(id) {
+    addMouseOverOutEvents(id);
+});

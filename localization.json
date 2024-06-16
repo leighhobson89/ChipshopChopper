@@ -14,7 +14,7 @@
     "potato": "Potato:",
     "money": "Money:",
     "newGamePrompt": "Click again to start a New Game...",
-    "floatStockMarket": "Float on Stock Market<br>${price()}",
+    "floatStockMarket": "Float on Stock Market<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}",
     "autoShiftUpgradeDisabled": "Auto Shift Start Upgrade<br>DISABLED",
     "autoShiftUpgradeEnabled": "Auto Shift Start Upgrade<br>ENABLED",
     "congratulations": "Congratulations, You Won!",
@@ -120,7 +120,11 @@
     "resumeGame": "Resume Game",
     "autoSaveOnOff": "AutoSave On/Off",
     "shiftEnded": "Your shift has ended!",
-    "continue": "Continue"
+    "continue": "Continue",
+    "changeInvestmentAmount": "Change <br>Investment <br>Amount",
+    "changeRiskAmount": "Change <br>Investment <br>Amount",
+    "incrementRisk": "+1% Risk",
+    "decrementRisk": "-1% Risk"
   },
   "es": {
     "potatoes": "Papas",
@@ -137,7 +141,7 @@
     "potato": "Papa:",
     "money": "Dinero:",
     "newGamePrompt": "Haga clic nuevamente para iniciar un nuevo juego...",
-    "floatStockMarket": "Flotar en el mercado de valores<br>${price()}",
+    "floatStockMarket": "Flotar en el mercado de valores<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}",
     "autoShiftUpgradeDisabled": "Inicio de turno auto<br>DESHABILITADA",
     "autoShiftUpgradeEnabled": "Inicio de turno auto<br>HABILITADA",
     "congratulations": "¡Felicidades, has ganado!",
@@ -243,7 +247,11 @@
     "resumeGame": "Reanudar Juego",
     "autoSaveOnOff": "AutoGuardado Activado/Desactivado",
     "shiftEnded": "¡Tu turno ha terminado!",
-    "continue": "Continuar"
+    "continue": "Continuar",
+    "changeInvestmentAmount": "Cambiar <br>Cantidad <br>de Inversión",
+    "changeRiskAmount": "Cambiar <br>Cantidad <br>de Riesgo",
+    "incrementRisk": "+1% Riesgo",
+    "decrementRisk": "-1% Riesgo"
   },
   "de": {
     "potatoes": "Kartoffeln",
@@ -260,7 +268,7 @@
     "potato": "Kartoffel:",
     "money": "Geld:",
     "newGamePrompt": "Klicken Sie erneut, um ein neues Spiel zu starten...",
-    "floatStockMarket": "An die Börse gehen<br>${price()}",
+    "floatStockMarket": "An die Börse gehen<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}",
     "autoShiftUpgradeDisabled": "Automatisches Schichtstart-Upgrade<br>DEAKTIVIERT",
     "autoShiftUpgradeEnabled": "Automatisches Schichtstart-Upgrade<br>AKTIVIERT",
     "congratulations": "Herzlichen Glückwunsch, Sie haben gewonnen!",
@@ -366,7 +374,11 @@
     "resumeGame": "Spiel fortsetzen",
     "autoSaveOnOff": "AutoSpeichern An/Aus",
     "shiftEnded": "Deine Schicht ist zu Ende!",
-    "continue": "Weiter"
+    "continue": "Weiter",
+    "changeInvestmentAmount": "Ändern <br>Investitions-<br>Betrag",
+    "changeRiskAmount": "Ändern <br>Risikobetrag",
+    "incrementRisk": "+1% Risiko",
+    "decrementRisk": "-1% Risiko"
   },
   "it": {
     "potatoes": "Patate",
@@ -383,7 +395,7 @@
     "potato": "Patata:",
     "money": "Denaro:",
     "newGamePrompt": "Clicca di nuovo per iniziare un nuovo gioco...",
-    "floatStockMarket": "Quotazione in Borsa<br>${price()}",
+    "floatStockMarket": "Quotazione in Borsa<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}",
     "autoShiftUpgradeDisabled": "Aggiornamento avvio turno automatico<br>DISABILITATO",
     "autoShiftUpgradeEnabled": "Aggiornamento avvio turno automatico<br>ABILITATO",
     "congratulations": "Congratulazioni, hai vinto!",
@@ -489,7 +501,11 @@
     "resumeGame": "Riprendi gioco",
     "autoSaveOnOff": "AutoSalvataggio On/Off",
     "shiftEnded": "Il tuo turno è finito!",
-    "continue": "Continua"
+    "continue": "Continua",
+    "changeInvestmentAmount": "Cambia <br>Importo <br>dell'Investimento",
+    "changeRiskAmount": "Cambia <br>Importo <br>del Rischio",
+    "incrementRisk": "+1% Rischio",
+    "decrementRisk": "-1% Rischio"
   },
   "fr": {
     "potatoes": "Pommes",
@@ -506,7 +522,7 @@
     "potato": "Pomme:",
     "money": "Argent:",
     "newGamePrompt": "Cliquez à nouveau pour commencer un nouveau jeu...",
-    "floatStockMarket": "Cotation en Bourse<br>${price()}",
+    "floatStockMarket": "Cotation en Bourse<br>${formatToCashNotation(getPriceToFloatOnStockMarket())}",
     "autoShiftUpgradeDisabled": "Mise à niveau de démarrage automatique du shift<br>DÉSACTIVÉE",
     "autoShiftUpgradeEnabled": "Mise à niveau de démarrage automatique du shift<br>ACTIVÉE",
     "congratulations": "Félicitations, vous avez gagné !",
@@ -612,7 +628,11 @@
     "resumeGame": "Reprendre le jeu",
     "autoSaveOnOff": "AutoSauvegarde On/Off",
     "shiftEnded": "Votre quart de travail est terminé!",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "changeInvestmentAmount": "Changer <br>Montant <br>de l'Investissement",
+    "changeRiskAmount": "Changer <br>Montant <br>de Risque",
+    "incrementRisk": "+1% Risque",
+    "decrementRisk": "-1% Risque"
   },
   "prizes": {
     "en": {

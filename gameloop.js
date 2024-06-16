@@ -143,7 +143,12 @@ import {
     getAutoSaveOn,
     setDebugOptionFlag,
     debugOptionFlag,
-    setPopupOverlayAtStartOfGame, getLanguage
+    setPopupOverlayAtStartOfGame,
+    getLanguage,
+    setLanguageChangedFlag,
+    getLanguageChangedFlag,
+    getLocalization,
+    getOldLanguage
 } from './constantsAndGlobalVars.js';
 import {initLocalization, localize} from "./localization.js";
 
@@ -201,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function gameLoop() {
+    checkForLanguageChange();
     if (debugOptionFlag && getElements().debugCash.classList.contains('d-none')) {
         getElements().debugCash.classList.remove('d-none');
     }
@@ -219,6 +225,9 @@ function gameLoop() {
         }
         if (getInvestmentFundUnlocked()) {
             updateInvestmentPlanData();
+            if(getLanguageChangedFlag()) {
+                updateInvestmentButtonText();
+            }
         }
         checkAndSetFlagCapOnUpgrades();
         updateTextAndDisableButtonsForCappedUpgrades();
@@ -750,4 +759,46 @@ function simplifyOSLanguageString(string) {
         return 'de';
     }
     return 'es';
+}
+
+function checkForLanguageChange() {
+    if (getLanguageChangedFlag()) {
+        setLanguageStrings(getLanguage());
+    }
+    setLanguageChangedFlag(false);
+}
+
+function setLanguageStrings() {
+    // Get the localization data
+    const localization = getLocalization();
+    const newLanguage = getLanguage();
+    const oldLanguage = getOldLanguage();
+
+    // Get all elements with the class 'text-can-substitute'
+    const elements = document.querySelectorAll('.text-can-substitute');
+
+    elements.forEach(element => {
+        // Recursively process the element's child nodes
+        processNode(element, localization, newLanguage, oldLanguage);
+    });
+}
+
+function processNode(node, localization, newLanguage, oldLanguage) {
+    // Loop through the localization keys and values for the old language
+    for (const [key, value] of Object.entries(localization[oldLanguage])) {
+        if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() === value) {
+            // Replace the text node value with the new language translation
+            node.nodeValue = localization[newLanguage][key];
+        }
+    }
+
+    // Recursively process child nodes if any
+    node.childNodes.forEach(child => processNode(child, localization, newLanguage, oldLanguage));
+}
+
+function updateInvestmentButtonText() {
+    getElements().investmentCashComponent.firstChild.innerHTML = `${localize('changeInvestmentAmount', getLanguage())}`;
+    getElements().investmentCashComponent.firstChild.innerHTML = `${localize('changeRiskAmount', getLanguage())}`;
+    getElements().investmentRiskComponent_IncrementButton.innerHTML = `${localize('incrementRisk', getLanguage())}`;
+    getElements().investmentRiskComponent_DecrementButton.innerHTML = `${localize('decrementRisk', getLanguage())}`;
 }

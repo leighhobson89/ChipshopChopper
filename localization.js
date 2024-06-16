@@ -70,6 +70,10 @@ import {
     getPriceToAddStorageHeater,
     getPriceToImproveAutoPeeler,
     getPriceToImproveAutoChipper,
+    getCurrentSpeedFryTimer,
+    getCurrentMaxSpudsDelivery,
+    getPriceToUnlockAutoShiftStart,
+    getPriceToFloatOnStockMarket
 } from './constantsAndGlobalVars.js';
 import {formatToCashNotation} from "./ui.js";
 import {calculateAndSetNewPriceOfUpgrade} from "./actions.js";

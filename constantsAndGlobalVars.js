@@ -18,6 +18,7 @@ export let stateLoading = false;
 let elements;
 let localization = {};
 let language;
+let oldLanguage = 'en';
 
 //CONSTANTS
 const AUTO_SAVE_INTERVAL = 5 * 60 * 1000; //change first integer for mins e.g. 5 for 5 mins
@@ -167,6 +168,7 @@ let maxDeliveryCapped = false;
 let maxWaitCustomerCapped = false;
 let wheelSpinning = false;
 let textAnimationDone = false;
+let languageChangedFlag = false;
 
 //PRICES
 let priceToImprovePotatoStorage = 18;
@@ -310,6 +312,14 @@ export function setElements() {
         endGameStartShiftButton: document.getElementById('endGameStartShiftButton'),
         continueButton: document.getElementById('popupContinueButton')
     };
+}
+
+export function getLanguageChangedFlag() {
+    return languageChangedFlag;
+}
+
+export function setLanguageChangedFlag(value) {
+    languageChangedFlag = value;
 }
 
 export function getElements() {
@@ -2083,6 +2093,14 @@ export function setLanguage(value) {
 
 export function getLanguage() {
     return language;
+}
+
+export function setOldLanguage(value) {
+    oldLanguage = value;
+}
+
+export function getOldLanguage() {
+    return oldLanguage;
 }
 
 export function setPopupOverlayAtStartOfGame(value) {
