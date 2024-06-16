@@ -17,7 +17,6 @@ import {
 } from './ui.js';
 
 import {
-    calculateAndSetNewPriceOfUpgrade,
     createRandomCustomerTime,
     cutChips,
     decrementCounter,
@@ -150,55 +149,15 @@ import {
     getLanguageChangedFlag,
     getLocalization,
     getOldLanguage,
-    getPriceToFloatOnStockMarket,
-    getSpudsToAddToShift,
-    getPotatoStorageQuantity,
-    getShiftCounter,
-    getPriceToImprovePotatoStorage,
-    getUpgradeFryerCapacityAmount,
-    getUpgradePotatoStorageQuantity,
-    getPriceToImproveFryerCapacity,
-    getFryTimer,
-    getPriceToImproveAutoCustomerServer,
-    getNextSpeedFryTimer,
-    getNextSpeedAutoCustomerServer,
-    getPriceToImproveFryTimer,
-    getMaxSpudsDelivery,
-    getNextMaxSpudsDelivery,
-    getPriceToImproveAutoMoverFromFryerToStorage,
-    getNextSpeedAutoStorageCollector,
-    getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
-    getNextSpeedAutoFryer,
-    getPriceToImproveAutoChipper,
-    getNextSpeedAutoChipper,
-    getPriceToImproveAutoPeeler,
-    getNextSpeedAutoPeeler,
-    getCapAutoStorageCollector,
-    getCapAutoCustomerServer,
-    getCapAutoFryer,
-    getCapPotatoCapacity,
-    getCapAutoChipper,
-    getCapFryerCapacity,
-    getCapAutoPeeler,
-    getCapFryerSpeed,
-    getCapMaxDelivery,
-    getCustomersWaitingBeforeEndOfShift,
-    getTotalSpentExcludingInvestments,
-    getTotalPeeled,
-    getTotalCut,
-    getTotalServedCustomers,
-    getOldCash,
-    getPotatoesPeeledThisShift,
-    getChipsCutThisShift,
-    getCurrentMaxValueWaitForNewCustomer,
-    getPriceToDoubleSpudsMax,
-    getNextMaxValueWaitForNewCustomer,
-    getPriceToIncreaseFootfall,
-    getPriceToEnableDoublePeeling,
-    getPriceToEnableDoubleChipping,
-    getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
-    getPriceToAddStorageHeater,
-    getPriceToUnlockAutoShiftStart, getCapMaxWaitCustomer
+    getAutoPeelerCapped,
+    getAutoChipperCapped,
+    getAutoFryerCapped,
+    getPotatoCapacityCapped,
+    getFryerCapacityCapped,
+    getFryerSpeedCapped,
+    getMaxDeliveryCapped,
+    getMaxWaitCustomerCapped,
+    getInvestmentFundUnlockable, getPriceToEnableDoubleChipping, getPriceToAddStorageHeater
 } from './constantsAndGlobalVars.js';
 import {initLocalization, localize} from "./localization.js";
 
@@ -227,15 +186,12 @@ export function main() {
     createGameWindow();
 
     setInterval(() => {
-        //console.log("Pause auto save timer state (true = paused):" + getPauseAutoSaveCountdown());
         if (!getPauseAutoSaveCountdown()) {
-            //console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
             if (nextAutoSaveTime <= Date.now() && getAutoSaveOn()) {
                 saveGame(false);
                 nextAutoSaveTime = Date.now() + autoSaveInterval;
             }
         } else {
-            //console.log(`Time left until next auto-save: ${nextAutoSaveTime - Date.now()} ms`);
             nextAutoSaveTime += 1000;
         }
     }, 1000);
@@ -273,9 +229,11 @@ function gameLoop() {
             checkSpinButtonStatusAndSetColors();
             disableEnableContinueButtonIfWheelSpinningNotSpinning();
         }
+        if (getInvestmentFundUnlockable()) {
+            updateInvestmentButtonText();
+        }
         if (getInvestmentFundUnlocked()) {
             updateInvestmentPlanData();
-            updateInvestmentButtonText();
         }
         checkAndSetFlagCapOnUpgrades();
         updateTextAndDisableButtonsForCappedUpgrades();
@@ -817,6 +775,7 @@ function checkForLanguageChange() {
 }
 
 function setLanguageStrings() {
+    setButtonTextAfterLanguageChange();
     // Get the localization data
     const localization = getLocalization();
     const newLanguage = getLanguage();
@@ -824,6 +783,7 @@ function setLanguageStrings() {
 
     // Get all elements with the class 'text-can-substitute'
     const elements = document.querySelectorAll('.text-can-substitute');
+
 
     elements.forEach(element => {
         // Recursively process the element's child nodes
@@ -835,105 +795,13 @@ function processNode(node, localization, newLanguage, oldLanguage) {
     // Loop through the localization keys and values for the old language
     for (const [key, value] of Object.entries(localization[oldLanguage])) {
         if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() === value) {
-            // Replace the text node value with the new language translation and handle variables
-            node.nodeValue = substituteVariables(localization[newLanguage][key]);
+            // Replace the text node value with the new language translation
+            node.nodeValue = localization[newLanguage][key];
         }
     }
 
     // Recursively process child nodes if any
     node.childNodes.forEach(child => processNode(child, localization, newLanguage, oldLanguage));
-}
-
-function substituteVariables(text) {
-    const variables = {
-        formatToCashNotation: formatToCashNotation,
-        getPriceToFloatOnStockMarket: getPriceToFloatOnStockMarket,
-        getShiftCounter: getShiftCounter,
-        getActualPotatoesInStorage: getActualPotatoesInStorage,
-        getSpudsToAddToShift: getSpudsToAddToShift,
-        getPotatoStorageQuantity: getPotatoStorageQuantity,
-        getElements_playerRoleText_innerText: getElements().playerRoleText.innerText,
-        getAmountInvestmentCash: getAmountInvestmentCash,
-        getCurrentValueOfInvestment: getCurrentValueOfInvestment,
-        getAmountInvestmentRisk: getAmountInvestmentRisk,
-        getGrowthInvestment: getGrowthInvestment,
-        currentCash: getCurrentCash,
-        getShiftPoints: getShiftPoints,
-        getTotalEarnedInSales: getTotalEarnedInSales,
-        getTotalSpentExcludingInvestments: getTotalSpentExcludingInvestments,
-        getTotalPeeled: getTotalPeeled,
-        getTotalCut: getTotalCut,
-        getTotalWastedChips: getTotalWastedChips,
-        getTotalServedCustomers: getTotalServedCustomers,
-        getCurrentCash: getCurrentCash,
-        getOldCash: getOldCash,
-        getCustomersServed: getCustomersServed,
-        getPotatoesPeeledThisShift: getPotatoesPeeledThisShift,
-        getChipsCutThisShift: getChipsCutThisShift,
-        getChipsFriedThisShift: getChipsFriedThisShift,
-        getChipsWastedThisShift: getChipsWastedThisShift,
-        getCustomersWaitingBeforeEndOfShift: getCustomersWaitingBeforeEndOfShift,
-        getCustomersWaiting: getCustomersWaiting,
-        getCapAutoPeeler: getCapAutoPeeler,
-        getCapAutoChipper: getCapAutoChipper,
-        getCapAutoFryer: getCapAutoFryer,
-        getCapAutoStorageCollector: getCapAutoStorageCollector,
-        getCapAutoCustomerServer: getCapAutoCustomerServer,
-        getCapPotatoCapacity: getCapPotatoCapacity,
-        getCapFryerCapacity: getCapFryerCapacity,
-        getCapFryerSpeed: getCapFryerSpeed,
-        getCapMaxDelivery: getCapMaxDelivery,
-        getCapMaxWaitCustomer: getCapMaxWaitCustomer,
-        getFryerCapacity: getFryerCapacity,
-        getCurrentSpeedAutoPeeler: getCurrentSpeedAutoPeeler,
-        getNextSpeedAutoPeeler: getNextSpeedAutoPeeler,
-        getPriceToImproveAutoPeeler: getPriceToImproveAutoPeeler,
-        calculateAndSetNewPriceOfUpgrade: calculateAndSetNewPriceOfUpgrade,
-        getCurrentSpeedAutoChipper: getCurrentSpeedAutoChipper,
-        getNextSpeedAutoChipper: getNextSpeedAutoChipper,
-        getPriceToImproveAutoChipper: getPriceToImproveAutoChipper,
-        getCurrentSpeedAutoFryer: getCurrentSpeedAutoFryer,
-        getNextSpeedAutoFryer: getNextSpeedAutoFryer,
-        getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut: getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
-        getCurrentSpeedAutoStorageCollector: getCurrentSpeedAutoStorageCollector,
-        getNextSpeedAutoStorageCollector: getNextSpeedAutoStorageCollector,
-        getPriceToImproveAutoMoverFromFryerToStorage: getPriceToImproveAutoMoverFromFryerToStorage,
-        getCurrentSpeedAutoCustomerServer: getCurrentSpeedAutoCustomerServer,
-        getNextSpeedAutoCustomerServer: getNextSpeedAutoCustomerServer,
-        getPriceToImproveAutoCustomerServer: getPriceToImproveAutoCustomerServer,
-        getUpgradePotatoStorageQuantity: getUpgradePotatoStorageQuantity,
-        getPriceToImprovePotatoStorage: getPriceToImprovePotatoStorage,
-        getUpgradeFryerCapacityAmount: getUpgradeFryerCapacityAmount,
-        getPriceToImproveFryerCapacity: getPriceToImproveFryerCapacity,
-        getFryTimer: getFryTimer,
-        getNextSpeedFryTimer: getNextSpeedFryTimer,
-        getPriceToImproveFryTimer: getPriceToImproveFryTimer,
-        getMaxSpudsDelivery: getMaxSpudsDelivery,
-        getNextMaxSpudsDelivery: getNextMaxSpudsDelivery,
-        getPriceToDoubleSpudsMax: getPriceToDoubleSpudsMax,
-        getCurrentMaxValueWaitForNewCustomer: getCurrentMaxValueWaitForNewCustomer,
-        getNextMaxValueWaitForNewCustomer: getNextMaxValueWaitForNewCustomer,
-        getPriceToIncreaseFootfall: getPriceToIncreaseFootfall,
-        getPriceToEnableDoublePeeling: getPriceToEnableDoublePeeling,
-        getPriceToEnableDoubleChipping: getPriceToEnableDoubleChipping,
-        getPriceToUnlockInvestmentFundOrFloatOnStockMarket: getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
-        getPriceToAddStorageHeater: getPriceToAddStorageHeater,
-        getPriceToUnlockAutoShiftStart: getPriceToUnlockAutoShiftStart,
-        getQuantityOfChipsFrying: getQuantityOfChipsFrying,
-        getFryTimeRemaining: getFryTimeRemaining
-    };
-
-    // Replace placeholders with the actual values
-    return text.replace(/\$\{(\w+)\}/g, (match, variable) => {
-        if (variables[variable] !== undefined) {
-            // Call the function if the variable is a function
-            if (typeof variables[variable] === 'function') {
-                return variables[variable]();
-            }
-            return variables[variable];
-        }
-        return match;
-    });
 }
 
 function updateInvestmentButtonText() {
@@ -946,4 +814,73 @@ function updateInvestmentButtonText() {
     getElements().investmentRiskComponent.firstElementChild.innerHTML = `${localize('changeRiskAmount', getLanguage())}`;
     getElements().investmentRiskComponent_IncrementButton.innerHTML = `${localize('incrementRisk', getLanguage())}`;
     getElements().investmentRiskComponent_DecrementButton.innerHTML = `${localize('decrementRisk', getLanguage())}`;
+}
+
+function setButtonTextAfterLanguageChange() {
+    getElements().fryChipsButton.innerHTML = `${localize('fryChips', getLanguage())}`;
+
+    if (getAutoPeelerCapped()) {
+        getElements().autoPeelerUpgradeButton.innerHTML = `${localize('cappedAutoPeeler', getLanguage())}`
+    } else {
+        getElements().autoPeelerUpgradeButton.innerHTML = `${localize('autoPeelerUpgradeButton', getLanguage())}`
+    }
+    if (getAutoChipperCapped()) {
+        getElements().autoChipperUpgradeButton.innerHTML = `${localize('cappedAutoChipper', getLanguage())}`
+    } else {
+        getElements().autoChipperUpgradeButton.innerHTML = `${localize('autoChipperUpgradeButton', getLanguage())}`
+    }
+    if (getAutoFryerCapped()) {
+        getElements().autoFryerUpgradeButton.innerHTML = `${localize('cappedAutoFryer', getLanguage())}`
+    } else {
+        getElements().autoFryerUpgradeButton.innerHTML = `${localize('autoFryerUpgradeButton', getLanguage())}`
+    }
+    if (getAutoPeelerCapped()) {
+        getElements().autoStorageCollectorUpgradeButton.innerHTML = `${localize('cappedAutoStorageCollector', getLanguage())}`
+    } else {
+        getElements().autoStorageCollectorUpgradeButton.innerHTML = `${localize('autoStorageCollectorUpgradeButton', getLanguage())}`
+    }
+    if (getAutoPeelerCapped()) {
+        getElements().autoCustomerServerUpgradeButton.innerHTML = `${localize('cappedAutoCustomerServer', getLanguage())}`
+    } else {
+        getElements().autoCustomerServerUpgradeButton.innerHTML = `${localize('autoCustomerServerUpgradeButton', getLanguage())}`
+    }
+
+    if (getPotatoCapacityCapped()) {
+        getElements().improvePotatoStorageButton.innerHTML = `${localize('cappedPotatoStorage', getLanguage())}`;
+    } else {
+        getElements().improvePotatoStorageButton.innerHTML = `${localize('improvePotatoStorageButton', getLanguage())}`;
+    }
+
+    if (getFryerCapacityCapped()) {
+        getElements().improveFryerCapacityButton.innerHTML = `${localize('cappedFryerCapacity', getLanguage())}`;
+    } else {
+        getElements().improveFryerCapacityButton.innerHTML = `${localize('improveFryerCapacityButton', getLanguage())}`;
+    }
+
+    if (getFryerSpeedCapped()) {
+        getElements().fastFryerUpgradeButton.innerHTML = `${localize('cappedFryerSpeed', getLanguage())}`;
+    } else {
+        getElements().fastFryerUpgradeButton.innerHTML = `${localize('fastFryerUpgradeButton', getLanguage())}`;
+    }
+
+    if (getMaxDeliveryCapped()) {
+        getElements().potatoDeliveryDoublerButton.innerHTML = `${localize('cappedMaxDelivery', getLanguage())}`;
+    } else {
+        getElements().potatoDeliveryDoublerButton.innerHTML = `${localize('potatoDeliveryDoublerButton', getLanguage())}`;
+    }
+
+    if (getMaxWaitCustomerCapped()) {
+        getElements().customerFrequencyIncreaser.innerHTML = `${localize('cappedMaxWaitCustomer', getLanguage())}`;
+    } else {
+        getElements().customerFrequencyIncreaser.innerHTML = `${localize('customerFrequencyIncreaser', getLanguage())}`;
+    }
+    if (!getElements().twoHandedPeelingButton.classList.contains('non-repeatable-upgrade-purchased')) {
+        getElements().twoHandedPeelingButton.innerHTML = `${localize('doublePeelerNotYetBought', getLanguage())}`;
+    }
+    if (!getElements().twoHandedChippingButton.classList.contains('non-repeatable-upgrade-purchased')) {
+        getElements().twoHandedChippingButton.innerHTML = `${localize('doubleChipperNotYetBought', getLanguage())}`;
+    }
+    if (!getElements().addStorageHeaterAutoShiftStartButton.classList.contains('non-repeatable-upgrade-purchased')) {
+        getElements().addStorageHeaterAutoShiftStartButton.innerHTML = `${localize('storageHeaterNotYetBought', getLanguage())}`;
+    }
 }

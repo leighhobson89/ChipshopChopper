@@ -125,7 +125,10 @@
     "changeRiskAmount": "Change <br>Investment <br>Amount",
     "incrementRisk": "+1% Risk",
     "decrementRisk": "-1% Risk",
-    "menu": "Menu"
+    "menu": "Menu",
+    "doublePeelerNotYetBought": "Double Peeling Tool $${getPriceToEnableDoublePeeling()}",
+    "doubleChipperNotYetBought": "Double Chipping Tool $${getPriceToEnableDoubleChipping()}",
+    "storageHeaterNotYetBought": "Buy Storage Heater $${getPriceToAddStorageHeater()}"
   },
   "es": {
     "potatoes": "Papas",
@@ -253,7 +256,10 @@
     "changeRiskAmount": "Cambiar <br>Cantidad <br>de Riesgo",
     "incrementRisk": "+1% Riesgo",
     "decrementRisk": "-1% Riesgo",
-    "menu": "Menú"
+    "menu": "Menú",
+    "doublePeelerNotYetBought": "Herramienta de pelado doble $${getPriceToEnableDoublePeeling()}",
+    "doubleChipperNotYetBought": "Herramienta de corte doble $${getPriceToEnableDoubleChipping()}",
+    "storageHeaterNotYetBought": "Comprar calentador de almacenamiento $${getPriceToAddStorageHeater()}"
   },
   "de": {
     "potatoes": "Kartoffeln",
@@ -381,8 +387,11 @@
     "changeRiskAmount": "Ändern <br>Risikobetrag",
     "incrementRisk": "+1% Risiko",
     "decrementRisk": "-1% Risiko",
-    "menu": "Menü"
-  },
+    "menu": "Menü",
+    "doublePeelerNotYetBought": "Doppelschälwerkzeug $${getPriceToEnableDoublePeeling()}",
+    "doubleChipperNotYetBought": "Doppeltes Schnitzwerkzeug $${getPriceToEnableDoubleChipping()}",
+    "storageHeaterNotYetBought": "Speicherheizung kaufen $${getPriceToAddStorageHeater()}"
+},
   "it": {
     "potatoes": "Patate",
     "roleOne": "Preparatore di chip da asporto",
@@ -509,7 +518,10 @@
     "changeRiskAmount": "Cambia <br>Importo <br>del Rischio",
     "incrementRisk": "+1% Rischio",
     "decrementRisk": "-1% Rischio",
-    "menu": "Menu"
+    "menu": "Menu",
+    "doublePeelerNotYetBought": "Strumento per pelare doppio $${getPriceToEnableDoublePeeling()}",
+    "doubleChipperNotYetBought": "Strumento di taglio doppio $${getPriceToEnableDoubleChipping()}",
+    "storageHeaterNotYetBought": "Acquista riscaldatore di stoccaggio $${getPriceToAddStorageHeater()}"
   },
   "fr": {
     "potatoes": "Pommes",
@@ -637,7 +649,10 @@
     "changeRiskAmount": "Changer <br>Montant <br>de Risque",
     "incrementRisk": "+1% Risque",
     "decrementRisk": "-1% Risque",
-    "menu": "Menu"
+    "menu": "Menu",
+    "doublePeelerNotYetBought": "Outil de pelage double $${getPriceToEnableDoublePeeling()}",
+    "doubleChipperNotYetBought": "Outil de découpe double $${getPriceToEnableDoubleChipping()}",
+    "storageHeaterNotYetBought": "Acheter un radiateur de stockage $${getPriceToAddStorageHeater()}"
   },
   "prizes": {
     "en": {
