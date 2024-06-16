@@ -924,7 +924,7 @@ function substituteVariables(text) {
     };
 
     // Replace placeholders with the actual values
-    return text.replace(/\$\{(\w+)}/g, (match, variable) => {
+    return text.replace(/\$\{(\w+)\}/g, (match, variable) => {
         if (variables[variable] !== undefined) {
             // Call the function if the variable is a function
             if (typeof variables[variable] === 'function') {
