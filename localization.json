@@ -124,7 +124,8 @@
     "changeInvestmentAmount": "Change <br>Investment <br>Amount",
     "changeRiskAmount": "Change <br>Investment <br>Amount",
     "incrementRisk": "+1% Risk",
-    "decrementRisk": "-1% Risk"
+    "decrementRisk": "-1% Risk",
+    "menu": "Menu"
   },
   "es": {
     "potatoes": "Papas",
@@ -251,7 +252,8 @@
     "changeInvestmentAmount": "Cambiar <br>Cantidad <br>de Inversión",
     "changeRiskAmount": "Cambiar <br>Cantidad <br>de Riesgo",
     "incrementRisk": "+1% Riesgo",
-    "decrementRisk": "-1% Riesgo"
+    "decrementRisk": "-1% Riesgo",
+    "menu": "Menú"
   },
   "de": {
     "potatoes": "Kartoffeln",
@@ -378,7 +380,8 @@
     "changeInvestmentAmount": "Ändern <br>Investitions-<br>Betrag",
     "changeRiskAmount": "Ändern <br>Risikobetrag",
     "incrementRisk": "+1% Risiko",
-    "decrementRisk": "-1% Risiko"
+    "decrementRisk": "-1% Risiko",
+    "menu": "Menü"
   },
   "it": {
     "potatoes": "Patate",
@@ -505,7 +508,8 @@
     "changeInvestmentAmount": "Cambia <br>Importo <br>dell'Investimento",
     "changeRiskAmount": "Cambia <br>Importo <br>del Rischio",
     "incrementRisk": "+1% Rischio",
-    "decrementRisk": "-1% Rischio"
+    "decrementRisk": "-1% Rischio",
+    "menu": "Menu"
   },
   "fr": {
     "potatoes": "Pommes",
@@ -632,7 +636,8 @@
     "changeInvestmentAmount": "Changer <br>Montant <br>de l'Investissement",
     "changeRiskAmount": "Changer <br>Montant <br>de Risque",
     "incrementRisk": "+1% Risque",
-    "decrementRisk": "-1% Risque"
+    "decrementRisk": "-1% Risque",
+    "menu": "Menu"
   },
   "prizes": {
     "en": {

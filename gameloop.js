@@ -225,9 +225,7 @@ function gameLoop() {
         }
         if (getInvestmentFundUnlocked()) {
             updateInvestmentPlanData();
-            if(getLanguageChangedFlag()) {
-                updateInvestmentButtonText();
-            }
+            updateInvestmentButtonText();
         }
         checkAndSetFlagCapOnUpgrades();
         updateTextAndDisableButtonsForCappedUpgrades();
@@ -797,8 +795,13 @@ function processNode(node, localization, newLanguage, oldLanguage) {
 }
 
 function updateInvestmentButtonText() {
-    getElements().investmentCashComponent.firstChild.innerHTML = `${localize('changeInvestmentAmount', getLanguage())}`;
-    getElements().investmentCashComponent.firstChild.innerHTML = `${localize('changeRiskAmount', getLanguage())}`;
+    getElements().investmentDataScreenTopRowColumn1.innerHTML = `<h5>${localize('cashInvested', getLanguage())}</h5>`;
+    getElements().investmentDataScreenTopRowColumn2.innerHTML = `<h5>${localize('currentRisk', getLanguage())}</h5>`;
+    getElements().investmentDataScreenTopRowColumn3.innerHTML = `<h5>${localize('currentValue', getLanguage())}</h5>`;
+    getElements().investmentDataScreenTopRowColumn4.innerHTML = `<h5>${localize('gainLoss', getLanguage())}</h5>`;
+    getElements().investmentDataScreenTopRowColumn5.innerHTML = `<h5>${localize('withdrawAll', getLanguage())}</h5>`;
+    getElements().investmentCashComponent.firstElementChild.innerHTML = `${localize('changeInvestmentAmount', getLanguage())}`;
+    getElements().investmentRiskComponent.firstElementChild.innerHTML = `${localize('changeRiskAmount', getLanguage())}`;
     getElements().investmentRiskComponent_IncrementButton.innerHTML = `${localize('incrementRisk', getLanguage())}`;
     getElements().investmentRiskComponent_DecrementButton.innerHTML = `${localize('decrementRisk', getLanguage())}`;
 }
