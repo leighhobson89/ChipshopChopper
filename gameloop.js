@@ -17,6 +17,7 @@ import {
 } from './ui.js';
 
 import {
+    calculateAndSetNewPriceOfUpgrade,
     createRandomCustomerTime,
     cutChips,
     decrementCounter,
@@ -148,7 +149,56 @@ import {
     setLanguageChangedFlag,
     getLanguageChangedFlag,
     getLocalization,
-    getOldLanguage
+    getOldLanguage,
+    getPriceToFloatOnStockMarket,
+    getSpudsToAddToShift,
+    getPotatoStorageQuantity,
+    getShiftCounter,
+    getPriceToImprovePotatoStorage,
+    getUpgradeFryerCapacityAmount,
+    getUpgradePotatoStorageQuantity,
+    getPriceToImproveFryerCapacity,
+    getFryTimer,
+    getPriceToImproveAutoCustomerServer,
+    getNextSpeedFryTimer,
+    getNextSpeedAutoCustomerServer,
+    getPriceToImproveFryTimer,
+    getMaxSpudsDelivery,
+    getNextMaxSpudsDelivery,
+    getPriceToImproveAutoMoverFromFryerToStorage,
+    getNextSpeedAutoStorageCollector,
+    getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
+    getNextSpeedAutoFryer,
+    getPriceToImproveAutoChipper,
+    getNextSpeedAutoChipper,
+    getPriceToImproveAutoPeeler,
+    getNextSpeedAutoPeeler,
+    getCapAutoStorageCollector,
+    getCapAutoCustomerServer,
+    getCapAutoFryer,
+    getCapPotatoCapacity,
+    getCapAutoChipper,
+    getCapFryerCapacity,
+    getCapAutoPeeler,
+    getCapFryerSpeed,
+    getCapMaxDelivery,
+    getCustomersWaitingBeforeEndOfShift,
+    getTotalSpentExcludingInvestments,
+    getTotalPeeled,
+    getTotalCut,
+    getTotalServedCustomers,
+    getOldCash,
+    getPotatoesPeeledThisShift,
+    getChipsCutThisShift,
+    getCurrentMaxValueWaitForNewCustomer,
+    getPriceToDoubleSpudsMax,
+    getNextMaxValueWaitForNewCustomer,
+    getPriceToIncreaseFootfall,
+    getPriceToEnableDoublePeeling,
+    getPriceToEnableDoubleChipping,
+    getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
+    getPriceToAddStorageHeater,
+    getPriceToUnlockAutoShiftStart, getCapMaxWaitCustomer
 } from './constantsAndGlobalVars.js';
 import {initLocalization, localize} from "./localization.js";
 
@@ -785,13 +835,105 @@ function processNode(node, localization, newLanguage, oldLanguage) {
     // Loop through the localization keys and values for the old language
     for (const [key, value] of Object.entries(localization[oldLanguage])) {
         if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() === value) {
-            // Replace the text node value with the new language translation
-            node.nodeValue = localization[newLanguage][key];
+            // Replace the text node value with the new language translation and handle variables
+            node.nodeValue = substituteVariables(localization[newLanguage][key]);
         }
     }
 
     // Recursively process child nodes if any
     node.childNodes.forEach(child => processNode(child, localization, newLanguage, oldLanguage));
+}
+
+function substituteVariables(text) {
+    const variables = {
+        formatToCashNotation: formatToCashNotation,
+        getPriceToFloatOnStockMarket: getPriceToFloatOnStockMarket,
+        getShiftCounter: getShiftCounter,
+        getActualPotatoesInStorage: getActualPotatoesInStorage,
+        getSpudsToAddToShift: getSpudsToAddToShift,
+        getPotatoStorageQuantity: getPotatoStorageQuantity,
+        getElements_playerRoleText_innerText: getElements().playerRoleText.innerText,
+        getAmountInvestmentCash: getAmountInvestmentCash,
+        getCurrentValueOfInvestment: getCurrentValueOfInvestment,
+        getAmountInvestmentRisk: getAmountInvestmentRisk,
+        getGrowthInvestment: getGrowthInvestment,
+        currentCash: getCurrentCash,
+        getShiftPoints: getShiftPoints,
+        getTotalEarnedInSales: getTotalEarnedInSales,
+        getTotalSpentExcludingInvestments: getTotalSpentExcludingInvestments,
+        getTotalPeeled: getTotalPeeled,
+        getTotalCut: getTotalCut,
+        getTotalWastedChips: getTotalWastedChips,
+        getTotalServedCustomers: getTotalServedCustomers,
+        getCurrentCash: getCurrentCash,
+        getOldCash: getOldCash,
+        getCustomersServed: getCustomersServed,
+        getPotatoesPeeledThisShift: getPotatoesPeeledThisShift,
+        getChipsCutThisShift: getChipsCutThisShift,
+        getChipsFriedThisShift: getChipsFriedThisShift,
+        getChipsWastedThisShift: getChipsWastedThisShift,
+        getCustomersWaitingBeforeEndOfShift: getCustomersWaitingBeforeEndOfShift,
+        getCustomersWaiting: getCustomersWaiting,
+        getCapAutoPeeler: getCapAutoPeeler,
+        getCapAutoChipper: getCapAutoChipper,
+        getCapAutoFryer: getCapAutoFryer,
+        getCapAutoStorageCollector: getCapAutoStorageCollector,
+        getCapAutoCustomerServer: getCapAutoCustomerServer,
+        getCapPotatoCapacity: getCapPotatoCapacity,
+        getCapFryerCapacity: getCapFryerCapacity,
+        getCapFryerSpeed: getCapFryerSpeed,
+        getCapMaxDelivery: getCapMaxDelivery,
+        getCapMaxWaitCustomer: getCapMaxWaitCustomer,
+        getFryerCapacity: getFryerCapacity,
+        getCurrentSpeedAutoPeeler: getCurrentSpeedAutoPeeler,
+        getNextSpeedAutoPeeler: getNextSpeedAutoPeeler,
+        getPriceToImproveAutoPeeler: getPriceToImproveAutoPeeler,
+        calculateAndSetNewPriceOfUpgrade: calculateAndSetNewPriceOfUpgrade,
+        getCurrentSpeedAutoChipper: getCurrentSpeedAutoChipper,
+        getNextSpeedAutoChipper: getNextSpeedAutoChipper,
+        getPriceToImproveAutoChipper: getPriceToImproveAutoChipper,
+        getCurrentSpeedAutoFryer: getCurrentSpeedAutoFryer,
+        getNextSpeedAutoFryer: getNextSpeedAutoFryer,
+        getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut: getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
+        getCurrentSpeedAutoStorageCollector: getCurrentSpeedAutoStorageCollector,
+        getNextSpeedAutoStorageCollector: getNextSpeedAutoStorageCollector,
+        getPriceToImproveAutoMoverFromFryerToStorage: getPriceToImproveAutoMoverFromFryerToStorage,
+        getCurrentSpeedAutoCustomerServer: getCurrentSpeedAutoCustomerServer,
+        getNextSpeedAutoCustomerServer: getNextSpeedAutoCustomerServer,
+        getPriceToImproveAutoCustomerServer: getPriceToImproveAutoCustomerServer,
+        getUpgradePotatoStorageQuantity: getUpgradePotatoStorageQuantity,
+        getPriceToImprovePotatoStorage: getPriceToImprovePotatoStorage,
+        getUpgradeFryerCapacityAmount: getUpgradeFryerCapacityAmount,
+        getPriceToImproveFryerCapacity: getPriceToImproveFryerCapacity,
+        getFryTimer: getFryTimer,
+        getNextSpeedFryTimer: getNextSpeedFryTimer,
+        getPriceToImproveFryTimer: getPriceToImproveFryTimer,
+        getMaxSpudsDelivery: getMaxSpudsDelivery,
+        getNextMaxSpudsDelivery: getNextMaxSpudsDelivery,
+        getPriceToDoubleSpudsMax: getPriceToDoubleSpudsMax,
+        getCurrentMaxValueWaitForNewCustomer: getCurrentMaxValueWaitForNewCustomer,
+        getNextMaxValueWaitForNewCustomer: getNextMaxValueWaitForNewCustomer,
+        getPriceToIncreaseFootfall: getPriceToIncreaseFootfall,
+        getPriceToEnableDoublePeeling: getPriceToEnableDoublePeeling,
+        getPriceToEnableDoubleChipping: getPriceToEnableDoubleChipping,
+        getPriceToUnlockInvestmentFundOrFloatOnStockMarket: getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
+        getPriceToAddStorageHeater: getPriceToAddStorageHeater,
+        getPriceToUnlockAutoShiftStart: getPriceToUnlockAutoShiftStart,
+        getQuantityOfChipsFrying: getQuantityOfChipsFrying,
+        getFryTimeRemaining: getFryTimeRemaining
+    };
+
+    // Replace placeholders with the actual values
+    return text.replace(/\$\{(\w+)}/g, (match, variable) => {
+        if (variables[variable] !== undefined) {
+            // Call the function if the variable is a function
+            if (typeof variables[variable] === 'function') {
+                return variables[variable]();
+            }
+            return variables[variable];
+        }
+        return match;
+    });
 }
 
 function updateInvestmentButtonText() {

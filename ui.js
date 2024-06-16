@@ -186,7 +186,6 @@ export function hideUpgradeButtonsGameStart() {
     getElements().mainButtonContainer.querySelectorAll('.gameButton').forEach(button => {
         button.classList.add('hidden-button');
     });
-console.log(getLocalization()[getLanguage()]['clickAgainNewGame']);
     if (document.getElementById('option1').innerText === getLocalization()[getLanguage()]['clickAgainNewGame']) {
         getElements().autoPeelerUpgradeButton.classList.add('hidden-button');
         getElements().investmentDataScreen.classList.add('hidden-button');
