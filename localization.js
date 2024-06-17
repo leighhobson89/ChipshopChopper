@@ -66,14 +66,14 @@ import {
     getPriceToIncreaseFootfall,
     getPriceToEnableDoublePeeling,
     getPriceToEnableDoubleChipping,
-    getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
     getPriceToAddStorageHeater,
     getPriceToImproveAutoPeeler,
     getPriceToImproveAutoChipper,
     getCurrentSpeedFryTimer,
     getCurrentMaxSpudsDelivery,
     getPriceToUnlockAutoShiftStart,
-    getPriceToFloatOnStockMarket
+    getPriceToFloatOnStockMarket,
+    getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
 } from './constantsAndGlobalVars.js';
 import {formatToCashNotation} from "./ui.js";
 import {calculateAndSetNewPriceOfUpgrade} from "./actions.js";

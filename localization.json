@@ -128,7 +128,9 @@
     "menu": "Menu",
     "doublePeelerNotYetBought": "Double Peeling Tool $${getPriceToEnableDoublePeeling()}",
     "doubleChipperNotYetBought": "Double Chipping Tool $${getPriceToEnableDoubleChipping()}",
-    "storageHeaterNotYetBought": "Buy Storage Heater $${getPriceToAddStorageHeater()}"
+    "storageHeaterNotYetBought": "Buy Storage Heater $${getPriceToAddStorageHeater()}",
+    "investmentFundNotUnlockedYet": "Buy Investment Fund $${getPriceToUnlockInvestmentFundOrFloatOnStockMarket()}",
+    "investmentFundUnlocked": "Float on Stock Market $${getPriceToFloatOnStockMarket()}"
   },
   "es": {
     "potatoes": "Papas",
@@ -259,7 +261,9 @@
     "menu": "Menú",
     "doublePeelerNotYetBought": "Herramienta de pelado doble $${getPriceToEnableDoublePeeling()}",
     "doubleChipperNotYetBought": "Herramienta de corte doble $${getPriceToEnableDoubleChipping()}",
-    "storageHeaterNotYetBought": "Comprar calentador de almacenamiento $${getPriceToAddStorageHeater()}"
+    "storageHeaterNotYetBought": "Comprar calentador de almacenamiento $${getPriceToAddStorageHeater()}",
+    "investmentFundNotUnlockedYet": "Comprar Fondo de Inversión $${getPriceToUnlockInvestmentFundOrFloatOnStockMarket()}",
+    "investmentFundUnlocked": "Cotizar en el mercado de valores $${getPriceToFloatOnStockMarket()}"
   },
   "de": {
     "potatoes": "Kartoffeln",
@@ -354,8 +358,8 @@
     "potatoDeliveryDoublerButtonSomeBought": "Verdopple Maximalauslieferung<br>${getCurrentMaxSpudsDelivery()} → ${getNextMaxSpudsDelivery()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().potatoDeliveryDoublerButton.id))}",
     "customerFrequencyIncreaser": "Maximale Wartezeit des Kunden<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(getPriceToIncreaseFootfall())}",
     "customerFrequencyIncreaserSomeBought": "Maximale Wartezeit des Kunden<br>${getCurrentMaxValueWaitForNewCustomer()}s → ${getNextMaxValueWaitForNewCustomer()}s<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().customerFrequencyIncreaser.id))}",
-    "twoHandedPeelingButton": "Doppeltes Schälwerkzeug <br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}",
-    "twoHandedChippingButton": "Doppeltes Schneidwerkzeug <br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}",
+    "twoHandedPeelingButton": "Doppeltes<br>Schälwerkzeug<br> ${formatToCashNotation(getPriceToEnableDoublePeeling())}",
+    "twoHandedChippingButton": "Doppeltes<br>Schneidwerkzeug<br> ${formatToCashNotation(getPriceToEnableDoubleChipping())}",
     "investmentFundUnlockOrFloatButton": "Investmentfonds kaufen <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}",
     "addStorageHeaterAutoShiftStartButton": "Heizung hinzufügen <br> ${formatToCashNotation(getPriceToAddStorageHeater())}",
     "startShiftButton": "Schicht beginnen",
@@ -388,10 +392,12 @@
     "incrementRisk": "+1% Risiko",
     "decrementRisk": "-1% Risiko",
     "menu": "Menü",
-    "doublePeelerNotYetBought": "Doppelschälwerkzeug $${getPriceToEnableDoublePeeling()}",
+    "doublePeelerNotYetBought": "Doppeltes<br>Schälwerkzeug<br> $${getPriceToEnableDoublePeeling()}",
     "doubleChipperNotYetBought": "Doppeltes Schnitzwerkzeug $${getPriceToEnableDoubleChipping()}",
-    "storageHeaterNotYetBought": "Speicherheizung kaufen $${getPriceToAddStorageHeater()}"
-},
+    "storageHeaterNotYetBought": "Speicherheizung kaufen $${getPriceToAddStorageHeater()}",
+    "investmentFundNotUnlockedYet": "Investmentfonds kaufen $${getPriceToUnlockInvestmentFundOrFloatOnStockMarket()}",
+    "investmentFundUnlocked": "An die Börse gehen $${getPriceToFloatOnStockMarket()}"
+  },
   "it": {
     "potatoes": "Patate",
     "roleOne": "Preparatore di chip da asporto",
@@ -490,9 +496,9 @@
     "investmentFundUnlockOrFloatButton": "Acquista fondo d'investimento <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}",
     "addStorageHeaterAutoShiftStartButton": "Acquista riscaldatore per stoccaggio <br> ${formatToCashNotation(getPriceToAddStorageHeater())}",
     "startShiftButton": "Inizia turno",
-    "doublePeelingToolPurchase": "Acquisto doppio strumento di sbucciatura effettuato",
-    "doubleChippingToolPurchase": "Acquisto doppio strumento di taglio effettuato",
-    "storageBinHeaterPurchase": "Acquisto riscaldatore per contenitore di stoccaggio effettuato",
+    "doublePeelingToolPurchase": "Acquisto doppio strumento di sbucciatura EFFETTUATO",
+    "doubleChippingToolPurchase": "Acquisto doppio strumento di taglio EFFETTUATO",
+    "storageBinHeaterPurchase": "Acquisto riscaldatore per contenitore di stoccaggio EFFETTUATO",
     "autoShiftStartUpgrade": "Aggiornamento avvio turno automatico<br>${formatToCashNotation(getPriceToUnlockAutoShiftStart())})",
     "emptyFryerToUseAgain": "Svuota friggitrice<br>Per usare di nuovo!",
     "finalShift": "Turno finale!",
@@ -521,7 +527,9 @@
     "menu": "Menu",
     "doublePeelerNotYetBought": "Strumento per pelare doppio $${getPriceToEnableDoublePeeling()}",
     "doubleChipperNotYetBought": "Strumento di taglio doppio $${getPriceToEnableDoubleChipping()}",
-    "storageHeaterNotYetBought": "Acquista riscaldatore di stoccaggio $${getPriceToAddStorageHeater()}"
+    "storageHeaterNotYetBought": "Acquista riscaldatore di stoccaggio $${getPriceToAddStorageHeater()}",
+    "investmentFundNotUnlockedYet": "Acquista Fondo di Investimento $${getPriceToUnlockInvestmentFundOrFloatOnStockMarket()}",
+    "investmentFundUnlocked": "Quotarsi in borsa $${getPriceToFloatOnStockMarket()}"
   },
   "fr": {
     "potatoes": "Pommes",
@@ -621,9 +629,9 @@
     "investmentFundUnlockOrFloatButton": "Acheter fonds d'investissement <br> ${formatToCashNotation(getPriceToUnlockInvestmentFundOrFloatOnStockMarket())}",
     "addStorageHeaterAutoShiftStartButton": "Acheter chauffe-entrepôt <br> ${formatToCashNotation(getPriceToAddStorageHeater())}",
     "startShiftButton": "Démarrer le shift",
-    "doublePeelingToolPurchase": "Achat d'un double outil d'épluchage effectué",
-    "doubleChippingToolPurchase": "Achat d'un double outil de découpe effectué",
-    "storageBinHeaterPurchase": "Achat de chauffe-bac de stockage effectué",
+    "doublePeelingToolPurchase": "Achat d'un double outil d'épluchage EFFECTUÉ",
+    "doubleChippingToolPurchase": "Achat d'un double outil de découpe EFFECTUÉ",
+    "storageBinHeaterPurchase": "Achat de chauffe-bac de stockage EFFECTUÉ",
     "autoShiftStartUpgrade": "Mise à niveau démarrage automatique du shift<br>${formatToCashNotation(getPriceToUnlockAutoShiftStart())})",
     "emptyFryerToUseAgain": "Vider la friteuse<br>Pour réutilisation !",
     "finalShift": "Dernier shift !",
@@ -652,7 +660,9 @@
     "menu": "Menu",
     "doublePeelerNotYetBought": "Outil de pelage double $${getPriceToEnableDoublePeeling()}",
     "doubleChipperNotYetBought": "Outil de découpe double $${getPriceToEnableDoubleChipping()}",
-    "storageHeaterNotYetBought": "Acheter un radiateur de stockage $${getPriceToAddStorageHeater()}"
+    "storageHeaterNotYetBought": "Acheter un radiateur de stockage $${getPriceToAddStorageHeater()}",
+    "investmentFundNotUnlockedYet": "Acheter Fonds d'Investissement $${getPriceToUnlockInvestmentFundOrFloatOnStockMarket()}",
+    "investmentFundUnlocked": "Introduire en bourse $${getPriceToFloatOnStockMarket()}"
   },
   "prizes": {
     "en": {

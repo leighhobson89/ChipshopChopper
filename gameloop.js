@@ -883,4 +883,10 @@ function setButtonTextAfterLanguageChange() {
     if (!getElements().addStorageHeaterAutoShiftStartButton.classList.contains('non-repeatable-upgrade-purchased')) {
         getElements().addStorageHeaterAutoShiftStartButton.innerHTML = `${localize('storageHeaterNotYetBought', getLanguage())}`;
     }
+    if (!getInvestmentFundUnlocked()) {
+        getElements().investmentFundUnlockOrFloatButton.innerHTML = `${localize('investmentFundNotUnlockedYet', getLanguage())}`;
+    }
+    if (getInvestmentFundUnlocked()) {
+        getElements().investmentFundUnlockOrFloatButton.innerHTML = `${localize('investmentFundUnlocked', getLanguage())}`;
+    }
 }
