@@ -538,8 +538,6 @@ function handleAddStorageHeater(button, buttonId) {
 }
 
 export function handleStartShift() {
-    console.log("whoopsie!");
-
     setShiftLengthTimerVariable(getShiftLength());
     setShiftInProgress(true);
     setShiftCounter(getShiftCounter() + getStandardDecrementIncrementOfOne());
@@ -1296,7 +1294,7 @@ export function saveGame(isManualSave) {
     const url = URL.createObjectURL(blob);
 
     if (isManualSave) {
-        document.querySelector('.save-load-header').innerHTML = "Copy This String To A Text File:";
+        document.querySelector('.save-load-header').innerHTML = `${localize('headerStringSave', getLanguage())}`;
         document.getElementById('copyButtonSavePopup').classList.remove('d-none');
         document.getElementById('loadStringButton').classList.add('d-none');
         document.getElementById('importFromFileLoadButton').classList.add('d-none');
@@ -1337,13 +1335,14 @@ function padZero(num) {
 
 export function loadGameOption() {
     getElements().loadSaveGameStringTextArea.readOnly = false;
-    document.querySelector('.save-load-header').innerHTML = "Paste String Below and click Load:";
+    document.querySelector('.save-load-header').innerHTML = `${localize('headerStringLoad', getLanguage())}`;
     document.getElementById('loadStringButton').classList.remove('d-none');
     document.getElementById('copyButtonSavePopup').classList.add('d-none');
     document.getElementById('importFromFileLoadButton').classList.remove('d-none');
     getElements().saveLoadPopup.classList.remove('d-none');
     document.getElementById('overlay').classList.remove('d-none');
-    getElements().loadSaveGameStringTextArea.value = "Paste Save String Here...";
+    getElements().loadSaveGameStringTextArea.value = "";
+    getElements().loadSaveGameStringTextArea.placeholder = `${localize('textAreaLabel', getLanguage())}`;
 }
 
 export function loadGame(string) {

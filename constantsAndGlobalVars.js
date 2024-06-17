@@ -314,7 +314,8 @@ export function setElements() {
         endGameStartShiftButton: document.getElementById('endGameStartShiftButton'),
         continueButton: document.getElementById('popupContinueButton'),
         saveLoadPopup: document.getElementById('loadSaveGameStringPopup'),
-        loadSaveGameStringTextArea: document.getElementById('loadSaveGameStringTextArea')
+        loadSaveGameStringTextArea: document.getElementById('loadSaveGameStringTextArea'),
+        textAreaLabel: document.getElementById('textAreaLabel')
     };
 }
 
