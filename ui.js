@@ -62,7 +62,6 @@ import {
     getPriceToDoubleSpudsMax,
     getPriceToEnableDoubleChipping,
     getPriceToEnableDoublePeeling,
-    getPriceToFloatOnStockMarket,
     getPriceToImproveAutoChipper,
     getPriceToImproveAutoCustomerServer,
     getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut,
@@ -225,7 +224,7 @@ export function updateButtonStyle(buttonId, startStop) {
                 }
                 break;
             case getElements().investmentFundUnlockOrFloatButton.id:
-                element.innerHTML = `${localize('floatStockMarket', getLanguage())}<br>`;;
+                element.innerHTML = `${localize('floatStockMarket', getLanguage())}<br>`;
                 toggleDisable(true, getElements().investmentFundUnlockOrFloatButton);
                 break;
             case getElements().addStorageHeaterAutoShiftStartButton.id: //used only for auto shift start
@@ -296,14 +295,14 @@ export function createEndOfShiftOrGamePopup() {
 export function createOverlay() {
     const overlay = document.createElement('div');
     overlay.classList.add('overlay');
+    overlay.classList.add('d-none');
     overlay.id = 'overlay';
-    overlay.style.display = "none";
 
     const overlayText = document.createElement('div');
     overlayText.id = 'overlayText';
     overlayText.className = 'overlay-text';
     overlayText.innerHTML = `${localize('congratulations', getLanguage())}`;
-    overlayText.style.display = 'none';
+    overlayText.classList.add('d-none');
 
     overlay.appendChild(overlayText);
     document.body.appendChild(overlay);
@@ -331,10 +330,10 @@ export function toggleEndOfShiftOrGamePopup(popupContainer, endOfGame) {
 }
 
 export function toggleOverlay(popupOverlay) {
-    if (popupOverlay.style.display === 'none') {
-        popupOverlay.style.display = 'block';
+    if (popupOverlay.classList.contains('d-none')) {
+        popupOverlay.classList.remove('d-none');
     } else {
-        popupOverlay.style.display = 'none';
+        popupOverlay.classList.add('d-none');
     }
 }
 
@@ -712,7 +711,7 @@ export function triggerEndGameScreen() {
     }, 0);
 
     setTimeout(function() {
-        document.getElementById('overlayText').style.display = 'block';
+        document.getElementById('overlayText').classList.remove('d-none');
         document.getElementById('overlayText').style.animation = 'bounce 10s infinite linear, fade 2s infinite, rainbow 4s infinite';
     }, 9000);
 

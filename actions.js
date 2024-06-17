@@ -663,7 +663,6 @@ function handleImproveFryTimer(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToImproveFryTimer());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImproveFryTimer());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentSpeedFryTimer(getNextSpeedFryTimer());
     setFryTimer(Math.floor(getCurrentSpeedFryTimer()));
     setNextSpeedFryTimer(getCurrentSpeedFryTimer() - getUpgradeFryTimeDecrement());
@@ -676,7 +675,6 @@ function handleDoubleMaxSpudsDelivery(buttonId) {
     }
     setCurrentCash(getCurrentCash() - getPriceToDoubleSpudsMax());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToDoubleSpudsMax());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentMaxSpudsDelivery(getNextMaxSpudsDelivery());
     setMaxSpudsDelivery(getCurrentMaxSpudsDelivery());
     setNextMaxSpudsDelivery(getCurrentMaxSpudsDelivery() * getUpgradeMaxSpudsIncrement());
@@ -706,7 +704,6 @@ function handleInvestmentFundUnlockButton(buttonId) {
 function handleIncreaseFootfall(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToIncreaseFootfall());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToIncreaseFootfall());
-    let newPriceOfUpgrade = calculateAndSetNewPriceOfUpgrade(buttonId);
     setCurrentMaxValueWaitForNewCustomer(getNextMaxValueWaitForNewCustomer());
     setNextMaxValueWaitForNewCustomer(getCurrentMaxValueWaitForNewCustomer() - getIncreaseFootfallDecrement());
     getElements()[buttonId].innerHTML = `${localize('customerFrequencyIncreaserSomeBought', getLanguage())}`;
@@ -1296,25 +1293,34 @@ export function saveGame(isManualSave) {
         type: 'text/plain'
     });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-
-    // Generate the filename with "AUTO_" prefix for auto save
-    const timestamp = getCurrentTimestamp();
-    const prefix = isManualSave ? "" : "AUTO_";
-    a.href = url;
-    a.download = `${prefix}ChipShopSave_${timestamp}.txt`;
-    a.style.display = 'none';
-
-    document.body.appendChild(a);
-    a.click();
-
-    URL.revokeObjectURL(url);
-    a.remove();
 
     if (isManualSave) {
-        alert("Game saved successfully!");
+        // Display the save string in the popup
+        getElements().saveLoadPopup.classList.remove('d-none');
+        document.getElementById('overlay').classList.remove('d-none');
+
+        // Read the content of the Blob and display it in the input field
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            getElements().loadSaveGameStringTextArea.innerHTML = `${event.target.result}`;
+        };
+        reader.readAsText(blob);
+    } else {
+        const a = document.createElement('a');
+        // Generate the filename with "AUTO_" prefix for auto save
+        const timestamp = getCurrentTimestamp();
+        const prefix = isManualSave ? "" : "AUTO_";
+        a.href = url;
+        a.download = `${prefix}ChipShopSave_${timestamp}.txt`;
+        a.style.display = 'none';
+
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        a.remove();
     }
 }
+
 
 function getCurrentTimestamp() {
     const now = new Date();

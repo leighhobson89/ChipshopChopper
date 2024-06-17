@@ -157,7 +157,7 @@ import {
     getFryerSpeedCapped,
     getMaxDeliveryCapped,
     getMaxWaitCustomerCapped,
-    getInvestmentFundUnlockable, getPriceToEnableDoubleChipping, getPriceToAddStorageHeater
+    getInvestmentFundUnlockable
 } from './constantsAndGlobalVars.js';
 import {initLocalization, localize} from "./localization.js";
 
@@ -174,6 +174,13 @@ export function main() {
         if (event.key === '-') {
             setDebugOptionFlag(true);
         }
+    });
+    document.getElementById('copyButtonSavePopup').addEventListener('click', function () {
+        copySaveStringToClipBoard();
+    });
+    document.getElementById('closeButtonSavePopup').addEventListener('click', function () {
+        getElements().saveLoadPopup.classList.add('d-none');
+        document.getElementById('overlay').classList.add('d-none');
     });
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
     window.addEventListener('blur', handleVisibilityChange, false);
@@ -888,5 +895,26 @@ function setButtonTextAfterLanguageChange() {
     }
     if (getInvestmentFundUnlocked()) {
         getElements().investmentFundUnlockOrFloatButton.innerHTML = `${localize('investmentFundUnlocked', getLanguage())}`;
+    }
+}
+
+function copySaveStringToClipBoard() {
+    const textArea = getElements().loadSaveGameStringTextArea;
+    textArea.select();
+    textArea.setSelectionRange(0, 99999);
+
+    try {
+        navigator.clipboard.writeText(textArea.value)
+            .then(() => {
+                alert('Text copied to clipboard!');
+            })
+            .catch(err => {
+                alert(err);
+            })
+            .finally(() => {
+                textArea.setSelectionRange(0, 0);
+            })
+    } catch (err) {
+        alert(err);
     }
 }

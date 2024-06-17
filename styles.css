@@ -721,3 +721,66 @@ button.bg-warning {
     font-weight: bold;
     color: #42310e;
 }
+
+.save-load-popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-width: 750px;
+    background-color: #1e1e1e;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+}
+
+.save-load-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.save-load-header {
+    color: white;
+    width: 60%;
+}
+
+.save-load-buttons-container {
+    display: flex;
+    width: 80%;
+    align-items: center;
+}
+
+.save-load-buttons {
+    border-radius: 10px !important;
+}
+
+.save-load-input-container {
+    flex: 1;
+    display: flex;
+}
+
+.save-load-input-field {
+    width: 100%;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.flex-grow-2 {
+    flex-grow: 2;
+}
+
+.flex-grow-0 {
+    flex-grow: 0;
+    width: 40%;
+}

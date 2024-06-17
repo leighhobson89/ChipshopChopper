@@ -135,40 +135,42 @@ export const wheelColors = {
 }
 
 //FLAGS
+let chipsFrying;
+let peelerUpgradeBought;
+let chipperUpgradeBought;
+let heaterUpgradeBought;
+let autoPeelerBought;
+let autoChipperBought;
+let autoFryerBought;
+let autoStorageCollectorBought;
+let autoCustomerServerBought;
+let improveFryTimerBought;
+let doubleMaxSpudsDeliveryBought;
+let investmentFundUnlocked;
+let investmentFundUnlockable;
+let autoShiftStartUpgradeUnlocked;
+let autoShiftStatus;
+let promotionFlag;
+let floatOnStockMarketUnlocked;
+let autoPeelerCapped;
+let autoChipperCapped;
+let autoFryerCapped;
+let autoStorageCollectorCapped;
+let autoCustomerServerCapped;
+let potatoCapacityCapped;
+let fryerCapacityCapped;
+let fryerSpeedCapped;
+let maxDeliveryCapped;
+let maxWaitCustomerCapped;
+let wheelSpinning;
+let textAnimationDone;
+let languageChangedFlag;
+
 let autoSaveOn = false;
 export let pauseAutoSaveCountdown = true;
 export let gameInProgress = false;
 export let shiftInProgress = false;
-let chipsFrying = false;
-let peelerUpgradeBought = false;
-let chipperUpgradeBought = false;
-let heaterUpgradeBought = false;
-let autoPeelerBought = false;
-let autoChipperBought = false;
-let autoFryerBought = false;
-let autoStorageCollectorBought = false;
-let autoCustomerServerBought = false;
-let improveFryTimerBought = false;
-let doubleMaxSpudsDeliveryBought = false;
-let investmentFundUnlocked = false;
-let investmentFundUnlockable = false;
-let autoShiftStartUpgradeUnlocked = false;
-let autoShiftStatus = false;
-let promotionFlag = false;
-let floatOnStockMarketUnlocked = false;
-let autoPeelerCapped = false;
-let autoChipperCapped = false;
-let autoFryerCapped = false;
-let autoStorageCollectorCapped = false;
-let autoCustomerServerCapped = false;
-let potatoCapacityCapped = false;
-let fryerCapacityCapped = false;
-let fryerSpeedCapped = false;
-let maxDeliveryCapped = false;
-let maxWaitCustomerCapped = false;
-let wheelSpinning = false;
-let textAnimationDone = false;
-let languageChangedFlag = false;
+setFlagsToFalse();
 
 //PRICES
 let priceToImprovePotatoStorage = 18;
@@ -310,7 +312,9 @@ export function setElements() {
         titleScreen: document.getElementById('titleScreen'),
         bottomSectionContainer: document.getElementById('bottomSectionContainer'),
         endGameStartShiftButton: document.getElementById('endGameStartShiftButton'),
-        continueButton: document.getElementById('popupContinueButton')
+        continueButton: document.getElementById('popupContinueButton'),
+        saveLoadPopup: document.getElementById('loadSaveGameStringPopup'),
+        loadSaveGameStringTextArea: document.getElementById('loadSaveGameStringTextArea')
     };
 }
 
@@ -1590,33 +1594,7 @@ export function resetAllVariables() {
     // FLAGS
     gameInProgress = false;
     shiftInProgress = false;
-    chipsFrying = false;
-    peelerUpgradeBought = false;
-    chipperUpgradeBought = false;
-    heaterUpgradeBought = false;
-    autoPeelerBought = false;
-    autoChipperBought = false;
-    autoFryerBought = false;
-    autoStorageCollectorBought = false;
-    autoCustomerServerBought = false;
-    improveFryTimerBought = false;
-    doubleMaxSpudsDeliveryBought = false;
-    investmentFundUnlocked = false;
-    investmentFundUnlockable = false;
-    autoShiftStartUpgradeUnlocked = false;
-    autoShiftStatus = false;
-    promotionFlag = false;
-    floatOnStockMarketUnlocked = false;
-    autoPeelerCapped = false;
-    autoChipperCapped = false;
-    autoFryerCapped = false;
-    autoStorageCollectorCapped = false;
-    autoCustomerServerCapped = false;
-    potatoCapacityCapped = false;
-    fryerCapacityCapped = false;
-    fryerSpeedCapped = false;
-    maxDeliveryCapped = false;
-    maxWaitCustomerCapped = false;
+    setFlagsToFalse();
 
     // PRICES
     priceToImprovePotatoStorage = 5;
@@ -2109,4 +2087,37 @@ export function getOldLanguage() {
 
 export function setPopupOverlayAtStartOfGame(value) {
     popupOverlay = value;
+}
+
+function setFlagsToFalse() {
+    chipsFrying = false;
+    peelerUpgradeBought = false;
+    chipperUpgradeBought = false;
+    heaterUpgradeBought = false;
+    autoPeelerBought = false;
+    autoChipperBought = false;
+    autoFryerBought = false;
+    autoStorageCollectorBought = false;
+    autoCustomerServerBought = false;
+    improveFryTimerBought = false;
+    doubleMaxSpudsDeliveryBought = false;
+    investmentFundUnlocked = false;
+    investmentFundUnlockable = false;
+    autoShiftStartUpgradeUnlocked = false;
+    autoShiftStatus = false;
+    promotionFlag = false;
+    floatOnStockMarketUnlocked = false;
+    autoPeelerCapped = false;
+    autoChipperCapped = false;
+    autoFryerCapped = false;
+    autoStorageCollectorCapped = false;
+    autoCustomerServerCapped = false;
+    potatoCapacityCapped = false;
+    fryerCapacityCapped = false;
+    fryerSpeedCapped = false;
+    maxDeliveryCapped = false;
+    maxWaitCustomerCapped = false;
+    wheelSpinning = false;
+    textAnimationDone = false;
+    languageChangedFlag = false;
 }
