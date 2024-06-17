@@ -157,7 +157,7 @@ import {
     getFryerSpeedCapped,
     getMaxDeliveryCapped,
     getMaxWaitCustomerCapped,
-    getInvestmentFundUnlockable
+    getInvestmentFundUnlockable, setStateLoading
 } from './constantsAndGlobalVars.js';
 import {initLocalization, localize} from "./localization.js";
 
@@ -201,6 +201,18 @@ export function main() {
                 getElements().saveLoadPopup.classList.add('d-none');
                 document.getElementById('overlay').classList.add('d-none');
                 handleButtonClickEventListenerInitialisation(true);
+                toggleDisable(false, getElements().resumeGameButton);
+                if (getInvestmentFundUnlockable() && getCurrentValueOfInvestment() === getZero()) {
+                    toggleDisable(true, getElements().withdrawInvestmentButton);
+                }
+                if (!getInvestmentFundUnlocked()) {
+                    getElements().investmentCashComponent.classList.add('d-none');
+                    getElements().investmentRiskComponent.classList.add('d-none');
+                }
+                if (!getInvestmentFundUnlockable()) {
+                    getElements().investmentDataScreen.classList.add('d-none');
+                }
+                setStateLoading(false);
             })
             .catch((error) => {
                 console.error('Error loading game:', error);

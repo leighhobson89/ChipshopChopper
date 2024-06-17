@@ -96,7 +96,6 @@ import {
     setCurrentCash,
     setCurrentRotation,
     setDebugFlag,
-    setElements,
     setFryerCapacityCapped,
     setFryerSpeedCapped,
     setGameInProgress,
@@ -589,19 +588,7 @@ function createOptionScreenEventListeners() {
             await loadGameOption();
 
         } finally {
-            setElements();
-            toggleDisable(false, getElements().resumeGameButton);
-            if (getInvestmentFundUnlockable() && getCurrentValueOfInvestment() === getZero()) {
-                toggleDisable(true, getElements().withdrawInvestmentButton);
-            }
-            if (!getInvestmentFundUnlocked()) {
-                getElements().investmentCashComponent.classList.add('d-none');
-                getElements().investmentRiskComponent.classList.add('d-none');
-            }
-            if (!getInvestmentFundUnlockable()) {
-                getElements().investmentDataScreen.classList.add('d-none');
-            }
-            setStateLoading(false);
+
         }
     });
     getElements().option4.addEventListener('click', function() {

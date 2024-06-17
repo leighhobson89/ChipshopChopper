@@ -84,6 +84,7 @@
     "autoCustomerServerUpgradeButton": "Auto Server (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}<br>Buy To Activate",
     "autoCustomerServerUpgradeButtonSomeBought": "Auto Server (${getCurrentSpeedAutoCustomerServer()}/s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().autoCustomerServerUpgradeButton.id))}<br> Ready in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s",
     "improvePotatoStorageButton": "Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}",
+    "improvePotatoStorageButtonSomeBought": "Increase Potato Cap.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improvePotatoStorageButton.id))}",
     "improveFryerCapacityButton": "Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}",
     "improveFryerCapacityButtonSomeBought": "Improve Fryer Cap.<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improveFryerCapacityButton.id))}",
     "fastFryerUpgradeButton": "Improve Fry Speed<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}",
@@ -109,7 +110,7 @@
     "customerWalkout": "Customer Walkout",
     "customers": "Customers",
     "deliveryCancelled": "Delivery Cancelled",
-    "fineOfHalfMoney": "Fine of Half Money",
+    "fineOfHalfMoney": "Fine Of Half Money",
     "halfOfPotatoesRot": "Half of Potatoes Rot",
     "fryingChips": "Frying ${getQuantityOfChipsFrying()} Chips<br>(${getFryTimeRemaining()}s)",
     "newGame": "New Game",
@@ -224,6 +225,7 @@
     "autoCustomerServerUpgradeButton": "Servidor Auto (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}<br>Comprar para Activar",
     "autoCustomerServerUpgradeButtonSomeBought": "Servidor Auto (${getCurrentSpeedAutoCustomerServer()}/s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().autoCustomerServerUpgradeButton.id))}<br> Listo en ${Math.floor(getCurrentSpeedAutoCustomerServer())}s",
     "improvePotatoStorageButton": "Aumentar Cap. de Papas<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}",
+    "improvePotatoStorageButtonSomeBought": "Aumentar Cap. de Papas.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improvePotatoStorageButton.id))}",
     "improveFryerCapacityButton": "Mejorar Cap. de Freidora<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}",
     "improveFryerCapacityButtonSomeBought": "Mejorar Cap. de Freidora<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improveFryerCapacityButton.id))}",
     "fastFryerUpgradeButton": "Mejorar Velocidad de Freidora<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}",
@@ -364,6 +366,7 @@
     "autoCustomerServerUpgradeButton": "Automatischer Bediener (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}<br>Kaufen zum Aktivieren",
     "autoCustomerServerUpgradeButtonSomeBought": "Automatischer Bediener (${getCurrentSpeedAutoCustomerServer()}/s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().autoCustomerServerUpgradeButton.id))}<br> Bereit in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s",
     "improvePotatoStorageButton": "Erhöhe Kartoffelkapazität<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}",
+    "improvePotatoStorageButtonSomeBought": "Kartoffellager erhöhen.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improvePotatoStorageButton.id))}",
     "improveFryerCapacityButton": "Erhöhe Fritteusenkapazität<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}",
     "improveFryerCapacityButtonSomeBought": "Erhöhe Fritteusenkapazität<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improveFryerCapacityButton.id))}",
     "fastFryerUpgradeButton": "Verbessere Bratgeschwindigkeit<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}",
@@ -504,6 +507,7 @@
     "autoCustomerServerUpgradeButton": "Servitore automatico (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}<br>Compra per attivare",
     "autoCustomerServerUpgradeButtonSomeBought": "Servitore automatico (${getCurrentSpeedAutoCustomerServer()}/s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().autoCustomerServerUpgradeButton.id))}<br> Pronto in ${Math.floor(getCurrentSpeedAutoCustomerServer())}s",
     "improvePotatoStorageButton": "Aumenta capacità patate<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}",
+    "improvePotatoStorageButtonSomeBought": "Aumenta Cap. di Patate.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improvePotatoStorageButton.id))}",
     "improveFryerCapacityButton": "Aumenta capacità friggitrice<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}",
     "improveFryerCapacityButtonSomeBought": "Aumenta capacità friggitrice<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improveFryerCapacityButton.id))}",
     "fastFryerUpgradeButton": "Aumenta velocità friggitrice<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}",
@@ -644,6 +648,7 @@
     "autoCustomerServerUpgradeButton": "Serveur automatique (${getCurrentSpeedAutoCustomerServer()})<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(getPriceToImproveAutoCustomerServer())}<br>Acheter pour activer",
     "autoCustomerServerUpgradeButtonSomeBought": "Serveur automatique (${getCurrentSpeedAutoCustomerServer()}/s)<br>${getCurrentSpeedAutoCustomerServer()} → ${getNextSpeedAutoCustomerServer()}s<br> ${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().autoCustomerServerUpgradeButton.id))}<br> Prêt dans ${Math.floor(getCurrentSpeedAutoCustomerServer())}s",
     "improvePotatoStorageButton": "Augmenter la capacité de stockage des pommes de terre<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(getPriceToImprovePotatoStorage())}",
+    "improvePotatoStorageButtonSomeBought": "Augmenter Cap. de Pommes de Terre.<br>${getPotatoStorageQuantity()} → ${getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improvePotatoStorageButton.id))}",
     "improveFryerCapacityButton": "Améliorer la capacité de la friteuse<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(getPriceToImproveFryerCapacity())}",
     "improveFryerCapacityButtonSomeBought": "Améliorer la capacité de la friteuse<br>${getFryerCapacity()} → ${getFryerCapacity() + getUpgradeFryerCapacityAmount()}<br>${formatToCashNotation(calculateAndSetNewPriceOfUpgrade(getElements().improveFryerCapacityButton.id))}",
     "fastFryerUpgradeButton": "Améliorer la vitesse de la friteuse<br>${getFryTimer()}s → ${getNextSpeedFryTimer()}s<br>${formatToCashNotation(getPriceToImproveFryTimer())}",
@@ -983,7 +988,7 @@
           "classification": "bad"
         },
         {
-          "name": "Fine of half of money",
+          "name": "Fine Of Half Money",
           "classification": "bad"
         },
         {

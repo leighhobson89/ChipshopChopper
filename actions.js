@@ -476,7 +476,7 @@ function handleImprovePotatoStorage(buttonId) {
     setCurrentCash(getCurrentCash() - getPriceToImprovePotatoStorage());
     setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToImprovePotatoStorage());
     setPotatoStorageQuantity(getPotatoStorageQuantity() + getUpgradePotatoStorageQuantity());
-    getElements()[buttonId].innerHTML = `${localize('improvePotatoStorageButton', getLanguage())}`;
+    getElements()[buttonId].innerHTML = `${localize('improvePotatoStorageButtonSomeBought', getLanguage())}`;
     getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
 }
 
@@ -1029,6 +1029,7 @@ function selectARandomNumberOfSpudsForNextShift() {
 
 export function calculateAndSetNewPriceOfUpgrade(buttonId) {
     if (!getInvestmentFundUnlocked()) {
+
         switch (buttonId) {
             //Manual Upgrades
             case getElements().improvePotatoStorageButton.id:
