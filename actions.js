@@ -197,11 +197,11 @@ import {
     setTotalWastedChips,
     getTotalWastedChips,
     wheelColors,
-    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag, getTextAnimationDone
+    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag
 } from './constantsAndGlobalVars.js';
 
 import {
-    calculateForthcomingTotalInvestment, checkForLanguageChange, gameLoop,
+    calculateForthcomingTotalInvestment, checkForLanguageChange,
     startBatchTimer,
     wasteChipsStillInFryerOrFryingAtEndOfShift
 } from './gameloop.js';
@@ -538,6 +538,7 @@ function handleAddStorageHeater(button, buttonId) {
 }
 
 export function handleStartShift() {
+    console.log("whoopsie!");
 
     setShiftLengthTimerVariable(getShiftLength());
     setShiftInProgress(true);
@@ -1345,7 +1346,7 @@ export function loadGameOption() {
     getElements().loadSaveGameStringTextArea.value = "Paste Save String Here...";
 }
 
-export function loadProcessFunction(string) {
+export function loadGame(string) {
     if (!string) {
         return new Promise((resolve, reject) => {
             const input = document.createElement('input');
@@ -1354,14 +1355,15 @@ export function loadProcessFunction(string) {
 
             input.addEventListener('change', (event) => {
                 handleFileSelectAndInitialiseLoadedGame(event, false, null)
-                    .then(resolve)
+                    .then(() => {
+                        resolve();
+                    })
                     .catch(reject);
             });
 
             input.click();
         });
     } else {
-        console.log("Loading String!");
         const textArea = document.getElementById('loadSaveGameStringTextArea');
         if (textArea) {
             const string = { target: { result: textArea.value } };
@@ -1376,6 +1378,12 @@ function handleFileSelectAndInitialiseLoadedGame(event, stringLoad, string) {
     return new Promise((resolve, reject) => {
         const processGameData = (compressed) => {
             try {
+                // Validate the compressed string before processing
+                if (!validateSaveString(compressed)) {
+                    alert('Invalid game data string. Please check and try again.');
+                    return reject('Invalid game data string');
+                }
+
                 let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
                 let gameState = JSON.parse(decompressedJson);
 
@@ -1387,7 +1395,12 @@ function handleFileSelectAndInitialiseLoadedGame(event, stringLoad, string) {
                     checkForLanguageChange();
                     alert('Game loaded successfully!');
                     resolve();
+                }).catch(error => {
+                    console.error('Error initializing game:', error);
+                    alert('Error initializing game. Please make sure the data is correct.');
+                    reject(error);
                 });
+
             } catch (error) {
                 console.error('Error loading game:', error);
                 alert('Error loading game. Please make sure the file contains valid game data.');
@@ -1396,7 +1409,13 @@ function handleFileSelectAndInitialiseLoadedGame(event, stringLoad, string) {
         };
 
         if (stringLoad) {
-            processGameData(string.target.result);
+            try {
+                processGameData(string.target.result);
+            } catch (error) {
+                console.error('Error processing string:', error);
+                alert('Error processing string. Please make sure the string is valid.');
+                reject(error);
+            }
         } else {
             const file = event.target.files[0];
             if (!file) {
@@ -1405,7 +1424,13 @@ function handleFileSelectAndInitialiseLoadedGame(event, stringLoad, string) {
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                processGameData(e.target.result);
+                try {
+                    processGameData(e.target.result);
+                } catch (error) {
+                    console.error('Error reading file:', error);
+                    alert('Error reading file. Please make sure the file contains valid game data.');
+                    reject(error);
+                }
             };
 
             reader.onerror = () => {
@@ -1416,6 +1441,13 @@ function handleFileSelectAndInitialiseLoadedGame(event, stringLoad, string) {
         }
     });
 }
+
+function validateSaveString(compressed) {
+        let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
+        JSON.parse(decompressedJson);
+        return decompressedJson !== null;
+}
+
 
 async function initialiseLoadedGame(gameState) {
     toggleMenu(false);

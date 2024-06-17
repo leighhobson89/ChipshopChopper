@@ -590,7 +590,6 @@ function createOptionScreenEventListeners() {
 
         } finally {
             setElements();
-            handleButtonClickEventListenerInitialisation(true);
             toggleDisable(false, getElements().resumeGameButton);
             if (getInvestmentFundUnlockable() && getCurrentValueOfInvestment() === getZero()) {
                 toggleDisable(true, getElements().withdrawInvestmentButton);

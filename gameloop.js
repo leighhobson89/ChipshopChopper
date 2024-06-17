@@ -13,7 +13,7 @@ import {
     updateButtonStyle,
     updateTextAndDisableButtonsForCappedUpgrades,
     updateVisibleButtons,
-    writePopupText, createOverlay
+    writePopupText, createOverlay, handleButtonClickEventListenerInitialisation
 } from './ui.js';
 
 import {
@@ -24,7 +24,7 @@ import {
     fryChips,
     handleServingStorage,
     handleStartShift,
-    incrementCustomersWaiting, loadProcessFunction,
+    incrementCustomersWaiting, loadGame,
     peelPotato,
     saveGame,
     serveCustomer,
@@ -183,20 +183,24 @@ export function main() {
         document.getElementById('overlay').classList.add('d-none');
     });
     document.getElementById('loadStringButton').addEventListener('click', function () {
-        loadProcessFunction(true)
+        loadGame(true)
             .then(() => {
+                setElements();
                 getElements().saveLoadPopup.classList.add('d-none');
                 document.getElementById('overlay').classList.add('d-none');
+                handleButtonClickEventListenerInitialisation(true);
             })
             .catch((error) => {
                 console.error('Error loading game:', error);
             });
     });
     document.getElementById('importFromFileLoadButton').addEventListener('click', function () {
-        loadProcessFunction(false)
+        loadGame(false)
             .then(() => {
+                setElements();
                 getElements().saveLoadPopup.classList.add('d-none');
                 document.getElementById('overlay').classList.add('d-none');
+                handleButtonClickEventListenerInitialisation(true);
             })
             .catch((error) => {
                 console.error('Error loading game:', error);
