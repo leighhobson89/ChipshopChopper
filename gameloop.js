@@ -767,7 +767,7 @@ function simplifyOSLanguageString(string) {
     return 'es';
 }
 
-function checkForLanguageChange() {
+export function checkForLanguageChange() {
     if (getLanguageChangedFlag()) {
         setLanguageStrings(getLanguage());
     }

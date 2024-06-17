@@ -197,11 +197,11 @@ import {
     setTotalWastedChips,
     getTotalWastedChips,
     wheelColors,
-    setPopupOverlay, getLanguage, getLocalization
+    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag
 } from './constantsAndGlobalVars.js';
 
 import {
-    calculateForthcomingTotalInvestment,
+    calculateForthcomingTotalInvestment, checkForLanguageChange,
     startBatchTimer,
     wasteChipsStillInFryerOrFryingAtEndOfShift
 } from './gameloop.js';
@@ -1360,6 +1360,8 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
                     setPopupOverlay(createOverlay());
 
                     initialiseLoadedGame(gameState).then(() => {
+                        setLanguageChangedFlag(true);
+                        checkForLanguageChange();
                         alert('Game loaded successfully!');
                         resolve();
                     });

@@ -74,6 +74,8 @@ import {
     getPriceToUnlockAutoShiftStart,
     getPriceToFloatOnStockMarket,
     getPriceToUnlockInvestmentFundOrFloatOnStockMarket,
+    getQuantityOfChipsFrying,
+    getFryTimeRemaining
 } from './constantsAndGlobalVars.js';
 import {formatToCashNotation} from "./ui.js";
 import {calculateAndSetNewPriceOfUpgrade} from "./actions.js";

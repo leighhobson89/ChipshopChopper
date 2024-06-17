@@ -28,7 +28,7 @@ const END_GAME_POTATOES = 8;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const SHIFT_LENGTH = 5; //45
+const SHIFT_LENGTH = 60; //45
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
@@ -1830,6 +1830,8 @@ export function captureGameStatusForSaving() {
     };
 
     gameState.batchTimers = batchTimers;
+    gameState.language = getLanguage();
+    gameState.oldLanguage = getOldLanguage();
 
     captureButtonStates(gameState);
 
@@ -1975,6 +1977,8 @@ export function restoreGameStatus(gameState) {
             getElements().investmentDataScreenBottomRowColumn3.innerHTML = gameState.uiElements.investmentDataScreenBottomRowColumn3;
 
             batchTimers = gameState.batchTimers;
+            setLanguage(gameState.language);
+            setOldLanguage(gameState.oldLanguage);
 
             restoreButtonStates(gameState);
             addAutoUpgradeEnabledStates(gameState);
