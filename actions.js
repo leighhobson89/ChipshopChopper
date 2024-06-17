@@ -197,11 +197,11 @@ import {
     setTotalWastedChips,
     getTotalWastedChips,
     wheelColors,
-    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag
+    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag, getTextAnimationDone
 } from './constantsAndGlobalVars.js';
 
 import {
-    calculateForthcomingTotalInvestment, checkForLanguageChange,
+    calculateForthcomingTotalInvestment, checkForLanguageChange, gameLoop,
     startBatchTimer,
     wasteChipsStillInFryerOrFryingAtEndOfShift
 } from './gameloop.js';
@@ -1295,14 +1295,17 @@ export function saveGame(isManualSave) {
     const url = URL.createObjectURL(blob);
 
     if (isManualSave) {
-        // Display the save string in the popup
+        document.querySelector('.save-load-header').innerHTML = "Copy This String To A Text File:";
+        document.getElementById('copyButtonSavePopup').classList.remove('d-none');
+        document.getElementById('loadStringButton').classList.add('d-none');
+        document.getElementById('importFromFileLoadButton').classList.add('d-none');
         getElements().saveLoadPopup.classList.remove('d-none');
         document.getElementById('overlay').classList.remove('d-none');
 
-        // Read the content of the Blob and display it in the input field
         const reader = new FileReader();
         reader.onload = function(event) {
-            getElements().loadSaveGameStringTextArea.innerHTML = `${event.target.result}`;
+            getElements().loadSaveGameStringTextArea.value = `${event.target.result}`;
+            getElements().loadSaveGameStringTextArea.readOnly = true;
         };
         reader.readAsText(blob);
     } else {
@@ -1331,49 +1334,60 @@ function padZero(num) {
     return num.toString().padStart(2, '0');
 }
 
-export function loadGame() {
-    return new Promise((resolve, reject) => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.txt';
-
-        input.addEventListener('change', (event) => {
-            handleFileSelectAndInitialiseLoadedGame(event)
-                .then(resolve)
-                .catch(reject);
-        });
-        input.click();
-    });
+export function loadGameOption() {
+    getElements().loadSaveGameStringTextArea.readOnly = false;
+    document.querySelector('.save-load-header').innerHTML = "Paste String Below and click Load:";
+    document.getElementById('loadStringButton').classList.remove('d-none');
+    document.getElementById('copyButtonSavePopup').classList.add('d-none');
+    document.getElementById('importFromFileLoadButton').classList.remove('d-none');
+    getElements().saveLoadPopup.classList.remove('d-none');
+    document.getElementById('overlay').classList.remove('d-none');
+    getElements().loadSaveGameStringTextArea.value = "Paste Save String Here...";
 }
 
-function handleFileSelectAndInitialiseLoadedGame(event) {
-    return new Promise((resolve, reject) => {
-        const file = event.target.files[0];
-        if (!file) {
-            return reject('No file selected');
+export function loadProcessFunction(string) {
+    if (!string) {
+        return new Promise((resolve, reject) => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt';
+
+            input.addEventListener('change', (event) => {
+                handleFileSelectAndInitialiseLoadedGame(event, false, null)
+                    .then(resolve)
+                    .catch(reject);
+            });
+
+            input.click();
+        });
+    } else {
+        console.log("Loading String!");
+        const textArea = document.getElementById('loadSaveGameStringTextArea');
+        if (textArea) {
+            const string = { target: { result: textArea.value } };
+            return handleFileSelectAndInitialiseLoadedGame(null, true, string);
+        } else {
+            return Promise.reject("Text area not found.");
         }
+    }
+}
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
+function handleFileSelectAndInitialiseLoadedGame(event, stringLoad, string) {
+    return new Promise((resolve, reject) => {
+        const processGameData = (compressed) => {
             try {
-                const compressed = e.target.result;
+                let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
+                let gameState = JSON.parse(decompressedJson);
 
-                if (typeof compressed === 'string') {
-                    let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
-                    let gameState = JSON.parse(decompressedJson);
+                document.getElementById('overlay').remove();
+                setPopupOverlay(createOverlay());
 
-                    document.getElementById('overlay').remove();
-                    setPopupOverlay(createOverlay());
-
-                    initialiseLoadedGame(gameState).then(() => {
-                        setLanguageChangedFlag(true);
-                        checkForLanguageChange();
-                        alert('Game loaded successfully!');
-                        resolve();
-                    });
-                } else {
-                    reject('Invalid file content');
-                }
+                initialiseLoadedGame(gameState).then(() => {
+                    setLanguageChangedFlag(true);
+                    checkForLanguageChange();
+                    alert('Game loaded successfully!');
+                    resolve();
+                });
             } catch (error) {
                 console.error('Error loading game:', error);
                 alert('Error loading game. Please make sure the file contains valid game data.');
@@ -1381,11 +1395,25 @@ function handleFileSelectAndInitialiseLoadedGame(event) {
             }
         };
 
-        reader.onerror = () => {
-            reject('Error reading file');
-        };
+        if (stringLoad) {
+            processGameData(string.target.result);
+        } else {
+            const file = event.target.files[0];
+            if (!file) {
+                return reject('No file selected');
+            }
 
-        reader.readAsText(file);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                processGameData(e.target.result);
+            };
+
+            reader.onerror = () => {
+                reject('Error reading file');
+            };
+
+            reader.readAsText(file);
+        }
     });
 }
 

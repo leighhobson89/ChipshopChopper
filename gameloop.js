@@ -24,7 +24,7 @@ import {
     fryChips,
     handleServingStorage,
     handleStartShift,
-    incrementCustomersWaiting,
+    incrementCustomersWaiting, loadProcessFunction,
     peelPotato,
     saveGame,
     serveCustomer,
@@ -182,6 +182,27 @@ export function main() {
         getElements().saveLoadPopup.classList.add('d-none');
         document.getElementById('overlay').classList.add('d-none');
     });
+    document.getElementById('loadStringButton').addEventListener('click', function () {
+        loadProcessFunction(true)
+            .then(() => {
+                getElements().saveLoadPopup.classList.add('d-none');
+                document.getElementById('overlay').classList.add('d-none');
+            })
+            .catch((error) => {
+                console.error('Error loading game:', error);
+            });
+    });
+    document.getElementById('importFromFileLoadButton').addEventListener('click', function () {
+        loadProcessFunction(false)
+            .then(() => {
+                getElements().saveLoadPopup.classList.add('d-none');
+                document.getElementById('overlay').classList.add('d-none');
+            })
+            .catch((error) => {
+                console.error('Error loading game:', error);
+                // Handle error if necessary
+            });
+    });
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
     window.addEventListener('blur', handleVisibilityChange, false);
     window.addEventListener('focus', handleVisibilityChange, false);
@@ -218,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function gameLoop() {
+export function gameLoop() {
     checkForLanguageChange();
     if (debugOptionFlag && getElements().debugCash.classList.contains('d-none')) {
         getElements().debugCash.classList.remove('d-none');

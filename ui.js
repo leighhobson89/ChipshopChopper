@@ -3,7 +3,7 @@ import {
     disableButtons,
     getPrizes,
     handleButtonClick,
-    loadGame,
+    loadGameOption,
     saveGame,
     toggleDisable,
     toggleMenu
@@ -586,7 +586,7 @@ function createOptionScreenEventListeners() {
         try {
             setStateLoading(true);
 
-            await loadGame();
+            await loadGameOption();
 
         } finally {
             setElements();

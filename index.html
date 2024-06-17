@@ -374,12 +374,14 @@
   <div class="save-load-header-container d-flex justify-content-between align-items-center mb-3">
     <div class="save-load-header">Copy String To A Text File:</div>
     <div class="save-load-buttons-container">
-      <button id="copyButtonSavePopup" class="save-load-buttons btn btn-primary btn-sm flex-grow-1 mr-4">Copy</button>
+      <button id="loadStringButton" class="save-load-buttons btn btn-sm flex-grow-1 mr-4">Load</button>
+      <button id="copyButtonSavePopup" class="save-load-buttons btn btn-success btn-sm flex-grow-1 mr-4">Copy</button>
+      <button id="importFromFileLoadButton" class="save-load-buttons btn btn-primary btn-sm flex-grow-1 mr-4 d-none">Import From File</button>
       <button id="closeButtonSavePopup" class="save-load-buttons btn btn-danger btn-sm flex-grow-0">Close</button>
     </div>
   </div>
   <div class="save-load-input-container">
-    <textarea id="loadSaveGameStringTextArea" class="save-load-input-field" aria-label="" readonly>SaveStringHere</textarea>
+    <textarea id="loadSaveGameStringTextArea" class="save-load-input-field" aria-label="">Paste String Here...</textarea>
   </div>
 </div>
 
