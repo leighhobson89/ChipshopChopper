@@ -1272,16 +1272,16 @@ export function bonusClicked() {
         case '$1000':
             setCurrentCash(getCurrentCash() + 1000);
             break;
-        case '1 Shift Point!':
+        case `1 ${localize('shiftPointsExclamation', getLanguage())}`:
             setShiftPoints(getShiftPoints() + 1);
             break;
-        case '5 Shift Points!':
+        case `5 ${localize('shiftPointsExclamation', getLanguage())}`:
             setShiftPoints(getShiftPoints() + 5);
             break;
-        case '10 Customers!':
+        case `10 ${localize('customers', getLanguage())}`:
             setCustomersWaiting(getCustomersWaiting() + 10);
             break;
-        case '50 Potatoes!':
+        case `50 ${localize('potatoes', getLanguage())}`:
             if (getActualPotatoesInStorage() + 50 <= getPotatoStorageQuantity()) {
                 setActualPotatoesInStorage(getActualPotatoesInStorage() + 50);
             } else {
@@ -1329,10 +1329,10 @@ function selectBonusPrize() {
         { bonusPrize: "$5", probability: 20, class: 3 },
         { bonusPrize: "$50", probability: 10, class: 2 },
         { bonusPrize: "$1000", probability: 5, class: 1 },
-        { bonusPrize: "1 Shift Point!", probability: 20, class: 3 },
-        { bonusPrize: "5 Shift Points!", probability: 10, class: 1 },
-        { bonusPrize: "10 Customers!", probability: 20, class: 2 },
-        { bonusPrize: "50 Potatoes!", probability: 15, class: 2 }
+        { bonusPrize: `1 ${localize('shiftPointsExclamation', getLanguage())}`, probability: 20, class: 3 },
+        { bonusPrize: `5 ${localize('shiftPointsExclamation', getLanguage())}`, probability: 10, class: 1 },
+        { bonusPrize: `10 ${localize('customers', getLanguage())}`, probability: 20, class: 2 },
+        { bonusPrize: `1 ${localize('potatoes', getLanguage())}`, probability: 15, class: 2 }
     ];
 
     const totalProbability = bonusPrizes.reduce((total, prize) => total + prize.probability, 0);
