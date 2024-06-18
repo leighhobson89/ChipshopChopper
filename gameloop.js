@@ -16,7 +16,7 @@ import {
     writePopupText,
     createOverlay,
     handleButtonClickEventListenerInitialisation,
-    pickRandomCountdownTimeToNextMovingBonus, showBonusPrizeString
+    pickRandomCountdownTimeToNextMovingBonus, showBonusPrizeString, stopBubbleAnimation
 } from './ui.js';
 
 import {
@@ -406,7 +406,7 @@ function updateShiftCountDown() {
                 //console.log(`Shift time remaining: ${getShiftTimeRemaining()} seconds`);
                 calculateForthcomingTotalInvestment();
                 if (getShiftTimeRemaining() === getZero()) {
-
+                    stopBubbleAnimation();
                     setShiftInProgress(false);
                     setOldCash(getCurrentCash());
                     setCurrentCash((getCustomersServed() * getPriceOfChips()) + getCurrentCash());
@@ -471,13 +471,13 @@ function updateChipsFryingTimer() {
         if (getFryTimeRemaining() > getZero()) {
             if (timeDiffSeconds >= getOneForTimeDiff()) {
                 setFryTimeRemaining(getFryTimeRemaining() - getStandardDecrementIncrementOfOne());
-                fryerButton.innerHTML = `${localize('fryingChips', getLanguage())}`;
-
+                updateFryerButton(false);
                 if (getFryTimeRemaining() === getZero()) {
+                    stopBubbleAnimation();
                     setAreChipsFrying(false);
                     setChipsFriedThisShift(getChipsFriedThisShift() + getQuantityOfChipsFrying());
                     getElements().chuckedInFryerCount.innerHTML = `<h3>${(parseInt(getElements().chuckedInFryerCount.innerText) + getQuantityOfChipsFrying()).toString()}</h3>`;
-                    fryerButton.innerHTML = `${localize('fryChips', getLanguage())}`;
+                    updateFryerButton(true);
                     updateButtonStyle(fryerButton.id, null);
                     setQuantityOfChipsFrying(getZero());
                     disableButtons(false);
@@ -969,3 +969,61 @@ function copySaveStringToClipBoard() {
         alert(err);
     }
 }
+
+function updateFryerButton(finishedCounting) {
+    const fryerButton = getElements().fryChipsButton;
+    let localizedText;
+    if (finishedCounting) {
+        localizedText = `${localize('fryChips', getLanguage())}`;
+    } else {
+        localizedText = `${localize('fryingChips', getLanguage())}`;
+    }
+
+    const bubbles = Array.from(fryerButton.getElementsByClassName('bubble'));
+    const bubblePositions = bubbles.map(bubble => {
+        return {
+            element: bubble,
+            left: bubble.style.left,
+            top: bubble.style.top
+        };
+    });
+
+    for (const node of Array.from(fryerButton.childNodes)) {
+        if (node.nodeType === Node.TEXT_NODE || node.tagName === 'BR') {
+            fryerButton.removeChild(node);
+        }
+    }
+
+    fryerButton.innerHTML += localizedText;
+
+    const bubbleGroups = {};
+    bubblePositions.forEach(pos => {
+        const topValue = parseFloat(pos.top);
+        if (!bubbleGroups[topValue]) {
+            bubbleGroups[topValue] = [];
+        }
+        bubbleGroups[topValue].push(pos);
+    });
+
+    Object.values(bubbleGroups).forEach(group => {
+        const minHeight = 0.1 * fryerButton.offsetHeight;
+        const maxHeight = 0.15 * fryerButton.offsetHeight;
+        const adjustment = minHeight + Math.random() * (maxHeight - minHeight);
+
+        group.forEach(pos => {
+            const newBubble = document.createElement('span');
+            newBubble.className = 'bubble';
+            newBubble.style.left = pos.left;
+            newBubble.style.top = `${adjustment}px`;
+            fryerButton.appendChild(newBubble);
+        });
+    });
+
+    const updatedBubbles = fryerButton.getElementsByClassName('bubble');
+    while (updatedBubbles.length > 40) {
+        const randomIndex = Math.floor(Math.random() * updatedBubbles.length);
+        updatedBubbles[randomIndex].parentNode.removeChild(updatedBubbles[randomIndex]);
+    }
+}
+
+

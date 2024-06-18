@@ -210,7 +210,7 @@ import {
     addCheckbox,
     createOverlay,
     formatToCashNotation,
-    hideButtonsReadyForEndGame,
+    hideButtonsReadyForEndGame, startBubbleAnimation,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
     triggerEndGameScreen,
@@ -250,6 +250,7 @@ export function handleButtonClick(buttonId, value, loading) {
                     break;
                 case getElements().fryChipsButton.id:
                     handleFryChips(buttonId);
+                    startBubbleAnimation(getElements().fryChipsButton);
                     break;
                 case getElements().servingStorageButton.id:
                     handleServingStorage();

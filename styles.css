@@ -151,8 +151,8 @@ body {
 }
 
 .action-button-main.cooking {
-    background-color: #198754;
-    color: black;
+    background: linear-gradient(to top, #80583d, #FFFF00);
+    color: white;
     font-weight: bold;
     pointer-events: none;
 }
@@ -807,4 +807,38 @@ button.bg-warning {
     position: relative;
     overflow: hidden;
     height: 30px;
+}
+
+/*bubble animation for fryer button*/
+
+.bubble {
+    position: absolute;
+    background-color: rgba(230, 210, 173, 0.6);
+    border-radius: 50%;
+    animation: rise 0.12s linear, pop 0.3s linear;
+    opacity: 0;
+}
+
+@keyframes rise {
+    0% {
+        bottom: 10%;
+        opacity: 0.6;
+    }
+    100% {
+        bottom: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes pop {
+    0%, 95% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.hidden {
+    display: none;
 }

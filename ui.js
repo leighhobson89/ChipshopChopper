@@ -19,7 +19,8 @@ import {
     getAutoFryerCapped,
     getAutoPeelerCapped,
     getAutoSaveOn,
-    getAutoStorageCollectorCapped, getBonusMovingGraphicPrize,
+    getAutoStorageCollectorCapped,
+    getBonusMovingGraphicPrize, getBubbleInterval,
     getCapAutoChipper,
     getCapAutoCustomerServer,
     getCapAutoFryer,
@@ -29,7 +30,9 @@ import {
     getCapFryerSpeed,
     getCapMaxDelivery,
     getCapMaxWaitCustomer,
-    getCapPotatoCapacity, getCountdownTime, getCountdownTimeInterval,
+    getCapPotatoCapacity,
+    getCountdownTime,
+    getCountdownTimeInterval,
     getCurrentCash,
     getCurrentMaxValueWaitForNewCustomer,
     getCurrentRotation,
@@ -38,7 +41,8 @@ import {
     getCurrentSpeedAutoFryer,
     getCurrentSpeedAutoPeeler,
     getCurrentSpeedAutoStorageCollector,
-    getCurrentValueOfInvestment, getCustomersWaiting,
+    getCurrentValueOfInvestment,
+    getCustomersWaiting,
     getDebugFlag,
     getElements,
     getFloatOnStockMarketUnlockedAndEndGameFlowStarted,
@@ -50,10 +54,14 @@ import {
     getInvestmentCashIncrementDecrement,
     getInvestmentFundUnlockable,
     getInvestmentFundUnlocked,
-    getInvestmentRiskIncrementDecrement, getLanguage, getLocalization, getMaxCountdownTime,
+    getInvestmentRiskIncrementDecrement,
+    getLanguage,
+    getLocalization,
+    getMaxCountdownTime,
     getMaxDeliveryCapped,
     getMaxSpudsDelivery,
-    getMaxWaitCustomerCapped, getMinCountdownTime,
+    getMaxWaitCustomerCapped,
+    getMinCountdownTime,
     getNumberOfWheelSections,
     getOne,
     getPotatoCapacityCapped,
@@ -77,7 +85,8 @@ import {
     getShiftCounter,
     getShiftInProgress,
     getShiftPoints,
-    getShiftPrizePot, getSpeedOfBonusGraphic,
+    getShiftPrizePot,
+    getSpeedOfBonusGraphic,
     getSpudsToAddToShift,
     getStartingCash,
     getStateLoading,
@@ -86,22 +95,30 @@ import {
     getZero,
     popupOverlay,
     resetAllVariables,
-    resetCounterUiElements, setActualPotatoesInStorage,
+    resetCounterUiElements,
+    setActualPotatoesInStorage,
     setAutoChipperCapped,
     setAutoCustomerServerCapped,
     setAutoFryerCapped,
     setAutoPeelerCapped,
     setAutoSaveOn,
-    setAutoStorageCollectorCapped, setBonusMovingGraphicPrize, setCountdownTime, setCountdownTimeInterval,
+    setAutoStorageCollectorCapped,
+    setBonusMovingGraphicPrize, setBubbleInterval,
+    setCountdownTime,
+    setCountdownTimeInterval,
     setCurrentCash,
-    setCurrentRotation, setCustomersWaiting,
+    setCurrentRotation,
+    setCustomersWaiting,
     setDebugFlag,
     setFryerCapacityCapped,
     setFryerSpeedCapped,
     setGameInProgress,
-    setInitialStateMainButtons, setLanguage, setLanguageChangedFlag,
+    setInitialStateMainButtons,
+    setLanguage,
+    setLanguageChangedFlag,
     setMaxDeliveryCapped,
-    setMaxWaitCustomerCapped, setOldLanguage,
+    setMaxWaitCustomerCapped,
+    setOldLanguage,
     setPauseAutoSaveCountdown,
     setPotatoCapacityCapped,
     setPromotionFlag,
@@ -1343,6 +1360,22 @@ function selectBonusPrize() {
             return { bonusPrize: bonusPrizes[i].bonusPrize, class: bonusPrizes[i].class };
         }
     }
+}
+
+export function startBubbleAnimation() {
+    setBubbleInterval(setInterval(() => {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        const size = Math.random() * 40 + 5;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${Math.random() * 75}%`;
+        getElements().fryChipsButton.appendChild(bubble);
+    }, 10));
+}
+
+export function stopBubbleAnimation() {
+    clearInterval(getBubbleInterval());
 }
 
 

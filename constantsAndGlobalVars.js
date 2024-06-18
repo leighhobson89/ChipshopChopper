@@ -97,6 +97,7 @@ export let endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
 export let popupOverlay;
 
 //GLOBAL VARIABLES
+let bubbleInterval = 0;
 let countdownTimeBonusGraphic = 0;
 let countdownInterval = null;
 let bonusMovingGraphicPrize = null;
@@ -655,6 +656,14 @@ export function getPriceToIncreaseFootfall() {
 
 export function setPriceToIncreaseFootfall(value) {
     priceToIncreaseFootfall = value;
+}
+
+export function setBubbleInterval(value) {
+    bubbleInterval = value;
+}
+
+export function getBubbleInterval() {
+    return bubbleInterval;
 }
 
 export function getFryTimer() {
