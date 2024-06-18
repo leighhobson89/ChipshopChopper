@@ -16,7 +16,7 @@ import {
     writePopupText,
     createOverlay,
     handleButtonClickEventListenerInitialisation,
-    pickRandomCountdownTimeToNextMovingBonus
+    pickRandomCountdownTimeToNextMovingBonus, showBonusPrizeString
 } from './ui.js';
 
 import {
@@ -223,8 +223,9 @@ export function main() {
             });
     });
     getElements().bonusGraphic.addEventListener('click', function() {
+        showBonusPrizeString(getBonusMovingGraphicPrize());
         getElements().bonusGraphic.classList.add('d-none');
-        bonusClicked(getBonusMovingGraphicPrize());
+        bonusClicked();
     });
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
     window.addEventListener('blur', handleVisibilityChange, false);

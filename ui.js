@@ -19,7 +19,7 @@ import {
     getAutoFryerCapped,
     getAutoPeelerCapped,
     getAutoSaveOn,
-    getAutoStorageCollectorCapped,
+    getAutoStorageCollectorCapped, getBonusMovingGraphicPrize,
     getCapAutoChipper,
     getCapAutoCustomerServer,
     getCapAutoFryer,
@@ -38,7 +38,7 @@ import {
     getCurrentSpeedAutoFryer,
     getCurrentSpeedAutoPeeler,
     getCurrentSpeedAutoStorageCollector,
-    getCurrentValueOfInvestment,
+    getCurrentValueOfInvestment, getCustomersWaiting,
     getDebugFlag,
     getElements,
     getFloatOnStockMarketUnlockedAndEndGameFlowStarted,
@@ -86,15 +86,15 @@ import {
     getZero,
     popupOverlay,
     resetAllVariables,
-    resetCounterUiElements,
+    resetCounterUiElements, setActualPotatoesInStorage,
     setAutoChipperCapped,
     setAutoCustomerServerCapped,
     setAutoFryerCapped,
     setAutoPeelerCapped,
     setAutoSaveOn,
-    setAutoStorageCollectorCapped, setCountdownTime, setCountdownTimeInterval,
+    setAutoStorageCollectorCapped, setBonusMovingGraphicPrize, setCountdownTime, setCountdownTimeInterval,
     setCurrentCash,
-    setCurrentRotation,
+    setCurrentRotation, setCustomersWaiting,
     setDebugFlag,
     setFryerCapacityCapped,
     setFryerSpeedCapped,
@@ -1031,6 +1031,16 @@ function showWheelPrizeString(winningColor) {
     return prizeString;
 }
 
+export function showBonusPrizeString(bonusPrizeString) {
+    const graphic = document.getElementById('bonusGraphic');
+
+    const graphicRect = graphic.getBoundingClientRect();
+    const graphicCenterX = graphicRect.left + graphicRect.width / 2;
+    const graphicCenterY = graphicRect.top + graphicRect.height / 2;
+
+    animatedTextString(graphicCenterX, graphicCenterY, bonusPrizeString);
+}
+
 function getPrizeFromWinningColor(winningColor) {
     switch (winningColor) {
         case wheelColors.NORMAL[0]:
@@ -1233,9 +1243,40 @@ export function initialiseMovingBonusPrize() {
     moveGraphic();
 }
 
-export function bonusClicked(bonusPrize) {
-    console.log('Bonus clicked!');
-    //give prize bonusPrize
+export function bonusClicked() {
+    const bonusPrize = getBonusMovingGraphicPrize();
+    console.log(bonusPrize);
+    switch (bonusPrize) {
+        case '$5':
+            setCurrentCash(getCurrentCash() + 5);
+            break;
+        case '$50':
+            setCurrentCash(getCurrentCash() + 50);
+            break;
+        case '$1000':
+            setCurrentCash(getCurrentCash() + 1000);
+            break;
+        case '1 Shift Point!':
+            setShiftPoints(getShiftPoints() + 1);
+            break;
+        case '5 Shift Points!':
+            setShiftPoints(getShiftPoints() + 5);
+            break;
+        case '10 Customers!':
+            setCustomersWaiting(getCustomersWaiting() + 10);
+            break;
+        case '50 Potatoes!':
+            if (getActualPotatoesInStorage() + 50 <= getPotatoStorageQuantity()) {
+                setActualPotatoesInStorage(getActualPotatoesInStorage() + 50);
+            } else {
+                setActualPotatoesInStorage(getPotatoStorageQuantity());
+            }
+            break;
+    }
+
+    getElements().subInnerDivMid1_2.innerHTML = `<h4>${getActualPotatoesInStorage().toString()}/${getPotatoStorageQuantity().toString()}</h4>`;
+    getElements().customersWaitingCount.innerHTML = `<h3>${getCustomersWaiting()}</h3>`;
+
     pickRandomCountdownTimeToNextMovingBonus();
 }
 
@@ -1256,6 +1297,7 @@ function countdownTimer() {
 
             if (getCountdownTime() <= 0) {
                 clearInterval(interval);
+                setBonusMovingGraphicPrize(selectBonusPrize());
                 initialiseMovingBonusPrize();
                 pickRandomCountdownTimeToNextMovingBonus();
             }
@@ -1263,5 +1305,28 @@ function countdownTimer() {
     }, 1000); // Decrement the countdown time every second
 
     setCountdownTimeInterval(interval); // Store the new interval
+}
+
+function selectBonusPrize() {
+    const bonusPrizes = [
+        { bonusPrize: "$5", probability: 20 },
+        { bonusPrize: "$50", probability: 10 },
+        { bonusPrize: "$1000", probability: 5 },
+        { bonusPrize: "1 Shift Point!", probability: 20 },
+        { bonusPrize: "5 Shift Points!", probability: 10 },
+        { bonusPrize: "10 Customers!", probability: 20 },
+        { bonusPrize: "50 Potatoes!", probability: 15 }
+    ];
+
+    const totalProbability = bonusPrizes.reduce((total, prize) => total + prize.probability, 0);
+    const randomValue = Math.random() * totalProbability;
+
+    let cumulativeProbability = 0;
+    for (let i = 0; i < bonusPrizes.length; i++) {
+        cumulativeProbability += bonusPrizes[i].probability;
+        if (randomValue < cumulativeProbability) {
+            return bonusPrizes[i].bonusPrize;
+        }
+    }
 }
 
