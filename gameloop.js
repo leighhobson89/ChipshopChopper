@@ -20,6 +20,7 @@ import {
 } from './ui.js';
 
 import {
+    activateResumeGameButton,
     createRandomCustomerTime,
     cutChips,
     decrementCounter,
@@ -267,6 +268,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export function gameLoop() {
+    if (!getElements().gameWindow.classList.contains('d-none') && getElements().resumeGameButton.classList.contains('option-disabled')) {
+        activateResumeGameButton();
+    }
     checkForLanguageChange();
     if (debugOptionFlag && getElements().debugCash.classList.contains('d-none')) {
         getElements().debugCash.classList.remove('d-none');
@@ -522,7 +526,6 @@ export function initialiseNewGame() {
     if (getGameInProgress()) {
         return askUserToConfirmRestart();
     } else {
-        getElements().resumeGameButton.classList.remove('option-disabled');
         getElements().option1.innerHTML = `<h2>${localize('newGame', getLanguage())}</h2>`;
         getElements().optionsWindow.classList.add('d-none');
         createRandomCustomerTime();

@@ -237,6 +237,7 @@ export function handleButtonClick(buttonId, value, loading) {
                 case getElements().menuButton.id:
                     if (getGameInProgress() && getElements().option2.classList.contains('option-disabled')) {
                         toggleDisable(false, getElements().option2);
+                        activateResumeGameButton();
                     }
                     toggleMenu(!getElements().gameWindow.classList.contains('d-none'));
                     setPauseAutoSaveCountdown(true);
@@ -695,6 +696,7 @@ function handleInvestmentFundUnlockButton(buttonId) {
         setUpFloatButton();
     }
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
+        getElements().endGameStartShiftButton.innerHTML = `${localize('endGameStartShiftButton', getLanguage())}`;
         setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToFloatOnStockMarket());
         setupEndGameFlow();
     }
@@ -1697,4 +1699,11 @@ export function toggleDisable(disableItNow, element) {
             }
             break;
     }
+}
+
+export function activateResumeGameButton() {
+    getElements().resumeGameButton.classList.remove('option-disabled');
+    getElements().resumeGameButton.classList.remove('bg-secondary');
+    getElements().resumeGameButton.classList.add('bg-warning');
+    getElements().resumeGameButton.style.color = 'black';
 }

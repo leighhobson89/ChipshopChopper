@@ -18,6 +18,7 @@
     "autoShiftUpgradeDisabled": "Auto Shift Start Upgrade<br>DISABLED",
     "autoShiftUpgradeEnabled": "Auto Shift Start Upgrade<br>ENABLED",
     "congratulations": "Congratulations, You Won!",
+    "congratulationsFinalPopup": "Congratulations!",
     "endOfShift": "End Of Shift ${getShiftCounter()}",
     "potatoesNextShift": "Potatoes for next shift: ${(getActualPotatoesInStorage() + Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity())) - getActualPotatoesInStorage()} to be delivered = ${Math.abs(getActualPotatoesInStorage() - Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity()))}",
     "maxStorageReached": " (due to max storage reached)",
@@ -139,7 +140,9 @@
     "closeButton": "Close",
     "headerStringSave": "Copy This String To A Text File:",
     "headerStringLoad": "Paste String Below and click Load:",
-    "textAreaLabel": "Paste Save String Here..."
+    "textAreaLabel": "Paste Save String Here...",
+    "endGameStartShiftButton": "Start Final Shift!"
+
   },
   "es": {
     "potatoes": "Papas",
@@ -160,6 +163,7 @@
     "autoShiftUpgradeDisabled": "Inicio de turno auto<br>DESHABILITADA",
     "autoShiftUpgradeEnabled": "Inicio de turno auto<br>HABILITADA",
     "congratulations": "¡Felicidades, has ganado!",
+    "congratulationsFinalPopup": "¡Enhorabuena!",
     "endOfShift": "Fin del turno ${getShiftCounter()}",
     "potatoesNextShift": "Papas para el próximo turno: ${(getActualPotatoesInStorage() + Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity())) - getActualPotatoesInStorage()} para entregar = ${Math.abs(getActualPotatoesInStorage() - Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity()))}",
     "maxStorageReached": " (debido a que se alcanzó el almacenamiento máximo)",
@@ -281,7 +285,8 @@
     "closeButton": "Cerrar",
     "headerStringSave": "Copiar esta cadena en un archivo de texto:",
     "headerStringLoad": "Pegar la cadena abajo y hacer clic en Cargar:",
-    "textAreaLabel": "Pegar cadena de guardado aquí..."
+    "textAreaLabel": "Pegar cadena de guardado aquí...",
+    "endGameStartShiftButton": "¡Comienza el turno final!"
   },
   "de": {
     "potatoes": "Kartoffeln",
@@ -302,6 +307,7 @@
     "autoShiftUpgradeDisabled": "Automatisches Schichtstart-Upgrade<br>DEAKTIVIERT",
     "autoShiftUpgradeEnabled": "Automatisches Schichtstart-Upgrade<br>AKTIVIERT",
     "congratulations": "Herzlichen Glückwunsch, Sie haben gewonnen!",
+    "congratulationsFinalPopup": "Herzlichen Glückwunsch!!",
     "endOfShift": "Ende der Schicht ${getShiftCounter()}",
     "potatoesNextShift": "Kartoffeln für die nächste Schicht: ${(getActualPotatoesInStorage() + Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity())) - getActualPotatoesInStorage()} zu liefern = ${Math.abs(getActualPotatoesInStorage() - Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity()))}",
     "maxStorageReached": " (aufgrund maximaler Lagerkapazität erreicht)",
@@ -423,7 +429,8 @@
     "closeButton": "Schließen",
     "headerStringSave": "Diese Zeichenfolge in eine Textdatei kopieren:",
     "headerStringLoad": "Fügen Sie die Zeichenfolge unten ein und klicken Sie auf Laden:",
-    "textAreaLabel": "Gespeicherte Zeichenfolge hier einfügen..."
+    "textAreaLabel": "Gespeicherte Zeichenfolge hier einfügen...",
+    "endGameStartShiftButton": "Letzte Schicht beginnen!"
   },
   "it": {
     "potatoes": "Patate",
@@ -444,6 +451,7 @@
     "autoShiftUpgradeDisabled": "Aggiornamento avvio turno automatico<br>DISABILITATO",
     "autoShiftUpgradeEnabled": "Aggiornamento avvio turno automatico<br>ABILITATO",
     "congratulations": "Congratulazioni, hai vinto!",
+    "congratulationsFinalPopup": "Congratulazioni!",
     "endOfShift": "Fine turno ${getShiftCounter()}",
     "potatoesNextShift": "Patate per il prossimo turno: ${(getActualPotatoesInStorage() + Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity())) - getActualPotatoesInStorage()} da consegnare = ${Math.abs(getActualPotatoesInStorage() - Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity()))}",
     "maxStorageReached": " (a causa del raggiungimento della capacità massima)",
@@ -565,7 +573,8 @@
     "closeButton": "Chiudi",
     "headerStringSave": "Copia questa stringa in un file di testo:",
     "headerStringLoad": "Incolla la stringa qui sotto e clicca su Carica:",
-    "textAreaLabel": "Incolla qui la stringa salvata..."
+    "textAreaLabel": "Incolla qui la stringa salvata...",
+    "endGameStartShiftButton": "Inizia il turno finale!"
   },
   "fr": {
     "potatoes": "Pommes",
@@ -586,6 +595,7 @@
     "autoShiftUpgradeDisabled": "Mise à niveau de démarrage automatique du shift<br>DÉSACTIVÉE",
     "autoShiftUpgradeEnabled": "Mise à niveau de démarrage automatique du shift<br>ACTIVÉE",
     "congratulations": "Félicitations, vous avez gagné!",
+    "congratulationsFinalPopup": "Félicitations!",
     "endOfShift": "Fin du shift ${getShiftCounter()}",
     "potatoesNextShift": "Pommes de terre pour le prochain shift : ${(getActualPotatoesInStorage() + Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity())) - getActualPotatoesInStorage()} à livrer = ${Math.abs(getActualPotatoesInStorage() - Math.min((getActualPotatoesInStorage() + getSpudsToAddToShift()), getPotatoStorageQuantity()))}",
     "maxStorageReached": " (en raison de l'atteinte du stockage maximum)",
@@ -707,7 +717,8 @@
     "closeButton": "Fermer",
     "headerStringSave": "Copier cette chaîne dans un fichier texte :",
     "headerStringLoad": "Collez la chaîne ci-dessous et cliquez sur Charger :",
-    "textAreaLabel": "Collez la chaîne de sauvegarde ici..."
+    "textAreaLabel": "Collez la chaîne de sauvegarde ici...",
+    "endGameStartShiftButton": "Commencez le dernier quart!"
   },
   "prizes": {
     "en": {

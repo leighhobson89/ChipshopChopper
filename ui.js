@@ -302,6 +302,7 @@ export function createOverlay() {
     overlayText.className = 'overlay-text';
     overlayText.innerHTML = `${localize('congratulations', getLanguage())}`;
     overlayText.classList.add('d-none');
+    overlayText.classList.add('text-can-substitute');
 
     overlay.appendChild(overlayText);
     document.body.appendChild(overlay);
@@ -356,7 +357,7 @@ export function writePopupText() {
     const popupContentInnerRight1 = getElements().endOfShiftOrGamePopupContentInnerRight1;
 
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
-        popupTitleLeft.innerHTML = `<div class="popup-title" style="opacity: 0;">Congratulations!!</div>`;
+        popupTitleLeft.innerHTML = `<div class="popup-title" style="opacity: 0;">${localize('congratulationsFinalPopup', getLanguage())}</div>`;
         popupContentInnerLeft.innerHTML = `
             <div class="popup-content">
                 <span style="color: yellow;">${localize('beatTheGame', getLanguage())}</span><br><br>
@@ -574,9 +575,6 @@ function createOptionScreenEventListeners() {
         setGameInProgress(initialiseNewGame());
         updateVisibleButtons(); //for debug if money given
         setPauseAutoSaveCountdown(false);
-        getElements().resumeGameButton.classList.remove('bg-secondary');
-        getElements().resumeGameButton.classList.add('bg-warning');
-        getElements().resumeGameButton.style.color = 'black';
     });
     getElements().option2.addEventListener('click', function() {
         saveGame(true);
@@ -1332,7 +1330,7 @@ function selectBonusPrize() {
         { bonusPrize: `1 ${localize('shiftPointsExclamation', getLanguage())}`, probability: 20, class: 3 },
         { bonusPrize: `5 ${localize('shiftPointsExclamation', getLanguage())}`, probability: 10, class: 1 },
         { bonusPrize: `10 ${localize('customers', getLanguage())}`, probability: 20, class: 2 },
-        { bonusPrize: `1 ${localize('potatoes', getLanguage())}`, probability: 15, class: 2 }
+        { bonusPrize: `50 ${localize('potatoes', getLanguage())}`, probability: 15, class: 2 }
     ];
 
     const totalProbability = bonusPrizes.reduce((total, prize) => total + prize.probability, 0);
