@@ -792,14 +792,17 @@ button.bg-warning {
 
 .moving-bonus {
     position: absolute;
-    width: 40px;
-    height: 20px;
-    background-color: red;
+    width: 60px;
+    height: 30px;
     border-radius: 50%;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
 .full-width-row {
     position: relative;
     overflow: hidden;

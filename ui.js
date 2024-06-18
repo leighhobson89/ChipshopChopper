@@ -1209,7 +1209,7 @@ languageButtons.forEach(function(id) {
     addMouseOverOutEvents(id);
 });
 
-export function initialiseMovingBonusPrize() {
+export function initialiseMovingBonusPrize(bonusPrizeClass) {
     const graphic = getElements().bonusGraphic;
     const container = document.querySelector('.full-width-row');
     const containerWidth = container.offsetWidth;
@@ -1217,6 +1217,22 @@ export function initialiseMovingBonusPrize() {
     const speed = getSpeedOfBonusGraphic();
     let position = 0;
     let direction = Math.random() < 0.5 ? 1 : -1;
+
+    switch (bonusPrizeClass) {
+        case 1:
+            graphic.style.backgroundImage = 'url(./resources/icons/goldPrize.png)';
+            break;
+        case 2:
+            graphic.style.backgroundImage = 'url(./resources/icons/silverPrize.png)';
+            break;
+        case 3:
+            graphic.style.backgroundImage = 'url(./resources/icons/bronzePrize.png)';
+            break;
+        default:
+            console.warn('Unknown bonus prize class:', bonusPrizeClass);
+            graphic.style.backgroundImage = '';
+            break;
+    }
 
     if (direction === 1) {
         position = 0;
@@ -1297,8 +1313,9 @@ function countdownTimer() {
 
             if (getCountdownTime() <= 0) {
                 clearInterval(interval);
-                setBonusMovingGraphicPrize(selectBonusPrize());
-                initialiseMovingBonusPrize();
+                const bonusPrizeObject = selectBonusPrize();
+                setBonusMovingGraphicPrize(bonusPrizeObject.bonusPrize);
+                initialiseMovingBonusPrize(bonusPrizeObject.class);
                 pickRandomCountdownTimeToNextMovingBonus();
             }
         }
@@ -1309,13 +1326,13 @@ function countdownTimer() {
 
 function selectBonusPrize() {
     const bonusPrizes = [
-        { bonusPrize: "$5", probability: 20 },
-        { bonusPrize: "$50", probability: 10 },
-        { bonusPrize: "$1000", probability: 5 },
-        { bonusPrize: "1 Shift Point!", probability: 20 },
-        { bonusPrize: "5 Shift Points!", probability: 10 },
-        { bonusPrize: "10 Customers!", probability: 20 },
-        { bonusPrize: "50 Potatoes!", probability: 15 }
+        { bonusPrize: "$5", probability: 20, class: 3 },
+        { bonusPrize: "$50", probability: 10, class: 2 },
+        { bonusPrize: "$1000", probability: 5, class: 1 },
+        { bonusPrize: "1 Shift Point!", probability: 20, class: 3 },
+        { bonusPrize: "5 Shift Points!", probability: 10, class: 1 },
+        { bonusPrize: "10 Customers!", probability: 20, class: 2 },
+        { bonusPrize: "50 Potatoes!", probability: 15, class: 2 }
     ];
 
     const totalProbability = bonusPrizes.reduce((total, prize) => total + prize.probability, 0);
@@ -1325,8 +1342,9 @@ function selectBonusPrize() {
     for (let i = 0; i < bonusPrizes.length; i++) {
         cumulativeProbability += bonusPrizes[i].probability;
         if (randomValue < cumulativeProbability) {
-            return bonusPrizes[i].bonusPrize;
+            return { bonusPrize: bonusPrizes[i].bonusPrize, class: bonusPrizes[i].class };
         }
     }
 }
+
 
