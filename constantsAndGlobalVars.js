@@ -56,6 +56,9 @@ const RISK_ADJUSTMENT_COEFFICIENT = 98;
 const BASE_RISK_NUMBER = 200;
 const INTEREST_RATE_BASE_VALUE = 1.2;
 const NUMBER_OF_WHEEL_SECTIONS = 4;
+const MIN_COUNTDOWN_TIME_BONUS_GRAPHIC = 5; //45
+const MAX_COUNTDOWN_TIME_BONUS_GRAPHIC = 20; //200
+const SPEED_OF_BONUS_GRAPHIC = 2;
 
 //UPGRADE PRICE MULTIPLIER CONSTANTS
 const MULTIPLE_FOR_UPGRADE_DOUBLE_PEELER = 2;
@@ -94,6 +97,9 @@ export let endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
 export let popupOverlay;
 
 //GLOBAL VARIABLES
+let countdownTimeBonusGraphic = 0;
+let countdownInterval = null;
+let bonusMovingGraphicPrize = null;
 let currentMaxValueWaitForNewCustomer = 10;
 let nextMaxValueWaitForNewCustomer = 8;
 let multipleForHeaterEffectOnCoolDown = 1;
@@ -315,7 +321,8 @@ export function setElements() {
         continueButton: document.getElementById('popupContinueButton'),
         saveLoadPopup: document.getElementById('loadSaveGameStringPopup'),
         loadSaveGameStringTextArea: document.getElementById('loadSaveGameStringTextArea'),
-        textAreaLabel: document.getElementById('textAreaLabel')
+        textAreaLabel: document.getElementById('textAreaLabel'),
+        bonusGraphic: document.getElementById('bonusGraphic')
     };
 }
 
@@ -1563,6 +1570,9 @@ export function setPopupOverlay(value) {
 
 export function resetAllVariables() {
     // GLOBAL VARIABLES
+    countdownTimeBonusGraphic = 0;
+    countdownInterval = null;
+    bonusMovingGraphicPrize = null;
     currentMaxValueWaitForNewCustomer = 10;
     nextMaxValueWaitForNewCustomer = 8;
     multipleForHeaterEffectOnCoolDown = 1;
@@ -2088,6 +2098,42 @@ export function getOldLanguage() {
 
 export function setPopupOverlayAtStartOfGame(value) {
     popupOverlay = value;
+}
+
+export function setCountdownTimeInterval(value) {
+    countdownInterval = value;
+}
+
+export function getCountdownTimeInterval() {
+    return countdownInterval;
+}
+
+export function setCountdownTime(value) {
+    countdownTimeBonusGraphic = value;
+}
+
+export function getCountdownTime() {
+    return countdownTimeBonusGraphic;
+}
+
+export function getMinCountdownTime() {
+    return MIN_COUNTDOWN_TIME_BONUS_GRAPHIC;
+}
+
+export function getMaxCountdownTime() {
+    return MAX_COUNTDOWN_TIME_BONUS_GRAPHIC;
+}
+
+export function getSpeedOfBonusGraphic() {
+    return SPEED_OF_BONUS_GRAPHIC;
+}
+
+export function getBonusMovingGraphicPrize() {
+    return bonusMovingGraphicPrize;
+}
+
+export function setBonusMovingGraphicPrize(value) {
+    bonusMovingGraphicPrize = value;
 }
 
 function setFlagsToFalse() {

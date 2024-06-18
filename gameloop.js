@@ -13,7 +13,10 @@ import {
     updateButtonStyle,
     updateTextAndDisableButtonsForCappedUpgrades,
     updateVisibleButtons,
-    writePopupText, createOverlay, handleButtonClickEventListenerInitialisation
+    writePopupText,
+    createOverlay,
+    handleButtonClickEventListenerInitialisation,
+    pickRandomCountdownTimeToNextMovingBonus
 } from './ui.js';
 
 import {
@@ -157,9 +160,10 @@ import {
     getFryerSpeedCapped,
     getMaxDeliveryCapped,
     getMaxWaitCustomerCapped,
-    getInvestmentFundUnlockable, setStateLoading
+    getInvestmentFundUnlockable, setStateLoading, getBonusMovingGraphicPrize
 } from './constantsAndGlobalVars.js';
 import {initLocalization, localize} from "./localization.js";
+import {bonusClicked} from "./ui.js";
 
 let autoSaveInterval;
 let nextAutoSaveTime;
@@ -216,8 +220,11 @@ export function main() {
             })
             .catch((error) => {
                 console.error('Error loading game:', error);
-                // Handle error if necessary
             });
+    });
+    getElements().bonusGraphic.addEventListener('click', function() {
+        getElements().bonusGraphic.classList.add('d-none');
+        bonusClicked(getBonusMovingGraphicPrize());
     });
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
     window.addEventListener('blur', handleVisibilityChange, false);
@@ -240,6 +247,8 @@ export function main() {
         }
     }, 1000);
 
+    pickRandomCountdownTimeToNextMovingBonus();
+
     gameLoop();
 }
 
@@ -249,6 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLocalization(defaultLocalization).then(() => {
         setPopupOverlayAtStartOfGame(createOverlay());
         setElements();
+        getElements().bonusGraphic.classList.add('d-none');
         main();
     }).catch(error => {
         console.error('Error initializing localization:', error);

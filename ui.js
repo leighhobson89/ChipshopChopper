@@ -29,7 +29,7 @@ import {
     getCapFryerSpeed,
     getCapMaxDelivery,
     getCapMaxWaitCustomer,
-    getCapPotatoCapacity,
+    getCapPotatoCapacity, getCountdownTime, getCountdownTimeInterval,
     getCurrentCash,
     getCurrentMaxValueWaitForNewCustomer,
     getCurrentRotation,
@@ -50,10 +50,10 @@ import {
     getInvestmentCashIncrementDecrement,
     getInvestmentFundUnlockable,
     getInvestmentFundUnlocked,
-    getInvestmentRiskIncrementDecrement, getLanguage, getLocalization,
+    getInvestmentRiskIncrementDecrement, getLanguage, getLocalization, getMaxCountdownTime,
     getMaxDeliveryCapped,
     getMaxSpudsDelivery,
-    getMaxWaitCustomerCapped,
+    getMaxWaitCustomerCapped, getMinCountdownTime,
     getNumberOfWheelSections,
     getOne,
     getPotatoCapacityCapped,
@@ -77,7 +77,7 @@ import {
     getShiftCounter,
     getShiftInProgress,
     getShiftPoints,
-    getShiftPrizePot,
+    getShiftPrizePot, getSpeedOfBonusGraphic,
     getSpudsToAddToShift,
     getStartingCash,
     getStateLoading,
@@ -92,7 +92,7 @@ import {
     setAutoFryerCapped,
     setAutoPeelerCapped,
     setAutoSaveOn,
-    setAutoStorageCollectorCapped,
+    setAutoStorageCollectorCapped, setCountdownTime, setCountdownTimeInterval,
     setCurrentCash,
     setCurrentRotation,
     setDebugFlag,
@@ -1198,3 +1198,70 @@ const languageButtons = ['language_en', 'language_es', 'language_de', 'language_
 languageButtons.forEach(function(id) {
     addMouseOverOutEvents(id);
 });
+
+export function initialiseMovingBonusPrize() {
+    const graphic = getElements().bonusGraphic;
+    const container = document.querySelector('.full-width-row');
+    const containerWidth = container.offsetWidth;
+    const graphicWidth = graphic.offsetWidth;
+    const speed = getSpeedOfBonusGraphic();
+    let position = 0;
+    let direction = Math.random() < 0.5 ? 1 : -1;
+
+    if (direction === 1) {
+        position = 0;
+    } else {
+        position = containerWidth - graphicWidth;
+    }
+
+    graphic.classList.remove('d-none');
+
+    function moveGraphic() {
+        if (document.getElementById('endOfShiftOrGamePopup').classList.contains('d-none')) {
+            position += speed * direction;
+            if (position >= containerWidth - graphicWidth || position <= 0) {
+                graphic.classList.add('d-none');
+                return;
+            }
+            graphic.style.left = position + 'px';
+            requestAnimationFrame(moveGraphic);
+        } else {
+            graphic.classList.add('d-none');
+            pickRandomCountdownTimeToNextMovingBonus();
+        }
+    }
+    moveGraphic();
+}
+
+export function bonusClicked(bonusPrize) {
+    console.log('Bonus clicked!');
+    //give prize bonusPrize
+    pickRandomCountdownTimeToNextMovingBonus();
+}
+
+export function pickRandomCountdownTimeToNextMovingBonus() {
+    setCountdownTime(Math.floor(Math.random() * (getMaxCountdownTime() - getMinCountdownTime() + getOne())) + getMinCountdownTime()); // Generate a random time between 45 and 200 seconds
+    countdownTimer();
+}
+
+function countdownTimer() {
+    if (getCountdownTimeInterval()) {
+        clearInterval(getCountdownTimeInterval());
+    }
+
+    const interval = setInterval(() => {
+        if (getShiftInProgress()) {
+            setCountdownTime(getCountdownTime() - 1);
+            console.log(`Countdown: ${getCountdownTime()} seconds remaining`);
+
+            if (getCountdownTime() <= 0) {
+                clearInterval(interval);
+                initialiseMovingBonusPrize();
+                pickRandomCountdownTimeToNextMovingBonus();
+            }
+        }
+    }, 1000); // Decrement the countdown time every second
+
+    setCountdownTimeInterval(interval); // Store the new interval
+}
+
