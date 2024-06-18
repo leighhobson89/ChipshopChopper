@@ -218,7 +218,12 @@ import {
     writePopupText
 } from "./ui.js";
 import {localize} from "./localization.js";
-import {startAmbientSoundLoop} from "./audio.js";
+import {audioFiles, playFryingSoundLoop, startAmbientTrack} from "./audio.js";
+
+const clickCounterPeelPotatoes = ClickCounter("Peel Potatoes", audioFiles[7]);
+const clickCounterCutChips = ClickCounter("Cut Chips", audioFiles[8]);
+clickCounterCutChips.setVolume(1);
+clickCounterPeelPotatoes.setVolume(1);
 
 export function handleButtonClick(buttonId, value, loading) {
     const button = getElements()[buttonId];
@@ -413,6 +418,7 @@ export function handleButtonClick(buttonId, value, loading) {
 }
 
 function handlePeelPotato(element) {
+    clickCounterPeelPotatoes.countClick();
     const potatoesInStorageBeforeThisPeel = getActualPotatoesInStorage();
     if (potatoesInStorageBeforeThisPeel > getOddNumberLeftOverAfterDoublePeelingChipping()) {
         peelPotato(element, getPeelPotatoesRate());
@@ -422,6 +428,7 @@ function handlePeelPotato(element) {
 }
 
 function handleCutChips() {
+    clickCounterCutChips.countClick();
     const peeledCount = getElements().peeledCount;
     if (parseInt(peeledCount.innerText) > getOddNumberLeftOverAfterDoublePeelingChipping()) { //normal case
         cutChips(getNumberOfChipsFromPotato() * getCutChipsRate(), getCutChipsRate());
@@ -542,7 +549,7 @@ function handleAddStorageHeater(button, buttonId) {
 
 export function handleStartShift() {
     if (getSoundSetting()) {
-        startAmbientSoundLoop();
+        startAmbientTrack();
     }
     setShiftLengthTimerVariable(getShiftLength());
     setShiftInProgress(true);
@@ -1026,6 +1033,7 @@ function addShiftSpuds(quantity) {
 export function fryChips() {
     setFryTimeRemaining(getFryTimer());
     setAreChipsFrying(true);
+    playFryingSoundLoop();
 }
 
 function selectARandomNumberOfSpudsForNextShift() {
@@ -1711,4 +1719,58 @@ export function activateResumeGameButton() {
     getElements().resumeGameButton.classList.remove('bg-secondary');
     getElements().resumeGameButton.classList.add('bg-warning');
     getElements().resumeGameButton.style.color = 'black';
+}
+
+
+
+function ClickCounter(name, audioFileName) {
+    let clicksPerSecond = 0;
+    let totalClicks = 0;
+    let audioContext = new AudioContext();
+    let audioElement = new Audio(audioFileName);
+    let sourceNode = audioContext.createMediaElementSource(audioElement);
+    let gainNode = audioContext.createGain();
+
+    sourceNode.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    // Set initial gain value (volume)
+    gainNode.gain.value = 4; // Increase gain by a factor of 4
+
+    // Function to start tracking clicks per second and audio play
+    function startTracking() {
+        setInterval(() => {
+            //console.log(`Clicks per second (${name}): ${clicksPerSecond}`);
+
+            const clicksPerMinute = clicksPerSecond * 60;
+            //console.log(`Clicks per minute (${name}): ${clicksPerMinute}`);
+
+            if (clicksPerMinute >= 60 && audioElement.paused) {
+                //console.log(`Playing audio (${name})`);
+                audioElement.currentTime = 0;
+                audioElement.play().then(null);
+            }
+
+            if (clicksPerMinute < 60 && !audioElement.paused) {
+                //console.log(`Stopping audio (${name})`);
+                audioElement.pause();
+            }
+
+            clicksPerSecond = 0;
+        }, 1000);
+    }
+
+    function countClick() {
+        totalClicks++;
+        clicksPerSecond++;
+    }
+
+    startTracking();
+
+    return {
+        countClick,
+        setVolume: (volume) => {
+            gainNode.gain.value = volume;
+        }
+    };
 }
