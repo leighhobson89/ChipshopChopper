@@ -1261,7 +1261,7 @@ export function initialiseMovingBonusPrize(bonusPrizeClass) {
 
 export function bonusClicked() {
     const bonusPrize = getBonusMovingGraphicPrize();
-    console.log(bonusPrize);
+    // console.log(bonusPrize);
     switch (bonusPrize) {
         case '$5':
             setCurrentCash(getCurrentCash() + 5);
@@ -1309,7 +1309,7 @@ function countdownTimer() {
     const interval = setInterval(() => {
         if (getShiftInProgress()) {
             setCountdownTime(getCountdownTime() - 1);
-            console.log(`Countdown: ${getCountdownTime()} seconds remaining`);
+            //console.log(`Countdown: ${getCountdownTime()} seconds remaining`);
 
             if (getCountdownTime() <= 0) {
                 clearInterval(interval);
