@@ -197,7 +197,7 @@ import {
     setTotalWastedChips,
     getTotalWastedChips,
     wheelColors,
-    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag
+    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag, getSoundSetting
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -218,6 +218,7 @@ import {
     writePopupText
 } from "./ui.js";
 import {localize} from "./localization.js";
+import {startAmbientSoundLoop} from "./audio.js";
 
 export function handleButtonClick(buttonId, value, loading) {
     const button = getElements()[buttonId];
@@ -540,6 +541,9 @@ function handleAddStorageHeater(button, buttonId) {
 }
 
 export function handleStartShift() {
+    if (getSoundSetting()) {
+        startAmbientSoundLoop();
+    }
     setShiftLengthTimerVariable(getShiftLength());
     setShiftInProgress(true);
     setShiftCounter(getShiftCounter() + getStandardDecrementIncrementOfOne());

@@ -97,6 +97,7 @@ export let endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
 export let popupOverlay;
 
 //GLOBAL VARIABLES
+let soundSetting = true;
 let bubbleInterval = 0;
 let countdownTimeBonusGraphic = 0;
 let countdownInterval = null;
@@ -2143,6 +2144,14 @@ export function getBonusMovingGraphicPrize() {
 
 export function setBonusMovingGraphicPrize(value) {
     bonusMovingGraphicPrize = value;
+}
+
+export function setSoundSetting(value) {
+    soundSetting = value;
+}
+
+export function getSoundSetting() {
+    return soundSetting;
 }
 
 function setFlagsToFalse() {
