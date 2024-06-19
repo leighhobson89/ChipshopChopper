@@ -18,7 +18,7 @@ const ambientAudioFiles = [
     './resources/audio/ambience6.mp3'
 ];
 
-export const audioFiles = {
+export const audioFilesCache = {
     frying: './resources/audio/frying.mp3',
     peeling: './resources/audio/peeling.mp3',
     chopping: './resources/audio/chopping.mp3',
@@ -33,6 +33,22 @@ export const audioFiles = {
     wheelSpinning: './resources/audio/wheelSpinning.mp3',
     storageBin: './resources/audio/storageBin.mp3',
 };
+
+function preloadAudioFiles(files) {
+    const cache = {};
+
+    for (const [key, value] of Object.entries(files)) {
+        const audio = new Audio(value);
+        audio.preload = 'auto';
+        cache[key] = audio;
+    }
+
+    return cache;
+}
+
+export const audioFiles = preloadAudioFiles(audioFilesCache);
+console.log(audioFiles);
+console.log(audioFilesCache);
 
 let currentAudio = null;
 let nextAudio = null;
@@ -134,7 +150,7 @@ export function playFryingSoundLoop() {
     if (isFrying) return;
 
     isFrying = true;
-    fryingAudio = new Audio(audioFiles.frying);
+    fryingAudio = audioFiles.frying;
     fryingAudio.loop = true;
     fryingAudio.volume = 0.2;
 
@@ -191,8 +207,7 @@ function startFadeOut(audio, duration) {
     }, stepDuration);
 }
 
-export function playAudioFile(filePath, volume = 1.0) {
-    const audio = new Audio(filePath);
+export function playAudioFile(audio, volume = 1.0) {
     audio.volume = volume;
     audio.play().catch(error => console.error('Error playing audio:', error));
     playingAudios.push(audio); // Add to currently playing array
@@ -204,10 +219,6 @@ export function playAudioFile(filePath, volume = 1.0) {
         playingAudios = playingAudios.filter(src => src !== audio); // Remove from currently playing array
     });
     return audio;
-}
-
-export function getPlayingAudioFiles() {
-    return playingAudios;
 }
 
 export function muteAllAudio() {

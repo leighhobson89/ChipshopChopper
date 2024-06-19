@@ -494,7 +494,7 @@ export function handleServingStorage() {
         total += getChipsReadyToServeQuantity()[i];
     }
     getElements().readyToServeCount.innerHTML = `<h3>${total.toString()}</h3>`;
-    playAudioFile(audioFiles.storageBin,1);
+    playAudioFile(audioFiles.storageBin,0.5);
     startBatchTimer(newBatchId);
 }
 
@@ -1777,11 +1777,11 @@ export function activateResumeGameButton() {
 
 
 
-function ClickCounter(name, audioFileName) {
+function ClickCounter(name, audio) {
     let clicksPerSecond = 0;
     let totalClicks = 0;
     let audioContext = new AudioContext();
-    let audioElement = new Audio(audioFileName);
+    let audioElement = audio;
     let sourceNode = audioContext.createMediaElementSource(audioElement);
     let gainNode = audioContext.createGain();
 
@@ -1790,7 +1790,7 @@ function ClickCounter(name, audioFileName) {
 
     // Set initial gain value (volume)
 
-    if (audioFileName === audioFiles.peeling) {
+    if (audio === audioFiles.peeling) {
         gainNode.gain.value = 12;
     } else {
         gainNode.gain.value = 4;
