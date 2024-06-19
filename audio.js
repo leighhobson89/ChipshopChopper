@@ -28,7 +28,8 @@ export const audioFiles = {
     tickClock: './resources/audio/tickClock.mp3',
     kerching: './resources/audio/kerching.mp3',
     goodPrize: './resources/audio/goodPrize.mp3',
-    badPrize: './resources/audio/badPrize.mp3'
+    badPrize: './resources/audio/badPrize.mp3',
+    autoActivateSwitch: './resources/audio/autoActivateSwitch.mp3'
 };
 
 let currentAudio = null;

@@ -859,6 +859,7 @@ export function addCheckbox(button, state) {
 
     checkbox.addEventListener('click', function(event) {
         event.stopPropagation();
+        playAudioFile(audioFiles.autoActivateSwitch,1);
         if (!checkbox.checked) {
             button.classList.remove('autoUpgradeEnabled');
         } else {
