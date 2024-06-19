@@ -1764,7 +1764,12 @@ function ClickCounter(name, audioFileName) {
     gainNode.connect(audioContext.destination);
 
     // Set initial gain value (volume)
-    gainNode.gain.value = 4; // Increase gain by a factor of 4
+
+    if (audioFileName === audioFiles.peeling) {
+        gainNode.gain.value = 12;
+    } else {
+        gainNode.gain.value = 4;
+    }
 
     // Function to start tracking clicks per second and audio play
     function startTracking() {

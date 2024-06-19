@@ -32,8 +32,8 @@ export const audioFiles = {
 let currentAudio = null;
 let nextAudio = null;
 let fadeIntervals = [];
-const fadeDuration = 5000; // 5 seconds
-const crossfadeDuration = 5000; // 5 seconds
+const fadeDuration = 5000;
+const crossfadeDuration = 5000;
 
 function playAudio(audioElement) {
     audioElement.play().catch(error => console.error('Error playing audio:', error));
@@ -63,33 +63,55 @@ function fadeAudio(audioElement, startVolume, endVolume, duration, onFinish) {
 
 function selectRandomAudioFile() {
     const randomIndex = Math.floor(Math.random() * ambientAudioFiles.length);
-    return audioFiles[randomIndex];
+    return ambientAudioFiles[randomIndex];
 }
 
 export function startAmbientTrack() {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+    }
+
     nextAudio = new Audio(selectRandomAudioFile());
     nextAudio.volume = 0;
     playAudio(nextAudio);
     fadeAudio(nextAudio, 0, 0.25, fadeDuration);
 
     nextAudio.addEventListener('timeupdate', () => {
-        if (nextAudio.currentTime >= nextAudio.duration - (crossfadeDuration / 1000)) {
-            currentAudio = nextAudio;
-            nextAudio = new Audio(selectRandomAudioFile());
-            nextAudio.volume = 0;
-            playAudio(nextAudio);
-            fadeAudio(nextAudio, 0, 0.25, fadeDuration);
-            fadeAudio(currentAudio, 0.25, 0, fadeDuration, () => {
-                currentAudio.pause();
+        const shiftTimeRemaining = getShiftTimeRemaining();
+
+        // Fade out current track if shift is ending
+        if (shiftTimeRemaining <= 5) {
+            fadeAudio(nextAudio, nextAudio.volume, 0, fadeDuration, () => {
+                nextAudio.pause();
             });
         }
 
-        const shiftTimeRemaining = getShiftTimeRemaining();
-        if (shiftTimeRemaining <= 5 && nextAudio.volume > 0) {
+        // Crossfade to the next track if less than 5 seconds remaining
+        if (nextAudio.currentTime >= nextAudio.duration - 5) {
+            if (!currentAudio) {
+                currentAudio = nextAudio;
+                nextAudio = new Audio(selectRandomAudioFile());
+                nextAudio.volume = 0;
+                playAudio(nextAudio);
+                fadeAudio(nextAudio, 0, 0.25, fadeDuration);
+                fadeAudio(currentAudio, 0.25, 0, fadeDuration, () => {
+                    currentAudio.pause();
+                    currentAudio = null;
+                });
+            }
+        }
+
+        // Stop all tracks if shift time remaining is 0
+        if (shiftTimeRemaining === 0) {
+            if (currentAudio) {
+                fadeAudio(currentAudio, currentAudio.volume, 0, fadeDuration, () => {
+                    currentAudio.pause();
+                    currentAudio = null;
+                });
+            }
             fadeAudio(nextAudio, nextAudio.volume, 0, fadeDuration, () => {
-                if (shiftTimeRemaining <= 1) {
-                    nextAudio.pause();
-                }
+                nextAudio.pause();
             });
         }
     });
