@@ -165,6 +165,7 @@ import {
 } from './constantsAndGlobalVars.js';
 import {initLocalization, localize} from "./localization.js";
 import {bonusClicked} from "./ui.js";
+import {audioFiles, playAudioFile} from "./audio.js";
 
 let autoSaveInterval;
 let nextAutoSaveTime;
@@ -181,13 +182,16 @@ export function main() {
         }
     });
     document.getElementById('copyButtonSavePopup').addEventListener('click', function () {
+        playAudioFile(audioFiles.click, 1);
         copySaveStringToClipBoard();
     });
     document.getElementById('closeButtonSavePopup').addEventListener('click', function () {
+        playAudioFile(audioFiles.click, 1);
         getElements().saveLoadPopup.classList.add('d-none');
         document.getElementById('overlay').classList.add('d-none');
     });
     document.getElementById('loadStringButton').addEventListener('click', function () {
+        playAudioFile(audioFiles.click, 1);
         loadGame(true)
             .then(() => {
                 setElements();
@@ -200,6 +204,7 @@ export function main() {
             });
     });
     document.getElementById('importFromFileLoadButton').addEventListener('click', function () {
+        playAudioFile(audioFiles.click, 1);
         loadGame(false)
             .then(() => {
                 setElements();
@@ -402,10 +407,14 @@ function updateShiftCountDown() {
             if (timeDiffSecondsShift >= getOneForTimeDiff()) {
                 checkAutoUpgradeButtonsAndUpdateTheirCountDownTime();
                 setShiftTimeRemaining(getShiftTimeRemaining() - getStandardDecrementIncrementOfOne());
+                if (getShiftTimeRemaining() <= 3 && getShiftTimeRemaining() > 0) {
+                    playAudioFile(audioFiles.tickClock);
+                }
                 getElements().subInnerDiv1_2.innerHTML = `<h4>${getShiftTimeRemaining().toString()}</h4>`;
                 //console.log(`Shift time remaining: ${getShiftTimeRemaining()} seconds`);
                 calculateForthcomingTotalInvestment();
                 if (getShiftTimeRemaining() === getZero()) {
+                    playAudioFile(audioFiles.shiftEnd, 1);
                     stopBubbleAnimation();
                     setShiftInProgress(false);
                     setOldCash(getCurrentCash());

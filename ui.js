@@ -133,6 +133,7 @@ import {
 } from './constantsAndGlobalVars.js';
 import {initialiseNewGame} from "./gameloop.js";
 import {localize} from "./localization.js";
+import {audioFiles, playAudioFile} from "./audio.js";
 
 export function initialiseOptionsClasses() {
     getElements().resumeGameButton.classList.add('option-resume-game');
@@ -581,6 +582,7 @@ export function updateVisibleButtons() {
 
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function() {
+        playAudioFile(audioFiles.click, 1);
         if (getElements().option1.innerText === getLocalization()[getLanguage()]['clickAgainNewGame']) {
             resetAllVariables();
             resetCounterUiElements();
@@ -594,9 +596,11 @@ function createOptionScreenEventListeners() {
         setPauseAutoSaveCountdown(false);
     });
     getElements().option2.addEventListener('click', function() {
+        playAudioFile(audioFiles.click, 1);
         saveGame(true);
     });
     getElements().option3.addEventListener('click', async function() {
+        playAudioFile(audioFiles.click, 1);
         try {
             setStateLoading(true);
 
@@ -607,12 +611,14 @@ function createOptionScreenEventListeners() {
         }
     });
     getElements().option4.addEventListener('click', function() {
-        // Add functionality for help
+        playAudioFile(audioFiles.click, 1);
     });
     getElements().option5.addEventListener('click', function() {
+        playAudioFile(audioFiles.click, 1);
         toggleAutoSave();
     });
     getElements().resumeGameButton.addEventListener('click', function() {
+        playAudioFile(audioFiles.click, 1);
         toggleMenu(!getElements().gameWindow.classList.contains('d-none'));
         setPauseAutoSaveCountdown(false);
     });
@@ -638,6 +644,7 @@ function createOptionScreenEventListeners() {
     });
 
     getElements().debugCash.addEventListener('click', function() {
+        playAudioFile(audioFiles.click, 1);
         getElements().debugCash.classList.remove('bg-danger');
         getElements().debugCash.style.color = 'white';
         setDebugFlag(true);
@@ -1131,6 +1138,7 @@ export function getElementMidpoint(elementId) {
 
 export function createAndAttachContinueButtonEventListener() {
     getElements().continueButton.addEventListener('click', function() {
+        playAudioFile(audioFiles.click, 1);
         clearPopupTexts();
         toggleEndOfShiftOrGamePopup(document.getElementById('endOfShiftOrGamePopup'), false);
         toggleOverlay(popupOverlay);
@@ -1140,6 +1148,7 @@ export function createAndAttachContinueButtonEventListener() {
 
 export function createAndAttachEndGameShiftStartEventListener() {
     document.getElementById('endGameStartShiftButton').addEventListener('click', function() {
+        playAudioFile(audioFiles.click, 1);
         if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
             setShiftInProgress(true);
             console.log("Started Final Shift!");
@@ -1184,26 +1193,31 @@ export function handleButtonClickEventListenerInitialisation(loading) {
 }
 
 document.getElementById('language_en').addEventListener('click', function() {
+    playAudioFile(audioFiles.clickTwo, 1);
     setOldLanguage(getLanguage());
     setLanguage('en');
     setLanguageChangedFlag(true);
 });
 document.getElementById('language_es').addEventListener('click', function() {
+    playAudioFile(audioFiles.clickTwo, 1);
     setOldLanguage(getLanguage());
     setLanguage('es');
     setLanguageChangedFlag(true);
 });
 document.getElementById('language_de').addEventListener('click', function() {
+    playAudioFile(audioFiles.clickTwo, 1);
     setOldLanguage(getLanguage());
     setLanguage('de');
     setLanguageChangedFlag(true);
 });
 document.getElementById('language_it').addEventListener('click', function() {
+    playAudioFile(audioFiles.clickTwo, 1);
     setOldLanguage(getLanguage());
     setLanguage('it');
     setLanguageChangedFlag(true);
 });
 document.getElementById('language_fr').addEventListener('click', function() {
+    playAudioFile(audioFiles.clickTwo, 1);
     setOldLanguage(getLanguage());
     setLanguage('fr');
     setLanguageChangedFlag(true);

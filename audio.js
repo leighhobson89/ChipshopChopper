@@ -1,4 +1,9 @@
-import {getAreChipsFrying, getShiftInProgress, getShiftTimeRemaining} from './constantsAndGlobalVars.js';
+import {
+    getAreChipsFrying,
+    getFryTimeRemaining,
+    getShiftInProgress,
+    getShiftTimeRemaining
+} from './constantsAndGlobalVars.js';
 
 let fryingAudio = null;
 let isFrying = false;
@@ -12,17 +17,17 @@ const ambientAudioFiles = [
     './resources/audio/ambience6.mp3'
 ];
 
-export const audioFiles = [
-    './resources/audio/ambience1.mp3',
-    './resources/audio/ambience2.mp3',
-    './resources/audio/ambience3.mp3',
-    './resources/audio/ambience4.mp3',
-    './resources/audio/ambience5.mp3',
-    './resources/audio/ambience6.mp3',
-    './resources/audio/frying.mp3',
-    './resources/audio/peeling.mp3',
-    './resources/audio/chopping.mp3'
-];
+export const audioFiles = {
+    frying: './resources/audio/frying.mp3',
+    peeling: './resources/audio/peeling.mp3',
+    chopping: './resources/audio/chopping.mp3',
+    click: './resources/audio/click.mp3',
+    clickTwo: './resources/audio/clickTwo.mp3',
+    shiftEnd: './resources/audio/shiftEnd.mp3',
+    tickClock: './resources/audio/tickClock.mp3',
+    kerching: './resources/audio/kerching.mp3'
+};
+
 
 let currentAudio = null;
 let nextAudio = null;
@@ -94,13 +99,14 @@ export function playFryingSoundLoop() {
     if (isFrying) return;
 
     isFrying = true;
-    fryingAudio = new Audio(audioFiles[6]);
+    fryingAudio = new Audio(audioFiles.frying);
     fryingAudio.loop = true;
     fryingAudio.volume = 0.2;
 
     function checkFryingStatus() {
         const areChipsFrying = getAreChipsFrying();
         const shiftInProgress = getShiftInProgress();
+        const fryTimeRemaining = getFryTimeRemaining();
 
         if (areChipsFrying && shiftInProgress) {
             if (fryingAudio.paused) {
@@ -108,6 +114,10 @@ export function playFryingSoundLoop() {
             }
         } else {
             stopFryingSound();
+        }
+
+        if (fryTimeRemaining === 1) {
+            startFadeOut(fryingAudio, 1000); // 2 seconds fade out
         }
     }
 
@@ -124,4 +134,28 @@ export function playFryingSoundLoop() {
     if (!getAreChipsFrying() || !getShiftInProgress()) {
         stopFryingSound();
     }
+}
+
+function startFadeOut(audio, duration) {
+    const steps = 20;
+    const stepDuration = duration / steps;
+    const volumeStep = audio.volume / steps;
+    let currentStep = 0;
+
+    const fadeInterval = setInterval(() => {
+        if (currentStep >= steps) {
+            clearInterval(fadeInterval);
+            audio.pause();
+        } else {
+            audio.volume = Math.max(0, audio.volume - volumeStep);
+            currentStep++;
+        }
+    }, stepDuration);
+}
+
+export function playAudioFile(filePath, volume = 1.0) {
+    const audio = new Audio(filePath);
+    audio.volume = volume;
+    audio.play().catch(error => console.error('Error playing audio:', error));
+    return audio;
 }

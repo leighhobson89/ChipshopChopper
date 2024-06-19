@@ -70,6 +70,10 @@ body {
     color: black;
 }
 
+.debug-toggledOn {
+    background-color: #198754;
+}
+
 .second-row-main-buttons>input {
     pointer-events: auto;
 }

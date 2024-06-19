@@ -218,10 +218,10 @@ import {
     writePopupText
 } from "./ui.js";
 import {localize} from "./localization.js";
-import {audioFiles, playFryingSoundLoop, startAmbientTrack} from "./audio.js";
+import {audioFiles, playAudioFile, playFryingSoundLoop, startAmbientTrack} from "./audio.js";
 
-const clickCounterPeelPotatoes = ClickCounter("Peel Potatoes", audioFiles[7]);
-const clickCounterCutChips = ClickCounter("Cut Chips", audioFiles[8]);
+const clickCounterPeelPotatoes = ClickCounter("Peel Potatoes", audioFiles.peeling);
+const clickCounterCutChips = ClickCounter("Cut Chips", audioFiles.chopping);
 clickCounterCutChips.setVolume(1);
 clickCounterPeelPotatoes.setVolume(1);
 
@@ -241,6 +241,7 @@ export function handleButtonClick(buttonId, value, loading) {
         if (!getInvestmentFundUnlocked()) {
             switch (buttonId) {
                 case getElements().menuButton.id:
+                    playAudioFile(audioFiles.click, 1);
                     if (getGameInProgress() && getElements().option2.classList.contains('option-disabled')) {
                         toggleDisable(false, getElements().option2);
                         activateResumeGameButton();
@@ -265,6 +266,7 @@ export function handleButtonClick(buttonId, value, loading) {
                     handleServeCustomer();
                     break;
                 case getElements().improvePotatoStorageButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleImprovePotatoStorage(buttonId);
                     break;
                 case getElements().twoHandedPeelingButton.id:
@@ -274,33 +276,42 @@ export function handleButtonClick(buttonId, value, loading) {
                     handleTwoHandedChipping(button, buttonId);
                     break;
                 case getElements().improveFryerCapacityButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleImproveFryerCapacity(buttonId);
                     break;
                 case getElements().addStorageHeaterAutoShiftStartButton.id:
                     handleAddStorageHeater(button, buttonId);
                     break;
                 case getElements().startShiftButton.id:
+                    playAudioFile(audioFiles.click, 1);
                     handleStartShift();
                     break;
                 case getElements().autoPeelerUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoPeeler(buttonId);
                     break;
                 case getElements().autoChipperUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoChipper(buttonId);
                     break;
                 case getElements().autoFryerUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoFryer(buttonId);
                     break;
                 case getElements().autoStorageCollectorUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoStorageCollector(buttonId);
                     break;
                 case getElements().autoCustomerServerUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoCustomerServer(buttonId);
                     break;
                 case getElements().fastFryerUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleImproveFryTimer(buttonId);
                     break;
                 case getElements().potatoDeliveryDoublerButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleDoubleMaxSpudsDelivery(buttonId);
                     break;
                 case getElements().investmentFundUnlockOrFloatButton.id:
@@ -308,6 +319,7 @@ export function handleButtonClick(buttonId, value, loading) {
                     disableButtons(false);
                     return;
                 case getElements().customerFrequencyIncreaser.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleIncreaseFootfall(buttonId);
                     break;
                 case getElements().investmentCashComponent_IncrementButton.id:
@@ -333,6 +345,7 @@ export function handleButtonClick(buttonId, value, loading) {
         if (getInvestmentFundUnlocked()) {
             switch (buttonId) {
                 case getElements().menuButton.id:
+                    playAudioFile(audioFiles.click, 1);
                     if (getGameInProgress() && getElements().option2.classList.contains('option-disabled')) {
                         toggleDisable(false, getElements().option2);
                     }
@@ -355,42 +368,53 @@ export function handleButtonClick(buttonId, value, loading) {
                     handleServeCustomer();
                     break;
                 case getElements().improvePotatoStorageButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleImprovePotatoStorage(buttonId);
                     break;
                 case getElements().improveFryerCapacityButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleImproveFryerCapacity(buttonId);
                     break;
                 case getElements().addStorageHeaterAutoShiftStartButton.id:
                     handleAddStorageHeater(button, buttonId);
                     break;
                 case getElements().startShiftButton.id:
+                    playAudioFile(audioFiles.click, 1);
                     handleStartShift();
                     break;
                 case getElements().autoPeelerUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoPeeler(buttonId);
                     break;
                 case getElements().autoChipperUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoChipper(buttonId);
                     break;
                 case getElements().autoFryerUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoFryer(buttonId);
                     break;
                 case getElements().autoStorageCollectorUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoStorageCollector(buttonId);
                     break;
                 case getElements().autoCustomerServerUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleAutoCustomerServer(buttonId);
                     break;
                 case getElements().fastFryerUpgradeButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleImproveFryTimer(buttonId);
                     break;
                 case getElements().potatoDeliveryDoublerButton.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleDoubleMaxSpudsDelivery(buttonId);
                     break;
                 case getElements().investmentFundUnlockOrFloatButton.id:
                     handleInvestmentFundUnlockButton(buttonId);
                     break;
                 case getElements().customerFrequencyIncreaser.id:
+                    playAudioFile(audioFiles.kerching, 1);
                     handleIncreaseFootfall(buttonId);
                     break;
                 case getElements().investmentCashComponent_IncrementButton.id:
@@ -492,6 +516,7 @@ function handleImprovePotatoStorage(buttonId) {
 
 function handleTwoHandedPeeling(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button, 'peeler')) {
+        playAudioFile(audioFiles.kerching, 1);
         setCurrentCash(getCurrentCash() - getPriceToEnableDoublePeeling());
         setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToEnableDoublePeeling());
         getElements()[buttonId].innerHTML = `${localize('doublePeelingToolPurchase', getLanguage())}`
@@ -502,6 +527,7 @@ function handleTwoHandedPeeling(button, buttonId) {
 
 function handleTwoHandedChipping(button, buttonId) {
     if (!checkIfNonRepeatableUpgradePurchased(button, 'chipper')) {
+        playAudioFile(audioFiles.kerching, 1);
         setCurrentCash(getCurrentCash() - getPriceToEnableDoubleChipping());
         setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToEnableDoubleChipping());
         getElements()[buttonId].innerHTML = `${localize('doubleChippingToolPurchase', getLanguage())}`;
@@ -521,6 +547,7 @@ function handleImproveFryerCapacity(buttonId) {
 function handleAddStorageHeater(button, buttonId) {
     if (!getInvestmentFundUnlocked()) { //storage heater button
         if (!checkIfNonRepeatableUpgradePurchased(button, 'heater')) {
+            playAudioFile(audioFiles.kerching, 1);
             setCurrentCash(getCurrentCash() - getPriceToAddStorageHeater());
             setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToAddStorageHeater());
             getElements()[buttonId].innerHTML = `${localize('storageBinHeaterPurchase', getLanguage())}`;
@@ -529,6 +556,7 @@ function handleAddStorageHeater(button, buttonId) {
         }
     } else { //auto shift start button
         if (!checkIfNonRepeatableUpgradePurchased(button, 'autoShift')) { //if auto shift start not bought yet
+            playAudioFile(audioFiles.kerching, 1);
             setCurrentCash(getCurrentCash() - getPriceToUnlockAutoShiftStart());
             setTotalSpentExcludingInvestments(getTotalSpentExcludingInvestments() + getPriceToUnlockAutoShiftStart());
             getElements()[buttonId].innerHTML = `${localize('autoShiftUpgradeDisabled', getLanguage())}`;
@@ -696,6 +724,7 @@ function handleDoubleMaxSpudsDelivery(buttonId) {
 
 function handleInvestmentFundUnlockButton(buttonId) {
     if (!getInvestmentFundUnlocked()) {
+        playAudioFile(audioFiles.kerching, 1);
         setInvestmentFundUnlocked(true);
     } else {
         setFloatOnStockMarketUnlockedAndEndGameFlowStarted(true);
