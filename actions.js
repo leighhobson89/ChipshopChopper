@@ -197,7 +197,12 @@ import {
     setTotalWastedChips,
     getTotalWastedChips,
     wheelColors,
-    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag, getAudioMuted, setCurrentPrizeClassifications
+    setPopupOverlay,
+    getLanguage,
+    getLocalization,
+    setLanguageChangedFlag,
+    getAudioMuted,
+    setCurrentPrizeClassifications,
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -752,6 +757,7 @@ function handleIncreaseFootfall(buttonId) {
 }
 
 function handleIncreaseCashInvested() {
+    playAudioFile(audioFiles.clickTwo,1);
     if (getCurrentCash() >= getInvestmentCashIncrementDecrement()) {
         setCurrentCash(getCurrentCash() - getInvestmentCashIncrementDecrement());
         setAmountInvestmentCash(getAmountInvestmentCash() + getInvestmentCashIncrementDecrement());
@@ -764,6 +770,7 @@ function handleIncreaseCashInvested() {
 }
 
 function handleDecreaseCashInvested() {
+    playAudioFile(audioFiles.clickTwo,1);
     if (getCurrentValueOfInvestment() >= getAmountInvestmentCash()) {
         if (getAmountInvestmentCash() >= getInvestmentCashIncrementDecrement()) {
             setCurrentCash(getCurrentCash() + getInvestmentCashIncrementDecrement());
@@ -793,12 +800,14 @@ function handleDecreaseCashInvested() {
 }
 
 function handleIncreaseRiskAmount() {
+    playAudioFile(audioFiles.clickTwo,1);
     if (getAmountInvestmentRisk() < getMaxRiskAmount()) {
         setAmountInvestmentRisk(getAmountInvestmentRisk() + getOne());
     }
 }
 
 function handleDecreaseRiskAmount() {
+    playAudioFile(audioFiles.clickTwo,1);
     if (getAmountInvestmentRisk() > getZero()) {
         setAmountInvestmentRisk(getAmountInvestmentRisk() - getOne());
     }
@@ -1001,6 +1010,18 @@ export function disableButtons(init) {
 
                 toggleDisable(true, getElements().withdrawInvestmentButton);
                 changeWithdrawInvestmentButtonText(false);
+            }
+            if (getAmountInvestmentCash() === 0) {
+                toggleDisable(true, investmentCashComponent_DecrementButton);
+            }
+            if (getAmountInvestmentRisk() === 0) {
+                toggleDisable(true, investmentRiskComponent_DecrementButton);
+            }
+            if (getAmountInvestmentCash() > 0 && !getShiftInProgress()) {
+                toggleDisable(false, investmentCashComponent_DecrementButton);
+            }
+            if (getAmountInvestmentRisk() > 0 && !getShiftInProgress()) {
+                toggleDisable(false, investmentRiskComponent_DecrementButton);
             }
         });
     } else if (getGameInProgress() && getShiftCounter() > getZero()) {
