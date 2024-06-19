@@ -2,7 +2,7 @@ import {
     addPrizeToPlayerStats,
     disableButtons,
     getPrizes,
-    handleButtonClick,
+    handleButtonClick, initialiseClickCounter,
     loadGameOption,
     saveGame,
     toggleDisable,
@@ -49,7 +49,7 @@ import {
     getFryerCapacity,
     getFryerCapacityCapped,
     getFryerSpeedCapped,
-    getFryTimer,
+    getFryTimer, getGameInProgress,
     getGrowthInvestment,
     getInvestmentCashIncrementDecrement,
     getInvestmentFundUnlockable,
@@ -582,6 +582,9 @@ export function updateVisibleButtons() {
 
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function() {
+        if (!getGameInProgress()) {
+            initialiseClickCounter();
+        }
         playAudioFile(audioFiles.click, 1);
         if (getElements().option1.innerText === getLocalization()[getLanguage()]['clickAgainNewGame']) {
             resetAllVariables();

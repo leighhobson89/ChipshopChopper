@@ -97,7 +97,6 @@ export let endOfShiftOrGamePopup = endOfShiftOrGamePopupObject.popupContainer;
 export let popupOverlay;
 
 //GLOBAL VARIABLES
-let soundSetting = true;
 let bubbleInterval = 0;
 let countdownTimeBonusGraphic = 0;
 let countdownInterval = null;
@@ -143,6 +142,7 @@ export const wheelColors = {
 }
 
 //FLAGS
+let audioMuted;
 let chipsFrying;
 let peelerUpgradeBought;
 let chipperUpgradeBought;
@@ -2146,15 +2146,16 @@ export function setBonusMovingGraphicPrize(value) {
     bonusMovingGraphicPrize = value;
 }
 
-export function setSoundSetting(value) {
-    soundSetting = value;
+export function setAudioMuted(value) {
+    audioMuted = value;
 }
 
-export function getSoundSetting() {
-    return soundSetting;
+export function getAudioMuted() {
+    return audioMuted;
 }
 
 function setFlagsToFalse() {
+    audioMuted = false;
     chipsFrying = false;
     peelerUpgradeBought = false;
     chipperUpgradeBought = false;

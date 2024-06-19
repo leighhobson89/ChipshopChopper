@@ -197,7 +197,7 @@ import {
     setTotalWastedChips,
     getTotalWastedChips,
     wheelColors,
-    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag, getSoundSetting
+    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag, getAudioMuted
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -220,10 +220,8 @@ import {
 import {localize} from "./localization.js";
 import {audioFiles, playAudioFile, playFryingSoundLoop, startAmbientTrack} from "./audio.js";
 
-const clickCounterPeelPotatoes = ClickCounter("Peel Potatoes", audioFiles.peeling);
-const clickCounterCutChips = ClickCounter("Cut Chips", audioFiles.chopping);
-clickCounterCutChips.setVolume(1);
-clickCounterPeelPotatoes.setVolume(1);
+let clickCounterPeelPotatoes;
+let clickCounterCutChips;
 
 export function handleButtonClick(buttonId, value, loading) {
     const button = getElements()[buttonId];
@@ -576,7 +574,7 @@ function handleAddStorageHeater(button, buttonId) {
 }
 
 export function handleStartShift() {
-    if (getSoundSetting()) {
+    if (!getAudioMuted()) {
         startAmbientTrack();
     }
     setShiftLengthTimerVariable(getShiftLength());
@@ -1771,7 +1769,6 @@ function ClickCounter(name, audioFileName) {
         gainNode.gain.value = 4;
     }
 
-    // Function to start tracking clicks per second and audio play
     function startTracking() {
         setInterval(() => {
             //console.log(`Clicks per second (${name}): ${clicksPerSecond}`);
@@ -1807,4 +1804,11 @@ function ClickCounter(name, audioFileName) {
             gainNode.gain.value = volume;
         }
     };
+}
+
+export function initialiseClickCounter() {
+    clickCounterPeelPotatoes = ClickCounter("Peel Potatoes", audioFiles.peeling);
+    clickCounterCutChips = ClickCounter("Cut Chips", audioFiles.chopping);
+    clickCounterCutChips.setVolume(1);
+    clickCounterPeelPotatoes.setVolume(1);
 }

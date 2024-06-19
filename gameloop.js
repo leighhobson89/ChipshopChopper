@@ -28,7 +28,7 @@ import {
     fryChips,
     handleServingStorage,
     handleStartShift,
-    incrementCustomersWaiting, loadGame,
+    incrementCustomersWaiting, initialiseClickCounter, loadGame,
     peelPotato,
     saveGame,
     serveCustomer,
@@ -161,11 +161,11 @@ import {
     getFryerSpeedCapped,
     getMaxDeliveryCapped,
     getMaxWaitCustomerCapped,
-    getInvestmentFundUnlockable, setStateLoading, getBonusMovingGraphicPrize
+    getInvestmentFundUnlockable, setStateLoading, getBonusMovingGraphicPrize, getAudioMuted
 } from './constantsAndGlobalVars.js';
 import {initLocalization, localize} from "./localization.js";
 import {bonusClicked} from "./ui.js";
-import {audioFiles, playAudioFile} from "./audio.js";
+import {audioFiles, getPlayingAudioFiles, muteAllAudio, playAudioFile, unmuteAllAudio} from "./audio.js";
 
 let autoSaveInterval;
 let nextAutoSaveTime;
@@ -198,6 +198,7 @@ export function main() {
                 getElements().saveLoadPopup.classList.add('d-none');
                 document.getElementById('overlay').classList.add('d-none');
                 handleButtonClickEventListenerInitialisation(true);
+                initialiseClickCounter();
             })
             .catch((error) => {
                 console.error('Error loading game:', error);
@@ -234,8 +235,14 @@ export function main() {
         bonusClicked();
     });
     document.addEventListener('visibilitychange', handleVisibilityChange, false);
-    window.addEventListener('blur', handleVisibilityChange, false);
-    window.addEventListener('focus', handleVisibilityChange, false);
+    window.addEventListener('blur', () => {
+        handleVisibilityChange();
+        muteAllAudio();
+    }, false);
+    window.addEventListener('focus', () => {
+        handleVisibilityChange();
+        unmuteAllAudio();
+    }, false);
 
     autoSaveInterval = getAutoSaveInterval();
     nextAutoSaveTime = Date.now() + autoSaveInterval;
@@ -407,14 +414,16 @@ function updateShiftCountDown() {
             if (timeDiffSecondsShift >= getOneForTimeDiff()) {
                 checkAutoUpgradeButtonsAndUpdateTheirCountDownTime();
                 setShiftTimeRemaining(getShiftTimeRemaining() - getStandardDecrementIncrementOfOne());
-                if (getShiftTimeRemaining() <= 3 && getShiftTimeRemaining() > 0) {
+                if (getShiftTimeRemaining() <= 3 && getShiftTimeRemaining() > 0 && !getAudioMuted()) {
                     playAudioFile(audioFiles.tickClock);
                 }
                 getElements().subInnerDiv1_2.innerHTML = `<h4>${getShiftTimeRemaining().toString()}</h4>`;
                 //console.log(`Shift time remaining: ${getShiftTimeRemaining()} seconds`);
                 calculateForthcomingTotalInvestment();
                 if (getShiftTimeRemaining() === getZero()) {
-                    playAudioFile(audioFiles.shiftEnd, 1);
+                    if (!getAudioMuted()) {
+                        playAudioFile(audioFiles.shiftEnd, 1);
+                    }
                     stopBubbleAnimation();
                     setShiftInProgress(false);
                     setOldCash(getCurrentCash());
@@ -758,10 +767,25 @@ export function calculateForthcomingTotalInvestment() {
 }
 
 function handleVisibilityChange() {
+    const audioElements = document.querySelectorAll('audio, video');
     if (document.hidden || document.hasFocus() === false) {
         setPauseAutoSaveCountdown(true);
     } else {
         setPauseAutoSaveCountdown(false);
+    }
+
+    if (!document.hasFocus()) {
+        // Window is not focused
+        audioElements.forEach(element => {
+            element.muted = true;
+        });
+        console.log('Window blurred: Audio muted');
+    } else {
+        // Window is focused
+        audioElements.forEach(element => {
+            element.muted = false;
+        });
+        console.log('Window focused: Audio unmuted');
     }
 }
 

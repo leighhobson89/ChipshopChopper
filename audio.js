@@ -1,12 +1,13 @@
 import {
-    getAreChipsFrying,
+    getAreChipsFrying, getAudioMuted,
     getFryTimeRemaining,
     getShiftInProgress,
-    getShiftTimeRemaining
+    getShiftTimeRemaining, setAudioMuted
 } from './constantsAndGlobalVars.js';
 
 let fryingAudio = null;
 let isFrying = false;
+let preMuteVolumes = [];
 
 const ambientAudioFiles = [
     './resources/audio/ambience1.mp3',
@@ -28,15 +29,15 @@ export const audioFiles = {
     kerching: './resources/audio/kerching.mp3'
 };
 
-
 let currentAudio = null;
 let nextAudio = null;
 let fadeIntervals = [];
 const fadeDuration = 5000;
-const crossfadeDuration = 5000;
+let playingAudios = []; // Array to track currently playing audio file paths
 
 function playAudio(audioElement) {
     audioElement.play().catch(error => console.error('Error playing audio:', error));
+    playingAudios.push(audioElement); // Add to currently playing array
 }
 
 function fadeAudio(audioElement, startVolume, endVolume, duration, onFinish) {
@@ -47,6 +48,9 @@ function fadeAudio(audioElement, startVolume, endVolume, duration, onFinish) {
 
     const fadeInterval = setInterval(() => {
         if (currentStep >= steps) {
+            if (endVolume < startVolume) {
+                playingAudios = playingAudios.filter(src => src !== audioElement.src); // Remove from currently playing array
+            }
             clearInterval(fadeInterval);
             if (endVolume === 0) {
                 audioElement.pause();
@@ -74,8 +78,10 @@ export function startAmbientTrack() {
 
     nextAudio = new Audio(selectRandomAudioFile());
     nextAudio.volume = 0;
-    playAudio(nextAudio);
-    fadeAudio(nextAudio, 0, 0.25, fadeDuration);
+    if (!getAudioMuted()) {
+        playAudio(nextAudio);
+        fadeAudio(nextAudio, 0, 0.25, fadeDuration);
+    }
 
     nextAudio.addEventListener('timeupdate', () => {
         const shiftTimeRemaining = getShiftTimeRemaining();
@@ -93,12 +99,14 @@ export function startAmbientTrack() {
                 currentAudio = nextAudio;
                 nextAudio = new Audio(selectRandomAudioFile());
                 nextAudio.volume = 0;
-                playAudio(nextAudio);
-                fadeAudio(nextAudio, 0, 0.25, fadeDuration);
-                fadeAudio(currentAudio, 0.25, 0, fadeDuration, () => {
-                    currentAudio.pause();
-                    currentAudio = null;
-                });
+                if (!getAudioMuted()) {
+                    playAudio(nextAudio);
+                    fadeAudio(nextAudio, 0, 0.25, fadeDuration);
+                    fadeAudio(currentAudio, 0.25, 0, fadeDuration, () => {
+                        currentAudio.pause();
+                        currentAudio = null;
+                    });
+                }
             }
         }
 
@@ -133,6 +141,7 @@ export function playFryingSoundLoop() {
         if (areChipsFrying && shiftInProgress) {
             if (fryingAudio.paused) {
                 fryingAudio.play().catch(error => console.error('Error playing frying audio:', error));
+                playingAudios.push(fryingAudio); // Add to currently playing array
             }
         } else {
             stopFryingSound();
@@ -151,6 +160,7 @@ export function playFryingSoundLoop() {
         isFrying = false;
         clearInterval(checkInterval);
         fryingAudio.pause();
+        playingAudios = playingAudios.filter(src => src !== fryingAudio); // Remove from currently playing array
     }
 
     if (!getAreChipsFrying() || !getShiftInProgress()) {
@@ -168,6 +178,7 @@ function startFadeOut(audio, duration) {
         if (currentStep >= steps) {
             clearInterval(fadeInterval);
             audio.pause();
+            playingAudios = playingAudios.filter(src => src !== audio); // Remove from currently playing array
         } else {
             audio.volume = Math.max(0, audio.volume - volumeStep);
             currentStep++;
@@ -179,5 +190,34 @@ export function playAudioFile(filePath, volume = 1.0) {
     const audio = new Audio(filePath);
     audio.volume = volume;
     audio.play().catch(error => console.error('Error playing audio:', error));
+    playingAudios.push(audio); // Add to currently playing array
+    audio.addEventListener('ended', () => {
+        playingAudios = playingAudios.filter(src => src !== audio); // Remove from currently playing array
+    });
+
+    audio.addEventListener('pause', () => {
+        playingAudios = playingAudios.filter(src => src !== audio); // Remove from currently playing array
+    });
     return audio;
+}
+
+export function getPlayingAudioFiles() {
+    return playingAudios;
+}
+
+export function muteAllAudio() {
+    setAudioMuted(true);
+    playingAudios.forEach(audio => {
+        preMuteVolumes.push({ audio: audio, volume: audio.volume })
+        audio.volume = 0;
+    });
+}
+
+export function unmuteAllAudio() {
+    setAudioMuted(false);
+    preMuteVolumes.forEach(item => {
+        item.audio.volume = item.volume;
+    });
+
+    preMuteVolumes = [];
 }
