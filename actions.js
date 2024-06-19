@@ -360,7 +360,6 @@ export function handleButtonClick(buttonId, value, loading) {
                     handleFryChips(buttonId);
                     break;
                 case getElements().servingStorageButton.id:
-                    playAudioFile(audioFiles.storageBin,1);
                     handleServingStorage();
                     break;
                 case getElements().serveCustomerButton.id:
@@ -490,10 +489,12 @@ export function handleServingStorage() {
         total += getChipsReadyToServeQuantity()[i];
     }
     getElements().readyToServeCount.innerHTML = `<h3>${total.toString()}</h3>`;
+    playAudioFile(audioFiles.storageBin,1);
     startBatchTimer(newBatchId);
 }
 
 function handleServeCustomer() {
+    playAudioFile(audioFiles.kerching,1);
     serveCustomer();
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         setCurrentCash(getCurrentCash() + getPriceOfChips());
