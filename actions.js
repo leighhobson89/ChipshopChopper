@@ -360,6 +360,7 @@ export function handleButtonClick(buttonId, value, loading) {
                     handleFryChips(buttonId);
                     break;
                 case getElements().servingStorageButton.id:
+                    playAudioFile(audioFiles.storageBin,1);
                     handleServingStorage();
                     break;
                 case getElements().serveCustomerButton.id:
@@ -1618,7 +1619,8 @@ export function addPrizeToPlayerStats(prizeString) {
             if (getCurrentCash() > 0) {
                 setCurrentCash(getCurrentCash() / 2);
             }
-            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
+            break;
+        case `${localize('nothing', getLanguage())}`:
             break;
         case `${localize('halfOfPotatoesRot', getLanguage())}`:
             if (getActualPotatoesInStorage() > 0) {

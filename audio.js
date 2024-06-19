@@ -30,7 +30,8 @@ export const audioFiles = {
     goodPrize: './resources/audio/goodPrize.mp3',
     badPrize: './resources/audio/badPrize.mp3',
     autoActivateSwitch: './resources/audio/autoActivateSwitch.mp3',
-    wheelSpinning: './resources/audio/wheelSpinning.mp3'
+    wheelSpinning: './resources/audio/wheelSpinning.mp3',
+    storageBin: './resources/audio/storageBin.mp3',
 };
 
 let currentAudio = null;
