@@ -16,7 +16,9 @@ import {
     writePopupText,
     createOverlay,
     handleButtonClickEventListenerInitialisation,
-    pickRandomCountdownTimeToNextMovingBonus, showBonusPrizeString, stopBubbleAnimation
+    pickRandomCountdownTimeToNextMovingBonus,
+    showBonusPrizeString,
+    stopBubbleAnimation
 } from './ui.js';
 
 import {
@@ -28,7 +30,9 @@ import {
     fryChips,
     handleServingStorage,
     handleStartShift,
-    incrementCustomersWaiting, initialiseClickCounter, loadGame,
+    incrementCustomersWaiting,
+    initialiseClickCounter,
+    loadGame,
     peelPotato,
     saveGame,
     serveCustomer,
@@ -161,11 +165,24 @@ import {
     getFryerSpeedCapped,
     getMaxDeliveryCapped,
     getMaxWaitCustomerCapped,
-    getInvestmentFundUnlockable, setStateLoading, getBonusMovingGraphicPrize, getAudioMuted
+    getInvestmentFundUnlockable,
+    setStateLoading,
+    getBonusMovingGraphicPrize,
+    getAudioMuted
 } from './constantsAndGlobalVars.js';
-import {initLocalization, localize} from "./localization.js";
-import {bonusClicked} from "./ui.js";
-import {audioFiles, muteAllAudio, playAudioFile, unmuteAllAudio} from "./audio.js";
+import {
+    initLocalization,
+    localize
+} from "./localization.js";
+import {
+    bonusClicked
+} from "./ui.js";
+import {
+    audioFiles,
+    muteAllAudio,
+    playAudioFile,
+    unmuteAllAudio
+} from "./audio.js";
 
 let autoSaveInterval;
 let nextAutoSaveTime;
@@ -181,16 +198,16 @@ export function main() {
             setDebugOptionFlag(true);
         }
     });
-    document.getElementById('copyButtonSavePopup').addEventListener('click', function () {
+    document.getElementById('copyButtonSavePopup').addEventListener('click', function() {
         playAudioFile(audioFiles.click, 1);
         copySaveStringToClipBoard();
     });
-    document.getElementById('closeButtonSavePopup').addEventListener('click', function () {
+    document.getElementById('closeButtonSavePopup').addEventListener('click', function() {
         playAudioFile(audioFiles.click, 1);
         getElements().saveLoadPopup.classList.add('d-none');
         document.getElementById('overlay').classList.add('d-none');
     });
-    document.getElementById('loadStringButton').addEventListener('click', function () {
+    document.getElementById('loadStringButton').addEventListener('click', function() {
         playAudioFile(audioFiles.click, 1);
         loadGame(true)
             .then(() => {
@@ -204,7 +221,7 @@ export function main() {
                 console.error('Error loading game:', error);
             });
     });
-    document.getElementById('importFromFileLoadButton').addEventListener('click', function () {
+    document.getElementById('importFromFileLoadButton').addEventListener('click', function() {
         playAudioFile(audioFiles.click, 1);
         loadGame(false)
             .then(() => {
@@ -553,7 +570,7 @@ export function initialiseNewGame() {
 }
 
 function askUserToConfirmRestart() {
-    getElements().option1.innerHTML = `<h2>${localize('clickAgainToStartNewGame', getLanguage())}</h2>`;
+    getElements().option1.innerHTML = `<h2>${localize('clickAgainNewGame', getLanguage())}</h2>`;
 }
 
 export function wasteChipsStillInFryerOrFryingAtEndOfShift() {
@@ -680,7 +697,7 @@ function checkPlayerRole() {
         }
     } else if (existingRoleText === `${localize('roleThree', getLanguage())}` && getAutoPeelerBought() && getAutoChipperBought() && getAutoFryerBought() && getAutoStorageCollectorBought() && getAutoCustomerServerBought()) {
         if (getFryerCapacity() >= 200 && getHeaterUpgradeBought()) {
-            changePlayerRole(getElements().playerRoleText,`${localize('roleFour', getLanguage())}`, 'text-bounce-animation', 'fade-text-animation');
+            changePlayerRole(getElements().playerRoleText, `${localize('roleFour', getLanguage())}`, 'text-bounce-animation', 'fade-text-animation');
         }
     } else if (existingRoleText === `${localize('roleFour', getLanguage())}`) {
         if (getCurrentCash() >= getRoleUpgrade(`${localize('roleFour', getLanguage())}`)) {
@@ -728,7 +745,7 @@ function incrementRiskValue() {
 function checkRiskAgainstThreshold(doubleRisk) {
     const threshold = getRiskThreshold();
     if (getCurrentRiskLevel() >= threshold && getAmountInvestmentCash() > getZero()) {
-        playAudioFile(audioFiles.badPrize,1);
+        playAudioFile(audioFiles.badPrize, 1);
         //console.log("DEVALUE investment");
         const amountToLose = formatToCashNotation(devalueInvestment(doubleRisk));
         setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2))); //start from a non-zero random risk level
@@ -786,7 +803,7 @@ function handleVisibilityChange() {
         audioElements.forEach(element => {
             element.muted = false;
         });
-        console.log('Window focused: Audio unmuted');
+        console.log('Window focused: Audio Unmuted');
     }
 }
 
@@ -1059,5 +1076,3 @@ function updateFryerButton(finishedCounting) {
         updatedBubbles[randomIndex].parentNode.removeChild(updatedBubbles[randomIndex]);
     }
 }
-
-

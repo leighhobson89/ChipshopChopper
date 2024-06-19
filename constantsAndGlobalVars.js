@@ -7,7 +7,9 @@ import {
 import {
     disableButtons
 } from "./actions.js";
-import {localize} from "./localization.js";
+import {
+    localize
+} from "./localization.js";
 
 //DEBUG
 export let debugFlag = false;

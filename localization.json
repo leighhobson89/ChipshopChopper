@@ -727,11 +727,10 @@
   },
   "prizes": {
     "en": {
-      "roleOne": [
-        {
-          "name": "Potato Storage Filled",
-          "classification": "good"
-        },
+      "roleOne": [{
+        "name": "Potato Storage Filled",
+        "classification": "good"
+      },
         {
           "name": "+10 Potatoes",
           "classification": "good"
@@ -769,11 +768,10 @@
           "classification": "bad"
         }
       ],
-      "roleTwo": [
-        {
-          "name": "Potato Storage Filled",
-          "classification": "good"
-        },
+      "roleTwo": [{
+        "name": "Potato Storage Filled",
+        "classification": "good"
+      },
         {
           "name": "+100 Potatoes",
           "classification": "good"
@@ -811,11 +809,10 @@
           "classification": "bad"
         }
       ],
-      "roleThree": [
-        {
-          "name": "Potato Storage Filled",
-          "classification": "good"
-        },
+      "roleThree": [{
+        "name": "Potato Storage Filled",
+        "classification": "good"
+      },
         {
           "name": "+200 Potatoes",
           "classification": "good"
@@ -853,11 +850,10 @@
           "classification": "bad"
         }
       ],
-      "roleFour": [
-        {
-          "name": "Potato Storage Filled",
-          "classification": "good"
-        },
+      "roleFour": [{
+        "name": "Potato Storage Filled",
+        "classification": "good"
+      },
         {
           "name": "+300 Potatoes",
           "classification": "good"
@@ -895,11 +891,10 @@
           "classification": "bad"
         }
       ],
-      "roleFive": [
-        {
-          "name": "Potato Storage Filled",
-          "classification": "good"
-        },
+      "roleFive": [{
+        "name": "Potato Storage Filled",
+        "classification": "good"
+      },
         {
           "name": "+500 Potatoes",
           "classification": "good"
@@ -937,11 +932,10 @@
           "classification": "bad"
         }
       ],
-      "roleSix": [
-        {
-          "name": "Potato Storage Filled",
-          "classification": "good"
-        },
+      "roleSix": [{
+        "name": "Potato Storage Filled",
+        "classification": "good"
+      },
         {
           "name": "+500 Potatoes",
           "classification": "good"
@@ -979,11 +973,10 @@
           "classification": "bad"
         }
       ],
-      "roleSeven": [
-        {
-          "name": "Potato Storage Filled",
-          "classification": "good"
-        },
+      "roleSeven": [{
+        "name": "Potato Storage Filled",
+        "classification": "good"
+      },
         {
           "name": "+500 Potatoes",
           "classification": "good"
@@ -1023,11 +1016,10 @@
       ]
     },
     "de": {
-      "roleOne": [
-        {
-          "name": "Kartoffelvorrat gefüllt",
-          "classification": "good"
-        },
+      "roleOne": [{
+        "name": "Kartoffelvorrat gefüllt",
+        "classification": "good"
+      },
         {
           "name": "+10 Kartoffeln",
           "classification": "good"
@@ -1065,11 +1057,10 @@
           "classification": "bad"
         }
       ],
-      "roleTwo": [
-        {
-          "name": "Kartoffelvorrat gefüllt",
-          "classification": "good"
-        },
+      "roleTwo": [{
+        "name": "Kartoffelvorrat gefüllt",
+        "classification": "good"
+      },
         {
           "name": "+100 Kartoffeln",
           "classification": "good"
@@ -1107,11 +1098,10 @@
           "classification": "bad"
         }
       ],
-      "roleThree": [
-        {
-          "name": "Kartoffelvorrat gefüllt",
-          "classification": "good"
-        },
+      "roleThree": [{
+        "name": "Kartoffelvorrat gefüllt",
+        "classification": "good"
+      },
         {
           "name": "+200 Kartoffeln",
           "classification": "good"
@@ -1149,11 +1139,10 @@
           "classification": "bad"
         }
       ],
-      "roleFour": [
-        {
-          "name": "Kartoffelvorrat gefüllt",
-          "classification": "good"
-        },
+      "roleFour": [{
+        "name": "Kartoffelvorrat gefüllt",
+        "classification": "good"
+      },
         {
           "name": "+300 Kartoffeln",
           "classification": "good"
@@ -1191,11 +1180,10 @@
           "classification": "bad"
         }
       ],
-      "roleFive": [
-        {
-          "name": "Kartoffelvorrat gefüllt",
-          "classification": "good"
-        },
+      "roleFive": [{
+        "name": "Kartoffelvorrat gefüllt",
+        "classification": "good"
+      },
         {
           "name": "+500 Kartoffeln",
           "classification": "good"
@@ -1233,11 +1221,10 @@
           "classification": "bad"
         }
       ],
-      "roleSix": [
-        {
-          "name": "Kartoffelvorrat gefüllt",
-          "classification": "good"
-        },
+      "roleSix": [{
+        "name": "Kartoffelvorrat gefüllt",
+        "classification": "good"
+      },
         {
           "name": "+500 Kartoffeln",
           "classification": "good"
@@ -1275,11 +1262,10 @@
           "classification": "bad"
         }
       ],
-      "roleSeven": [
-        {
-          "name": "Kartoffelvorrat gefüllt",
-          "classification": "good"
-        },
+      "roleSeven": [{
+        "name": "Kartoffelvorrat gefüllt",
+        "classification": "good"
+      },
         {
           "name": "+500 Kartoffeln",
           "classification": "good"
@@ -1319,11 +1305,10 @@
       ]
     },
     "it": {
-      "roleOne": [
-        {
-          "name": "Deposito patate pieno",
-          "classification": "good"
-        },
+      "roleOne": [{
+        "name": "Deposito patate pieno",
+        "classification": "good"
+      },
         {
           "name": "+10 Patate",
           "classification": "good"
@@ -1361,11 +1346,10 @@
           "classification": "bad"
         }
       ],
-      "roleTwo": [
-        {
-          "name": "Deposito patate pieno",
-          "classification": "good"
-        },
+      "roleTwo": [{
+        "name": "Deposito patate pieno",
+        "classification": "good"
+      },
         {
           "name": "+100 Patate",
           "classification": "good"
@@ -1403,11 +1387,10 @@
           "classification": "bad"
         }
       ],
-      "roleThree": [
-        {
-          "name": "Deposito patate pieno",
-          "classification": "good"
-        },
+      "roleThree": [{
+        "name": "Deposito patate pieno",
+        "classification": "good"
+      },
         {
           "name": "+200 Patate",
           "classification": "good"
@@ -1445,11 +1428,10 @@
           "classification": "bad"
         }
       ],
-      "roleFour": [
-        {
-          "name": "Deposito patate pieno",
-          "classification": "good"
-        },
+      "roleFour": [{
+        "name": "Deposito patate pieno",
+        "classification": "good"
+      },
         {
           "name": "+300 Patate",
           "classification": "good"
@@ -1487,11 +1469,10 @@
           "classification": "bad"
         }
       ],
-      "roleFive": [
-        {
-          "name": "Deposito patate pieno",
-          "classification": "good"
-        },
+      "roleFive": [{
+        "name": "Deposito patate pieno",
+        "classification": "good"
+      },
         {
           "name": "+500 Patate",
           "classification": "good"
@@ -1529,11 +1510,10 @@
           "classification": "bad"
         }
       ],
-      "roleSix": [
-        {
-          "name": "Deposito patate pieno",
-          "classification": "good"
-        },
+      "roleSix": [{
+        "name": "Deposito patate pieno",
+        "classification": "good"
+      },
         {
           "name": "+500 Patate",
           "classification": "good"
@@ -1571,11 +1551,10 @@
           "classification": "bad"
         }
       ],
-      "roleSeven": [
-        {
-          "name": "Deposito patate pieno",
-          "classification": "good"
-        },
+      "roleSeven": [{
+        "name": "Deposito patate pieno",
+        "classification": "good"
+      },
         {
           "name": "+500 Patate",
           "classification": "good"
@@ -1615,11 +1594,10 @@
       ]
     },
     "fr": {
-      "roleOne": [
-        {
-          "name": "Stockage de pommes de terre plein",
-          "classification": "good"
-        },
+      "roleOne": [{
+        "name": "Stockage de pommes de terre plein",
+        "classification": "good"
+      },
         {
           "name": "+10 Pommes de terre",
           "classification": "good"
@@ -1657,11 +1635,10 @@
           "classification": "bad"
         }
       ],
-      "roleTwo": [
-        {
-          "name": "Stockage de pommes de terre plein",
-          "classification": "good"
-        },
+      "roleTwo": [{
+        "name": "Stockage de pommes de terre plein",
+        "classification": "good"
+      },
         {
           "name": "+100 Pommes de terre",
           "classification": "good"
@@ -1699,11 +1676,10 @@
           "classification": "bad"
         }
       ],
-      "roleThree": [
-        {
-          "name": "Stockage de pommes de terre plein",
-          "classification": "good"
-        },
+      "roleThree": [{
+        "name": "Stockage de pommes de terre plein",
+        "classification": "good"
+      },
         {
           "name": "+200 Pommes de terre",
           "classification": "good"
@@ -1741,11 +1717,10 @@
           "classification": "bad"
         }
       ],
-      "roleFour": [
-        {
-          "name": "Stockage de pommes de terre plein",
-          "classification": "good"
-        },
+      "roleFour": [{
+        "name": "Stockage de pommes de terre plein",
+        "classification": "good"
+      },
         {
           "name": "+300 Pommes de terre",
           "classification": "good"
@@ -1783,11 +1758,10 @@
           "classification": "bad"
         }
       ],
-      "roleFive": [
-        {
-          "name": "Stockage de pommes de terre plein",
-          "classification": "good"
-        },
+      "roleFive": [{
+        "name": "Stockage de pommes de terre plein",
+        "classification": "good"
+      },
         {
           "name": "+500 Pommes de terre",
           "classification": "good"
@@ -1825,11 +1799,10 @@
           "classification": "bad"
         }
       ],
-      "roleSix": [
-        {
-          "name": "Stockage de pommes de terre plein",
-          "classification": "good"
-        },
+      "roleSix": [{
+        "name": "Stockage de pommes de terre plein",
+        "classification": "good"
+      },
         {
           "name": "+500 Pommes de terre",
           "classification": "good"
@@ -1867,11 +1840,10 @@
           "classification": "bad"
         }
       ],
-      "roleSeven": [
-        {
-          "name": "Stockage de pommes de terre plein",
-          "classification": "good"
-        },
+      "roleSeven": [{
+        "name": "Stockage de pommes de terre plein",
+        "classification": "good"
+      },
         {
           "name": "+500 Pommes de terre",
           "classification": "good"
@@ -1911,11 +1883,10 @@
       ]
     },
     "es": {
-      "roleOne": [
-        {
-          "name": "Almacenamiento Lleno",
-          "classification": "good"
-        },
+      "roleOne": [{
+        "name": "Almacenamiento Lleno",
+        "classification": "good"
+      },
         {
           "name": "+10 Papas",
           "classification": "good"
@@ -1953,11 +1924,10 @@
           "classification": "bad"
         }
       ],
-      "roleTwo": [
-        {
-          "name": "Almacenamiento Lleno",
-          "classification": "good"
-        },
+      "roleTwo": [{
+        "name": "Almacenamiento Lleno",
+        "classification": "good"
+      },
         {
           "name": "+100 Papas",
           "classification": "good"
@@ -1995,11 +1965,10 @@
           "classification": "bad"
         }
       ],
-      "roleThree": [
-        {
-          "name": "Almacenamiento Lleno",
-          "classification": "good"
-        },
+      "roleThree": [{
+        "name": "Almacenamiento Lleno",
+        "classification": "good"
+      },
         {
           "name": "+200 Papas",
           "classification": "good"
@@ -2037,11 +2006,10 @@
           "classification": "bad"
         }
       ],
-      "roleFour": [
-        {
-          "name": "Almacenamiento Lleno",
-          "classification": "good"
-        },
+      "roleFour": [{
+        "name": "Almacenamiento Lleno",
+        "classification": "good"
+      },
         {
           "name": "+300 Papas",
           "classification": "good"
@@ -2079,11 +2047,10 @@
           "classification": "bad"
         }
       ],
-      "roleFive": [
-        {
-          "name": "Almacenamiento Lleno",
-          "classification": "good"
-        },
+      "roleFive": [{
+        "name": "Almacenamiento Lleno",
+        "classification": "good"
+      },
         {
           "name": "+500 Papas",
           "classification": "good"
@@ -2121,11 +2088,10 @@
           "classification": "bad"
         }
       ],
-      "roleSix": [
-        {
-          "name": "Almacenamiento Lleno",
-          "classification": "good"
-        },
+      "roleSix": [{
+        "name": "Almacenamiento Lleno",
+        "classification": "good"
+      },
         {
           "name": "+500 Papas",
           "classification": "good"
@@ -2163,11 +2129,10 @@
           "classification": "bad"
         }
       ],
-      "roleSeven": [
-        {
-          "name": "Almacenamiento Lleno",
-          "classification": "good"
-        },
+      "roleSeven": [{
+        "name": "Almacenamiento Lleno",
+        "classification": "good"
+      },
         {
           "name": "+500 Papas",
           "classification": "good"

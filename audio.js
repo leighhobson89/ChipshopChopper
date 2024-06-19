@@ -1,8 +1,10 @@
 import {
-    getAreChipsFrying, getAudioMuted,
+    getAreChipsFrying,
+    getAudioMuted,
     getFryTimeRemaining,
     getShiftInProgress,
-    getShiftTimeRemaining, setAudioMuted
+    getShiftTimeRemaining,
+    setAudioMuted
 } from './constantsAndGlobalVars.js';
 
 let fryingAudio = null;
@@ -224,7 +226,10 @@ export function playAudioFile(audio, volume = 1.0) {
 export function muteAllAudio() {
     setAudioMuted(true);
     playingAudios.forEach(audio => {
-        preMuteVolumes.push({ audio: audio, volume: audio.volume })
+        preMuteVolumes.push({
+            audio: audio,
+            volume: audio.volume
+        })
         audio.volume = 0;
     });
 }

@@ -2,7 +2,8 @@ import {
     addPrizeToPlayerStats,
     disableButtons,
     getPrizes,
-    handleButtonClick, initialiseClickCounter,
+    handleButtonClick,
+    initialiseClickCounter,
     loadGameOption,
     saveGame,
     toggleDisable,
@@ -13,14 +14,16 @@ import {
     getActualPotatoesInStorage,
     getAmountInvestmentCash,
     getAmountInvestmentRisk,
-    getAreChipsFrying, getAudioMuted,
+    getAreChipsFrying,
+    getAudioMuted,
     getAutoChipperCapped,
     getAutoCustomerServerCapped,
     getAutoFryerCapped,
     getAutoPeelerCapped,
     getAutoSaveOn,
     getAutoStorageCollectorCapped,
-    getBonusMovingGraphicPrize, getBubbleInterval,
+    getBonusMovingGraphicPrize,
+    getBubbleInterval,
     getCapAutoChipper,
     getCapAutoCustomerServer,
     getCapAutoFryer,
@@ -34,7 +37,8 @@ import {
     getCountdownTime,
     getCountdownTimeInterval,
     getCurrentCash,
-    getCurrentMaxValueWaitForNewCustomer, getCurrentPrizeClassifications,
+    getCurrentMaxValueWaitForNewCustomer,
+    getCurrentPrizeClassifications,
     getCurrentRotation,
     getCurrentSpeedAutoChipper,
     getCurrentSpeedAutoCustomerServer,
@@ -49,7 +53,8 @@ import {
     getFryerCapacity,
     getFryerCapacityCapped,
     getFryerSpeedCapped,
-    getFryTimer, getGameInProgress,
+    getFryTimer,
+    getGameInProgress,
     getGrowthInvestment,
     getInvestmentCashIncrementDecrement,
     getInvestmentFundUnlockable,
@@ -103,7 +108,8 @@ import {
     setAutoPeelerCapped,
     setAutoSaveOn,
     setAutoStorageCollectorCapped,
-    setBonusMovingGraphicPrize, setBubbleInterval,
+    setBonusMovingGraphicPrize,
+    setBubbleInterval,
     setCountdownTime,
     setCountdownTimeInterval,
     setCurrentCash,
@@ -131,9 +137,16 @@ import {
     setWinResult,
     wheelColors
 } from './constantsAndGlobalVars.js';
-import {initialiseNewGame} from "./gameloop.js";
-import {localize} from "./localization.js";
-import {audioFiles, playAudioFile} from "./audio.js";
+import {
+    initialiseNewGame
+} from "./gameloop.js";
+import {
+    localize
+} from "./localization.js";
+import {
+    audioFiles,
+    playAudioFile
+} from "./audio.js";
 
 export function initialiseOptionsClasses() {
     getElements().resumeGameButton.classList.add('option-resume-game');
@@ -245,7 +258,7 @@ export function updateButtonStyle(buttonId, startStop) {
                 toggleDisable(true, getElements().investmentFundUnlockOrFloatButton);
                 break;
             case getElements().addStorageHeaterAutoShiftStartButton.id: //used only for auto shift start
-                playAudioFile(audioFiles.autoActivateSwitch,1);
+                playAudioFile(audioFiles.autoActivateSwitch, 1);
                 if (getInvestmentFundUnlocked()) {
                     if (element.classList.contains('toggleable-button-on-state')) {
                         element.classList.add('toggleable-button-off-state');
@@ -596,6 +609,9 @@ function createOptionScreenEventListeners() {
             disableButtons(true);
         }
         setGameInProgress(initialiseNewGame());
+        if (getGameInProgress() === undefined) {
+            setGameInProgress(true);
+        }
         updateVisibleButtons(); //for debug if money given
         setPauseAutoSaveCountdown(false);
     });
@@ -860,7 +876,7 @@ export function addCheckbox(button, state) {
 
     checkbox.addEventListener('click', function(event) {
         event.stopPropagation();
-        playAudioFile(audioFiles.autoActivateSwitch,1);
+        playAudioFile(audioFiles.autoActivateSwitch, 1);
         if (!checkbox.checked) {
             button.classList.remove('autoUpgradeEnabled');
         } else {
@@ -1381,14 +1397,41 @@ function countdownTimer() {
 }
 
 function selectBonusPrize() {
-    const bonusPrizes = [
-        { bonusPrize: "$5", probability: 20, class: 3 },
-        { bonusPrize: "$50", probability: 10, class: 2 },
-        { bonusPrize: "$1000", probability: 5, class: 1 },
-        { bonusPrize: `1 ${localize('shiftPointsExclamation', getLanguage())}`, probability: 20, class: 3 },
-        { bonusPrize: `5 ${localize('shiftPointsExclamation', getLanguage())}`, probability: 10, class: 1 },
-        { bonusPrize: `10 ${localize('customers', getLanguage())}`, probability: 20, class: 2 },
-        { bonusPrize: `50 ${localize('potatoes', getLanguage())}`, probability: 15, class: 2 }
+    const bonusPrizes = [{
+        bonusPrize: "$5",
+        probability: 20,
+        class: 3
+    },
+        {
+            bonusPrize: "$50",
+            probability: 10,
+            class: 2
+        },
+        {
+            bonusPrize: "$1000",
+            probability: 5,
+            class: 1
+        },
+        {
+            bonusPrize: `1 ${localize('shiftPointsExclamation', getLanguage())}`,
+            probability: 20,
+            class: 3
+        },
+        {
+            bonusPrize: `5 ${localize('shiftPointsExclamation', getLanguage())}`,
+            probability: 10,
+            class: 1
+        },
+        {
+            bonusPrize: `10 ${localize('customers', getLanguage())}`,
+            probability: 20,
+            class: 2
+        },
+        {
+            bonusPrize: `50 ${localize('potatoes', getLanguage())}`,
+            probability: 15,
+            class: 2
+        }
     ];
 
     const totalProbability = bonusPrizes.reduce((total, prize) => total + prize.probability, 0);
@@ -1398,7 +1441,10 @@ function selectBonusPrize() {
     for (let i = 0; i < bonusPrizes.length; i++) {
         cumulativeProbability += bonusPrizes[i].probability;
         if (randomValue < cumulativeProbability) {
-            return { bonusPrize: bonusPrizes[i].bonusPrize, class: bonusPrizes[i].class };
+            return {
+                bonusPrize: bonusPrizes[i].bonusPrize,
+                class: bonusPrizes[i].class
+            };
         }
     }
 }
@@ -1418,5 +1464,3 @@ export function startBubbleAnimation() {
 export function stopBubbleAnimation() {
     clearInterval(getBubbleInterval());
 }
-
-

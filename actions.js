@@ -206,7 +206,8 @@ import {
 } from './constantsAndGlobalVars.js';
 
 import {
-    calculateForthcomingTotalInvestment, checkForLanguageChange,
+    calculateForthcomingTotalInvestment,
+    checkForLanguageChange,
     startBatchTimer,
     wasteChipsStillInFryerOrFryingAtEndOfShift
 } from './gameloop.js';
@@ -215,18 +216,28 @@ import {
     addCheckbox,
     createOverlay,
     formatToCashNotation,
-    hideButtonsReadyForEndGame, startBubbleAnimation,
+    hideButtonsReadyForEndGame,
+    startBubbleAnimation,
     toggleEndOfShiftOrGamePopup,
     toggleOverlay,
     triggerEndGameScreen,
     updateButtonStyle,
     writePopupText
 } from "./ui.js";
-import {localize} from "./localization.js";
-import {audioFiles, playAudioFile, playFryingSoundLoop, startAmbientTrack} from "./audio.js";
+import {
+    localize
+} from "./localization.js";
+import {
+    audioFiles,
+    playAudioFile,
+    playFryingSoundLoop,
+    startAmbientTrack
+} from "./audio.js";
 
 let clickCounterPeelPotatoes;
 let clickCounterCutChips;
+let audioContext;
+let mediaElementSourceNodes = [];
 
 export function handleButtonClick(buttonId, value, loading) {
     const button = getElements()[buttonId];
@@ -494,12 +505,12 @@ export function handleServingStorage() {
         total += getChipsReadyToServeQuantity()[i];
     }
     getElements().readyToServeCount.innerHTML = `<h3>${total.toString()}</h3>`;
-    playAudioFile(audioFiles.storageBin,0.5);
+    playAudioFile(audioFiles.storageBin, 0.5);
     startBatchTimer(newBatchId);
 }
 
 function handleServeCustomer() {
-    playAudioFile(audioFiles.kerching,1);
+    playAudioFile(audioFiles.kerching, 1);
     serveCustomer();
     if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
         setCurrentCash(getCurrentCash() + getPriceOfChips());
@@ -757,7 +768,7 @@ function handleIncreaseFootfall(buttonId) {
 }
 
 function handleIncreaseCashInvested() {
-    playAudioFile(audioFiles.clickTwo,1);
+    playAudioFile(audioFiles.clickTwo, 1);
     if (getCurrentCash() >= getInvestmentCashIncrementDecrement()) {
         setCurrentCash(getCurrentCash() - getInvestmentCashIncrementDecrement());
         setAmountInvestmentCash(getAmountInvestmentCash() + getInvestmentCashIncrementDecrement());
@@ -770,7 +781,7 @@ function handleIncreaseCashInvested() {
 }
 
 function handleDecreaseCashInvested() {
-    playAudioFile(audioFiles.clickTwo,1);
+    playAudioFile(audioFiles.clickTwo, 1);
     if (getCurrentValueOfInvestment() >= getAmountInvestmentCash()) {
         if (getAmountInvestmentCash() >= getInvestmentCashIncrementDecrement()) {
             setCurrentCash(getCurrentCash() + getInvestmentCashIncrementDecrement());
@@ -800,21 +811,21 @@ function handleDecreaseCashInvested() {
 }
 
 function handleIncreaseRiskAmount() {
-    playAudioFile(audioFiles.clickTwo,1);
+    playAudioFile(audioFiles.clickTwo, 1);
     if (getAmountInvestmentRisk() < getMaxRiskAmount()) {
         setAmountInvestmentRisk(getAmountInvestmentRisk() + getOne());
     }
 }
 
 function handleDecreaseRiskAmount() {
-    playAudioFile(audioFiles.clickTwo,1);
+    playAudioFile(audioFiles.clickTwo, 1);
     if (getAmountInvestmentRisk() > getZero()) {
         setAmountInvestmentRisk(getAmountInvestmentRisk() - getOne());
     }
 }
 
 function handleWithDrawNowButton() {
-    playAudioFile(audioFiles.goodPrize,1);
+    playAudioFile(audioFiles.goodPrize, 1);
     setCurrentCash(getCurrentCash() + getCurrentValueOfInvestment());
     setCurrentValueOfInvestment(getZero());
     setAmountInvestmentCash(getZero());
@@ -1432,7 +1443,11 @@ export function loadGame(string) {
     } else {
         const textArea = document.getElementById('loadSaveGameStringTextArea');
         if (textArea) {
-            const string = { target: { result: textArea.value } };
+            const string = {
+                target: {
+                    result: textArea.value
+                }
+            };
             return handleFileSelectAndInitialiseLoadedGame(null, true, string);
         } else {
             return Promise.reject("Text area not found.");
@@ -1509,9 +1524,9 @@ function handleFileSelectAndInitialiseLoadedGame(event, stringLoad, string) {
 }
 
 function validateSaveString(compressed) {
-        let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
-        JSON.parse(decompressedJson);
-        return decompressedJson !== null;
+    let decompressedJson = LZString.decompressFromEncodedURIComponent(compressed);
+    JSON.parse(decompressedJson);
+    return decompressedJson !== null;
 }
 
 
@@ -1574,7 +1589,7 @@ export function getPrizes() {
         [selectedPrizes[i], selectedPrizes[j]] = [selectedPrizes[j], selectedPrizes[i]];
     }
 
-    setCurrentPrizeClassifications([selectedPrizes[0]['classification'],selectedPrizes[1]['classification'],selectedPrizes[2]['classification'],selectedPrizes[3]['classification']]);
+    setCurrentPrizeClassifications([selectedPrizes[0]['classification'], selectedPrizes[1]['classification'], selectedPrizes[2]['classification'], selectedPrizes[3]['classification']]);
 
     return `
         <div class="prize-item" style="color: ${wheelColors.NORMAL[0]};">${selectedPrizes[0].name}</div>
@@ -1780,16 +1795,17 @@ export function activateResumeGameButton() {
 function ClickCounter(name, audio) {
     let clicksPerSecond = 0;
     let totalClicks = 0;
-    let audioContext = new AudioContext();
+    audioContext = audioContext || new AudioContext();
     let audioElement = audio;
+    audioElement.preload = 'auto';
     let sourceNode = audioContext.createMediaElementSource(audioElement);
+    mediaElementSourceNodes.push(sourceNode);
     let gainNode = audioContext.createGain();
 
     sourceNode.connect(gainNode);
     gainNode.connect(audioContext.destination);
 
     // Set initial gain value (volume)
-
     if (audio === audioFiles.peeling) {
         gainNode.gain.value = 12;
     } else {
@@ -1798,19 +1814,14 @@ function ClickCounter(name, audio) {
 
     function startTracking() {
         setInterval(() => {
-            //console.log(`Clicks per second (${name}): ${clicksPerSecond}`);
-
             const clicksPerMinute = clicksPerSecond * 60;
-            //console.log(`Clicks per minute (${name}): ${clicksPerMinute}`);
 
             if (clicksPerMinute >= 60 && audioElement.paused) {
-                //console.log(`Playing audio (${name})`);
                 audioElement.currentTime = 0;
                 audioElement.play().then(null);
             }
 
             if (clicksPerMinute < 60 && !audioElement.paused) {
-                //console.log(`Stopping audio (${name})`);
                 audioElement.pause();
             }
 
@@ -1834,8 +1845,8 @@ function ClickCounter(name, audio) {
 }
 
 export function initialiseClickCounter() {
-    clickCounterPeelPotatoes = ClickCounter("Peel Potatoes", audioFiles.peeling);
     clickCounterCutChips = ClickCounter("Cut Chips", audioFiles.chopping);
+    clickCounterPeelPotatoes = ClickCounter("Peel Potatoes", audioFiles.peeling);
     clickCounterCutChips.setVolume(1);
     clickCounterPeelPotatoes.setVolume(1);
 }

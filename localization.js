@@ -1,7 +1,9 @@
 // noinspection ES6UnusedImports
 
 import {
-    getLocalization, setLanguage, setLocalization,
+    getLocalization,
+    setLanguage,
+    setLocalization,
     getTotalEarnedInSales,
     getTotalSpentExcludingInvestments,
     getTotalPeeled,
@@ -77,8 +79,12 @@ import {
     getQuantityOfChipsFrying,
     getFryTimeRemaining
 } from './constantsAndGlobalVars.js';
-import {formatToCashNotation} from "./ui.js";
-import {calculateAndSetNewPriceOfUpgrade} from "./actions.js";
+import {
+    formatToCashNotation
+} from "./ui.js";
+import {
+    calculateAndSetNewPriceOfUpgrade
+} from "./actions.js";
 
 let localizationData = {};
 
@@ -126,6 +132,6 @@ function interpolateTemplateLiteral(template) {
     });
 }
 
-
-
-export { localize };
+export {
+    localize
+};
