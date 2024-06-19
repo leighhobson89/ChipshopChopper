@@ -919,7 +919,7 @@ function createWheelOfFortune() {
 
     spinButton.addEventListener('click', function() {
         if (!getWheelSpinning()) {
-            playAudioFile(audioFiles.click, 1);
+            playAudioFile(audioFiles.wheelSpinning, 1);
             const minRotation = 875;
             const maxRotation = 3570;
             const rotation = Math.floor(Math.random() * (maxRotation - minRotation + 1)) + minRotation;
@@ -1314,6 +1314,7 @@ export function initialiseMovingBonusPrize(bonusPrizeClass) {
 }
 
 export function bonusClicked() {
+    playAudioFile(audioFiles.goodPrize, 1);
     const bonusPrize = getBonusMovingGraphicPrize();
     // console.log(bonusPrize);
     switch (bonusPrize) {

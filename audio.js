@@ -29,7 +29,8 @@ export const audioFiles = {
     kerching: './resources/audio/kerching.mp3',
     goodPrize: './resources/audio/goodPrize.mp3',
     badPrize: './resources/audio/badPrize.mp3',
-    autoActivateSwitch: './resources/audio/autoActivateSwitch.mp3'
+    autoActivateSwitch: './resources/audio/autoActivateSwitch.mp3',
+    wheelSpinning: './resources/audio/wheelSpinning.mp3'
 };
 
 let currentAudio = null;
@@ -90,7 +91,7 @@ export function startAmbientTrack() {
         const shiftTimeRemaining = getShiftTimeRemaining();
 
         // Fade out current track if shift is ending
-        if (shiftTimeRemaining <= 5) {
+        if (shiftTimeRemaining <= 5 && !getAudioMuted()) {
             fadeAudio(nextAudio, nextAudio.volume, 0, fadeDuration, () => {
                 nextAudio.pause();
             });
@@ -105,16 +106,16 @@ export function startAmbientTrack() {
                 if (!getAudioMuted()) {
                     playAudio(nextAudio);
                     fadeAudio(nextAudio, 0, 0.25, fadeDuration);
-                    fadeAudio(currentAudio, 0.25, 0, fadeDuration, () => {
-                        currentAudio.pause();
-                        currentAudio = null;
-                    });
                 }
+                fadeAudio(currentAudio, 0.25, 0, fadeDuration, () => {
+                    currentAudio.pause();
+                    currentAudio = null;
+                });
             }
         }
 
         // Stop all tracks if shift time remaining is 0
-        if (shiftTimeRemaining === 0) {
+        if (shiftTimeRemaining === 0 || !getShiftInProgress()) {
             if (currentAudio) {
                 fadeAudio(currentAudio, currentAudio.volume, 0, fadeDuration, () => {
                     currentAudio.pause();
