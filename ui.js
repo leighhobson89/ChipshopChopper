@@ -106,7 +106,7 @@ import {
     setBonusMovingGraphicPrize, setBubbleInterval,
     setCountdownTime,
     setCountdownTimeInterval,
-    setCurrentCash, setCurrentPrizeClassifications,
+    setCurrentCash,
     setCurrentRotation,
     setCustomersWaiting,
     setDebugFlag,
