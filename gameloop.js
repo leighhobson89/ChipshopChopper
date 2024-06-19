@@ -165,7 +165,7 @@ import {
 } from './constantsAndGlobalVars.js';
 import {initLocalization, localize} from "./localization.js";
 import {bonusClicked} from "./ui.js";
-import {audioFiles, getPlayingAudioFiles, muteAllAudio, playAudioFile, unmuteAllAudio} from "./audio.js";
+import {audioFiles, muteAllAudio, playAudioFile, unmuteAllAudio} from "./audio.js";
 
 let autoSaveInterval;
 let nextAutoSaveTime;
@@ -728,7 +728,8 @@ function incrementRiskValue() {
 function checkRiskAgainstThreshold(doubleRisk) {
     const threshold = getRiskThreshold();
     if (getCurrentRiskLevel() >= threshold && getAmountInvestmentCash() > getZero()) {
-        console.log("DEVALUE investment");
+        playAudioFile(audioFiles.badPrize,1);
+        //console.log("DEVALUE investment");
         const amountToLose = formatToCashNotation(devalueInvestment(doubleRisk));
         setCurrentRiskLevel(Math.floor(Math.random() * (getRiskThreshold() / 2))); //start from a non-zero random risk level
         const midpointCoords = getElementMidpoint(getElements().investmentDataScreenBottomRowColumn3.id);

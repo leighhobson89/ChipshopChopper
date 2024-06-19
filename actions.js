@@ -805,6 +805,7 @@ function handleDecreaseRiskAmount() {
 }
 
 function handleWithDrawNowButton() {
+    playAudioFile(audioFiles.goodPrize,1);
     setCurrentCash(getCurrentCash() + getCurrentValueOfInvestment());
     setCurrentValueOfInvestment(getZero());
     setAmountInvestmentCash(getZero());

@@ -245,6 +245,7 @@ export function updateButtonStyle(buttonId, startStop) {
                 toggleDisable(true, getElements().investmentFundUnlockOrFloatButton);
                 break;
             case getElements().addStorageHeaterAutoShiftStartButton.id: //used only for auto shift start
+                playAudioFile(audioFiles.autoActivateSwitch,1);
                 if (getInvestmentFundUnlocked()) {
                     if (element.classList.contains('toggleable-button-on-state')) {
                         element.classList.add('toggleable-button-off-state');
