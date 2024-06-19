@@ -26,7 +26,9 @@ export const audioFiles = {
     clickTwo: './resources/audio/clickTwo.mp3',
     shiftEnd: './resources/audio/shiftEnd.mp3',
     tickClock: './resources/audio/tickClock.mp3',
-    kerching: './resources/audio/kerching.mp3'
+    kerching: './resources/audio/kerching.mp3',
+    goodPrize: './resources/audio/goodPrize.mp3',
+    badPrize: './resources/audio/badPrize.mp3'
 };
 
 let currentAudio = null;

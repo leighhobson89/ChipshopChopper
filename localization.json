@@ -112,8 +112,8 @@
     "customerWalkout": "Customer Walkout",
     "customers": "Customers",
     "deliveryCancelled": "Delivery Cancelled",
-    "fineOfHalfMoney": "Fine Of Half Money",
-    "halfOfPotatoesRot": "Half of Potatoes Rot",
+    "fineOfHalfMoney": "Fine Of Half Of Money",
+    "halfOfPotatoesRot": "Half Of Potatoes Rot",
     "fryingChips": "Frying ${getQuantityOfChipsFrying()} Chips<br>(${getFryTimeRemaining()}s)",
     "newGame": "New Game",
     "clickAgainToStartNewGame": "Click again to start a New Game...",
@@ -752,7 +752,7 @@
           "classification": "bad"
         },
         {
-          "name": "Fine of half of money",
+          "name": "Fine Of Half Of Money",
           "classification": "bad"
         },
         {
@@ -794,7 +794,7 @@
           "classification": "bad"
         },
         {
-          "name": "Fine of half of money",
+          "name": "Fine Of Half Of Money",
           "classification": "bad"
         },
         {
@@ -836,7 +836,7 @@
           "classification": "bad"
         },
         {
-          "name": "Fine of half of money",
+          "name": "Fine Of Half Of Money",
           "classification": "bad"
         },
         {
@@ -878,7 +878,7 @@
           "classification": "bad"
         },
         {
-          "name": "Fine of half of money",
+          "name": "Fine Of Half Of Money",
           "classification": "bad"
         },
         {
@@ -920,7 +920,7 @@
           "classification": "bad"
         },
         {
-          "name": "Fine of half of money",
+          "name": "Fine Of Half Of Money",
           "classification": "bad"
         },
         {
@@ -962,7 +962,7 @@
           "classification": "bad"
         },
         {
-          "name": "Fine of half of money",
+          "name": "Fine Of Half Of Money",
           "classification": "bad"
         },
         {
@@ -1004,7 +1004,7 @@
           "classification": "bad"
         },
         {
-          "name": "Fine Of Half Money",
+          "name": "Fine Of Half Of Money",
           "classification": "bad"
         },
         {

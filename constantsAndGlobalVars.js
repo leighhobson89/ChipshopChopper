@@ -19,6 +19,7 @@ let elements;
 let localization = {};
 let language;
 let oldLanguage = 'en';
+let currentPrizeClassification = [];
 
 //CONSTANTS
 const AUTO_SAVE_INTERVAL = 5 * 60 * 1000; //change first integer for mins e.g. 5 for 5 mins
@@ -28,7 +29,7 @@ const END_GAME_POTATOES = 8;
 const CLOCK_SPEED = 1000;
 const AUTO_UPGRADES_CLOCK_SPEED = 50; //MAX ACCURATE CLOCK SPEED
 export const TIMER_CORRECTION_COEFFICIENT = 2.63; //Multiplier to make timers align due performance
-const SHIFT_LENGTH = 60; //45
+const SHIFT_LENGTH = 60; //60
 const PORTION_SIZE = 40;
 const PRICE_OF_CHIPS = 2;
 const STARTING_SPUDS = 100;
@@ -129,7 +130,7 @@ let investmentRiskIncrementDecrement = 1;
 let currentValueOfInvestment = 0;
 let currentRiskLevel = 0;
 let growthInvestment = 0;
-let shiftPoints = 2;
+let shiftPoints = 3;
 
 //WHEEL OF FORTUNE
 let currentRotation = 0;
@@ -2152,6 +2153,14 @@ export function setAudioMuted(value) {
 
 export function getAudioMuted() {
     return audioMuted;
+}
+
+export function setCurrentPrizeClassifications(value) {
+    currentPrizeClassification = value;
+}
+
+export function getCurrentPrizeClassifications() {
+    return currentPrizeClassification;
 }
 
 function setFlagsToFalse() {

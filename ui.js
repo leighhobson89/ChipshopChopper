@@ -13,7 +13,7 @@ import {
     getActualPotatoesInStorage,
     getAmountInvestmentCash,
     getAmountInvestmentRisk,
-    getAreChipsFrying,
+    getAreChipsFrying, getAudioMuted,
     getAutoChipperCapped,
     getAutoCustomerServerCapped,
     getAutoFryerCapped,
@@ -34,7 +34,7 @@ import {
     getCountdownTime,
     getCountdownTimeInterval,
     getCurrentCash,
-    getCurrentMaxValueWaitForNewCustomer,
+    getCurrentMaxValueWaitForNewCustomer, getCurrentPrizeClassifications,
     getCurrentRotation,
     getCurrentSpeedAutoChipper,
     getCurrentSpeedAutoCustomerServer,
@@ -106,7 +106,7 @@ import {
     setBonusMovingGraphicPrize, setBubbleInterval,
     setCountdownTime,
     setCountdownTimeInterval,
-    setCurrentCash,
+    setCurrentCash, setCurrentPrizeClassifications,
     setCurrentRotation,
     setCustomersWaiting,
     setDebugFlag,
@@ -1045,7 +1045,7 @@ function determineWinner(color1, color2) {
 }
 
 function showWheelPrizeString(winningColor) {
-    const prizeString = getPrizeFromWinningColor(winningColor);
+    const prizeString = getPrizeFromWinningColorAndPlaySound(winningColor);
     const wheelCenterLine = document.getElementById('wheelCenterLine');
 
     const wheelCenterRect = wheelCenterLine.getBoundingClientRect();
@@ -1067,15 +1067,35 @@ export function showBonusPrizeString(bonusPrizeString) {
     animatedTextString(graphicCenterX, graphicCenterY, bonusPrizeString);
 }
 
-function getPrizeFromWinningColor(winningColor) {
+function getPrizeFromWinningColorAndPlaySound(winningColor) {
     switch (winningColor) {
         case wheelColors.NORMAL[0]:
+            if (getCurrentPrizeClassifications()[0] === 'good' && !getAudioMuted()) {
+                playAudioFile(audioFiles.goodPrize, 1);
+            } else {
+                playAudioFile(audioFiles.badPrize, 1);
+            }
             return getShiftPrizePot()[0];
         case wheelColors.NORMAL[1]:
+            if (getCurrentPrizeClassifications()[1] === 'good' && !getAudioMuted()) {
+                playAudioFile(audioFiles.goodPrize, 1);
+            } else {
+                playAudioFile(audioFiles.badPrize, 1);
+            }
             return getShiftPrizePot()[1];
         case wheelColors.NORMAL[2]:
+            if (getCurrentPrizeClassifications()[2] === 'good' && !getAudioMuted()) {
+                playAudioFile(audioFiles.goodPrize, 1);
+            } else {
+                playAudioFile(audioFiles.badPrize, 1);
+            }
             return getShiftPrizePot()[2];
         case wheelColors.NORMAL[3]:
+            if (getCurrentPrizeClassifications()[3] === 'good' && !getAudioMuted()) {
+                playAudioFile(audioFiles.goodPrize, 1);
+            } else {
+                playAudioFile(audioFiles.badPrize, 1);
+            }
             return getShiftPrizePot()[3];
     }
 }

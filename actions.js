@@ -197,7 +197,7 @@ import {
     setTotalWastedChips,
     getTotalWastedChips,
     wheelColors,
-    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag, getAudioMuted
+    setPopupOverlay, getLanguage, getLocalization, setLanguageChangedFlag, getAudioMuted, setCurrentPrizeClassifications
 } from './constantsAndGlobalVars.js';
 
 import {
@@ -1549,6 +1549,8 @@ export function getPrizes() {
         const j = Math.floor(Math.random() * (i + 1));
         [selectedPrizes[i], selectedPrizes[j]] = [selectedPrizes[j], selectedPrizes[i]];
     }
+
+    setCurrentPrizeClassifications([selectedPrizes[0]['classification'],selectedPrizes[1]['classification'],selectedPrizes[2]['classification'],selectedPrizes[3]['classification']]);
 
     return `
         <div class="prize-item" style="color: ${wheelColors.NORMAL[0]};">${selectedPrizes[0].name}</div>
