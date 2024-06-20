@@ -411,13 +411,13 @@ body {
     opacity: 0;
 }
 
-.white-important {
-    color: #ffffff !important;
+.black-important {
+    color: #212529 !important;
 }
 
 .popup-continue-button:hover {
-    background-color: #218838;
-    color: #ffffff;
+    background-color: #c79706 !important;
+    color: #212529 !important;
 }
 
 /* INVESTMENT COMPONENTS */
@@ -699,11 +699,6 @@ button.btn.end-game-shift-button {
     cursor: pointer;
     font-size: 1.2em;
     display: block;
-}
-
-#spinButton:hover {
-    background-color: #218838;
-    color: #ffffff;
 }
 
 .center-line {

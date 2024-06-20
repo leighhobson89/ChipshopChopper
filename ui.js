@@ -171,12 +171,12 @@ export function initialiseOptionsClasses() {
     getElements().menuButton.classList.add('bg-warning');
 
     getElements().withdrawInvestmentButton.classList.add('bg-secondary');
-    getElements().withdrawInvestmentButton.classList.add('white-important');
+    getElements().withdrawInvestmentButton.classList.add('black-important');
 
     getElements().endGameStartShiftButton.classList.add('bg-success');
 
     getElements().continueButton.classList.add('bg-secondary');
-    getElements().continueButton.classList.add('white-important');
+    getElements().continueButton.classList.add('black-important');
 }
 
 export function initialiseOptionTexts() {
@@ -525,7 +525,7 @@ export function writePopupText() {
             setTimeout(() => {
                 const buttonElement = getElements().continueButton;
                 buttonElement.classList.remove('bg-secondary');
-                buttonElement.classList.add('bg-success');
+                buttonElement.classList.add('bg-warning');
                 buttonElement.style.opacity = '0';
                 buttonElement.style.animation = '';
                 buttonElement.style.animation = 'fadeIn 1.5s forwards';

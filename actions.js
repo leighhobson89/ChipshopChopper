@@ -1735,10 +1735,10 @@ export function toggleDisable(disableItNow, element) {
             element.classList.add('disabled');
             if (!element.classList.contains('action-button-main-flashing')) {
                 if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
-                    element.classList.remove('bg-success');
-                    element.classList.remove('white-important');
+                    element.classList.remove('bg-warning');
+                    element.classList.remove('black-important');
                 } else if (element === getElements().withdrawInvestmentButton) {
-                    element.classList.remove('bg-success');
+                    element.classList.remove('bg-warning');
                 } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
                     element.classList.remove('bg-danger');
                 } else if (element === getElements().resumeGameButton) {
@@ -1746,7 +1746,7 @@ export function toggleDisable(disableItNow, element) {
                 } else if (element === getElements().option2) {
                     getElements().option2.classList.add('option-disabled');
                     getElements().option2.classList.add('bg-secondary');
-                    getElements().option2.classList.remove('bg-primary');
+                    getElements().option2.classList.remove('bg-warning');
                 } else {
                     element.classList.remove('bg-warning');
                 }
@@ -1760,10 +1760,10 @@ export function toggleDisable(disableItNow, element) {
             element.classList.remove('bg-secondary');
             if (!element.classList.contains('action-button-main-flashing')) {
                 if (element === document.getElementById('spinButton') || element === document.getElementById('popupContinueButton')) {
-                    element.classList.add('bg-success');
-                    element.classList.add('white-important');
+                    element.classList.add('bg-warning');
+                    element.classList.add('black-important');
                 } else if (element === getElements().withdrawInvestmentButton) {
-                    element.classList.add('bg-success');
+                    element.classList.add('bg-warning');
                 } else if (element === getElements().investmentCashComponent_DecrementButton || element === getElements().investmentRiskComponent_DecrementButton) {
                     element.classList.add('bg-danger');
                 } else if (element === getElements().resumeGameButton) {
