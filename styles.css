@@ -454,7 +454,7 @@ body {
 
 .investmentComponent-button-top {
     display: flex;
-    color: white;
+    color: black;
     cursor: pointer;
     border-top-right-radius: 30px !important;
     border-top-left-radius: 0 !important;
