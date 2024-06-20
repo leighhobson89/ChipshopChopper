@@ -305,7 +305,7 @@ export function gameLoop() {
         getElements().debugCash.classList.remove('d-none');
     }
     setGameInProgress(!!getGameInProgress());
-    updateClock();
+    //updateClock();
 
     if (getGameInProgress()) {
         updateCustomerCountdown();
@@ -331,13 +331,13 @@ export function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
-function updateClock() {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    getElements().clock.innerHTML = `<h2>${hours}:${minutes}:${seconds}</h2>`;
-}
+// function updateClock() {
+//     const now = new Date();
+//     const hours = now.getHours().toString().padStart(2, '0');
+//     const minutes = now.getMinutes().toString().padStart(2, '0');
+//     const seconds = now.getSeconds().toString().padStart(2, '0');
+//     getElements().clock.innerHTML = `<h2>${hours}:${minutes}:${seconds}</h2>`;
+// }
 
 function updateCustomerCountdown() {
     if (getShiftInProgress()) {

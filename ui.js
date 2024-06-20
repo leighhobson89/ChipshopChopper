@@ -538,6 +538,7 @@ export function updateVisibleButtons() {
         //manual phase upgrades
         if (getCurrentCash() >= getPriceToImprovePotatoStorage()) {
             getElements().improvePotatoStorageButton.classList.remove('hidden-button');
+            getElements().row3.classList.remove('d-none');
         }
         if (!getInvestmentFundUnlocked()) {
             if (getCurrentCash() >= getPriceToEnableDoublePeeling()) {
@@ -549,6 +550,7 @@ export function updateVisibleButtons() {
         }
         if (getCurrentCash() >= getPriceToImproveFryerCapacity()) {
             getElements().improveFryerCapacityButton.classList.remove('hidden-button');
+            getElements().row3.classList.remove('d-none');
         }
         if (getCurrentCash() >= getPriceToAddStorageHeater()) {
             getElements().addStorageHeaterAutoShiftStartButton.classList.remove('hidden-button');
@@ -556,26 +558,33 @@ export function updateVisibleButtons() {
         //auto phase upgrades
         if (getCurrentCash() >= getPriceToImproveAutoPeeler()) {
             getElements().autoPeelerUpgradeButton.classList.remove('hidden-button');
+            getElements().row2.classList.remove('d-none');
         }
         if (getCurrentCash() >= getPriceToImproveAutoChipper()) {
             getElements().autoChipperUpgradeButton.classList.remove('hidden-button');
+            getElements().row2.classList.remove('d-none');
         }
         if (getCurrentCash() >= getPriceToImproveAutoFryerWhenFryerEmptyAndChipsCut()) {
             getElements().autoFryerUpgradeButton.classList.remove('hidden-button');
+            getElements().row2.classList.remove('d-none');
         }
         if (getCurrentCash() >= getPriceToImproveAutoMoverFromFryerToStorage()) {
             getElements().autoStorageCollectorUpgradeButton.classList.remove('hidden-button');
+            getElements().row2.classList.remove('d-none');
         }
         if (getCurrentCash() >= getPriceToImproveAutoCustomerServer()) {
             getElements().autoCustomerServerUpgradeButton.classList.remove('hidden-button');
+            getElements().row2.classList.remove('d-none');
         }
         if (getCurrentCash() >= getPriceToIncreaseFootfall()) {
             getElements().customerFrequencyIncreaser.classList.remove('hidden-button');
+            getElements().row3.classList.remove('d-none');
         }
         //third phase upgrades
         if (getCurrentCash() >= getRoleUpgrade(`${localize('roleFour', getLanguage())}`) && (getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleFive'] || getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSix'] || getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSeven'])) {
             getElements().fastFryerUpgradeButton.classList.remove('hidden-button');
             getElements().potatoDeliveryDoublerButton.classList.remove('hidden-button');
+            getElements().row3.classList.remove('d-none');
         }
         if (getCurrentCash() >= getRoleUpgrade(`${localize('roleFive', getLanguage())}`) && (getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSix'] || getElements().playerRoleText.innerText === getLocalization()[getLanguage()]['roleSeven'])) {
             getElements().investmentFundUnlockOrFloatButton.classList.remove('hidden-button');
@@ -597,10 +606,12 @@ export function updateVisibleButtons() {
 function createOptionScreenEventListeners() {
     getElements().option1.addEventListener('click', function() {
         if (!getGameInProgress()) {
+            hideButtonRowsStartOfGame()
             initialiseClickCounter();
         }
         playAudioFile(audioFiles.click, 1);
         if (getElements().option1.innerText === getLocalization()[getLanguage()]['clickAgainNewGame']) {
+            hideButtonRowsStartOfGame();
             resetAllVariables();
             resetCounterUiElements();
             setInitialStateMainButtons();
@@ -1463,4 +1474,9 @@ export function startBubbleAnimation() {
 
 export function stopBubbleAnimation() {
     clearInterval(getBubbleInterval());
+}
+
+function hideButtonRowsStartOfGame() {
+    getElements().row2.classList.add('d-none');
+    getElements().row3.classList.add('d-none');
 }

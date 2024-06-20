@@ -327,7 +327,9 @@ export function setElements() {
         saveLoadPopup: document.getElementById('loadSaveGameStringPopup'),
         loadSaveGameStringTextArea: document.getElementById('loadSaveGameStringTextArea'),
         textAreaLabel: document.getElementById('textAreaLabel'),
-        bonusGraphic: document.getElementById('bonusGraphic')
+        bonusGraphic: document.getElementById('bonusGraphic'),
+        row2: document.getElementById('row2'),
+        row3: document.getElementById('row3'),
     };
 }
 

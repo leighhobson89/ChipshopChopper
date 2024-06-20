@@ -61,6 +61,20 @@ body {
     pointer-events: none;
 }
 
+#titleBanner {
+    background-image: url('./resources/icons/chips.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#titleText {
+    background-color: #1a1a1a;
+    border-radius: 15px;
+    color: #FFC107;
+    margin-bottom: 10px;
+}
+
 .debug {
     cursor: pointer;
 }
