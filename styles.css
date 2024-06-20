@@ -1,5 +1,8 @@
 body {
-    background-color: #1a1a1a;
+    background-image: url('./resources/icons/chips.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     color: #fff;
     font-family: Arial, sans-serif;
     user-select: none;
@@ -61,18 +64,22 @@ body {
     pointer-events: none;
 }
 
-#titleBanner {
-    background-image: url('./resources/icons/chips.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+#optionsWindow {
+    background-color: rgba(26, 26 ,26 ,0.6);
+    padding: 20px;
+    border-radius: 30px;
 }
 
 #titleText {
-    background-color: #1a1a1a;
+    background-color: rgba(26, 26 ,26 ,0.5);
     border-radius: 15px;
     color: #FFC107;
     margin-bottom: 10px;
+}
+
+#gameWindow {
+    background-color: rgba(26, 26 ,26 ,0.6);
+    border-radius: 15px;
 }
 
 .debug {
@@ -828,6 +835,8 @@ button.bg-warning {
     position: relative;
     overflow: hidden;
     height: 30px;
+    background-color: rgba(26, 26, 26, 0.5);
+    margin-bottom: 20px;
 }
 
 /*bubble animation for fryer button*/
