@@ -18,7 +18,7 @@ import {
     handleButtonClickEventListenerInitialisation,
     pickRandomCountdownTimeToNextMovingBonus,
     showBonusPrizeString,
-    stopBubbleAnimation
+    stopBubbleAnimation, initialiseOptionTexts
 } from './ui.js';
 
 import {
@@ -264,6 +264,7 @@ export function main() {
     autoSaveInterval = getAutoSaveInterval();
     nextAutoSaveTime = Date.now() + autoSaveInterval;
     initialiseOptionsClasses();
+    initialiseOptionTexts();
 
     createGameWindow();
 

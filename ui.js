@@ -173,6 +173,19 @@ export function initialiseOptionsClasses() {
     getElements().continueButton.classList.add('bg-secondary');
     getElements().continueButton.classList.add('white-important');
 }
+
+export function initialiseOptionTexts() {
+    getElements().option1.innerHTML = `<h2>${localize('newGame', getLanguage())}</h2>`;
+    getElements().option2.innerHTML = `<h2>${localize('saveGame', getLanguage())}</h2>`;
+    getElements().option3.innerHTML = `<h2>${localize('loadGame', getLanguage())}</h2>`;
+    getElements().option4.innerHTML = `<h2>${localize('help', getLanguage())}</h2>`;
+    getElements().option5.innerHTML = `<h2>${localize('autoSaveOnOff', getLanguage())}</h2>`;
+    getElements().resumeGameButton.innerHTML = `<h2>${localize('resumeGame', getLanguage())}</h2>`;
+    getElements().resumeGameButton.innerHTML = '<h2>Give $250000</h2>';
+
+
+}
+
 export function createGameWindow() {
     setInitialStateMainButtons();
     initialiseInvestmentDataScreen();
