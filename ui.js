@@ -149,16 +149,21 @@ import {
 } from "./audio.js";
 
 export function initialiseOptionsClasses() {
-    getElements().resumeGameButton.classList.add('option-resume-game');
-    getElements().resumeGameButton.classList.add('option-disabled');
+    getElements().option1.classList.add('bg-warning');
 
     getElements().option2.classList.add('bg-secondary');
+    getElements().option2.classList.add('text-white');
     getElements().option2.classList.add('option-disabled');
+
+    getElements().option3.classList.add('bg-warning');
+
+    getElements().option4.classList.add('bg-warning');
 
     getElements().option5.classList.add('bg-danger');
 
     getElements().resumeGameButton.classList.add('bg-secondary');
     getElements().resumeGameButton.style.color = 'white';
+    getElements().resumeGameButton.classList.add('option-disabled');
 
     getElements().debugCash.style.color = 'white';
     getElements().debugCash.classList.add('bg-danger');
@@ -181,9 +186,7 @@ export function initialiseOptionTexts() {
     getElements().option4.innerHTML = `<h2>${localize('help', getLanguage())}</h2>`;
     getElements().option5.innerHTML = `<h2>${localize('autoSaveOnOff', getLanguage())}</h2>`;
     getElements().resumeGameButton.innerHTML = `<h2>${localize('resumeGame', getLanguage())}</h2>`;
-    getElements().resumeGameButton.innerHTML = '<h2>Give $250000</h2>';
-
-
+    getElements().debugCash.innerHTML = '<h2>Give $250000</h2>';
 }
 
 export function createGameWindow() {
@@ -240,10 +243,12 @@ export function toggleAutoSave() {
 
     if (!getAutoSaveOn()) {
         autoSaveOption.classList.remove('bg-danger');
-        autoSaveOption.classList.add('bg-success');
+        autoSaveOption.classList.remove('autosave-hover-red');
+        autoSaveOption.classList.add('autosave-hover-green');
         setAutoSaveOn(true);
     } else {
-        autoSaveOption.classList.add('bg-danger');
+        autoSaveOption.classList.add('autosave-hover-red');
+        autoSaveOption.classList.remove('autosave-hover-green');
         autoSaveOption.classList.remove('bg-success');
         setAutoSaveOn(false);
     }
@@ -617,6 +622,76 @@ export function updateVisibleButtons() {
 }
 
 function createOptionScreenEventListeners() {
+    getElements().option1.addEventListener('mouseover', function() {
+        getElements().option1.classList.remove('bg-warning');
+        getElements().option1.classList.add('option-hover');
+    });
+
+    getElements().option1.addEventListener('mouseout', function() {
+        getElements().option1.classList.add('bg-warning');
+        getElements().option1.classList.remove('option-hover');
+    });
+
+    getElements().option2.addEventListener('mouseover', function() {
+        getElements().option2.classList.remove('bg-warning');
+        getElements().option2.classList.add('option-hover');
+    });
+
+    getElements().option2.addEventListener('mouseout', function() {
+        getElements().option2.classList.add('bg-warning');
+        getElements().option2.classList.remove('option-hover');
+    });
+
+    getElements().option3.addEventListener('mouseover', function() {
+        getElements().option3.classList.remove('bg-warning');
+        getElements().option3.classList.add('option-hover');
+    });
+
+    getElements().option3.addEventListener('mouseout', function() {
+        getElements().option3.classList.add('bg-warning');
+        getElements().option3.classList.remove('option-hover');
+    });
+
+    getElements().option4.addEventListener('mouseover', function() {
+        getElements().option4.classList.remove('bg-warning');
+        getElements().option4.classList.add('option-hover');
+    });
+
+    getElements().option4.addEventListener('mouseout', function() {
+        getElements().option4.classList.add('bg-warning');
+        getElements().option4.classList.remove('option-hover');
+    });
+
+    getElements().resumeGameButton.addEventListener('mouseover', function() {
+        getElements().resumeGameButton.classList.remove('bg-warning');
+        getElements().resumeGameButton.classList.add('option-hover');
+    });
+
+    getElements().resumeGameButton.addEventListener('mouseout', function() {
+        getElements().resumeGameButton.classList.add('bg-warning');
+        getElements().resumeGameButton.classList.remove('option-hover');
+    });
+
+    getElements().option5.addEventListener('mouseover', function() {
+        if (getElements().option5.classList.contains('bg-danger')) {
+            getElements().option5.classList.remove('bg-danger');
+            getElements().option5.classList.add('autosave-hover-red');
+        } else if (getElements().option5.classList.contains('bg-success')) {
+            getElements().option5.classList.remove('bg-success');
+            getElements().option5.classList.add('autosave-hover-green');
+        }
+    });
+
+    getElements().option5.addEventListener('mouseout', function() {
+        if (getElements().option5.classList.contains('autosave-hover-red')) {
+            getElements().option5.classList.add('bg-danger');
+            getElements().option5.classList.remove('autosave-hover-red');
+        } else if (getElements().option5.classList.contains('autosave-hover-green')) {
+            getElements().option5.classList.add('bg-success');
+            getElements().option5.classList.remove('autosave-hover-green');
+        }
+    });
+
     getElements().option1.addEventListener('click', function() {
         if (!getGameInProgress()) {
             hideButtonRowsStartOfGame()
@@ -1225,7 +1300,7 @@ export function createAndAttachEndGameShiftStartEventListener() {
 
 function setCapped(element) {
     element.classList.remove('bg-warning');
-    element.classList.add('bg-secondary');
+    element.classList.add('bg-success');
     element.classList.add('capped');
 }
 

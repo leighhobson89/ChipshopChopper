@@ -1768,11 +1768,11 @@ export function toggleDisable(disableItNow, element) {
                     element.classList.add('bg-danger');
                 } else if (element === getElements().resumeGameButton) {
                     element.classList.remove('option-disabled');
-                    element.style.color = 'black';
                 } else if (element === getElements().option2) {
                     getElements().option2.classList.remove('option-disabled');
                     getElements().option2.classList.remove('bg-secondary');
-                    getElements().option2.classList.add('bg-primary');
+                    getElements().option2.classList.add('bg-warning');
+                    getElements().option2.classList.remove('text-white');
                 } else if (element === getElements().fryChipsButton && getElements().fryChipsButton.classList.contains('cooking')) {
                     getElements().fryChipsButton.classList.remove('bg-warning');
                 } else {
@@ -1787,7 +1787,7 @@ export function activateResumeGameButton() {
     getElements().resumeGameButton.classList.remove('option-disabled');
     getElements().resumeGameButton.classList.remove('bg-secondary');
     getElements().resumeGameButton.classList.add('bg-warning');
-    getElements().resumeGameButton.style.color = 'black';
+    getElements().resumeGameButton.style.color = 'inherit';
 }
 
 

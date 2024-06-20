@@ -44,18 +44,19 @@ body {
 #language_it { background-image: url('./resources/flags/it.png'); }
 #language_fr { background-image: url('./resources/flags/fr.png'); }
 
-.option-resume-game {
-    background-color: #FFC107;
-    color: black;
+.option-hover {
+    background-color: #c79706 !important;
+    color: white !important;
 }
 
-.option:hover {
-    background-color: #004ea4;
+.autosave-hover-red {
+    background-color: #a63a37 !important;
+    color: black !important;
 }
 
-.option-resume-game:hover {
-    background-color: #FFC107;
-    color: white;
+.autosave-hover-green {
+    background-color: #116940; !important;
+    color: black !important;
 }
 
 .option-disabled {
