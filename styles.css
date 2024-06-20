@@ -68,11 +68,13 @@ body {
     background-color: rgba(26, 26 ,26 ,0.6);
     padding: 20px;
     border-radius: 30px;
+    border: 3px solid #FFC107;
 }
 
 #titleText {
     background-color: rgba(26, 26 ,26 ,0.5);
     border-radius: 15px;
+    border: 3px solid #FFC107;
     color: #FFC107;
     margin-bottom: 10px;
 }
@@ -80,6 +82,7 @@ body {
 #gameWindow {
     background-color: rgba(26, 26 ,26 ,0.6);
     border-radius: 15px;
+    border: 3px solid #FFC107;
 }
 
 .debug {
@@ -93,6 +96,14 @@ body {
 
 .debug-toggledOn {
     background-color: #198754;
+}
+
+.table-border {
+    border: 2px white solid;
+}
+
+.border-right-none {
+    border-right: 0;
 }
 
 .second-row-main-buttons>input {
