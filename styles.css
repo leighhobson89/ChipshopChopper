@@ -7,7 +7,6 @@ body {
     justify-content: center;
     height: 100vh;
     background-image: url('./resources/icons/chips.jpg');
-    filter: saturate(0.8);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
