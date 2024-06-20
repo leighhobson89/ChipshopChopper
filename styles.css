@@ -259,18 +259,22 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 70%;
+    height: 90%;
     max-width: 750px;
     background-color: #1e1e1e;
     border: none;
-    border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
     overflow: hidden;
     z-index: 1000;
     animation: fadeIn 0.3s ease-in-out;
 }
 
+#endOfShiftOrGamePopup {
+    border-radius: 30px !important;
+    border: 3px solid #FFC107;
+}
+
 .popup-row {
-    padding: 20px;
 }
 
 .popup-row-1 {
@@ -307,7 +311,7 @@ body {
 }
 
 .popup-title {
-    color: #ffffff;
+    color: #FFC107;
     font-size: 2.5em;
     font-weight: bold;
     margin: 0;
@@ -318,8 +322,8 @@ body {
     display: flex;
     width: 70%;
     height: 100%;
-    padding: 10px 0;
-    justify-content: center;
+    padding: 0 0 50px 35px;
+    justify-content: start;
     align-items: center;
 }
 
