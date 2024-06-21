@@ -49,8 +49,8 @@ function preloadAudioFiles(files) {
 }
 
 export const audioFiles = preloadAudioFiles(audioFilesCache);
-console.log(audioFiles);
-console.log(audioFilesCache);
+//console.log(audioFiles);
+//console.log(audioFilesCache);
 
 let currentAudio = null;
 let nextAudio = null;

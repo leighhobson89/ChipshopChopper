@@ -798,13 +798,13 @@ function handleVisibilityChange() {
         audioElements.forEach(element => {
             element.muted = true;
         });
-        console.log('Window blurred: Audio muted');
+        //console.log('Window blurred: Audio muted');
     } else {
         // Window is focused
         audioElements.forEach(element => {
             element.muted = false;
         });
-        console.log('Window focused: Audio Unmuted');
+        //console.log('Window focused: Audio Unmuted');
     }
 }
 

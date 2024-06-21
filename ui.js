@@ -1292,7 +1292,7 @@ export function createAndAttachEndGameShiftStartEventListener() {
         playAudioFile(audioFiles.click, 1);
         if (getFloatOnStockMarketUnlockedAndEndGameFlowStarted()) {
             setShiftInProgress(true);
-            console.log("Started Final Shift!");
+            //console.log("Started Final Shift!");
             getElements().endGameStartShiftButton.classList.add('d-none');
         }
     });

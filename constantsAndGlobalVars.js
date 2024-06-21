@@ -1839,7 +1839,7 @@ export function captureGameStatusForSaving() {
 
     captureButtonStates(gameState);
 
-    console.log(gameState);
+    // console.log(gameState);
 
     return gameState;
 }
