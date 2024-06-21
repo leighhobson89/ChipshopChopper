@@ -1436,12 +1436,15 @@ export function bonusClicked() {
     switch (bonusPrize) {
         case '$5':
             setCurrentCash(getCurrentCash() + 5);
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case '$50':
             setCurrentCash(getCurrentCash() + 50);
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case '$1000':
             setCurrentCash(getCurrentCash() + 1000);
+            getElements().subInnerDivMid3_2.innerHTML = `<h4>${formatToCashNotation(getCurrentCash())}</h4>`;
             break;
         case `1 ${localize('shiftPointsExclamation', getLanguage())}`:
             setShiftPoints(getShiftPoints() + 1);
