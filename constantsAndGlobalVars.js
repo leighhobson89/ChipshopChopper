@@ -1,15 +1,8 @@
 // noinspection JSCheckFunctionSignatures
 
-import {
-    createEndOfShiftOrGamePopup,
-    formatToCashNotation
-} from './ui.js';
-import {
-    disableButtons
-} from "./actions.js";
-import {
-    localize
-} from "./localization.js";
+import {createEndOfShiftOrGamePopup, formatToCashNotation} from './ui.js';
+import {disableButtons} from "./actions.js";
+import {localize} from "./localization.js";
 
 //DEBUG
 export let debugFlag = false;
@@ -1408,58 +1401,6 @@ export function getMaxWaitCustomerCapped() {
 
 export function getNumberOfWheelSections() {
     return NUMBER_OF_WHEEL_SECTIONS;
-}
-
-export function setInitialStateMainButtons() {
-    getElements().peelPotatoButton.innerHTML = `${localize('peelPotato', getLanguage())}`;
-    getElements().cutChipsButton.innerHTML = `${localize('cutChips', getLanguage())}`;
-    getElements().fryChipsButton.innerHTML = `${localize('fryChips', getLanguage())}`;
-    getElements().servingStorageButton.innerHTML = `${localize('servingStorage', getLanguage())}`;
-    getElements().serveCustomerButton.innerHTML = `${localize('serveCustomer', getLanguage())}`;
-
-    getElements().peelPotatoButton.classList.add('bg-secondary');
-    getElements().cutChipsButton.classList.add('bg-secondary');
-    getElements().fryChipsButton.classList.add('bg-secondary');
-    getElements().servingStorageButton.classList.add('bg-secondary');
-    getElements().serveCustomerButton.classList.add('bg-secondary');
-
-    getElements().autoPeelerUpgradeButton.innerHTML = `${localize('autoPeelerUpgradeButton', getLanguage())}`;
-    getElements().autoChipperUpgradeButton.innerHTML = `${localize('autoChipperUpgradeButton', getLanguage())}`;
-    getElements().autoFryerUpgradeButton.innerHTML = `${localize('autoFryerUpgradeButton', getLanguage())}`;
-    getElements().autoStorageCollectorUpgradeButton.innerHTML = `${localize('autoStorageCollectorUpgradeButton', getLanguage())}`;
-    getElements().autoCustomerServerUpgradeButton.innerHTML = `${localize('autoCustomerServerUpgradeButton', getLanguage())}`;
-
-    getElements().autoPeelerUpgradeButton.classList.add('bg-secondary');
-    getElements().autoChipperUpgradeButton.classList.add('bg-secondary');
-    getElements().autoFryerUpgradeButton.classList.add('bg-secondary');
-    getElements().autoStorageCollectorUpgradeButton.classList.add('bg-secondary');
-    getElements().autoCustomerServerUpgradeButton.classList.add('bg-secondary');
-
-
-    getElements().improvePotatoStorageButton.innerHTML = `${localize('improvePotatoStorageButton', getLanguage())}`;
-    getElements().improveFryerCapacityButton.innerHTML = `${localize('improveFryerCapacityButton', getLanguage())}`;
-    getElements().fastFryerUpgradeButton.innerHTML = `${localize('fastFryerUpgradeButton', getLanguage())}`;
-    getElements().potatoDeliveryDoublerButton.innerHTML = `${localize('potatoDeliveryDoublerButton', getLanguage())}`;
-    getElements().customerFrequencyIncreaser.innerHTML = `${localize('customerFrequencyIncreaser', getLanguage())}`;
-
-    getElements().improvePotatoStorageButton.classList.add('bg-secondary');
-    getElements().improveFryerCapacityButton.classList.add('bg-secondary');
-    getElements().fastFryerUpgradeButton.classList.add('bg-secondary');
-    getElements().potatoDeliveryDoublerButton.classList.add('bg-secondary');
-    getElements().customerFrequencyIncreaser.classList.add('bg-secondary');
-
-    getElements().twoHandedPeelingButton.innerHTML = `${localize('twoHandedPeelingButton', getLanguage())}`;
-    getElements().twoHandedChippingButton.innerHTML = `${localize('twoHandedChippingButton', getLanguage())}`;
-    getElements().investmentFundUnlockOrFloatButton.innerHTML = `${localize('investmentFundUnlockOrFloatButton', getLanguage())}`;
-    getElements().addStorageHeaterAutoShiftStartButton.innerHTML = `${localize('addStorageHeaterAutoShiftStartButton', getLanguage())}`;
-    getElements().startShiftButton.innerHTML = `${localize('startShiftButton', getLanguage())}`;
-
-
-    getElements().twoHandedPeelingButton.classList.add('bg-secondary');
-    getElements().twoHandedChippingButton.classList.add('bg-secondary');
-    getElements().investmentFundUnlockOrFloatButton.classList.add('bg-secondary');
-    getElements().addStorageHeaterAutoShiftStartButton.classList.add('bg-secondary');
-    getElements().startShiftButton.classList.add('bg-warning');
 }
 
 export function getStateLoading() {
